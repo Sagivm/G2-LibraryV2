@@ -11,7 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 //nirzor 
-//
+//sagivmel
 
 /**
  * ServerUI execute the GUI Window & main function, and start to run the server.
