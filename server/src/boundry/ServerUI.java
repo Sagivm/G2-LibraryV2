@@ -12,6 +12,11 @@ import javafx.scene.Scene;
 
 
 
+
+
+
+///or koren
+
 /**
  * ServerUI execute the GUI Window & main function, and start to run the server.
  * @author nire
