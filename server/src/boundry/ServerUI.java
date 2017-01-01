@@ -15,6 +15,9 @@ import javafx.scene.Scene;
  * @author nire
  *
  */
+
+//or koren
+
 public class ServerUI extends Application {
 
 	/**
