@@ -1,0 +1,79 @@
+package control;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import enums.ActionType;
+
+/**
+ * This class include the methods for SQL queries. the class also include the connection
+ * into the constructor.
+ * @author nire
+ *
+ */
+public class DatabaseController {
+
+	
+/**
+ * static variable for database connection.
+ */
+public static Connection connection;
+
+/**
+ * Create new instance of driver for SQL connection. if the action failed
+ * exceptions throw and catch into other class.
+ * @throws InstantiationException  
+ * @throws IllegalAccessException
+ * @throws ClassNotFoundException
+ */
+public DatabaseController() throws InstantiationException,
+IllegalAccessException,
+ClassNotFoundException
+{
+	Class.forName("com.mysql.jdbc.Driver").newInstance();
+}
+
+/**
+ * Set connection to database, and presave the connection in static variable connection.
+ * @param username - Gets the username
+ * @param password - Gets the database password
+ * @throws SQLException
+ */
+void SetConnection(String username, String password) throws SQLException
+{
+	connection = DriverManager.getConnection("jdbc:mysql://localhost/project",username,password);
+}
+
+/**
+ * Close the connection from database.
+ */
+void CloseConnection()
+{
+	try {
+		connection.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static ResultSet addToDatabase(String statement) {
+	return null;
+	
+}
+
+public static ResultSet removeFromDatabase(String statement) {
+	return null;
+	
+}
+
+public static ResultSet searchInDatabase(String statement) {
+	return null;
+	
+}
+
+}
