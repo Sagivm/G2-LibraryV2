@@ -10,14 +10,6 @@ import javafx.stage.WindowEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-//nirzor 
-//sagivmel
-//idan
-
-//or koren21
-
-///or koren
-
 /**
  * ServerUI execute the GUI Window & main function, and start to run the server.
  * @author nire
