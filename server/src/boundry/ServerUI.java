@@ -16,8 +16,6 @@ import javafx.scene.Scene;
  *
  */
 
-//or koren
-
 public class ServerUI extends Application {
 
 	/**
