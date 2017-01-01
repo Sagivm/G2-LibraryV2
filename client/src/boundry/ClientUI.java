@@ -1,8 +1,5 @@
 package boundry;
-//sagiv melamed
-//hello hello
-//hello
-//hello hello
+
 import control.ScreenController;
 import entity.GeneralMessages;
 import entity.ScreensInfo;
