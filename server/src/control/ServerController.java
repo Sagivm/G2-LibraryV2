@@ -315,6 +315,10 @@ public class ServerController extends AbstractServer {
 	
 /*	protected void serverStopped() 
 	{
+<<<<<<< HEAD
+		//writeToLog("Server stopped");
+	}
+=======
 		writeToLog("Server stopped");
 	}*/
 }

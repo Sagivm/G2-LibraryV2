@@ -51,5 +51,9 @@ public void actionOnError(ActionType type, String errorCode) {
 		if (type == ActionType.CONTINUE)
 			return;
 	}
+	
+public void settingsButtonPressed(){
+	
+}
 
 }
