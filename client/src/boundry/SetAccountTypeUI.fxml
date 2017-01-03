@@ -30,6 +30,6 @@
     <Button fx:id="settingsButton" font="$x1" layoutX="1.0" layoutY="276.0" mnemonicParsing="false" onAction="#settingsButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Settings" />
     <Line endX="-102.0" endY="349.0" layoutX="341.0" layoutY="306.0" startX="-108.0" startY="-307.0" stroke="#9f9f9f" strokeLineJoin="MITER" />
     <Button id="userMsgsButton" fx:id="exitButton" font="$x1" layoutX="2.0" layoutY="611.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Exit" />
-    <Button layoutX="555.0" layoutY="262.0" mnemonicParsing="false" onAction="#setAccountType" text="Button" />
+    <Button layoutX="555.0" layoutY="262.0" mnemonicParsing="false" text="Button" />
   </children>
 </AnchorPane>

@@ -35,18 +35,18 @@
                       <RowConstraints maxHeight="121.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
+					 <Text layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name:" textAlignment="CENTER" wrappingWidth="77.291015625">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="firstNameField" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last name:" textAlignment="CENTER" wrappingWidth="77.291015625" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Text>
                         <TextField fx:id="lastNameField" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Text layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name:" textAlignment="CENTER" wrappingWidth="77.291015625">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Text>
-                        <TextField fx:id="firstNameField" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                   <ImageView fitHeight="140.0" fitWidth="537.0" layoutX="114.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
@@ -54,7 +54,6 @@
                         <Image url="@../img/main.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="237.0" layoutY="324.0" mnemonicParsing="false" onAction="#submitButtonPressed" prefHeight="33.0" prefWidth="120.0" text="Submit" />
                   <GridPane alignment="CENTER" layoutX="272.0" layoutY="141.0" prefHeight="161.0" prefWidth="232.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" textAlignment="CENTER" wrappingWidth="77.291015625" GridPane.rowIndex="1">
@@ -86,8 +85,9 @@
                         <RowConstraints maxHeight="121.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
+				  <Button layoutX="104.0" layoutY="324.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="33.0" prefWidth="120.0" text="Back" />
+				  <Button layoutX="237.0" layoutY="324.0" mnemonicParsing="false" onAction="#submitButtonPressed" prefHeight="33.0" prefWidth="120.0" text="Submit" />
                   <Button layoutX="372.0" layoutY="324.0" mnemonicParsing="false" onAction="#clearButtonPressed" prefHeight="33.0" prefWidth="120.0" text="Clear" />
-                  <Button layoutX="104.0" layoutY="324.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="33.0" prefWidth="120.0" text="Back" />
                </children>
             </AnchorPane>
          </children>

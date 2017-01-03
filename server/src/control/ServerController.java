@@ -155,34 +155,49 @@ public class ServerController extends AbstractServer {
 	ArrayList<String> data = message.getElementsList();
 	boolean sqlResult = false;
 	Replay replay = null;
+
 	
-	try{
-	Statement stmt = DatabaseController.connection.createStatement();
-	ResultSet rs = stmt.executeQuery("SELECT password FROM clients WHERE username="+data.get(0).toString());
-
-	while(rs.next()){
-		if(rs.getString(1).equals(data.get(1).toString()))
-		{
-			System.out.println("login succssefully");
-			sqlResult=true;
-		}
-	}
-	}
-	catch (SQLException e){
-		e.printStackTrace();
-		System.out.println("error");
-	}
-
 
 	
 	if (type == ActionType.REGISTER) {
-	if (sqlResult == true)
-		replay = new Replay(ActionType.REGISTER,true);
-	else replay = new Replay(ActionType.REGISTER,false);
+		int username=Integer.parseInt(data.get(0));
+		String password=data.get(1).toString();
+		String firstName=data.get(2).toString();
+		String lastName=data.get(3).toString();
+		try {
+			DatabaseController.addToDatabase("INSERT INTO clients (`username`, `firstName`, `lastName`, `password`, `accountType`, `accountStatus`) "
+					+ "VALUES ('"+username+"','"+firstName+"','"+lastName+"','"+password+"',"+"'RegisterPending','Standard')");
+			sqlResult=true;
+		} catch (SQLException e) {
+			 if(e.getErrorCode() == 1062 ){ ////duplicate primary key
+				 System.out.println("username already exist");
+			    }
+		}
+		if (sqlResult == true) replay = new Replay(ActionType.REGISTER,true);
+		else {
+			replay = new Replay(ActionType.REGISTER,false);
+			System.out.println(replay.getSucess());
+		}
 	writeToLog("Registration attempt");
 	}
 
 	if (type == ActionType.LOGIN) {
+		try{
+			Statement stmt = DatabaseController.connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT password FROM clients WHERE username="+data.get(0).toString());
+
+			while(rs.next()){
+				if(rs.getString(1).equals(data.get(1).toString()))
+				{
+					System.out.println("login succssefully");
+					sqlResult=true;
+				}
+			}
+			}
+			catch (SQLException e){
+				e.printStackTrace();
+				System.out.println("error");
+			}
 		if (sqlResult == true) replay = new Replay(ActionType.LOGIN,true);
 		else {
 			replay = new Replay(ActionType.LOGIN,false);

@@ -93,4 +93,14 @@ public class ScreensInfo {
 	public static final String HOMEPAGE_SET_ACCOUNT_TYPE_TITLE = "Account type request";
 	
 	
+	/**
+	 * Set Search Book path.
+	 */
+	public static final String SEARCH_BOOK_SCREEN = "/boundry/SearchBookUI.fxml";
+	
+	/**
+	 * SetSearch Book title.
+	 */
+	public static final String SEARCH_BOOK_TITLE = "Search Book";
+	
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import entity.ScreensInfo;
 import enums.ActionType;
 import interfaces.ScreensIF;
+import javafx.animation.ScaleTransitionBuilder;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +24,9 @@ import javafx.stage.Stage;
  */
 public class HomepageUserController implements ScreensIF {
 	
+	/**
+	 * the main content frame
+	 */
 	@FXML
 	private AnchorPane content;
 
@@ -40,8 +44,8 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@Override
 	public void pressedCloseMenu(ActionEvent event) {
-		// TODO Auto-generated method stub
-		
+		Platform.exit();
+		System.exit(0);
 	}
 
 	/* (non-Javadoc)
@@ -64,31 +68,33 @@ public void actionOnError(ActionType type, String errorCode) {
 			return;
 	}
 	
-
-	/** Handler when pressed "settings". this function forward to SetAccountType
-	 * @param event- gets the ActionEvent when the function called.
+	
+	/**Handler when pressed "search book". this function open the search book form.
+	 * @param event - gets the ActionEvent when the function called.
 	 * @throws IOException
 	 */
-
-	public void settingsButtonPressed(ActionEvent event) throws IOException
-	{
-		ScreenController screenController = new ScreenController();
-        try {
-			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN,ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_TITLE);
-		} catch (Exception e) {
+	@FXML
+	public void searchBookButtonPressed(ActionEvent event) throws IOException{    
+		try{
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.SEARCH_BOOK_SCREEN));
+			content.getChildren().add(root);
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**Handler when pressed "set Account Type". this function open the account type request form.
+	 * @param event - gets the ActionEvent when the function called.
+	 * @throws IOException
+	 */
 	@FXML
-	public void handleButtonAction(ActionEvent event) throws IOException{    
-		ScreenController screenController = new ScreenController();
-		//content.getChildren().setAll(FXMLLoader.load("RegisterUI.fxml"));
-		//content = (AnchorPane) FXMLLoader.load("RegisterUI.fxml");
+	public void settingsButtonPressed(ActionEvent event) throws IOException{    
 		try{
-			//screenController.replaceSceneContent ("RegisterUI.fxml","gfg");
-			//(Parent) FXMLLoader.load(ScreenController.class.getResource(fxml));
-			content = (AnchorPane)FXMLLoader.load(ScreenController.class.getResource("RegisterUI.fxml"));
+			//help: https://www.youtube.com/watch?v=Y-NjIPV1kLQ
+			//content.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN));
+			content.getChildren().add(root);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
