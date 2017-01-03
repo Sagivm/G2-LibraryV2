@@ -41,24 +41,24 @@
                       <RowConstraints maxHeight="127.0" minHeight="0.0" prefHeight="55.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
+						<Text layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Server IP" textAlignment="CENTER" wrappingWidth="77.291015625">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="ServerField" prefHeight="25.0" prefWidth="197.0" promptText="localhost" text="localhost" GridPane.columnIndex="1" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="CENTER" wrappingWidth="77.291015625" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Text>
+                        <TextField fx:id="userField" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" textAlignment="CENTER" wrappingWidth="76.291015625" GridPane.rowIndex="2">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Text>
                         <PasswordField fx:id="passField" prefHeight="25.0" prefWidth="310.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="userField" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Text layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Server IP" textAlignment="CENTER" wrappingWidth="77.291015625">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Text>
-                        <TextField fx:id="ServerField" prefHeight="25.0" prefWidth="197.0" promptText="localhost" text="localhost" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                   <Button fx:id="connectButton" layoutX="144.0" layoutY="291.0" mnemonicParsing="false" onAction="#connectButtonPressed" prefHeight="33.0" prefWidth="120.0" text="Connect" />
