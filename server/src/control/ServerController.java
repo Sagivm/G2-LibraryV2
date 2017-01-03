@@ -210,7 +210,6 @@ public class ServerController extends AbstractServer {
 		try {
 		client.sendToClient(replay);
 	} catch (IOException e) {
-		// NEED TO COMPLETE
 		e.printStackTrace();
 	}
 	}
