@@ -12,6 +12,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * HomepageController is the controller after user logged in.
@@ -22,12 +25,6 @@ public class HomepageUserController implements ScreensIF {
 	
 	@FXML
 	private AnchorPane content;
-
-/*	@FXML
-	private void handleButtonAction(ActionEvent event) {        
-		content.getChildren().setAll(FXMLLoader.load("RegisterUI.fxml"));
-		//content = (AnchorPane) FXMLLoader.load("RegisterUI.fxml");
-	}*/
 
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
@@ -73,16 +70,27 @@ public void actionOnError(ActionType type, String errorCode) {
 	 * @throws IOException
 	 */
 
-public void settingsButtonPressed(){
-	
-}
 	public void settingsButtonPressed(ActionEvent event) throws IOException
 	{
-		
 		ScreenController screenController = new ScreenController();
         try {
 			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN,ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_TITLE);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void handleButtonAction(ActionEvent event) throws IOException{    
+		ScreenController screenController = new ScreenController();
+		//content.getChildren().setAll(FXMLLoader.load("RegisterUI.fxml"));
+		//content = (AnchorPane) FXMLLoader.load("RegisterUI.fxml");
+		try{
+			//screenController.replaceSceneContent ("RegisterUI.fxml","gfg");
+			//(Parent) FXMLLoader.load(ScreenController.class.getResource(fxml));
+			content = (AnchorPane)FXMLLoader.load(ScreenController.class.getResource("RegisterUI.fxml"));
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
