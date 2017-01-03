@@ -207,7 +207,7 @@ public class ServerController extends AbstractServer {
 		if (connectButton.getText().equals("Connect"))
 		{
 			try {
-				if (userField.getText().equals("") || passField.getText().equals(""))
+				if (userField.getText().equals(""))
 					throw new IOException();
 				DatabaseController databaseController = new DatabaseController();
 				databaseController.SetConnection(userField.getText(), passField.getText());
