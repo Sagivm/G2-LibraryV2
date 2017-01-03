@@ -1,5 +1,8 @@
 package control;
 
+import java.io.IOException;
+
+import entity.ScreensInfo;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -50,6 +53,18 @@ public void actionOnError(ActionType type, String errorCode) {
 		}
 		if (type == ActionType.CONTINUE)
 			return;
+	}
+	
+	public void settingsButtonPressed(ActionEvent event) throws IOException
+	{
+		
+		ScreenController screenController = new ScreenController();
+        try {
+			screenController.replaceSceneContent(ScreensInfo.REGISTRATION_SCREEN,ScreensInfo.REGISTRATION_TITLE);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
