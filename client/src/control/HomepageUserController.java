@@ -55,11 +55,11 @@ public void actionOnError(ActionType type, String errorCode) {
 			return;
 	}
 	
-<<<<<<< HEAD
+
 public void settingsButtonPressed(){
 	
 }
-=======
+
 	public void settingsButtonPressed(ActionEvent event) throws IOException
 	{
 		
@@ -71,6 +71,6 @@ public void settingsButtonPressed(){
 			e.printStackTrace();
 		}
 	}
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
+
 
 }
