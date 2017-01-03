@@ -27,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -68,6 +69,18 @@ public class ServerController extends AbstractServer {
 	 * Password field for password.
 	 */
 	@FXML private PasswordField passField; 
+	
+	
+	/**
+	 * Username label for username.
+	 */
+	@FXML private Text usernameLabel; 
+	
+	
+	/**
+	 * Password label for password.
+	 */
+	@FXML private Text passLabel; 
 	
 	
 	/**
@@ -237,8 +250,10 @@ public class ServerController extends AbstractServer {
 			writeToLog("Connected to database");
 			try 
 			{
-			userField.setEditable(false);
-			passField.setEditable(false);
+			usernameLabel.setVisible(false);
+			passLabel.setVisible(false);
+			userField.setVisible(false);
+			passField.setVisible(false);
 			userField.clear();
 			passField.clear();
 			// problem
@@ -260,8 +275,10 @@ public class ServerController extends AbstractServer {
 			{
 				e.printStackTrace();
 			}
-			userField.setEditable(true);
-			passField.setEditable(true);
+			usernameLabel.setVisible(true);
+			passLabel.setVisible(true);
+			userField.setVisible(true);
+			passField.setVisible(true);
 			userField.clear();
 			passField.clear();
 			connectButton.setText("Connect");
@@ -290,8 +307,13 @@ public class ServerController extends AbstractServer {
 		writeToLog("Server listening for connections\non port: " + getPort());
 	}
 	
-	protected void serverStopped() 
+/*	protected void serverStopped() 
 	{
+<<<<<<< HEAD
 		//writeToLog("Server stopped");
 	}
+=======
+		writeToLog("Server stopped");
+	}*/
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 }
