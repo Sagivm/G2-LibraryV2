@@ -104,7 +104,7 @@ public class ClientController implements ScreensIF {
 		alert.setHeaderText(null);
 		alert.setContentText(GeneralMessages.ABOUT_US);
 		alert.showAndWait();
-	}
+	}//
 	
 	/** Handler when press "connect" the GUI. this function loads the connect menu.
 	 * @param event - gets the ActionEvent when the function called.

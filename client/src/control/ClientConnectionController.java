@@ -96,7 +96,7 @@ public void actionToPerform(Replay replay) {
 					}
 			});	
 		}
-}
+}//
 	if (type == ActionType.LOGIN)
 	{
 		if (sucess == true) {
