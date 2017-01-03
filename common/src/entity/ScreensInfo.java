@@ -66,4 +66,6 @@ public class ScreensInfo {
 	 */
 	public static final String HOMEPAGE_LIBERARIAN_TITLE = "Librarian homepage menu";
 	
+	
+	
 }
