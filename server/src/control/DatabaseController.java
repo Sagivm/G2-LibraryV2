@@ -51,7 +51,7 @@ void SetConnection(String username, String password) throws SQLException
 /**
  * Close the connection from database.
  */
-void CloseConnection()
+static void CloseConnection()
 {
 	try {
 		connection.close();

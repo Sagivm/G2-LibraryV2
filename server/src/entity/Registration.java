@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 /**
  * The username.
  */
-private String Username;
+private int Username;
 
 
 /**
@@ -47,7 +47,7 @@ private String LastName;
  * @param FirstName - The first name.
  * @param LastName - The last name.
  */
-public Registration(String Username, String Password, String FirstName, String LastName)
+public Registration(int Username, String Password, String FirstName, String LastName)
 {
 	setUsername(Username);
 	setPassword(Password);
@@ -59,7 +59,7 @@ public Registration(String Username, String Password, String FirstName, String L
  * Getter for username
  * @return the username.
  */
-public String getUsername() {
+public int getUsername() {
 	return Username;
 }
 
@@ -67,7 +67,7 @@ public String getUsername() {
 /** Setter for username.
  * @param username - Set the username.
  */
-public void setUsername(String username) {
+public void setUsername(int username) {
 	Username = username;
 }
 
@@ -120,9 +120,10 @@ public void setLastName(String lastName) {
 }
 
 @Override
-public String PrepareAddStatement() {
-	// TODO Auto-generated method stub
-	return null;
+public String PrepareAddStatement() 
+{
+	return "INSERT INTO clients (`username`, `firstName`, `lastName`, `password`, `accountType`, `accountStatus`) "
+			+ "VALUES ('"+Username+"','"+FirstName+"','"+LastName+"','"+Password+"',"+"'RegisterPending','Standard')";
 }
 
 @Override
