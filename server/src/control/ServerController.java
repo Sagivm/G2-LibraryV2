@@ -289,7 +289,7 @@ public class ServerController extends AbstractServer {
 
 	/** This function send the parameter to file, and to I/O after getting the time.
 	 * it appends the string.
-	 * @param msg -  message that will be write in log file, and into server GUI.
+	 * @param msg - message that will be write in log file, and into server GUI.
 	 */
 	void writeToLog(String msg)
 	{
