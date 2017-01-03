@@ -5,6 +5,7 @@ import java.awt.TextArea;
 
 import enums.ActionType;
 import interfaces.ScreensIF;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -34,7 +35,8 @@ public class SearchBookUI implements ScreensIF{
 	@Override
 	public void pressedCloseMenu(ActionEvent event) {
 		// TODO Auto-generated method stub
-		
+		Platform.exit();
+		System.exit(0);
 	}
 
 	@Override
