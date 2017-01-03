@@ -54,7 +54,7 @@ public Registration(int Username, String Password, String FirstName, String Last
 	setFirstName(FirstName);
 	setLastName(LastName);
 }
-//
+
 /**
  * Getter for username
  * @return the username.
@@ -120,9 +120,10 @@ public void setLastName(String lastName) {
 }
 
 @Override
-public String PrepareAddStatement() {
-	// TODO Auto-generated method stub
-	return null;
+public String PrepareAddStatement() 
+{
+	return "INSERT INTO clients (`username`, `firstName`, `lastName`, `password`, `accountType`, `accountStatus`) "
+			+ "VALUES ('"+Username+"','"+FirstName+"','"+LastName+"','"+Password+"',"+"'RegisterPending','Standard')";
 }
 
 @Override

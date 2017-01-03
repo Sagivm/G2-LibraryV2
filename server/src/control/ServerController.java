@@ -15,6 +15,7 @@ import java.util.logging.SimpleFormatter;
 import com.mysql.jdbc.Connection;
 
 import entity.GeneralMessages;
+import entity.Login;
 import entity.Message;
 import entity.Registration;
 import entity.Replay;
@@ -160,17 +161,12 @@ public class ServerController extends AbstractServer {
 
 	
 	if (type == ActionType.REGISTER) {
-		int username=Integer.parseInt(data.get(0));
-		String password=data.get(1).toString();
-		String firstName=data.get(2).toString();
-		String lastName=data.get(3).toString();
 		
-		
-		
+		Registration registration = new Registration(Integer.parseInt(data.get(0)),
+		data.get(1).toString(),data.get(2).toString(),data.get(3).toString());
 		
 		try {
-			DatabaseController.addToDatabase("INSERT INTO clients (`username`, `firstName`, `lastName`, `password`, `accountType`, `accountStatus`) "
-					+ "VALUES ('"+username+"','"+firstName+"','"+lastName+"','"+password+"',"+"'RegisterPending','Standard')");
+			DatabaseController.addToDatabase(registration.PrepareAddStatement());
 			sqlResult=true;
 		} catch (SQLException e) {
 			 if(e.getErrorCode() == 1062 ){ ////duplicate primary key
@@ -187,9 +183,10 @@ public class ServerController extends AbstractServer {
 
 	if (type == ActionType.LOGIN) {
 		try{
+			Login login = new Login(data.get(0).toString(),data.get(1).toString());
 			Statement stmt = DatabaseController.connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT password FROM clients WHERE username="+data.get(0).toString());
-
+			ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement());
+			
 			while(rs.next()){
 				if(rs.getString(1).equals(data.get(1).toString()))
 				{
