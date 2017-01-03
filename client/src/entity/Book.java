@@ -29,7 +29,7 @@ public class Book {
 	/**
 	 * table Of Content of book
 	 */
-	private String tableOfContents;
+	private String tableOfContent;
 	
 	/**
 	 * key words of book
@@ -52,18 +52,17 @@ public class Book {
 	 * @param title - Gets the title.
 	 * @param language - Gets the title.
 	 * @param summary - Gets the title.
-	 * @param TableOfContents - Gets the title.
+	 * @param tableOfContent - Gets the tableOfContent.
 	 * @param keywords - Gets the keywords.
 	 * @param price - Gets the price.
 	 */
-	public Book(int sn, String title, String language, String summary, String tableOfContents, String keywords,
+	public Book(int sn, String title, String language, String summary, String tableOfContent, String keywords,
 			float price) {
-		super();
 		this.sn = sn;
 		this.title = title;
 		this.language = language;
 		this.summary = summary;
-		this.tableOfContents = tableOfContents;
+		this.tableOfContent = tableOfContent;
 		this.keywords = keywords;
 		this.price = price;
 		this.hide = false;
@@ -128,15 +127,15 @@ public class Book {
 	/** Getter for TableOfContents
 	 * @return summary
 	 */
-	public String getTableOfContents() {
-		return tableOfContents;
+	public String getTableOfContent() {
+		return tableOfContent;
 	}
 	
 	/** Setter for TableOfContents
 	 * TableOfContents - the Table Of Contents of book
 	 */
-	public void setTableOfContents(String tableOfContents) {
-		this.tableOfContents = tableOfContents;
+	public void setTableOfContent(String tableOfContent) {
+		this.tableOfContent = tableOfContent;
 	}
 	
 	/** Getter for keywords
