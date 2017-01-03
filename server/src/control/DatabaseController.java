@@ -61,19 +61,22 @@ void CloseConnection()
 	}
 }
 
-public static ResultSet addToDatabase(String statement) {
-	return null;
-	
+public static void addToDatabase(String statement) throws SQLException {
+	Statement stmt=connection.createStatement();
+	stmt.executeUpdate(statement);
+    stmt.close();	
 }
 
-public static ResultSet removeFromDatabase(String statement) {
-	return null;
-	
+public static void removeFromDatabase(String statement) throws SQLException {
+	Statement stmt=connection.createStatement();
+	stmt.executeUpdate(statement);
+    stmt.close();	
 }
 
-public static ResultSet searchInDatabase(String statement) {
-	return null;
-	
+public static ResultSet searchInDatabase(String statement) throws SQLException {
+	Statement stmt = connection.createStatement();
+	ResultSet rs = stmt.executeQuery(statement);
+	return rs;	
 }
 
 }
