@@ -22,7 +22,7 @@ public class ServerUI extends Application {
 	 */
 	public static void main(String args[])
 	{
-		Application.launch(ServerUI.class, args);
+		launch(ServerUI.class, args);
 	}
 
     /* (non-Javadoc)

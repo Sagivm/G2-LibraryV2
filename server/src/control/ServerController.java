@@ -153,24 +153,27 @@ public class ServerController extends AbstractServer {
 	Message message = (Message)msg;
 	ActionType type = message.getType();
 	ArrayList<String> data = message.getElementsList();
+	boolean sqlResult = false;
+	Replay replay = null;
 	
-	// ALL THE ACTIONS HERE WORKS, BUT NEED TO IMPLEMENT QUIRES TO DATABASE.
-	// LETS IMAGAIN THAT THE RESPONSE IS POSITIVE (FOR SYSTEM NAVIGATION)
-	
-	
-	// NEED TO CALCULATE SQL RESULT
-	
-	// start algorithm
-	
-	// end algorithm
-	
-	// result is:
-	boolean sqlResult = true;
-	
-	
-	Replay replay = new Replay(ActionType.LOGIN,true);
+	try{
+	Statement stmt = DatabaseController.connection.createStatement();
+	ResultSet rs = stmt.executeQuery("SELECT password FROM clients WHERE username="+data.get(0).toString());
 
-	
+	while(rs.next()){
+		if(rs.getString(1).equals(data.get(1).toString()))
+		{
+			System.out.println("login succssefully");
+			sqlResult=true;
+		}
+	}
+	}
+	catch (SQLException e){
+		e.printStackTrace();
+		System.out.println("error");
+	}
+
+
 	
 	if (type == ActionType.REGISTER) {
 	if (sqlResult == true)
@@ -181,7 +184,10 @@ public class ServerController extends AbstractServer {
 	
 	if (type == ActionType.LOGIN) {
 		if (sqlResult == true) replay = new Replay(ActionType.LOGIN,true);
-		else replay = new Replay(ActionType.LOGIN,false);
+		else {
+			replay = new Replay(ActionType.LOGIN,false);
+			System.out.println(replay.getSucess());
+		}
 		writeToLog("Login attempt");
 	}
 	
