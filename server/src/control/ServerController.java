@@ -292,6 +292,7 @@ public class ServerController extends AbstractServer {
 			writeToLog("Disconnected sucessfully");
 			try {
 			this.close();
+			DatabaseController.CloseConnection();
 			} catch (IOException e)
 			{
 				e.printStackTrace();
