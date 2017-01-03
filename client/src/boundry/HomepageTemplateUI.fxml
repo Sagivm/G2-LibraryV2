@@ -28,5 +28,6 @@
     <Button fx:id="settingsButton" layoutX="1.0" layoutY="547.0" mnemonicParsing="false" onAction="#setAccountType" prefHeight="42.0" prefWidth="190.0" text="Settings" />
     <Line endX="-102.0" endY="349.0" layoutX="295.0" layoutY="282.0" startX="-105.0" startY="-121.0" />
     <Button layoutX="0.0" layoutY="378.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="190.0" text="User Management" />
+    <AnchorPane fx:id="content" layoutX="392.0" layoutY="331.0" prefHeight="200.0" prefWidth="200.0" />
   </children>
 </AnchorPane>

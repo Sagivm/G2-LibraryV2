@@ -5,6 +5,22 @@ package entity;
  * @author nire
  *
  */
+/**
+ * @author аеш
+ *
+ */
+/**
+ * @author аеш
+ *
+ */
+/**
+ * @author аеш
+ *
+ */
+/**
+ * @author аеш
+ *
+ */
 public class ScreensInfo {
 	
 	/**
@@ -66,6 +82,15 @@ public class ScreensInfo {
 	 */
 	public static final String HOMEPAGE_LIBERARIAN_TITLE = "Librarian homepage menu";
 	
+	/**
+	 * Set Account type path.
+	 */
+	public static final String HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN = "/boundry/SetAccountTypeUI.fxml";
+	
+	/**
+	 * Set Account type title.
+	 */
+	public static final String HOMEPAGE_SET_ACCOUNT_TYPE_TITLE = "Account type request";
 	
 	
 }

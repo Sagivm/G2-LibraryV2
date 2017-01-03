@@ -313,13 +313,5 @@ public class ServerController extends AbstractServer {
 		writeToLog("Server listening for connections\non port: " + getPort());
 	}
 	
-/*	protected void serverStopped() 
-	{
-<<<<<<< HEAD
-		//writeToLog("Server stopped");
-	}
-=======
-		writeToLog("Server stopped");
-	}*/
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
+
 }

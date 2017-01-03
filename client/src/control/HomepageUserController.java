@@ -7,8 +7,11 @@ import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * HomepageController is the controller after user logged in.
@@ -16,6 +19,15 @@ import javafx.scene.control.Alert.AlertType;
  * @author nire
  */
 public class HomepageUserController implements ScreensIF {
+	
+	@FXML
+	private AnchorPane content;
+
+/*	@FXML
+	private void handleButtonAction(ActionEvent event) {        
+		//content.getChildren().setAll(FXMLLoader.load("RegisterUI.fxml"));
+		//content = (AnchorPane) FXMLLoader.load("RegisterUI.fxml");
+	}*/
 
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
@@ -55,14 +67,17 @@ public void actionOnError(ActionType type, String errorCode) {
 			return;
 	}
 	
+	/** Handler when pressed "settings". this function forward to SetAccountType
+	 * @param event- gets the ActionEvent when the function called.
+	 * @throws IOException
+	 */
 	public void settingsButtonPressed(ActionEvent event) throws IOException
 	{
 		
 		ScreenController screenController = new ScreenController();
         try {
-			screenController.replaceSceneContent(ScreensInfo.REGISTRATION_SCREEN,ScreensInfo.REGISTRATION_TITLE);
+			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN,ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_TITLE);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
