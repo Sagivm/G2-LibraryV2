@@ -25,7 +25,7 @@ public class HomepageUserController implements ScreensIF {
 
 /*	@FXML
 	private void handleButtonAction(ActionEvent event) {        
-		//content.getChildren().setAll(FXMLLoader.load("RegisterUI.fxml"));
+		content.getChildren().setAll(FXMLLoader.load("RegisterUI.fxml"));
 		//content = (AnchorPane) FXMLLoader.load("RegisterUI.fxml");
 	}*/
 

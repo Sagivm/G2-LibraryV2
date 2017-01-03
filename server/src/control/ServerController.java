@@ -312,6 +312,9 @@ public class ServerController extends AbstractServer {
 	{
 		writeToLog("Server listening for connections\non port: " + getPort());
 	}
-	
+	protected void serverStopped() 
+	{
+			//writeToLog("NIR");
+	}
 
 }
