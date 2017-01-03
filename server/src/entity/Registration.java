@@ -54,7 +54,7 @@ public Registration(int Username, String Password, String FirstName, String Last
 	setFirstName(FirstName);
 	setLastName(LastName);
 }
-
+//
 /**
  * Getter for username
  * @return the username.
