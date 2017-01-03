@@ -67,10 +67,15 @@ public void actionOnError(ActionType type, String errorCode) {
 			return;
 	}
 	
+
 	/** Handler when pressed "settings". this function forward to SetAccountType
 	 * @param event- gets the ActionEvent when the function called.
 	 * @throws IOException
 	 */
+
+public void settingsButtonPressed(){
+	
+}
 	public void settingsButtonPressed(ActionEvent event) throws IOException
 	{
 		
@@ -81,5 +86,6 @@ public void actionOnError(ActionType type, String errorCode) {
 			e.printStackTrace();
 		}
 	}
+
 
 }

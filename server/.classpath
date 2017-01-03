@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="drivers/mysql-connector-java-3.1.11-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OCSF"/>
 	<classpathentry kind="lib" path="C:/Eclipse/Eclipse Mars 2/Workspace/Prototype/mysql-connector-java-3.1.11-bin.jar"/>
