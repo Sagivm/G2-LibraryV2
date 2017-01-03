@@ -23,7 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-
+//
 
 /**
  * ClientController called by the GUI, create this instance and then manage "menu"
