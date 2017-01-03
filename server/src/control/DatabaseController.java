@@ -77,6 +77,7 @@ public static ResultSet searchInDatabase(String statement) throws SQLException {
 	Statement stmt = connection.createStatement();
 	ResultSet rs = stmt.executeQuery(statement);
 	return rs;	
+	//
 }
 
 }
