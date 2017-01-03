@@ -1,7 +1,7 @@
 package entity;
 
 /**
- * This an entity stores book's details.
+ * This entity stores book's details.
  * @author itain
  */
 public class Book {
@@ -47,6 +47,15 @@ public class Book {
 	private boolean hide;
 	
 	/**
+	 * counter for books id
+	 */
+	private static int booksIdCounter=0;
+	
+	public static void setbooksIdCounter(int booksIdCounter) {
+		Book.booksIdCounter = booksIdCounter;
+	}
+
+	/**
 	 * Book constructor store the data.
 	 * @param sn - Gets the sn.
 	 * @param title - Gets the title.
@@ -55,6 +64,7 @@ public class Book {
 	 * @param tableOfContent - Gets the tableOfContent.
 	 * @param keywords - Gets the keywords.
 	 * @param price - Gets the price.
+	 * @param booksIdCounter - adds 1 to booksIdCounter.
 	 */
 	public Book(int sn, String title, String language, String summary, String tableOfContent, String keywords,
 			float price) {
@@ -66,6 +76,8 @@ public class Book {
 		this.keywords = keywords;
 		this.price = price;
 		this.hide = false;
+		
+		booksIdCounter++;
 	}
 	
 	/** Getter for sn
@@ -178,6 +190,13 @@ public class Book {
 	 */
 	public void setHide(boolean hide) {
 		this.hide = hide;
+	}
+	
+	/** Getter for booksIdCounter
+	 * @return booksIdCounter
+	 */
+	public static int getbooksIdCounter() {
+		return booksIdCounter;
 	}
 	
 	

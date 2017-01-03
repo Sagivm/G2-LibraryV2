@@ -1,24 +1,45 @@
 package entity;
 
 /**
- * This an entity stores domain's details.
+ * This entity stores domain's details.
  * @author itain
  */
 public class Domain {
+	
+	/**
+	 * id of domain
+	 */
 	private int id;
+	
+	/**
+	 * name of domain
+	 */
 	private String name;
+	
+	/**
+	 * number of subjects under this domain
+	 */
 	private int subjectsCount;
+	
+	
+	/**
+	 * counter for domain id
+	 */
+	private static int domainsIdCounter=0;
+	
 	
 	/**
 	 * Domain constructor store the data.
 	 * @param id - Gets the id.
 	 * @param name - Gets the name.
-	 * @param subjectsCount - Gets the number of subjects under this domain.
+	 * @param subjectsCount - adds 1 to subjectsCount.
 	 */
-	public Domain(int id, String name, int subjectsCount) {
+	public Domain(int id, String name) {
+		
 		this.id = id;
 		this.name = name;
-		this.subjectsCount = subjectsCount;
+		this.subjectsCount = 0;
+		domainsIdCounter++;
 	}
 
 	/** Getter for id
@@ -62,4 +83,11 @@ public class Domain {
 	public void setSubjectsCount(int subjectsCount) {
 		this.subjectsCount = subjectsCount;
 	}	
+	
+	/** Getter for domainsIdCounter
+	 * @return domainsIdCounter
+	 */
+	public static int getdomainsIdCounter() {
+		return domainsIdCounter;
+	}
 }
