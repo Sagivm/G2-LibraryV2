@@ -164,6 +164,10 @@ public class ServerController extends AbstractServer {
 		String password=data.get(1).toString();
 		String firstName=data.get(2).toString();
 		String lastName=data.get(3).toString();
+		
+		
+		
+		
 		try {
 			DatabaseController.addToDatabase("INSERT INTO clients (`username`, `firstName`, `lastName`, `password`, `accountType`, `accountStatus`) "
 					+ "VALUES ('"+username+"','"+firstName+"','"+lastName+"','"+password+"',"+"'RegisterPending','Standard')");
