@@ -25,7 +25,6 @@ import javafx.scene.control.Alert.AlertType;
  */
 public class RegisterController implements ScreensIF {
 
-	private static final ActionType REGISTER = null;
 	@FXML private PasswordField passField;
 	@FXML private TextField userField;
 	@FXML private TextField firstNameField;
