@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,6 +30,8 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@FXML
 	private AnchorPane content;
+	private entity.User user;
+	@FXML private ComboBox settingList;
 
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
@@ -99,6 +102,38 @@ public void actionOnError(ActionType type, String errorCode) {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	public void initializeSettingList(ActionType type)
+	{
+		if(user.getAccountType()!=entity.AccountType.Intrested)
+		{
+			//Do Nothing
+		}
+		else
+		{
+			settingList.getItems().addAll("Per book sub.","Monthly sub.","Yearly sub.");
+		}
+		settingList.setPromptText("Select sub.");
+	}
+	public void submitSettingButtonPressed(ActionEvent event)throws IOException
+	{
+		String choice=(String)settingList.getValue();
+		try
+		{
+			switch ((String)settingList.getValue())
+			{
+			case "Per book sub":
+				user.setAccountStatus("PendingPerBook");
+			case "Monthly sub":
+				user.setAccountStatus("PendingMonthly");
+			case "Yearly sub":
+				user.setAccountStatus("PendingYearly");
+			}
+		}
+		 catch (Exception e) {
+				e.printStackTrace();
+			}
+		
 	}
 
 
