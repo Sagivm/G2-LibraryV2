@@ -181,7 +181,7 @@ public class ServerController extends AbstractServer {
 	else replay = new Replay(ActionType.REGISTER,false);
 	writeToLog("Registration attempt");
 	}
-	
+
 	if (type == ActionType.LOGIN) {
 		if (sqlResult == true) replay = new Replay(ActionType.LOGIN,true);
 		else {
