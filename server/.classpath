@@ -6,9 +6,13 @@
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Eclipse/Eclipse Mars 2/Workspace/Prototype/mysql-connector-java-3.1.11-bin.jar"/>
 =======
 	<classpathentry kind="lib" path="D:/לימודים/סמסטר ז/מעבדה בהנדסת תוכנה/מעבדות/lab6/mysql-connector-java-3.1.11-bin.jar"/>
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
+=======
+	<classpathentry kind="lib" path="drivers/mysql-connector-java-3.1.11-bin.jar"/>
 >>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 	<classpathentry kind="output" path="bin"/>
 </classpath>

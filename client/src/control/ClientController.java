@@ -103,7 +103,7 @@ public class ClientController implements ScreensIF {
 		alert.setTitle("Library");
 		alert.setHeaderText(null);
 		alert.setContentText(GeneralMessages.ABOUT_US);
-		alert.showAndWait();
+		alert.showAndWait();//
 	}
 	
 	/** Handler when press "connect" the GUI. this function loads the connect menu.

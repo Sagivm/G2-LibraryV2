@@ -123,14 +123,13 @@ public void actionToPerform(Replay replay) {
 					
 			        ScreenController screenController = new ScreenController();
 			        try {
-			        	actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_FAILED);
-						screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+			        	actionToDisplay(ActionType.CONTINUE,"The password and Username not match!");
 						} catch (Exception e) {
 						// COMPELETE
 						e.printStackTrace();
-						}
+						}//
 					}
-			});	
+			});
 		}
 	}
 }
