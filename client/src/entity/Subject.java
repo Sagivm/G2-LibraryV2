@@ -26,7 +26,7 @@ public class Subject {
 	private int domain;
 	
 	/**
-	 * number of subjects in DB
+	 * counter for subject id
 	 */
 	private static int subjectsIdCounter=0;
 
