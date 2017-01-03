@@ -14,8 +14,11 @@ import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
 import javafx.fxml.*;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -197,6 +200,14 @@ public class ClientController implements ScreensIF {
 		ScreenController screenController = new ScreenController();
         try {
 			screenController.replaceSceneContent(ScreensInfo.REGISTRATION_SCREEN,ScreensInfo.REGISTRATION_TITLE);
+			Stage primaryStage = screenController.getStage();
+			ScreenController.setStage(primaryStage);
+			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+			primaryStage.show();
+			primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
+			primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
+			 
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

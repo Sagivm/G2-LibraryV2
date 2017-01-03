@@ -1,11 +1,55 @@
-ιπε 03, 2017 8:06:36 PM control.ServerController writeToLog
+ιπε 03, 2017 8:27:36 PM control.ServerController writeToLog
 INFO: Connected to database
-ιπε 03, 2017 8:06:36 PM control.ServerController writeToLog
+ιπε 03, 2017 8:27:36 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-ιπε 03, 2017 8:06:47 PM control.ServerController writeToLog
+ιπε 03, 2017 8:27:46 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 03, 2017 8:10:05 PM control.ServerController writeToLog
+ιπε 03, 2017 8:29:06 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 03, 2017 8:13:08 PM control.ServerController writeToLog
+ιπε 03, 2017 8:36:27 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 8:43:43 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 8:55:44 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 9:00:30 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 9:10:45 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 9:59:49 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:20:36 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:24:02 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:24:41 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:25:03 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:25:57 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:26:35 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:28:05 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:28:23 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:30:08 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:30:42 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:33:16 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:50:42 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 10:56:20 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 11:02:03 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 11:02:44 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 11:11:05 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 03, 2017 11:11:52 PM control.ServerController writeToLog
 INFO: Login attempt

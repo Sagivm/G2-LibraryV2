@@ -7,8 +7,11 @@ import entity.Replay;
 import entity.ScreensInfo;
 import enums.ActionType;
 import javafx.application.Platform;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import ocsf.client.AbstractClient;
 
 //TODO: Auto-generated Javadoc
@@ -108,7 +111,15 @@ public void actionToPerform(Replay replay) {
 		        try {
 		        	actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_SUCESSFULLY);
 					screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
-					} catch (Exception e) {
+					Stage primaryStage = screenController.getStage();
+					ScreenController.setStage(primaryStage);
+					Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+					primaryStage.show();
+					primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
+					primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
+					
+		        
+		        } catch (Exception e) {
 					// COMPELETE
 					e.printStackTrace();
 					}
