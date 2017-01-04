@@ -89,7 +89,6 @@ public class ServerController extends AbstractServer {
 	 */
 	@FXML private Button connectButton;
 	
-	
 	/**
 	 *  ArrayList for all of the connected users
 	 */
@@ -295,7 +294,6 @@ public class ServerController extends AbstractServer {
 		alert.showAndWait();
 	}
 	
-
 	/** 
 	 * This function called when the user pressed on the button connect or disconnect
 	 * the function connect databse, and server.

@@ -5,6 +5,7 @@ import java.io.IOException;
 //import java.util.ResourceBundle;
 
 import entity.ScreensInfo;
+import entity.User;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -35,6 +36,11 @@ public class HomepageUserController implements ScreensIF {
 	@FXML private Label userFullName;
 	private entity.User user;
 	@FXML private ComboBox settingList;
+	
+	/**
+	 * save the connected user
+	 */
+	private static User connectedUser;
 	
 
 	/* (non-Javadoc)
@@ -108,6 +114,17 @@ public class HomepageUserController implements ScreensIF {
 		}
 	}
 	
+	
+	@FXML
+	public void logoutButtonPressed(ActionEvent event) throws IOException{    
+		try{
+			System.out.println(connectedUser.getFirstname().toString());
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 /*	@FXML
 	public void setUsernameLabel(String fullName){
 			System.out.println(fullName);
@@ -160,6 +177,22 @@ public class HomepageUserController implements ScreensIF {
 				e.printStackTrace();
 			}
 		
+	}
+	
+	/**
+	 * @return the connected user.
+	 */
+	public User getConnectedUser()
+	{
+		return connectedUser;
+	}
+	
+	/**Setter of the connected user.
+	 * @param connectedUser - Set the conneced user.
+	 */
+	public void setConnectedUser(User connectedUser)
+	{
+		this.connectedUser = connectedUser;
 	}
 
 

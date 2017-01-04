@@ -118,6 +118,8 @@ public void actionToPerform(Replay replay) {
 		        	{
 		        		User user = new User(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString());
 		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+						HomepageUserController userPage = new HomepageUserController();
+						userPage.setConnectedUser(user);
 		        		
 		        	}
 		        	else if(action==2)
