@@ -1,5 +1,8 @@
 package interfaces;
 
+/*import java.net.URL;
+import java.util.ResourceBundle;*/
+
 import enums.ActionType;
 import javafx.event.ActionEvent;
 
@@ -30,5 +33,11 @@ public interface ScreensIF {
 	 * @param errorCode - Gets error message.
 	 */
 	public void actionOnError(ActionType type, String errorCode);
+
+/*	*//** This function initialize values when fxml controller is open.
+	 * @param fxmlFileLocation
+	 * @param resources
+	 *//*
+	public void initialize(URL fxmlFileLocation, ResourceBundle resources);*/
 	
 }

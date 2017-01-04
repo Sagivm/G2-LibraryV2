@@ -244,6 +244,5 @@ public class ClientController implements ScreensIF {
 		if (type == ActionType.CONTINUE)
 			return;
 	}
-	
 
 }

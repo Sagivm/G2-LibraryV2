@@ -1,18 +1,21 @@
 package control;
 
 import java.io.IOException;
+//import java.net.URL;
+//import java.util.ResourceBundle;
 
 import entity.ScreensInfo;
 import enums.ActionType;
 import interfaces.ScreensIF;
-import javafx.animation.ScaleTransitionBuilder;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,10 +31,11 @@ public class HomepageUserController implements ScreensIF {
 	/**
 	 * the main content frame
 	 */
-	@FXML
-	private AnchorPane content;
+	@FXML private AnchorPane content;
+	@FXML private Label userFullName;
 	private entity.User user;
 	@FXML private ComboBox settingList;
+	
 
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
@@ -55,7 +59,7 @@ public class HomepageUserController implements ScreensIF {
 	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)
 	 */
 	@Override
-public void actionOnError(ActionType type, String errorCode) {
+	public void actionOnError(ActionType type, String errorCode) {
 		
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Error");
@@ -103,6 +107,28 @@ public void actionOnError(ActionType type, String errorCode) {
 			e.printStackTrace();
 		}
 	}
+	
+/*	@FXML
+	public void setUsernameLabel(String fullName){
+			System.out.println(fullName);
+			System.out.println(userFullName.getText());
+			
+			//userFullName.setText(fullName);
+			
+	}*/
+	
+/*	@Override
+	 (non-Javadoc)
+	 * @see interfaces.ScreensIF#initialize(java.net.URL, java.util.ResourceBundle)
+	 
+    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+        //assert myButton != null : "fx:id=\"myButton\" was not injected: check your FXML file 'simple.fxml'.";
+    	System.out.println("eee");
+    	setUsernameLabel("dsa sd");
+        // initialize your logic here: all @FXML variables will have been injected
+
+    }*/
+	
 	public void initializeSettingList(ActionType type)
 	{
 		if(user.getAccountType()!=entity.AccountType.Intrested)

@@ -31,5 +31,10 @@
     <Button fx:id="exitButton" font="$x1" layoutX="2.0" layoutY="611.0" mnemonicParsing="false" onAction="#pressedCloseMenu" prefHeight="42.0" prefWidth="235.0" text="Exit" />
     <AnchorPane fx:id="content" layoutX="236.0" layoutY="38.0" prefHeight="617.7070922851562" prefWidth="889.0" />
     <Button fx:id="backButton" font="$x1" layoutX="2.0" layoutY="569.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="&lt; Back" />
+    <Label fx:id="usernameLabel" layoutX="11.0" layoutY="156.0" prefHeight="36.0" prefWidth="212.0" text="">
+      <font>
+        <Font name="System Bold" size="15.0" />
+      </font>
+    </Label>
   </children>
 </AnchorPane>
