@@ -103,6 +103,12 @@ public void actionOnError(ActionType type, String errorCode) {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Initialize account type list with available account types
+	 * for the user
+	 * @param type
+	 */
+	@FXML
 	public void initializeSettingList(ActionType type)
 	{
 		if(user.getAccountType()!=entity.AccountType.Intrested)
@@ -115,6 +121,12 @@ public void actionOnError(ActionType type, String errorCode) {
 		}
 		settingList.setPromptText("Select sub.");
 	}
+	/**
+	 * Update's User information to pending and send a notification to librarian
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
 	public void submitSettingButtonPressed(ActionEvent event)throws IOException
 	{
 		String choice=(String)settingList.getValue();

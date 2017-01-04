@@ -1,35 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?scenebuilder-background-color 0xf4f4f4ff?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0000999999975" prefWidth="1125.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="control.HomepageUserController">
-  <children>
-    <Button fx:id="logoutButton" layoutX="1.0" layoutY="527.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Logout">
-      <font>
-        <Font name="System Bold" size="16.0" fx:id="x1" />
-      </font>
-    </Button>
-    <ImageView fx:id="clientLogoImgView" fitHeight="122.93968200683594" fitWidth="247.74915206296103" layoutX="1.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-        <Image url="@../img/home_user.png" />
-      </image>
-    </ImageView>
-    <Button fx:id="backButton" font="$x1" layoutX="2.0" layoutY="569.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="&lt; Back" />
-    <Button fx:id="searcBookButton" font="$x1" layoutX="0.0" layoutY="192.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Search Book" />
-    <Button fx:id="myBooksButton" font="$x1" layoutX="0.0" layoutY="234.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="My Books" />
-    <Button fx:id="userMsgsButton" font="$x1" layoutX="1.0" layoutY="361.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Messages" />
-    <Button fx:id="payButton" font="$x1" layoutX="1.0" layoutY="319.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Pay for Subscription" />
-    <Button fx:id="settingsButton" font="$x1" layoutX="1.0" layoutY="276.0" mnemonicParsing="false" onAction="#settingsButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Settings" />
-    <Line endX="-102.0" endY="349.0" layoutX="341.0" layoutY="306.0" startX="-108.0" startY="-307.0" stroke="#9f9f9f" strokeLineJoin="MITER" />
-    <Button id="userMsgsButton" fx:id="exitButton" font="$x1" layoutX="2.0" layoutY="611.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Exit" />
-    <Button layoutX="555.0" layoutY="262.0" mnemonicParsing="false" text="Button" />
-  </children>
+
+<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Label layoutX="115.0" layoutY="169.0" text="Select desired account type">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="settingList" layoutX="273.0" layoutY="199.0" onShown="#initializeSettingList" prefWidth="150.0" />
+      <Button layoutX="322.0" layoutY="253.0" mnemonicParsing="false" onAction="#submitSettingButtonPressed" text="Button" />
+   </children>
 </AnchorPane>
