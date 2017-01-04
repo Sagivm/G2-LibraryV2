@@ -8,7 +8,7 @@ package entity;
 public class Person {
 	private String firstname;
 	private String lastname;
-	private long id;
+	private  String username;
 	/**
 	 * Initialize person without parameters
 	 */
@@ -20,12 +20,12 @@ public class Person {
 	 * Initialize person with parameters
 	 * @param firstname
 	 * @param lastname
-	 * @param id
+	 * @param username
 	 */
-	public Person(String firstname, String lastname, long id) {
+	public Person(String firstname, String lastname, String username) {
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.id = id;
+		this.username = username;
 	}
 	/**
 	 * @return Persons's first Name
@@ -55,17 +55,17 @@ public class Person {
 		this.lastname = lastname;
 	}
 	/**
-	 * @return Persons's Id
+	 * @return Persons's username
 	 */
-	public long getId() {
-		return id;
+	public String getId() {
+		return username;
 	}
 	/**
-	 * Sets person's id
-	 * @param id
+	 * Sets person's username
+	 * @param username
 	 */
-	public void setId(long id) {
-		this.id = id;
+	public void setId(String username) {
+		this.username = username;
 	}
 	
 
