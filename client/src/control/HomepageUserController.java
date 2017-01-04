@@ -35,13 +35,8 @@ public class HomepageUserController implements ScreensIF {
 	@FXML private AnchorPane content;
 	@FXML private Label userFullName;
 	private entity.User user;
-<<<<<<< HEAD
-	@FXML
-	private ComboBox<String> settingList;
-=======
 	@FXML private ComboBox settingList;
 	
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 
 	/*
 	 * (non-Javadoc)
@@ -73,11 +68,7 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@Override
 	public void actionOnError(ActionType type, String errorCode) {
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Error");
 		alert.setHeaderText(null);
@@ -128,7 +119,6 @@ public class HomepageUserController implements ScreensIF {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
 
 	/**
 	 * Initialize account type list with available account types for the user
@@ -141,7 +131,10 @@ public class HomepageUserController implements ScreensIF {
 			// Do Nothing
 		} else {
 			settingList.getItems().addAll("Per book sub.", "Monthly sub.", "Yearly sub.");
-=======
+			settingList.setPromptText("Select sub.");
+		}
+	}
+
 	
 /*	@FXML
 	public void setUsernameLabel(String fullName){
@@ -163,21 +156,6 @@ public class HomepageUserController implements ScreensIF {
         // initialize your logic here: all @FXML variables will have been injected
 
     }*/
-	
-	public void initializeSettingList(ActionType type)
-	{
-		if(user.getAccountType()!=entity.AccountType.Intrested)
-		{
-			//Do Nothing
-		}
-		else
-		{
-			settingList.getItems().addAll("Per book sub.","Monthly sub.","Yearly sub.");
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
-		}
-		settingList.setPromptText("Select sub.");
-	}
-
 	//
 	/**
 	 * Update's User information to pending and send a notification to librarian
