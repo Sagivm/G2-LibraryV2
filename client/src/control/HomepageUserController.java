@@ -121,6 +121,7 @@ public void actionOnError(ActionType type, String errorCode) {
 		}
 		settingList.setPromptText("Select sub.");
 	}
+	//
 	/**
 	 * Update's User information to pending and send a notification to librarian
 	 * @param event

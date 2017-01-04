@@ -4,7 +4,7 @@ import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-
+//
 public class HomepageManagerController implements ScreensIF {
 
 	/* (non-Javadoc)
