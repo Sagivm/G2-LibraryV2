@@ -4,8 +4,10 @@ import control.ScreenController;
 import entity.GeneralMessages;
 import entity.ScreensInfo;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -31,9 +33,13 @@ public static void main(String args[]) {
 public void start(Stage primaryStage) {
 	try {
 	     ScreenController.setStage(primaryStage);
+		 Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
 	     ScreenController screenController = new ScreenController();
 	     screenController.replaceSceneContent(ScreensInfo.CLIENT_SCREEN,ScreensInfo.CLIENT_TITLE);
 	     primaryStage.show();
+		 primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
+		 primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
 	     } catch (Exception e) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Error");

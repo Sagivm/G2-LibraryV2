@@ -156,10 +156,9 @@ public class ServerController extends AbstractServer {
 	ArrayList<String> data = message.getElementsList();
 	boolean sqlResult = false;
 	Replay replay = null;
+	int action=0;
 
-	
 
-	
 	if (type == ActionType.REGISTER) {
 		
 		Registration registration = new Registration(Integer.parseInt(data.get(0)),
@@ -185,21 +184,39 @@ public class ServerController extends AbstractServer {
 		try{
 			Login login = new Login(data.get(0).toString(),data.get(1).toString());
 			Statement stmt = DatabaseController.connection.createStatement();
-			ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement());
+			ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
 			
 			while(rs.next()){
 				if(rs.getString(1).equals(data.get(1).toString()))
 				{
 					System.out.println("login succssefully");
 					sqlResult=true;
+					action = 1;
+					break;
 				}
 			}
+			if(!sqlResult)
+			{
+				rs = stmt.executeQuery(login.PrepareSelectStatement(2));
+				while(rs.next()){
+					if(rs.getString(1).equals(data.get(1).toString()))
+					{
+						System.out.println("login succssefully");
+						sqlResult=true;
+						if(rs.getString(2).toString().equals("Manager"))
+							action = 3;
+						else
+							action = 2;
+						break;
+					}
 			}
-			catch (SQLException e){
-				e.printStackTrace();
-				System.out.println("error");
 			}
-		if (sqlResult == true) replay = new Replay(ActionType.LOGIN,true);
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+			System.out.println("error");
+		}
+		if (sqlResult == true) replay = new Replay(ActionType.LOGIN,true,action);
 		else {
 			replay = new Replay(ActionType.LOGIN,false);
 			System.out.println(replay.getSucess());

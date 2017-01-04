@@ -72,15 +72,27 @@ public class ScreensInfo {
 	
 	
 	/**
-	 * Home page liberarian path.
+	 * Home page librarian path.
 	 */
-	public static final String HOMEPAGE_LIBERARIAN_SCREEN = "/boundry/HomepageLibrarianUI.fxml";
+	public static final String HOMEPAGE_LIBRARIAN_SCREEN = "/boundry/HomepageLibrarianUI.fxml";
 	
 	
 	/**
-	 * Home page liberarian title.
+	 * Home page librarian title.
 	 */
-	public static final String HOMEPAGE_LIBERARIAN_TITLE = "Librarian homepage menu";
+	public static final String HOMEPAGE_LIBRARIAN_TITLE = "Librarian homepage menu";
+	
+	/**
+	 * Home page manager path.
+	 */
+	public static final String HOMEPAGE_MANAGER_SCREEN = "/boundry/HomepageManagerUI.fxml";
+	
+	
+	/**
+	 * Home page manager title.
+	 */
+	public static final String HOMEPAGE_MANAGER_TITLE = "Manager homepage menu";
+	
 	
 	/**
 	 * Set Account type path.

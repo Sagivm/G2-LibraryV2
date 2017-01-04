@@ -5,13 +5,7 @@ import interfaces.ScreensIF;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
-/**
- * HomepageLibrarianController is the controller after user logged in.
- * this the main menu of the librarian, here he manages the actions in system.
- * librarian got advanced premissions.
- * @author nire
- */
-public class HomepageLibrarianController implements ScreensIF {
+public class HomepageManagerController implements ScreensIF {
 
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
@@ -28,7 +22,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	@Override
 	public void pressedCloseMenu(ActionEvent event) {
 		Platform.exit();
-		System.exit(0);	
+		System.exit(0);
 	}
 
 	/* (non-Javadoc)
@@ -39,5 +33,4 @@ public class HomepageLibrarianController implements ScreensIF {
 		// TODO Auto-generated method stub
 		
 	}
-
 }
