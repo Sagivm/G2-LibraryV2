@@ -46,7 +46,11 @@ public class ClientController implements ScreensIF {
 	 * The IP Address of localhost.
 	 */
 	final public static String hostnameAddress = "127.0.0.1";
-
+	
+	/**
+	 *  The IP Address of the server
+	 */
+	public static String IP_ADDRESS;
 	
 	/**
 	 *  The connection between GUI and the client.
@@ -114,7 +118,8 @@ public class ClientController implements ScreensIF {
 	 */
 	public void connectButtonPressed(ActionEvent event) throws ConnectException
 	{
-		String IP_ADDRESS = ServerField.getText();
+		//String IP_ADDRESS = ServerField.getText();
+		IP_ADDRESS = ServerField.getText();
 		String username = userField.getText();
 		String password = passField.getText();
 		
@@ -163,6 +168,40 @@ public class ClientController implements ScreensIF {
 	}
 
 	public Message prepareLogin(ActionType type, Login login)
+	{
+		Message message = new Message();
+		message.setType(type);
+		ArrayList <String> elementsList = new ArrayList<String>();
+		elementsList.add(0,login.getUsername());
+		elementsList.add(1,login.getPassword());
+		message.setElementsList(elementsList);
+		return message;
+	}
+	
+	/** Log out the user. The function finalize the login entity in the server.
+	 * @param username
+	 * @param password
+	 * @throws ConnectException
+	 */
+	public void logout(String username, String password) throws ConnectException
+	{
+		if (clientConnectionController == null) 
+			clientConnectionController = new ClientConnectionController(IP_ADDRESS,DEFAULT_PORT);
+		Login login = new Login(username, password);
+		Message message = prepareLogout(ActionType.LOGOUT,login);
+		try {
+			clientConnectionController.sendToServer(message);
+		} catch (IOException e1) {
+			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+		}	
+	}
+	
+	/** Send log out message to the server.
+	 * @param type
+	 * @param login
+	 * @return
+	 */
+	public Message prepareLogout(ActionType type, Login login)
 	{
 		Message message = new Message();
 		message.setType(type);

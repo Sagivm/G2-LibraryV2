@@ -3,7 +3,11 @@ package control;
 import java.io.IOException;
 //import java.net.URL;
 //import java.util.ResourceBundle;
+import java.util.ArrayList;
 
+import entity.GeneralMessages;
+import entity.Login;
+import entity.Message;
 import entity.ScreensInfo;
 import entity.User;
 import enums.ActionType;
@@ -61,9 +65,16 @@ public class HomepageUserController implements ScreensIF {
 	 * @see interfaces.ScreensIF#pressedCloseMenu(javafx.event.ActionEvent)
 	 */
 	@Override
-	public void pressedCloseMenu(ActionEvent event) {
-		Platform.exit();
-		System.exit(0);
+	public void pressedCloseMenu(ActionEvent event) throws IOException{
+		try{
+			ClientController clientCtrl = new ClientController();
+			clientCtrl.logout(connectedUser.getId(),connectedUser.getPassword());
+			Platform.exit();
+			System.exit(0);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -143,10 +154,15 @@ public class HomepageUserController implements ScreensIF {
 
 	
 	
+	/** Handler when pressed "Logout". this function log out the current user.
+	 * @param event - gets the ActionEvent when the function called.
+	 * @throws IOException
+	 */
 	@FXML
 	public void logoutButtonPressed(ActionEvent event) throws IOException{    
 		try{
-			System.out.println(connectedUser.getFirstname().toString());
+			ClientController clientCtrl = new ClientController();
+			clientCtrl.logout(connectedUser.getId(),connectedUser.getPassword());
 		}
 		catch(Exception e) {
 			e.printStackTrace();

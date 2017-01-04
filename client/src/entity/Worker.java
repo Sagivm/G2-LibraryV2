@@ -11,6 +11,10 @@ public class Worker extends Person {
 	 */
 	private String username;
 	/**
+	 * The password.
+	 */
+	private String password;
+	/**
 	 * The email
 	 */
 	private String email;
@@ -42,13 +46,29 @@ public class Worker extends Person {
 	 * @param job
 	 * @param department
 	 */
-	public Worker(String firstname, String lastname, String username, String email, String job, String department) {
+	public Worker(String firstname, String lastname, String username,String password, String email, String job, String department) {
 		super(firstname,lastname,username);
+		setPassword(password);
 		setEmail(email);
 		setJob(job);
 		setDepratment(department);
 	}
 	
+	/**
+	 * @return User's pasword.
+	 */
+	public String getPassword()
+	{
+		return password;
+	}
+	
+	/**
+	 * @param password
+	 */
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
 	
 	/** Getter for Email.
 	 * @return The email.

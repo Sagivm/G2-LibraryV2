@@ -282,6 +282,26 @@ public class ServerController extends AbstractServer {
 			}*/
 			writeToLog("Login attempt");
 		}
+		
+		if (type == ActionType.LOGOUT)
+		{
+			//ArrayList <String> elementsList = new ArrayList<String>();
+			boolean succes=false;
+			for(int i=0;i<connectedList.size();i++)
+			{
+				if(connectedList.get(i).getUsername().equals(data.get(0).toString()))
+				{
+					connectedList.remove(i);
+					succes = true;
+					break;
+				}
+			}
+			if(succes)
+			{
+				//System.out.println("Logout");
+				replay = new Replay(ActionType.LOGOUT,true);
+			}
+		}
 		return replay;
 	}
 

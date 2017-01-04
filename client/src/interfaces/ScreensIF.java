@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.io.IOException;
+
 /*import java.net.URL;
 import java.util.ResourceBundle;*/
 
@@ -24,7 +26,7 @@ public interface ScreensIF {
 	 * The function close the program.
 	 * @param event - ActionEvent event
 	 */
-	public void pressedCloseMenu(ActionEvent event);
+	public void pressedCloseMenu(ActionEvent event) throws IOException;
 	
 	
 	/**

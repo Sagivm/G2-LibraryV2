@@ -5,9 +5,25 @@ package entity;
  *
  */
 public class User extends Person {
+	/**
+	 * The username.
+	 */
 	private String username;
+	/**
+	 * The password.
+	 */
+	private String password;
+	/**
+	 * The account type.
+	 */
 	private AccountType accountType;
+	/**
+	 * The account status.
+	 */
 	private AccountStatus accountStatus;
+	/**
+	 * true if the user connected.
+	 */
 	private boolean connected;
 	/**
 	 * Initialize User without parameters
@@ -26,8 +42,9 @@ public class User extends Person {
 	 * @param accountType
 	 * @param accountStatus
 	 */
-	public User(String firstname, String lastname, String username, String accountType, String accountStatus) {
+	public User(String firstname, String lastname, String username, String password, String accountType, String accountStatus) {
 		super(firstname,lastname,username);
+		setPassword(password);
 		setAccountType(accountType);
 		setAccountStatus(accountStatus);
 	}
@@ -64,6 +81,23 @@ public class User extends Person {
 			break;
 		}
 	}
+	
+	/**
+	 * @return User's pasword.
+	 */
+	public String getPassword()
+	{
+		return password;
+	}
+	
+	/**
+	 * @param password
+	 */
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+	
 	/**
 	 * @return Users's account status
 	 */

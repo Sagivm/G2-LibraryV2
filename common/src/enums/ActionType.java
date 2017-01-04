@@ -50,4 +50,9 @@ public enum ActionType {
 	 * Search in SQL.
 	 */
 	SEARCH,
+	
+	/**
+	 * finalize connected login entity in the server.
+	 */
+	LOGOUT,
 }
