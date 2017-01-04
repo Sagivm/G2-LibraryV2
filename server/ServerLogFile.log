@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ιπε 04, 2017 1:42:42 PM control.ServerController writeToLog
 INFO: Connected to database
 ιπε 04, 2017 1:42:42 PM control.ServerController writeToLog
@@ -15,3 +16,5 @@ INFO: Login attempt
 INFO: Login attempt
 ιπε 04, 2017 1:43:38 PM control.ServerController writeToLog
 INFO: Disconnected sucessfully
+=======
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
