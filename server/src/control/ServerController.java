@@ -88,6 +88,12 @@ public class ServerController extends AbstractServer {
 	 * Button for connect/disconnect.
 	 */
 	@FXML private Button connectButton;
+	
+	
+	/**
+	 *  ArrayList for all of the connected users
+	 */
+	private static ArrayList<Login> connectedList = new ArrayList<Login>();
 	      
 
 	/** 
@@ -182,45 +188,74 @@ public class ServerController extends AbstractServer {
 
 	if (type == ActionType.LOGIN) {
 		try{
-			Login login = new Login(data.get(0).toString(),data.get(1).toString());
-			Statement stmt = DatabaseController.connection.createStatement();
-			ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
-			
-			while(rs.next()){
-				if(rs.getString(1).equals(data.get(1).toString()))
+			boolean isConnected = false;
+			for (int i=0;i<connectedList.size();i++)
+			{
+				if(connectedList.get(i).getUsername().equals(data.get(0).toString()))
 				{
-					System.out.println("login succssefully");
-					sqlResult=true;
-					action = 1;
+					isConnected = true;
 					break;
 				}
 			}
-			if(!sqlResult)
+			if(!isConnected)
 			{
-				rs = stmt.executeQuery(login.PrepareSelectStatement(2));
+				Login login = new Login(data.get(0).toString(),data.get(1).toString());
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
+				
 				while(rs.next()){
 					if(rs.getString(1).equals(data.get(1).toString()))
 					{
 						System.out.println("login succssefully");
 						sqlResult=true;
-						if(rs.getString(2).toString().equals("Manager"))
-							action = 3;
-						else
-							action = 2;
+						action = 1;
 						break;
 					}
+				}
+				if(!sqlResult)
+				{
+					rs = stmt.executeQuery(login.PrepareSelectStatement(2));
+					while(rs.next()){
+						if(rs.getString(1).equals(data.get(1).toString()))
+						{
+							System.out.println("login succssefully");
+							sqlResult=true;
+							if(rs.getString(2).toString().equals("Manager"))
+								action = 3;
+							else
+								action = 2;
+							break;
+						}
+					}
+				}
+				if (sqlResult == true)
+				{
+					replay = new Replay(ActionType.LOGIN,true,action);
+					connectedList.add(login);
+				}
+				else {
+					replay = new Replay(ActionType.LOGIN,false,GeneralMessages.USER_LOGGED_IN_FAILED);
+					System.out.println(replay.getSucess());
+				}
 			}
+			else
+			{
+				replay = new Replay(ActionType.LOGIN,false,GeneralMessages.USER_ALREADY_LOGGED_IN);
+				System.out.println(replay.getSucess());
 			}
 		}
 		catch (SQLException e){
 			e.printStackTrace();
 			System.out.println("error");
 		}
-		if (sqlResult == true) replay = new Replay(ActionType.LOGIN,true,action);
+/*		if (sqlResult == true)
+			{
+			replay = new Replay(ActionType.LOGIN,true,action);
+			}
 		else {
 			replay = new Replay(ActionType.LOGIN,false);
 			System.out.println(replay.getSucess());
-		}
+		}*/
 		writeToLog("Login attempt");
 	}
 	

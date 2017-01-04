@@ -98,4 +98,8 @@ public class GeneralMessages {
 	 * User or password failed.
 	 */
 	public static final String USER_LOGGED_IN_FAILED = "Username or password are incorrect";
+	
+
+	public static final String USER_ALREADY_LOGGED_IN = "You are already connected to the system!";
+
 }

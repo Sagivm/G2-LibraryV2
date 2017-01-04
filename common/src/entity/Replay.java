@@ -32,6 +32,11 @@ private boolean sucess;
  */
 private int action;
 
+/**
+ * Show general messages
+ */
+private String GnrlMsg;
+
 
 /** Replay constructor that initialize the attributes.
  * @param type - Gets the type of action.
@@ -43,11 +48,28 @@ public Replay(ActionType type, boolean sucess)
 	setSucess(sucess);
 }
 
+/** Replay constructor that initialize the attributes.
+ * @param type - Gets the type of action.
+ * @param sucess - Gets the kind of response from SQL.
+ * @param action - Gets a sub-action to do.
+ */
 public Replay(ActionType type, boolean sucess,int action)
 {
 	setType(type);
 	setSucess(sucess);
 	setAction(action);
+}
+
+/** Replay constructor that initialize the attributes.
+ * @param type - Gets the type of action.
+ * @param sucess - Gets the kind of response from SQL.
+ * @param msg - Gets a message.
+ */
+public Replay(ActionType type, boolean sucess,String msg)
+{
+	setType(type);
+	setSucess(sucess);
+	setGnrlMsg(msg);
 }
 
 /** Getter for action type.
@@ -79,6 +101,13 @@ public int getAction() {
 	return action;
 }
 
+/** Getter for GeneralMessages
+ * @return - the GeneralMessages attribute.
+ */
+public String getGnrlMsg() {
+	return GnrlMsg;
+}
+
 /** Setter for sucess.
  * @param sucess - Set the value into sucess.
  */
@@ -91,6 +120,13 @@ public void setSucess(boolean sucess) {
  */
 public void setAction(int action) {
 	this.action = action;
+}
+
+/** Setter for GeneralMessages
+ * @param msg
+ */
+public void setGnrlMsg(String msg) {
+	this.GnrlMsg = msg;
 }
 	
 }

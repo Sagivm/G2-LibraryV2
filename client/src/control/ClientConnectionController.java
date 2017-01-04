@@ -124,7 +124,7 @@ public void actionToPerform(Replay replay) {
 					primaryStage.show();
 					primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
 					primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
-					
+					//System.out.println();
 		        
 		        } catch (Exception e) {
 					// COMPELETE
@@ -141,7 +141,9 @@ public void actionToPerform(Replay replay) {
 					
 			        ScreenController screenController = new ScreenController();
 			        try {
-			        	actionToDisplay(ActionType.CONTINUE,"The password and Username not match!");
+			        	//actionToDisplay(ActionType.CONTINUE,"The password and Username not match!");
+			        	actionToDisplay(ActionType.CONTINUE,replay.getGnrlMsg().toString());
+			        	
 						} catch (Exception e) {
 						// COMPELETE
 						e.printStackTrace();
