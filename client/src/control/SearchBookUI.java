@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 
 public class SearchBookUI implements ScreensIF{
 
@@ -25,9 +27,33 @@ public class SearchBookUI implements ScreensIF{
 	@FXML private Button searchButton;
 	@FXML private Button clearButton;
 	@FXML private Button backButton;
+	@FXML private RadioButton andRadioButton;
+	@FXML private RadioButton orRadioButton;
+	
+	final ToggleGroup group = new ToggleGroup();
+	
+	andRadioButton = new RadioButton("AND");
+	orRadioButton = new RadioButton("OR");
+	
+	andRadioButton.setToggleGroup(group);
+	orRadioButton.setToggleGroup(group);
+	andRadioButton.setSelected(true);
+	
+	
+	
 	
 	@Override
 	public void backButtonPressed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void searchButtonPressed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void clearButtonPressed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
