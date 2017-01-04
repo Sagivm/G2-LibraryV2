@@ -5,7 +5,7 @@ package entity;
  *
  */
 public class User extends Person {
-	private long  Userid;
+	private String username;
 	private AccountType accountType;
 	private AccountStatus accountStatus;
 	private boolean connected;
@@ -18,16 +18,16 @@ public class User extends Person {
 		
 	}
 	/**
-	 * Initialize User with parameters. firstname,lastname,id are defined in parent
+	 * Initialize User with parameters. firstname,lastname,username are defined in parent
 	 * class Person 
 	 * @param firstname
 	 * @param lastname
-	 * @param id
+	 * @param username
 	 * @param accountType
 	 * @param accountStatus
 	 */
-	public User(String firstname, String lastname, long id, String accountType, String accountStatus) {
-		super(firstname,lastname,id);
+	public User(String firstname, String lastname, String username, String accountType, String accountStatus) {
+		super(firstname,lastname,username);
 		setAccountType(accountType);
 		setAccountStatus(accountStatus);
 	}

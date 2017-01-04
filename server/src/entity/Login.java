@@ -42,15 +42,15 @@ public class Login implements Serializable, StatementsIF {
 	@Override
 	public String PrepareSelectStatement() {
 		
-		return "SELECT password FROM clients WHERE username="+Username;
+		return "SELECT * FROM clients WHERE username="+Username;
 	}
 	
 
 	public String PrepareSelectStatement(int action) {
 		if(action==1)
-			return "SELECT password FROM clients WHERE username="+Username;
+			return "SELECT * FROM clients WHERE username="+Username;
 		else
-			return "SELECT password,job FROM workers WHERE username="+Username;
+			return "SELECT * FROM workers WHERE username="+Username;
 	}
 
 
