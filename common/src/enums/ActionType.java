@@ -41,11 +41,13 @@ public enum ActionType {
 	 * Remove from SQL.
 	 */
 	REMOVE,
+	/**
+	 * Updates SQL.
+	 */
+	UPDATE,
 	
 	/**
 	 * Search in SQL.
 	 */
 	SEARCH,
-	
-	
 }
