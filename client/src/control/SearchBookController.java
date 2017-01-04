@@ -36,14 +36,17 @@ public class SearchBookController implements ScreensIF{
 	@FXML private RadioButton orRadioButton;
 
 	
-	
+	/** When search button is pressed a search is made.
+	 * @param event
+	 */
+	@FXML
 	public void searchButtonPressed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	
-	/** When clear button pressed the function clears the fields.
+	/** When clear button is pressed the function clears all fields.
 	 * @param event
 	 */
 	@FXML
@@ -56,7 +59,12 @@ public class SearchBookController implements ScreensIF{
 		domainChoiceBox.valueProperty().set(null);
 		keywTextArea.setText(null);
 	}
-
+	
+	
+	/**
+	 * The function close the program.
+	 * @param event - ActionEvent event
+	 */
 	@Override
 	public void pressedCloseMenu(ActionEvent event) {
 		// TODO Auto-generated method stub
@@ -64,12 +72,23 @@ public class SearchBookController implements ScreensIF{
 		System.exit(0);
 	}
 
+	
+	/**
+	 * This function gets message and perform the task by the error type.
+	 * @param type - Gets error type.
+	 * @param errorCode - Gets error message.
+	 */
 	@Override
 	public void actionOnError(ActionType type, String errorCode) {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	/**
+	 * no back button on this screen
+	 * @param event - ActionEvent event
+	 */
+	@Override
 	public void backButtonPressed(ActionEvent event){
 	}
 
