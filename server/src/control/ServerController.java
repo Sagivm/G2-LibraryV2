@@ -157,127 +157,132 @@ public class ServerController extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) 
 	{
 	Message message = (Message)msg;
-	ActionType type = message.getType();
-	ArrayList<String> data = message.getElementsList();
-	boolean sqlResult = false;
-	Replay replay = null;
-	int action=0;
-
-
-	if (type == ActionType.REGISTER) {
-		
-		Registration registration = new Registration(Integer.parseInt(data.get(0)),
-		data.get(1).toString(),data.get(2).toString(),data.get(3).toString());
-		
 		try {
-			DatabaseController.addToDatabase(registration.PrepareAddStatement());
-			sqlResult=true;
-		} catch (SQLException e) {
-			 if(e.getErrorCode() == 1062 ){ ////duplicate primary key
-				 System.out.println("username already exist");
-			    }
+			client.sendToClient(actionToPerform(message));
+		} catch (IOException e) {
+		e.printStackTrace();
 		}
-		if (sqlResult == true) replay = new Replay(ActionType.REGISTER,true);
-		else {
-			replay = new Replay(ActionType.REGISTER,false);
-			System.out.println(replay.getSucess());
-		}
-	writeToLog("Registration attempt");
 	}
 
-	if (type == ActionType.LOGIN) {
-		try{
-			boolean isConnected = false;
-			ArrayList <String> elementsList = new ArrayList<String>();
-			for (int i=0;i<connectedList.size();i++)
-			{
-				if(connectedList.get(i).getUsername().equals(data.get(0).toString()))
-				{
-					isConnected = true;
-					break;
-				}
+
+	private Replay actionToPerform(Message message) {
+		
+		ActionType type = message.getType();
+		ArrayList<String> data = message.getElementsList();
+		boolean sqlResult = false;
+		Replay replay = null;
+		int action=0;
+
+
+		if (type == ActionType.REGISTER) {
+			
+			Registration registration = new Registration(Integer.parseInt(data.get(0)),
+			data.get(1).toString(),data.get(2).toString(),data.get(3).toString());
+			
+			try {
+				DatabaseController.addToDatabase(registration.PrepareAddStatement());
+				sqlResult=true;
+			} catch (SQLException e) {
+				 if(e.getErrorCode() == 1062 ){ ////duplicate primary key
+					 System.out.println("username already exist");
+				    }
 			}
-			if(!isConnected)
-			{
-				Login login = new Login(data.get(0).toString(),data.get(1).toString());
-				Statement stmt = DatabaseController.connection.createStatement();
-				ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
-				
-				while(rs.next()){
-					if(rs.getString(4).equals(data.get(1).toString()))
+			if (sqlResult == true) replay = new Replay(ActionType.REGISTER,true);
+			else {
+				replay = new Replay(ActionType.REGISTER,false);
+				System.out.println(replay.getSucess());
+			}
+		writeToLog("Registration attempt");
+		}
+
+		if (type == ActionType.LOGIN) {
+			try{
+				boolean isConnected = false;
+				ArrayList <String> elementsList = new ArrayList<String>();
+				for (int i=0;i<connectedList.size();i++)
+				{
+					if(connectedList.get(i).getUsername().equals(data.get(0).toString()))
 					{
-						System.out.println("login succssefully");
-						sqlResult=true;
-						action = 1;
-						elementsList.add(0,rs.getString(1)); //username
-						elementsList.add(1,rs.getString(2)); //first name
-						elementsList.add(2,rs.getString(3)); //last name
-						elementsList.add(3,rs.getString(4)); //password
-						elementsList.add(4,rs.getString(5)); //account type
-						elementsList.add(5,rs.getString(6)); //account status
+						isConnected = true;
 						break;
 					}
 				}
-				if(!sqlResult)
+				if(!isConnected)
 				{
-					rs = stmt.executeQuery(login.PrepareSelectStatement(2));
+					Login login = new Login(data.get(0).toString(),data.get(1).toString());
+					Statement stmt = DatabaseController.connection.createStatement();
+					ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
+					
 					while(rs.next()){
 						if(rs.getString(4).equals(data.get(1).toString()))
 						{
 							System.out.println("login succssefully");
 							sqlResult=true;
-							if(rs.getString(6).toString().equals("Manager"))
-								action = 3;
-							else
-								action = 2;
-							
+							action = 1;
 							elementsList.add(0,rs.getString(1)); //username
 							elementsList.add(1,rs.getString(2)); //first name
 							elementsList.add(2,rs.getString(3)); //last name
 							elementsList.add(3,rs.getString(4)); //password
-							elementsList.add(4,rs.getString(5)); //email
-							elementsList.add(5,rs.getString(6)); //job
-							elementsList.add(6,rs.getString(7)); //department
+							elementsList.add(4,rs.getString(5)); //account type
+							elementsList.add(5,rs.getString(6)); //account status
 							break;
 						}
 					}
+					if(!sqlResult)
+					{
+						rs = stmt.executeQuery(login.PrepareSelectStatement(2));
+						while(rs.next()){
+							if(rs.getString(4).equals(data.get(1).toString()))
+							{
+								System.out.println("login succssefully");
+								sqlResult=true;
+								if(rs.getString(6).toString().equals("Manager"))
+									action = 3;
+								else
+									action = 2;
+								
+								elementsList.add(0,rs.getString(1)); //username
+								elementsList.add(1,rs.getString(2)); //first name
+								elementsList.add(2,rs.getString(3)); //last name
+								elementsList.add(3,rs.getString(4)); //password
+								elementsList.add(4,rs.getString(5)); //email
+								elementsList.add(5,rs.getString(6)); //job
+								elementsList.add(6,rs.getString(7)); //department
+								break;
+							}
+						}
+					}
+					if (sqlResult == true)
+					{
+						replay = new Replay(ActionType.LOGIN,true,action,elementsList);
+						connectedList.add(login);
+					}
+					else {
+						replay = new Replay(ActionType.LOGIN,false,GeneralMessages.USER_LOGGED_IN_FAILED);
+						System.out.println(replay.getSucess());
+					}
 				}
-				if (sqlResult == true)
+				else
 				{
-					replay = new Replay(ActionType.LOGIN,true,action,elementsList);
-					connectedList.add(login);
-				}
-				else {
-					replay = new Replay(ActionType.LOGIN,false,GeneralMessages.USER_LOGGED_IN_FAILED);
+					replay = new Replay(ActionType.LOGIN,false,GeneralMessages.USER_ALREADY_LOGGED_IN);
 					System.out.println(replay.getSucess());
 				}
 			}
-			else
-			{
-				replay = new Replay(ActionType.LOGIN,false,GeneralMessages.USER_ALREADY_LOGGED_IN);
+			catch (SQLException e){
+				e.printStackTrace();
+				System.out.println("error");
+			}
+	/*		if (sqlResult == true)
+				{
+				replay = new Replay(ActionType.LOGIN,true,action);
+				}
+			else {
+				replay = new Replay(ActionType.LOGIN,false);
 				System.out.println(replay.getSucess());
-			}
+			}*/
+			writeToLog("Login attempt");
 		}
-		catch (SQLException e){
-			e.printStackTrace();
-			System.out.println("error");
-		}
-/*		if (sqlResult == true)
-			{
-			replay = new Replay(ActionType.LOGIN,true,action);
-			}
-		else {
-			replay = new Replay(ActionType.LOGIN,false);
-			System.out.println(replay.getSucess());
-		}*/
-		writeToLog("Login attempt");
-	}
-	
-		try {
-		client.sendToClient(replay);
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
+		return replay;
 	}
 
 
@@ -370,6 +375,7 @@ public class ServerController extends AbstractServer {
 			passField.clear();
 			connectButton.setText("Connect");
 		}
+	
 		
 	}
 	
