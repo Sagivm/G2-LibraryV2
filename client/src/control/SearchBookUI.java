@@ -29,16 +29,7 @@ public class SearchBookUI implements ScreensIF{
 	@FXML private Button backButton;
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
-	
-	final ToggleGroup group = new ToggleGroup();
-	
-	andRadioButton = new RadioButton("AND");
-	orRadioButton = new RadioButton("OR");
-	
-	andRadioButton.setToggleGroup(group);
-	orRadioButton.setToggleGroup(group);
-	andRadioButton.setSelected(true);
-	
+
 	
 	
 	
