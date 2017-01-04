@@ -109,9 +109,16 @@ public void actionToPerform(Replay replay) {
 				
 		        ScreenController screenController = new ScreenController();
 		        try {
-		        	actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_SUCESSFULLY);
-					screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
-					Stage primaryStage = screenController.getStage();
+		        	int action = replay.getAction();
+		        	System.out.println(action);
+	        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_SUCESSFULLY);
+		        	if(action==1)
+		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+		        	else if(action==2)
+		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);
+		        	else if(action==3)
+		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+		        	Stage primaryStage = screenController.getStage();
 					ScreenController.setStage(primaryStage);
 					Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 					primaryStage.show();

@@ -44,6 +44,15 @@ public class Login implements Serializable, StatementsIF {
 		
 		return "SELECT password FROM clients WHERE username="+Username;
 	}
+	
+
+	public String PrepareSelectStatement(int action) {
+		if(action==1)
+			return "SELECT password FROM clients WHERE username="+Username;
+		else
+			return "SELECT password,job FROM workers WHERE username="+Username;
+	}
+
 
 	public String getUsername() {
 		return Username;
