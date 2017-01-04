@@ -3,6 +3,8 @@ package control;
 import java.awt.Button;
 import java.awt.TextArea;
 
+import entity.Author;
+import entity.Language;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -18,8 +20,8 @@ import javafx.scene.control.ToggleGroup;
 public class SearchBookUI implements ScreensIF{
 
 	@FXML private TextField titleTextField;
-	@FXML private ChoiceBox authorChoiceBox;
-	@FXML private ComboBox languageComboBox;
+	@FXML private ChoiceBox<Author> authorChoiceBox;
+	@FXML private ComboBox<Language> languageComboBox;
 	@FXML private TextArea summaryTextArea;
 	@FXML private TextArea tocTextArea;
 	@FXML private ChoiceBox domainChoiceBox;
@@ -45,6 +47,19 @@ public class SearchBookUI implements ScreensIF{
 	}
 	
 	public void clearButtonPressed(ActionEvent event) {
+		titleTextField.clear();
+		authorChoiceBox.valueProperty().set(null);
+		languageComboBox.valueProperty().set(null);
+		summaryTextArea.setText(null);
+		
+	}
+	
+	public void removeOrRadioButton(ActionEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void removeAndRadioButton(ActionEvent event) {
 		// TODO Auto-generated method stub
 		
 	}

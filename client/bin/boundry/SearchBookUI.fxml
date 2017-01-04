@@ -29,7 +29,10 @@
       <Button fx:id="searchButton" layoutX="208.0" layoutY="664.0" mnemonicParsing="false" onAction="#searchButtonPressed" text="Search" />
       <Button fx:id="clearButton" layoutX="278.0" layoutY="664.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
       <Button fx:id="backButton" layoutX="337.0" layoutY="664.0" mnemonicParsing="false" onAction="#backButtonPressed" text="Back" />
-      <RadioButton fx:id="andRadioButton" layoutX="237.0" layoutY="621.0" mnemonicParsing="false" text="AND" />
-      <RadioButton fx:id="orRadioButton" layoutX="314.0" layoutY="621.0" mnemonicParsing="false" text="OR" />
+      <RadioButton fx:id="andRadioButton" layoutX="237.0" layoutY="621.0" mnemonicParsing="false" onAction="#removeOrRadioButton" selected="true" text="AND">
+         <toggleGroup>
+            <ToggleGroup fx:id="searchGroup" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="orRadioButton" layoutX="314.0" layoutY="621.0" mnemonicParsing="false" onAction="#removeAndRadioButton" text="OR" toggleGroup="$searchGroup" />
    </children>
 </AnchorPane>
