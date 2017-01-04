@@ -189,6 +189,7 @@ public class ServerController extends AbstractServer {
 	if (type == ActionType.LOGIN) {
 		try{
 			boolean isConnected = false;
+			ArrayList <String> elementsList = new ArrayList<String>();
 			for (int i=0;i<connectedList.size();i++)
 			{
 				if(connectedList.get(i).getUsername().equals(data.get(0).toString()))
@@ -204,11 +205,17 @@ public class ServerController extends AbstractServer {
 				ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
 				
 				while(rs.next()){
-					if(rs.getString(1).equals(data.get(1).toString()))
+					if(rs.getString(4).equals(data.get(1).toString()))
 					{
 						System.out.println("login succssefully");
 						sqlResult=true;
 						action = 1;
+						elementsList.add(0,rs.getString(1)); //username
+						elementsList.add(1,rs.getString(2)); //first name
+						elementsList.add(2,rs.getString(3)); //last name
+						elementsList.add(3,rs.getString(4)); //password
+						elementsList.add(4,rs.getString(5)); //account type
+						elementsList.add(5,rs.getString(6)); //account status
 						break;
 					}
 				}
@@ -216,21 +223,29 @@ public class ServerController extends AbstractServer {
 				{
 					rs = stmt.executeQuery(login.PrepareSelectStatement(2));
 					while(rs.next()){
-						if(rs.getString(1).equals(data.get(1).toString()))
+						if(rs.getString(4).equals(data.get(1).toString()))
 						{
 							System.out.println("login succssefully");
 							sqlResult=true;
-							if(rs.getString(2).toString().equals("Manager"))
+							if(rs.getString(6).toString().equals("Manager"))
 								action = 3;
 							else
 								action = 2;
+							
+							elementsList.add(0,rs.getString(1)); //username
+							elementsList.add(1,rs.getString(2)); //first name
+							elementsList.add(2,rs.getString(3)); //last name
+							elementsList.add(3,rs.getString(4)); //password
+							elementsList.add(4,rs.getString(5)); //email
+							elementsList.add(5,rs.getString(6)); //job
+							elementsList.add(6,rs.getString(7)); //department
 							break;
 						}
 					}
 				}
 				if (sqlResult == true)
 				{
-					replay = new Replay(ActionType.LOGIN,true,action);
+					replay = new Replay(ActionType.LOGIN,true,action,elementsList);
 					connectedList.add(login);
 				}
 				else {

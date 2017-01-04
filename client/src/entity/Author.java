@@ -23,7 +23,7 @@ public class Author extends Person{
 	 * @param id - Gets id.
 	 * @param authorsIdCounter - adds 1 to authorsIdCounter.
 	 */
-	public Author(String firstname, String lastname, long id) {
+	public Author(String firstname, String lastname, String id) {
 		super(firstname, lastname, id);
 		authorsIdCounter++;
 	}

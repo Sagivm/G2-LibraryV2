@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import enums.ActionType;
 
@@ -37,6 +38,11 @@ private int action;
  */
 private String GnrlMsg;
 
+/**
+ * Array list of elements to return to the Client.
+ */
+private ArrayList<String> elementsList;
+
 
 /** Replay constructor that initialize the attributes.
  * @param type - Gets the type of action.
@@ -52,12 +58,14 @@ public Replay(ActionType type, boolean sucess)
  * @param type - Gets the type of action.
  * @param sucess - Gets the kind of response from SQL.
  * @param action - Gets a sub-action to do.
+ * @param elementsList - Gets the elements list that will be decrypt in the client.
  */
-public Replay(ActionType type, boolean sucess,int action)
+public Replay(ActionType type, boolean sucess,int action,ArrayList<String> elementsList)
 {
 	setType(type);
 	setSucess(sucess);
 	setAction(action);
+	setElementsList(elementsList);
 }
 
 /** Replay constructor that initialize the attributes.
@@ -108,6 +116,13 @@ public String getGnrlMsg() {
 	return GnrlMsg;
 }
 
+/** Getter for elements list.
+ * @return - Gets the elements list.
+ */
+public ArrayList<String> getElementsList() {
+	return elementsList;
+}
+
 /** Setter for sucess.
  * @param sucess - Set the value into sucess.
  */
@@ -127,6 +142,13 @@ public void setAction(int action) {
  */
 public void setGnrlMsg(String msg) {
 	this.GnrlMsg = msg;
+}
+
+/** Setter for elements list.
+ * @param elementsList - Set the elementsList.
+ */
+public void setElementsList(ArrayList<String> elementsList) {
+	this.elementsList = elementsList;
 }
 	
 }
