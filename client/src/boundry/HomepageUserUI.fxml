@@ -17,20 +17,20 @@
         <Image url="@../img/home_user.png" />
       </image>
     </ImageView>
-    <Button fx:id="searcBookButton" layoutX="0.0" layoutY="192.0" mnemonicParsing="false" onAction="#searchBookButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Search Book">
+    <Button id="searcBookButton" layoutX="0.0" layoutY="192.0" mnemonicParsing="false" onAction="#searchBookButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Search Book">
       <font>
         <Font name="System Bold" size="16.0" fx:id="x1" />
       </font>
     </Button>
-    <Button fx:id="myBooksButton" font="$x1" layoutX="0.0" layoutY="234.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="My Books" />
+    <Button id="myBooksButton" font="$x1" layoutX="0.0" layoutY="234.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="My Books" />
     <Button font="$x1" layoutX="1.0" layoutY="276.0" mnemonicParsing="false" onAction="#settingsButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Set Account Type" />
-    <Button fx:id="payButton" font="$x1" layoutX="1.0" layoutY="319.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Pay for Subscription" />
-    <Button fx:id="userMsgsButton" font="$x1" layoutX="1.0" layoutY="361.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Messages" />
-    <Button fx:id="logoutButton" font="$x1" layoutX="1.0" layoutY="527.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Logout" />
+    <Button id="payButton" font="$x1" layoutX="1.0" layoutY="319.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Pay for Subscription" />
+    <Button id="userMsgsButton" font="$x1" layoutX="1.0" layoutY="361.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Messages" />
+    <Button id="logoutButton" font="$x1" layoutX="1.0" layoutY="527.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Logout" />
     <Line endX="-102.0" endY="349.0" layoutX="341.0" layoutY="306.0" startX="-108.0" startY="-307.0" stroke="#9f9f9f" strokeLineJoin="MITER" />
     <Button fx:id="exitButton" font="$x1" layoutX="2.0" layoutY="611.0" mnemonicParsing="false" onAction="#pressedCloseMenu" prefHeight="42.0" prefWidth="235.0" text="Exit" />
     <AnchorPane fx:id="content" layoutX="236.0" layoutY="38.0" prefHeight="617.7070922851562" prefWidth="889.0" />
-    <Button fx:id="backButton" font="$x1" layoutX="2.0" layoutY="569.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="&lt; Back" />
+    <Button id="backButton" font="$x1" layoutX="2.0" layoutY="569.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="&lt; Back" />
     <Label fx:id="usernameLabel" layoutX="11.0" layoutY="156.0" prefHeight="36.0" prefWidth="212.0" text="">
       <font>
         <Font name="System Bold" size="15.0" />

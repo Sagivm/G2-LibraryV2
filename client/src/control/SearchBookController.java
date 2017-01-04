@@ -42,7 +42,7 @@ public class SearchBookController implements ScreensIF{
 	@FXML
 	public void searchButtonPressed(ActionEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	
 	
@@ -68,8 +68,8 @@ public class SearchBookController implements ScreensIF{
 	@Override
 	public void pressedCloseMenu(ActionEvent event) {
 		// TODO Auto-generated method stub
-		Platform.exit();
-		System.exit(0);
+	/*	Platform.exit();
+		System.exit(0);*/
 	}
 
 	
