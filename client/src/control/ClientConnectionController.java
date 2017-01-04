@@ -115,7 +115,7 @@ public void actionToPerform(Replay replay) {
 		        	//System.out.println(action);
 	        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_SUCESSFULLY);
 		        	if(action==1)
-		        	{
+		        	{//
 		        		User user = new User(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString());
 		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
 						HomepageUserController userPage = new HomepageUserController();
