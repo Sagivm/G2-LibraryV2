@@ -118,6 +118,7 @@ public void actionToPerform(Replay replay) {
 		        	{
 		        		User user = new User(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString());
 		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+		        		
 		        	}
 		        	else if(action==2)
 		        	{
@@ -135,8 +136,6 @@ public void actionToPerform(Replay replay) {
 					primaryStage.show();
 					primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
 					primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
-					//System.out.println();
-		        
 		        } catch (Exception e) {
 					// COMPELETE
 					e.printStackTrace();

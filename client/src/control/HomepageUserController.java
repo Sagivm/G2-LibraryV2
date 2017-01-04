@@ -1,18 +1,21 @@
 package control;
 
 import java.io.IOException;
+//import java.net.URL;
+//import java.util.ResourceBundle;
 
 import entity.ScreensInfo;
 import enums.ActionType;
 import interfaces.ScreensIF;
-import javafx.animation.ScaleTransitionBuilder;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,11 +32,16 @@ public class HomepageUserController implements ScreensIF {
 	/**
 	 * the main content frame
 	 */
-	@FXML
-	private AnchorPane content;
+	@FXML private AnchorPane content;
+	@FXML private Label userFullName;
 	private entity.User user;
+<<<<<<< HEAD
 	@FXML
 	private ComboBox<String> settingList;
+=======
+	@FXML private ComboBox settingList;
+	
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 
 	/*
 	 * (non-Javadoc)
@@ -65,7 +73,11 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@Override
 	public void actionOnError(ActionType type, String errorCode) {
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Error");
 		alert.setHeaderText(null);
@@ -116,6 +128,7 @@ public class HomepageUserController implements ScreensIF {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Initialize account type list with available account types for the user
@@ -128,6 +141,39 @@ public class HomepageUserController implements ScreensIF {
 			// Do Nothing
 		} else {
 			settingList.getItems().addAll("Per book sub.", "Monthly sub.", "Yearly sub.");
+=======
+	
+/*	@FXML
+	public void setUsernameLabel(String fullName){
+			System.out.println(fullName);
+			System.out.println(userFullName.getText());
+			
+			//userFullName.setText(fullName);
+			
+	}*/
+	
+/*	@Override
+	 (non-Javadoc)
+	 * @see interfaces.ScreensIF#initialize(java.net.URL, java.util.ResourceBundle)
+	 
+    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+        //assert myButton != null : "fx:id=\"myButton\" was not injected: check your FXML file 'simple.fxml'.";
+    	System.out.println("eee");
+    	setUsernameLabel("dsa sd");
+        // initialize your logic here: all @FXML variables will have been injected
+
+    }*/
+	
+	public void initializeSettingList(ActionType type)
+	{
+		if(user.getAccountType()!=entity.AccountType.Intrested)
+		{
+			//Do Nothing
+		}
+		else
+		{
+			settingList.getItems().addAll("Per book sub.","Monthly sub.","Yearly sub.");
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 		}
 		settingList.setPromptText("Select sub.");
 	}

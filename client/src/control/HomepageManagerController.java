@@ -1,5 +1,6 @@
 package control;
 
+
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -33,4 +34,5 @@ public class HomepageManagerController implements ScreensIF {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }
