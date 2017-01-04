@@ -6,6 +6,7 @@ import entity.GeneralMessages;
 import entity.Replay;
 import entity.ScreensInfo;
 import entity.User;
+import entity.Worker;
 import enums.ActionType;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
@@ -119,9 +120,15 @@ public void actionToPerform(Replay replay) {
 		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
 		        	}
 		        	else if(action==2)
+		        	{
+		        		Worker worker = new Worker(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString(),replay.getElementsList().get(6).toString());
 		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);
+		        	}
 		        	else if(action==3)
+		        	{
+		        		Worker worker = new Worker(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString(),replay.getElementsList().get(6).toString());
 		        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+		        	}
 		        	Stage primaryStage = screenController.getStage();
 					ScreenController.setStage(primaryStage);
 					Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
