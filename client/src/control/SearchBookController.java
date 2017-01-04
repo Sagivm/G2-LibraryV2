@@ -4,7 +4,9 @@ import java.awt.Button;
 import java.awt.TextArea;
 
 import entity.Author;
+import entity.Domain;
 import entity.Language;
+import entity.ScreensInfo;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -17,51 +19,42 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
-public class SearchBookUI implements ScreensIF{
+
+public class SearchBookController implements ScreensIF{
 
 	@FXML private TextField titleTextField;
 	@FXML private ChoiceBox<Author> authorChoiceBox;
 	@FXML private ComboBox<Language> languageComboBox;
 	@FXML private TextArea summaryTextArea;
 	@FXML private TextArea tocTextArea;
-	@FXML private ChoiceBox domainChoiceBox;
+	@FXML private ChoiceBox<Domain> domainChoiceBox;
 	@FXML private TextArea keywTextArea;
 	@FXML private Button searchButton;
 	@FXML private Button clearButton;
-	@FXML private Button backButton;
+	//@FXML private Button backButton;
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
 
 	
-	
-	
-	@Override
-	public void backButtonPressed(ActionEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void searchButtonPressed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	
+	/** When clear button pressed the function clears the fields.
+	 * @param event
+	 */
+	@FXML
 	public void clearButtonPressed(ActionEvent event) {
 		titleTextField.clear();
 		authorChoiceBox.valueProperty().set(null);
 		languageComboBox.valueProperty().set(null);
 		summaryTextArea.setText(null);
-		
-	}
-	
-	public void removeOrRadioButton(ActionEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void removeAndRadioButton(ActionEvent event) {
-		// TODO Auto-generated method stub
-		
+		tocTextArea.setText(null);
+		domainChoiceBox.valueProperty().set(null);
+		keywTextArea.setText(null);
 	}
 
 	@Override
@@ -75,6 +68,9 @@ public class SearchBookUI implements ScreensIF{
 	public void actionOnError(ActionType type, String errorCode) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void backButtonPressed(ActionEvent event){
 	}
 
 }
