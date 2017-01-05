@@ -11,36 +11,37 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * SetAccountTypeController is the controller that responsible to send the Account Type request
- * of the user to the DB.
+ * SetAccountTypeController is the controller that responsible to send the
+ * Account Type request of the user to the DB.
+ * 
  * @author sagivm
  */
 public class SetAccountTypeController {
-	
-	
+
 	/**
 	 * List of Account Types
 	 */
-	@FXML private ComboBox settingList;
-	
+	@FXML
+	private ComboBox settingList;
+
 	private entity.User user;
-	
+
 	/**
 	 * Initialize account type list with available account types for the user
 	 * 
 	 * @param type
 	 */
 	@FXML
-	//public void initializeSettingList(ActionType type) {
+	// public void initializeSettingList(ActionType type) {
 	public void initializeSettingList() {
-		if (user.getAccountType() != entity.AccountType.Intrested) {
+		settingList.setPromptText("Select sub.");
+		if (HomepageUserController.getConnectedUser().getAccountType() != entity.AccountType.Intrested) {
 			// Do Nothing
-		} else {
+		} else
 			settingList.getItems().addAll("Per book sub.", "Monthly sub.", "Yearly sub.");
-			settingList.setPromptText("Select sub.");
-		}
+		settingList.setPromptText("Select sub.");
 	}
-	
+
 	/**
 	 * Update's User information to pending and send a notification to librarian
 	 * 
@@ -50,31 +51,34 @@ public class SetAccountTypeController {
 	@FXML
 	public void submitSettingButtonPressed(ActionEvent event) {
 		boolean valid = true;
-		switch ((String) settingList.getValue()) {
-		case "Per book sub": {
-			user.setAccountStatus("PendingPerBook");
-			break;
+		String choice = (String) settingList.getSelectionModel().getSelectedItem();
+		System.out.println(choice);
+		if ((String) settingList.getSelectionModel().getSelectedItem() != null) {
+			switch ((String) settingList.getValue()) {
+			case "Per book sub.": {
+				HomepageUserController.getConnectedUser().setAccountStatus("PendingPerBook");
+				break;
+			}
+			case "Monthly sub.": {
+				HomepageUserController.getConnectedUser().setAccountStatus("PendingMonthly");
+				break;
+			}
+			case "Yearly sub.": {
+				HomepageUserController.getConnectedUser().setAccountStatus("PendingYearly");
+				break;
+			}
+			}
+			//
+			//
+			actionToDisplay(ActionType.CONTINUE,"Subscription details were sent to librarian for his approval");
 		}
-		case "Monthly sub": {
-			user.setAccountStatus("PendingMonthly");
-			break;
-		}
-		case "Yearly sub": {
-			user.setAccountStatus("PendingYearly");
-			break;
-		}
-		case "": {
-			actionToDisplay(ActionType.CONTINUE, "Please select a valid subscription");
-			valid = false;
-			break;
-		}
-		}
-		if(valid==true)
+		else
 		{
-			
+			actionToDisplay(ActionType.CONTINUE,"Subscription must be selected");
 		}
+		
 	}
-	
+
 	/**
 	 * This function choose what to display the user.
 	 * 

@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"  fx:controller="control.SetAccountTypeController">
+<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SetAccountTypeController">
    <children>
       <Label layoutX="115.0" layoutY="169.0" text="Select desired account type">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <ComboBox fx:id="settingList" layoutX="273.0" layoutY="199.0" onShown="#initializeSettingList" prefWidth="150.0" />
+      <ComboBox fx:id="settingList" layoutX="273.0" layoutY="199.0" onAction="#initializeSettingList" onShown="#initializeSettingList" prefWidth="150.0" />
       <Button layoutX="322.0" layoutY="253.0" mnemonicParsing="false" onAction="#submitSettingButtonPressed" text="Button" />
    </children>
 </AnchorPane>
