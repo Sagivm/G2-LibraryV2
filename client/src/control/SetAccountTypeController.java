@@ -73,16 +73,25 @@ public class SetAccountTypeController {
 			}
 			}
 			//
+			Message message=new Message();
+			ArrayList <String> elementsList = new ArrayList<String>();
+			try {
+				ClientController.clientConnectionController.sendToServer(message);
+				actionToDisplay("Info",ActionType.CONTINUE,GeneralMessages.PENDING_FOR_LIBRARIAN);
+			} catch (IOException e) {
+						
+				actionToDisplay("Error",ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+			}
 			//
-			actionToDisplay(ActionType.CONTINUE,GeneralMessages.PENDING_FOR_LIBRARIAN);
+			
 		}
 		else 
 		{
-			actionToDisplay( ActionType.CONTINUE,"Subscription must be selected");
+			actionToDisplay("Info", ActionType.CONTINUE,"Subscription must be selected");
 		}
 		
 	}
-	public Message prepareRegistration(ActionType type, Register register)
+	public Message prepare(ActionType type, Register register)
 	{
 		Message message = new Message();
 		message.setType(type);
@@ -97,24 +106,25 @@ public class SetAccountTypeController {
 
 	/**
 	 * This function choose what to display the user.
-	 * 
 	 * @param type
+	 *            - Defines if alert or info.
+	 * @param actiontype
 	 *            - Gets the type of action after display.
 	 * @param message
 	 *            - Gets the message to display in popup.
 	 */
-	public void actionToDisplay(ActionType type, String message) {
+	public void actionToDisplay(String type,ActionType actiontype, String message) {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Info");
+		alert.setTitle(type);
 		alert.setHeaderText(null);
 		alert.setContentText(message);
 		alert.showAndWait();
-		if (type == ActionType.TERMINATE) {
+		if (actiontype == ActionType.TERMINATE) {
 			Platform.exit();
 			System.exit(1);
 		}
-		if (type == ActionType.CONTINUE)
+		if (actiontype == ActionType.CONTINUE)
 			return;
 	}
 
