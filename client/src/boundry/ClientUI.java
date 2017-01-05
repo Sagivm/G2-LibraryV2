@@ -62,7 +62,7 @@ public class ClientUI extends Application {
 	    {
 	    	HomepageUserController userPage = new HomepageUserController();
 			//LogoutController logoutCtrl = new LogoutController();
-			//logoutCtrl.logout();ωγγγ
+			//logoutCtrl.logout();
 	    	userPage.logout();
 	    }
 	// Save file
