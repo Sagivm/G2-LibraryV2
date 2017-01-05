@@ -30,7 +30,7 @@ import javafx.stage.Stage;
  * HomepageController is the controller after user logged in. this the main menu
  * of the user, here he manages the actions in system.
  * 
- * @author nire
+ * @author ork
  */
 public class HomepageUserController implements ScreensIF {
 
@@ -68,7 +68,10 @@ public class HomepageUserController implements ScreensIF {
 	public void pressedCloseMenu(ActionEvent event) throws IOException{
 		try{
 			ClientController clientCtrl = new ClientController();
-			clientCtrl.logout(connectedUser.getId(),connectedUser.getPassword());
+			//clientCtrl.logout(connectedUser.getId(),connectedUser.getPassword());
+			//LogoutController logoutCtrl = new LogoutController();
+			//logoutCtrl.logout();
+			logout();
 			Platform.exit();
 			System.exit(0);
 		}
@@ -103,8 +106,7 @@ public class HomepageUserController implements ScreensIF {
 	 * Handler when pressed "search book". this function open the search book
 	 * form.
 	 * 
-	 * @param event
-	 *            - gets the ActionEvent when the function called.
+	 * @param event - gets the ActionEvent when the function called.
 	 * @throws IOException
 	 */
 	@FXML
@@ -152,8 +154,6 @@ public class HomepageUserController implements ScreensIF {
 		}
 	}
 
-	
-	
 	/** Handler when pressed "Logout". this function log out the current user.
 	 * @param event - gets the ActionEvent when the function called.
 	 * @throws IOException
@@ -161,13 +161,49 @@ public class HomepageUserController implements ScreensIF {
 	@FXML
 	public void logoutButtonPressed(ActionEvent event) throws IOException{    
 		try{
-			ClientController clientCtrl = new ClientController();
-			clientCtrl.logout(connectedUser.getId(),connectedUser.getPassword());
+			//LogoutController logoutCtrl = new LogoutController();
+			//logoutCtrl.logout();
+			logout();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	/** This function log out the current user from the server.
+	 * @throws IOException
+	 */
+	public void logout() throws IOException
+	{
+		try{
+			ClientController clientCtrl = new ClientController();
+			if (clientCtrl.clientConnectionController == null)
+				clientCtrl.clientConnectionController = new ClientConnectionController(clientCtrl.IP_ADDRESS,clientCtrl.DEFAULT_PORT);
+			Login login = new Login(connectedUser.getId(),connectedUser.getPassword());
+			Message message = prepareLogout(ActionType.LOGOUT,login);
+			clientCtrl.clientConnectionController.sendToServer(message);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/** Send log out message to the server.
+	 * @param type
+	 * @param login
+	 * @return
+	 */
+	public Message prepareLogout(ActionType type, Login login)
+	{
+		Message message = new Message();
+		message.setType(type);
+		ArrayList <String> elementsList = new ArrayList<String>();
+		elementsList.add(0,login.getUsername());
+		elementsList.add(1,login.getPassword());
+		message.setElementsList(elementsList);
+		return message;
+	}
+	
 	
 /*	@FXML
 	public void setUsernameLabel(String fullName){
@@ -234,7 +270,7 @@ public class HomepageUserController implements ScreensIF {
 	}
 	
 	/**Setter of the connected user.
-	 * @param connectedUser - Set the conneced user.
+	 * @param connectedUser - Set the connected user.
 	 */
 	public void setConnectedUser(User connectedUser)
 	{

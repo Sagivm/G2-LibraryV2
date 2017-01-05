@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 
+import boundry.ClientUI;
 import entity.GeneralMessages;
 import entity.Replay;
 import entity.ScreensInfo;
@@ -26,6 +27,10 @@ import ocsf.client.AbstractClient;
 public class ClientConnectionController extends AbstractClient
 {
 
+	/**
+	 * The main
+	 */
+	private static ClientUI clientMain=null;
 
 	/** ClientConnectionController constructor initialize the hostname, and then the port
 	 * for establish connection to server. it also open new connection physically for it.
@@ -132,6 +137,9 @@ public class ClientConnectionController extends AbstractClient
 			        		Worker worker = new Worker(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(), replay.getElementsList().get(3).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString(),replay.getElementsList().get(6).toString());
 			        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
 			        	}
+			    		if (clientMain == null)
+			    			clientMain = new ClientUI();
+			        	clientMain.setIsConnected(true);
 			        	centerWindow(screenController);
 			        } catch (Exception e) {
 						// COMPELETE
@@ -173,6 +181,9 @@ public class ClientConnectionController extends AbstractClient
 				        		//actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_SUCESSFULLY);
 				        		screenController.replaceSceneContent(ScreensInfo.CLIENT_SCREEN,ScreensInfo.CLIENT_TITLE);
 				        		centerWindow(screenController);
+					    		if (clientMain == null)
+					    			clientMain = new ClientUI();
+					        	clientMain.setIsConnected(false);
 					        } catch (Exception e) {
 								e.printStackTrace();
 								}
