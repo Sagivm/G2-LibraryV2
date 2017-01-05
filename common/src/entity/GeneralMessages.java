@@ -63,9 +63,9 @@ public class GeneralMessages {
 	
 	
 	/**
-	 * The registration complete.
+	 * The action completed and sent to librarian's approval.
 	 */
-	public static final String PENDING_FOR_LIBRARIAN = "Registration complete."
+	public static final String PENDING_FOR_LIBRARIAN = "Action complete."
 			+ " waiting for librarian confirmation";
 	
 	
@@ -101,5 +101,4 @@ public class GeneralMessages {
 	
 
 	public static final String USER_ALREADY_LOGGED_IN = "You are already connected to the system!";
-
 }

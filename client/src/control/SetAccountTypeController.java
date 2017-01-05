@@ -1,7 +1,11 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import entity.GeneralMessages;
+import entity.Message;
+import entity.Register;
 import enums.ActionType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -70,13 +74,25 @@ public class SetAccountTypeController {
 			}
 			//
 			//
-			actionToDisplay(ActionType.CONTINUE,"Subscription details were sent to librarian for his approval");
+			actionToDisplay(ActionType.CONTINUE,GeneralMessages.PENDING_FOR_LIBRARIAN);
 		}
 		else 
 		{
 			actionToDisplay( ActionType.CONTINUE,"Subscription must be selected");
 		}
 		
+	}
+	public Message prepareRegistration(ActionType type, Register register)
+	{
+		Message message = new Message();
+		message.setType(type);
+		ArrayList <String> elementsList = new ArrayList<String>();
+		elementsList.add(0,register.getUsername());
+		elementsList.add(1,register.getPassword());
+		elementsList.add(2,register.getFirstName());
+		elementsList.add(3,register.getLastName());
+		message.setElementsList(elementsList);
+		return message;
 	}
 
 	/**
