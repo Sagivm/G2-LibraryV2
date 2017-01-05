@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"  fx:controller="control.SetAccountTypeController">
    <children>
       <Label layoutX="115.0" layoutY="169.0" text="Select desired account type">
          <font>

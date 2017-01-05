@@ -47,14 +47,14 @@ public class SearchBookController implements ScreensIF{
 	/** When search button is pressed a search is made.
 	 * @param event
 	 */
-	@FXML
+	/*@FXML
 	public void searchButtonPressed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		int i;
 		String title=titleTextField.getText();
 		
 		
-		/* 
+		 
 		change to search
 		ArrayList<String> authors=authorListView.getItems();
 		for(i=0;i<authorChoiceBox.getValue();i++)
@@ -106,14 +106,14 @@ public class SearchBookController implements ScreensIF{
 					
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
-		*/
-	}
+		
+	}*/
 	
 	
 	/** When clear button is pressed the function clears all fields.
 	 * @param event
 	 */
-	@FXML
+/*	@FXML
 	public void clearButtonPressed(ActionEvent event) {
 		titleTextField.clear();
 		authorListView.getItems().clear();
@@ -122,7 +122,7 @@ public class SearchBookController implements ScreensIF{
 		tocTextArea.setText(null);
 		domainListView.getItems().clear();
 		keywTextArea.setText(null);
-	}
+	}*/
 	
 	
 	/**

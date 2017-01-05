@@ -9,8 +9,7 @@ import entity.User;
 import enums.ActionType;
 
 /**
- * HomepageController is the controller after user logged in. this the main menu
- * of the user, here he manages the actions in system.
+ * LogoutController is the controller that responsible to log out the user.
  * 
  * @author ork
  */

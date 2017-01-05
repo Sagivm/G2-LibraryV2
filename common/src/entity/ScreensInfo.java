@@ -5,22 +5,6 @@ package entity;
  * @author nire
  *
  */
-/**
- * @author аеш
- *
- */
-/**
- * @author аеш
- *
- */
-/**
- * @author аеш
- *
- */
-/**
- * @author аеш
- *
- */
 public class ScreensInfo {
 	
 	/**
@@ -114,5 +98,15 @@ public class ScreensInfo {
 	 * SetSearch Book title.
 	 */
 	public static final String SEARCH_BOOK_TITLE = "Search Book";
+	
+	/**
+	 * Set Pending Registration list path.
+	 */
+	public static final String HOMEPAGE_PENDING_REGISTRATION_SCREEN = "/boundry/PendingRegistrationUI.fxml";
+	
+	/**
+	 * Set Pending Registration list title.
+	 */
+	public static final String PENDING_REGISTRATION_TITLE = "Pending Registration list";
 	
 }

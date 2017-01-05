@@ -40,7 +40,6 @@ public class HomepageUserController implements ScreensIF {
 	@FXML private AnchorPane content;
 	@FXML private Label userFullName;
 	private entity.User user;
-	@FXML private ComboBox settingList;
 	
 	/**
 	 * save the connected user
@@ -139,21 +138,6 @@ public class HomepageUserController implements ScreensIF {
 		}
 	}
 
-	/**
-	 * Initialize account type list with available account types for the user
-	 * 
-	 * @param type
-	 */
-	@FXML
-	public void initializeSettingList(ActionType type) {
-		if (user.getAccountType() != entity.AccountType.Intrested) {
-			// Do Nothing
-		} else {
-			settingList.getItems().addAll("Per book sub.", "Monthly sub.", "Yearly sub.");
-			settingList.setPromptText("Select sub.");
-		}
-	}
-
 	/** Handler when pressed "Logout". this function log out the current user.
 	 * @param event - gets the ActionEvent when the function called.
 	 * @throws IOException
@@ -226,40 +210,6 @@ public class HomepageUserController implements ScreensIF {
 
     }*/
 	//
-	/**
-	 * Update's User information to pending and send a notification to librarian
-	 * 
-	 * @param event
-	 * @throws IOException
-	 */
-	@FXML
-	public void submitSettingButtonPressed(ActionEvent event) {
-		boolean valid = true;
-		switch ((String) settingList.getValue()) {
-		case "Per book sub": {
-			user.setAccountStatus("PendingPerBook");
-			break;
-		}
-		case "Monthly sub": {
-			user.setAccountStatus("PendingMonthly");
-			break;
-		}
-		case "Yearly sub": {
-			user.setAccountStatus("PendingYearly");
-			break;
-		}
-		case "": {
-			actionToDisplay(ActionType.CONTINUE, "Please select a valid subscription");
-			valid = false;
-			break;
-		}
-		}
-		if(valid==true)
-		{
-			
-		}
-
-	}
 	
 	/**
 	 * @return the connected user.
