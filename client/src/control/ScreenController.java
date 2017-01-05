@@ -1,5 +1,8 @@
 package control;
 
+import entity.Login;
+import entity.Message;
+import enums.ActionType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

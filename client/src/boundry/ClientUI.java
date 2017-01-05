@@ -2,6 +2,8 @@ package boundry;
 
 import java.io.IOException;
 
+import control.HomepageLibrarianController;
+import control.HomepageManagerController;
 import control.HomepageUserController;
 import control.LogoutController;
 import control.ScreenController;
@@ -22,6 +24,7 @@ import javafx.stage.Stage;
 public class ClientUI extends Application {
 
 	private static boolean isConnected = false;
+	private static String job;
 	
 	
 	/** main function executes the client by calling the method launch (method of Application)
@@ -60,10 +63,18 @@ public class ClientUI extends Application {
 	    System.out.println("Stage is closing");
 	    if (isConnected)
 	    {
+	    	if(this.job.equals("User")){
 	    	HomepageUserController userPage = new HomepageUserController();
-			//LogoutController logoutCtrl = new LogoutController();
-			//logoutCtrl.logout();
 	    	userPage.logout();
+	    	}
+	    	if(this.job.equals("Librarian")){
+	    	HomepageLibrarianController librarianPage = new HomepageLibrarianController();
+	    	librarianPage.logout();
+	    	}
+	    	if(this.job.equals("Manager")){
+		    	HomepageManagerController managerPage = new HomepageManagerController();
+		    	managerPage.logout();
+		    	}
 	    }
 	// Save file
 	}
@@ -82,5 +93,18 @@ public class ClientUI extends Application {
 	public boolean getIsConnected()
 	{
 		return isConnected;
+	}
+	
+	public void setJob(String job)
+	{
+		this.job = job;
+	}
+	
+	/** Getter for isConnected.
+	 * @return
+	 */
+	public String getJob()
+	{
+		return job;
 	}
 }

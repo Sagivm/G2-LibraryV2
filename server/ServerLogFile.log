@@ -1,27 +1,13 @@
-<<<<<<< HEAD
-ιπε 05, 2017 7:26:15 PM control.ServerController writeToLog
-=======
-ιπε 05, 2017 6:46:27 PM control.ServerController writeToLog
->>>>>>> refs/remotes/origin/master
+ιπε 05, 2017 9:53:45 PM control.ServerController writeToLog
 INFO: Connected to database
-<<<<<<< HEAD
-ιπε 05, 2017 7:26:15 PM control.ServerController writeToLog
-=======
-ιπε 05, 2017 6:46:27 PM control.ServerController writeToLog
->>>>>>> refs/remotes/origin/master
+ιπε 05, 2017 9:53:45 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-<<<<<<< HEAD
-ιπε 05, 2017 7:26:37 PM control.ServerController writeToLog
+ιπε 05, 2017 9:55:03 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 05, 2017 7:27:49 PM control.ServerController writeToLog
+ιπε 05, 2017 9:55:14 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 05, 2017 7:31:47 PM control.ServerController writeToLog
-=======
-ιπε 05, 2017 6:46:40 PM control.ServerController writeToLog
+ιπε 05, 2017 9:55:22 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 05, 2017 6:47:10 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 05, 2017 6:48:35 PM control.ServerController writeToLog
->>>>>>> refs/remotes/origin/master
+ιπε 05, 2017 9:55:33 PM control.ServerController writeToLog
 INFO: Login attempt

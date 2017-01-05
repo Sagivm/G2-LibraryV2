@@ -39,7 +39,8 @@ public class SetAccountTypeController {
 	// public void initializeSettingList(ActionType type) {
 	public void initializeSettingList() {
 		settingList.setPromptText("Select sub.");
-		if (HomepageUserController.getConnectedUser().getAccountType() != entity.AccountType.Intrested) {
+		HomepageUserController userPage = new HomepageUserController();
+		if (userPage.getConnectedUser().getAccountType() != entity.AccountType.Intrested) {
 			// Do Nothing
 		} else
 			settingList.getItems().addAll("Per book sub.", "Monthly sub.", "Yearly sub.");
@@ -58,17 +59,18 @@ public class SetAccountTypeController {
 		String choice = (String) settingList.getSelectionModel().getSelectedItem();
 		System.out.println(choice);
 		if ((String) settingList.getSelectionModel().getSelectedItem() != null) {
+			HomepageUserController userPage = new HomepageUserController();
 			switch ((String) settingList.getValue()) {
 			case "Per book sub.": {
-				HomepageUserController.getConnectedUser().setAccountStatus("PendingPerBook");
+				userPage.getConnectedUser().setAccountStatus("PendingPerBook");
 				break;
 			}
 			case "Monthly sub.": {
-				HomepageUserController.getConnectedUser().setAccountStatus("PendingMonthly");
+				userPage.getConnectedUser().setAccountStatus("PendingMonthly");
 				break;
 			}
 			case "Yearly sub.": {
-				HomepageUserController.getConnectedUser().setAccountStatus("PendingYearly");
+				userPage.getConnectedUser().setAccountStatus("PendingYearly");
 				break;
 			}
 			}
