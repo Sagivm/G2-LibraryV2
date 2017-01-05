@@ -24,8 +24,8 @@
     <Label layoutX="167.0" layoutY="431.0" text="Domain:" />
     <Label layoutX="168.0" layoutY="495.0" text="Key words:" />
     <TextArea fx:id="keywTextArea" layoutX="271.0" layoutY="495.0" prefHeight="60.0" prefWidth="170.0" />
-    <Button fx:id="searchButton" layoutX="585.0" layoutY="261.0" mnemonicParsing="false" text="Search" />
-    <Button fx:id="clearButton" layoutX="655.0" layoutY="261.0" mnemonicParsing="false" text="Clear" />
+    <Button fx:id="searchButton" layoutX="585.0" layoutY="261.0" mnemonicParsing="false" onAction="#searchButtonPressed" text="Search" />
+    <Button fx:id="clearButton" layoutX="655.0" layoutY="261.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
     <RadioButton fx:id="andRadioButton" layoutX="583.0" layoutY="197.0" mnemonicParsing="false" selected="true" text="AND">
       <toggleGroup>
         <ToggleGroup fx:id="searchGroup" />

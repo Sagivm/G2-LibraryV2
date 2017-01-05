@@ -1,7 +1,5 @@
 package control;
 
-import java.awt.Button;
-import java.awt.TextArea;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,11 +17,13 @@ import interfaces.ScreensIF;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
@@ -37,9 +37,8 @@ public class SearchBookController implements ScreensIF{
 	@FXML private TextArea tocTextArea;
 	@FXML private ListView<Domain> domainListView;
 	@FXML private TextArea keywTextArea;
-	@FXML private Button searchButton;
+	//@FXML private Button searchButton;
 	@FXML private Button clearButton;
-	//@FXML private Button backButton;
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
 
@@ -47,15 +46,14 @@ public class SearchBookController implements ScreensIF{
 	/** When search button is pressed a search is made.
 	 * @param event
 	 */
-	/*@FXML
-	public void searchButtonPressed(ActionEvent event) {
+	@FXML
+	public void searchButtonPressed(ActionEvent event) throws IOException {
 		// TODO Auto-generated method stub
 		int i;
 		String title=titleTextField.getText();
 		
-		
-		 
-		change to search
+
+	/*	change to search
 		ArrayList<String> authors=authorListView.getItems();
 		for(i=0;i<authorChoiceBox.getValue();i++)
 		=authorChoiceBox.getItems();
@@ -64,9 +62,7 @@ public class SearchBookController implements ScreensIF{
 		String toc;
 		String domain;
 		String keyWords;
-		
-		
-		
+
 		String password = passField.getText();
 		String confirmPassword = confirmPassField.getText();
 		String firstName = firstNameField.getText();
@@ -105,24 +101,28 @@ public class SearchBookController implements ScreensIF{
 		} catch (IOException e) {
 					
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-		}
+		}*/
 		
-	}*/
+	}
 	
 	
 	/** When clear button is pressed the function clears all fields.
 	 * @param event
 	 */
-/*	@FXML
-	public void clearButtonPressed(ActionEvent event) {
-		titleTextField.clear();
-		authorListView.getItems().clear();
-		languageComboBox.valueProperty().set(null);
-		summaryTextArea.setText(null);
-		tocTextArea.setText(null);
-		domainListView.getItems().clear();
-		keywTextArea.setText(null);
-	}*/
+	@FXML
+	public void clearButtonPressed(ActionEvent event) throws IOException {
+		try {
+			titleTextField.clear();
+			authorListView.getItems().clear();
+			languageComboBox.valueProperty().set(null);
+			summaryTextArea.setText(null);
+			tocTextArea.setText(null);
+			domainListView.getItems().clear();
+			keywTextArea.setText(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	/**
