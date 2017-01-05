@@ -34,9 +34,15 @@ public class HomepageManagerController implements ScreensIF {
 	 * @see interfaces.ScreensIF#pressedCloseMenu(javafx.event.ActionEvent)
 	 */
 	@Override
-	public void pressedCloseMenu(ActionEvent event) {
+	public void pressedCloseMenu(ActionEvent event) throws IOException {
+		try{
+		logout();
 		Platform.exit();
 		System.exit(0);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

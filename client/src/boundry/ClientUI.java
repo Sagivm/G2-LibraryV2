@@ -23,8 +23,15 @@ import javafx.stage.Stage;
  */
 public class ClientUI extends Application {
 
+	/**
+	 * get true if client/worker/manager is connected to the system.
+	 */
 	private static boolean isConnected = false;
-	private static String job;
+	
+	/**
+	 *  saves the type of the user.
+	 */
+	private static String typeOfUser;
 	
 	
 	/** main function executes the client by calling the method launch (method of Application)
@@ -63,18 +70,20 @@ public class ClientUI extends Application {
 	    System.out.println("Stage is closing");
 	    if (isConnected)
 	    {
-	    	if(this.job.equals("User")){
-	    	HomepageUserController userPage = new HomepageUserController();
-	    	userPage.logout();
+	    	if(this.typeOfUser.equals("User")){
+		    	HomepageUserController userPage = new HomepageUserController();
+		    	userPage.logout();
 	    	}
-	    	if(this.job.equals("Librarian")){
-	    	HomepageLibrarianController librarianPage = new HomepageLibrarianController();
-	    	librarianPage.logout();
-	    	}
-	    	if(this.job.equals("Manager")){
+	    	else if(this.typeOfUser.equals("Manager")){
 		    	HomepageManagerController managerPage = new HomepageManagerController();
 		    	managerPage.logout();
-		    	}
+		    }
+	    	//if(this.typeOfUser.equals("Librarian")){
+	    	else{
+		    	HomepageLibrarianController librarianPage = new HomepageLibrarianController();
+		    	librarianPage.logout();
+	    	}
+
 	    }
 	// Save file
 	}
@@ -95,16 +104,19 @@ public class ClientUI extends Application {
 		return isConnected;
 	}
 	
-	public void setJob(String job)
+	/**Setter for setTypeOfUser.
+	 * @param typeOfUser
+	 */
+	public void setTypeOfUser(String typeOfUser)
 	{
-		this.job = job;
+		this.typeOfUser = typeOfUser;
 	}
 	
-	/** Getter for isConnected.
+	/** Getter for getTypeOfUser.
 	 * @return
 	 */
-	public String getJob()
+	public String getTypeOfUser()
 	{
-		return job;
+		return typeOfUser;
 	}
 }

@@ -144,9 +144,9 @@ public class ClientConnectionController extends AbstractClient
 			    		if (clientMain == null)
 			    			clientMain = new ClientUI();
 			        	clientMain.setIsConnected(true);
-			        	if(action==1) clientMain.setJob("User");
-			        	else if(action==2) clientMain.setJob("Librarian");
-			        	else if(action==3) clientMain.setJob("Manager");
+			        	if(action==1) clientMain.setTypeOfUser("User");
+			        	else if(action==2) clientMain.setTypeOfUser("Librarian");
+			        	else if(action==3) clientMain.setTypeOfUser("Manager");
 			        	centerWindow(screenController);
 			        } catch (Exception e) {
 						// COMPELETE
@@ -191,7 +191,7 @@ public class ClientConnectionController extends AbstractClient
 					    		if (clientMain == null)
 					    			clientMain = new ClientUI();
 					        	clientMain.setIsConnected(false);
-					        	clientMain.setJob(null);
+					        	clientMain.setTypeOfUser(null);
 					        } catch (Exception e) {
 								e.printStackTrace();
 								}

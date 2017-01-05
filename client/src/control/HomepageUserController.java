@@ -66,7 +66,7 @@ public class HomepageUserController implements ScreensIF {
 	@Override
 	public void pressedCloseMenu(ActionEvent event) throws IOException{
 		try{
-			ClientController clientCtrl = new ClientController();
+			//ClientController clientCtrl = new ClientController();
 			//clientCtrl.logout(connectedUser.getId(),connectedUser.getPassword());
 			//LogoutController logoutCtrl = new LogoutController();
 			//logoutCtrl.logout();
