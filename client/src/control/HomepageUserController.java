@@ -112,6 +112,8 @@ public class HomepageUserController implements ScreensIF {
 	@FXML
 	public void searchBookButtonPressed(ActionEvent event) throws IOException {
 		try {
+			if(content.getChildren().size()>0)
+				content.getChildren().remove(0);
 			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.SEARCH_BOOK_SCREEN));
 			content.getChildren().add(root);
 		} catch (Exception e) {
@@ -131,7 +133,8 @@ public class HomepageUserController implements ScreensIF {
 	public void settingsButtonPressed(ActionEvent event) throws IOException {
 		try {
 			// help: https://www.youtube.com/watch?v=Y-NjIPV1kLQ
-			// content.getChildren().remove(0);
+			if(content.getChildren().size()>0)
+				content.getChildren().remove(0);
 			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN));
 			content.getChildren().add(root);
 			
