@@ -5,6 +5,7 @@ import java.io.IOException;
 //import java.util.ResourceBundle;
 import java.util.ArrayList;
 
+import entity.AccountType;
 import entity.GeneralMessages;
 import entity.Login;
 import entity.Message;
@@ -133,6 +134,7 @@ public class HomepageUserController implements ScreensIF {
 			// content.getChildren().remove(0);
 			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN));
 			content.getChildren().add(root);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -214,7 +216,7 @@ public class HomepageUserController implements ScreensIF {
 	/**
 	 * @return the connected user.
 	 */
-	public User getConnectedUser()
+	public static User getConnectedUser()
 	{
 		return connectedUser;
 	}
