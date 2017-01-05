@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
-
+//
 /**
  * SetAccountTypeController is the controller that responsible to send the
  * Account Type request of the user to the DB.
