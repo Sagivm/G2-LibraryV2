@@ -72,9 +72,9 @@ public class SetAccountTypeController {
 			//
 			actionToDisplay(ActionType.CONTINUE,"Subscription details were sent to librarian for his approval");
 		}
-		else
+		else 
 		{
-			actionToDisplay(ActionType.CONTINUE,"Subscription must be selected");
+			actionToDisplay( ActionType.CONTINUE,"Subscription must be selected");
 		}
 		
 	}

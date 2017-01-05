@@ -72,6 +72,11 @@ public static void removeFromDatabase(String statement) throws SQLException {
 	stmt.executeUpdate(statement);
     stmt.close();	
 }
+public static void updateDatabase(String statement) throws SQLException {
+	Statement stmt=connection.createStatement();
+	stmt.executeUpdate(statement);
+    stmt.close();	
+}
 
 public static ResultSet searchInDatabase(String statement) throws SQLException {
 	Statement stmt = connection.createStatement();
