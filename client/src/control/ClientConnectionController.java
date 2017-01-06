@@ -199,6 +199,10 @@ public class ClientConnectionController extends AbstractClient
 				});
 			}
 		}
+		
+		if (type == ActionType.PENDING_USERS){
+			PendingRegistrationController.pendingUsersList = replay.getElementsList();
+		}
 	}
 	
 	/** This function choose what to display the user.
