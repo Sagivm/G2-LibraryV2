@@ -138,7 +138,7 @@ public class HomepageUserController implements ScreensIF {
 				content.getChildren().remove(0);
 			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN));
 			content.getChildren().add(root);
-			setUsernameLabel("sada");
+			//setUsernameLabel("sada");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -198,7 +198,7 @@ public class HomepageUserController implements ScreensIF {
     @FXML
     private void initialize() {
     	//userFullName.setText("fullName");
-    	testTextField.setText("ddd");
+    	//testTextField.setText("ddd");
     }
 	
 	@FXML
