@@ -302,6 +302,18 @@ public class ServerController extends AbstractServer {
 				replay = new Replay(ActionType.LOGOUT,true);
 			}
 		}
+		if(type==ActionType.ACCOUNTTYPEREQ)
+		{
+			try {
+				DatabaseController.updateDatabase("UPDATE clients SET accountStatus=" + "'"+message.getElementsList().get(1) +"'"+ "  WHERE username=" +  "'"+message.getElementsList().get(0)+"'");
+				//System.out.println("YAY me!!!");
+				replay=new Replay(ActionType.ACCOUNTTYPEREQ, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 		return replay;
 	}
 
