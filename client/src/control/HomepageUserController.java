@@ -21,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,6 +40,7 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@FXML private AnchorPane content;
 	@FXML private Label userFullName;
+	@FXML private TextField testTextField;
 	private entity.User user;
 	
 	/**
@@ -136,6 +138,7 @@ public class HomepageUserController implements ScreensIF {
 				content.getChildren().remove(0);
 			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN));
 			content.getChildren().add(root);
+			setUsernameLabel("sada");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -192,14 +195,21 @@ public class HomepageUserController implements ScreensIF {
 	}
 	
 	
-/*	@FXML
+    @FXML
+    private void initialize() {
+    	//userFullName.setText("fullName");
+    	testTextField.setText("ddd");
+    }
+	
+	@FXML
 	public void setUsernameLabel(String fullName){
 			System.out.println(fullName);
-			System.out.println(userFullName.getText());
 			
-			//userFullName.setText(fullName);
+			//System.out.println(userFullName.getText());
 			
-	}*/
+			userFullName.setText(fullName);
+			
+	}
 	
 /*	@Override
 	 (non-Javadoc)

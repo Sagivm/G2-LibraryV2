@@ -125,6 +125,7 @@ public class ClientConnectionController extends AbstractClient
 			        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
 			        		HomepageUserController userPage = new HomepageUserController();
 							userPage.setConnectedUser(user);
+							//userPage.setUsernameLabel("fdf");
 			        		
 			        	}
 			        	else if(action==2)

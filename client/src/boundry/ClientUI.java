@@ -78,8 +78,7 @@ public class ClientUI extends Application {
 		    	HomepageManagerController managerPage = new HomepageManagerController();
 		    	managerPage.logout();
 		    }
-	    	//if(this.typeOfUser.equals("Librarian")){
-	    	else{
+	    	else if(this.typeOfUser.equals("Librarian")){
 		    	HomepageLibrarianController librarianPage = new HomepageLibrarianController();
 		    	librarianPage.logout();
 	    	}
