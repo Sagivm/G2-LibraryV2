@@ -69,11 +69,11 @@ public class ClientConnectionController extends AbstractClient
 	public void actionToPerform(Replay replay) {
 		
 		ActionType type = replay.getType();
-		boolean sucess = replay.getSucess();
+		boolean success = replay.getSucess();
 		
 		if (type == ActionType.REGISTER)
 		{
-			if (sucess == true) {			
+			if (success == true) {			
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
@@ -109,7 +109,7 @@ public class ClientConnectionController extends AbstractClient
 	}
 		if (type == ActionType.LOGIN)
 		{
-			if (sucess == true) {
+			if (success == true) {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
@@ -169,7 +169,7 @@ public class ClientConnectionController extends AbstractClient
 		}
 		if (type == ActionType.LOGOUT)
 		{
-			if (sucess == true) 
+			if (success == true) 
 			{
 				Platform.runLater(new Runnable() 
 				{
@@ -178,7 +178,7 @@ public class ClientConnectionController extends AbstractClient
 					{
 						ScreenController screenController = new ScreenController();
 				        try {
-				        		//actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_SUCESSFULLY);
+				        		//actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_successFULLY);
 				        		screenController.replaceSceneContent(ScreensInfo.CLIENT_SCREEN,ScreensInfo.CLIENT_TITLE);
 				        		centerWindow(screenController);
 					    		if (clientMain == null)
@@ -190,6 +190,12 @@ public class ClientConnectionController extends AbstractClient
 					}
 				});
 			}
+		}
+		if(type==ActionType.ACCOUNTTYPEREQ)
+		{
+			System.out.println("mememem");
+			if(success==true)
+				actionToDisplay(ActionType.CONTINUE,GeneralMessages.PENDING_FOR_LIBRARIAN);
 		}
 	}
 	
@@ -204,6 +210,7 @@ public class ClientConnectionController extends AbstractClient
 		alert.setHeaderText(null);
 		alert.setContentText(message);
 		alert.showAndWait();
+		System.out.println("memememttttt");
 		if (type == ActionType.TERMINATE)
 		{
 			Platform.exit();

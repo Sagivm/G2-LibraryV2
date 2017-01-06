@@ -77,10 +77,10 @@ public class SetAccountTypeController {
 			ArrayList <String> elementsList = new ArrayList<String>();
 			elementsList.add(0,HomepageUserController.getConnectedUser().getId());
 			elementsList.add(1,choice);
-			Message message=new Message(ActionType.UPDATE,elementsList);
+			Message message=new Message(ActionType.ACCOUNTTYPEREQ,elementsList);
 			try {
 				ClientController.clientConnectionController.sendToServer(message);
-				actionToDisplay("Info",ActionType.CONTINUE,GeneralMessages.PENDING_FOR_LIBRARIAN);
+				
 			} catch (IOException e) {
 						
 				actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
