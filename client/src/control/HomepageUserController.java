@@ -227,7 +227,7 @@ public class HomepageUserController implements ScreensIF {
 	/**
 	 * @return the connected user.
 	 */
-	public User getConnectedUser()
+	public static User getConnectedUser()
 	{
 		return connectedUser;
 	}

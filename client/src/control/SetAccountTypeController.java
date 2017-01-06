@@ -28,16 +28,13 @@ public class SetAccountTypeController {
 	@FXML
 	private ComboBox settingList;
 
-	private entity.User user;
-
 	/**
 	 * Initialize account type list with available account types for the user
 	 * 
 	 * @param type
 	 */
 	@FXML
-	// public void initializeSettingList(ActionType type) {
-	public void initializeSettingList() {
+	 public void initializeSettingList() {
 		settingList.setPromptText("Select sub.");
 		HomepageUserController userPage = new HomepageUserController();
 		if (userPage.getConnectedUser().getAccountType() != entity.AccountType.Intrested) {
@@ -54,56 +51,48 @@ public class SetAccountTypeController {
 	 * @throws IOException
 	 */
 	@FXML
-	public void submitSettingButtonPressed(ActionEvent event) {
+	public void submitSettingButtonPressed(ActionEvent event) throws IOException {
 		boolean valid = true;
-		String choice = (String) settingList.getSelectionModel().getSelectedItem();
-		System.out.println(choice);
+		String choice=new String();
 		if ((String) settingList.getSelectionModel().getSelectedItem() != null) {
 			HomepageUserController userPage = new HomepageUserController();
 			switch ((String) settingList.getValue()) {
 			case "Per book sub.": {
+				HomepageUserController.getConnectedUser().setAccountStatus("PendingPerBook");
+				choice="PendingPerBook";
 				userPage.getConnectedUser().setAccountStatus("PendingPerBook");
 				break;
 			}
 			case "Monthly sub.": {
+				HomepageUserController.getConnectedUser().setAccountStatus("PendingMonthly");
+				choice="PendingMonthly";
 				userPage.getConnectedUser().setAccountStatus("PendingMonthly");
 				break;
 			}
 			case "Yearly sub.": {
+				HomepageUserController.getConnectedUser().setAccountStatus("PendingYearly");
+				choice="PendingYearly";
 				userPage.getConnectedUser().setAccountStatus("PendingYearly");
 				break;
 			}
 			}
-			//
-			Message message=new Message();
 			ArrayList <String> elementsList = new ArrayList<String>();
+			elementsList.add(0,HomepageUserController.getConnectedUser().getId());
+			elementsList.add(1,choice);
+			Message message=new Message(ActionType.ACCOUNTTYPEREQ,elementsList);
 			try {
 				ClientController.clientConnectionController.sendToServer(message);
-				actionToDisplay("Info",ActionType.CONTINUE,GeneralMessages.PENDING_FOR_LIBRARIAN);
+				
 			} catch (IOException e) {
 						
-				actionToDisplay("Error",ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+				actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 			}
-			//
-			
 		}
 		else 
 		{
 			actionToDisplay("Info", ActionType.CONTINUE,"Subscription must be selected");
 		}
 		
-	}
-	public Message prepare(ActionType type, Register register)
-	{
-		Message message = new Message();
-		message.setType(type);
-		ArrayList <String> elementsList = new ArrayList<String>();
-		elementsList.add(0,register.getUsername());
-		elementsList.add(1,register.getPassword());
-		elementsList.add(2,register.getFirstName());
-		elementsList.add(3,register.getLastName());
-		message.setElementsList(elementsList);
-		return message;
 	}
 
 	/**

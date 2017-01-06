@@ -60,4 +60,8 @@ public enum ActionType {
 	 * finalize connected login entity in the server.
 	 */
 	LOGOUT,
+	/**
+	 * Request to change account type
+	 */
+	ACCOUNTTYPEREQ,
 }

@@ -6,7 +6,13 @@ package entity;
  *
  */
 public class Person {
+	/**
+	 * Persons's first name
+	 */
 	private String firstname;
+	/**
+	 * Persons's last name
+	 */
 	private String lastname;
 	private  String username;
 	/**
