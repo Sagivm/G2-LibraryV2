@@ -123,23 +123,31 @@ public class ClientConnectionController extends AbstractClient
 			        	{
 			        		User user = new User(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(),replay.getElementsList().get(3).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString());
 			        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
-							HomepageUserController userPage = new HomepageUserController();
+			        		HomepageUserController userPage = new HomepageUserController();
 							userPage.setConnectedUser(user);
+							//userPage.setUsernameLabel("fdf");
 			        		
 			        	}
 			        	else if(action==2)
 			        	{
 			        		Worker worker = new Worker(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(), replay.getElementsList().get(3).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString(),replay.getElementsList().get(6).toString());
 			        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);
+			        		HomepageLibrarianController liberianPage = new HomepageLibrarianController();
+			        		liberianPage.setConnectedLiberian(worker);
 			        	}
 			        	else if(action==3)
 			        	{
 			        		Worker worker = new Worker(replay.getElementsList().get(1).toString(),replay.getElementsList().get(2).toString(),replay.getElementsList().get(0).toString(), replay.getElementsList().get(3).toString(),replay.getElementsList().get(4).toString(),replay.getElementsList().get(5).toString(),replay.getElementsList().get(6).toString());
 			        		screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+			        		HomepageManagerController managerPage = new HomepageManagerController();
+			        		managerPage.setConnectedManager(worker);
 			        	}
 			    		if (clientMain == null)
 			    			clientMain = new ClientUI();
 			        	clientMain.setIsConnected(true);
+			        	if(action==1) clientMain.setTypeOfUser("User");
+			        	else if(action==2) clientMain.setTypeOfUser("Librarian");
+			        	else if(action==3) clientMain.setTypeOfUser("Manager");
 			        	centerWindow(screenController);
 			        } catch (Exception e) {
 						// COMPELETE
@@ -184,6 +192,7 @@ public class ClientConnectionController extends AbstractClient
 					    		if (clientMain == null)
 					    			clientMain = new ClientUI();
 					        	clientMain.setIsConnected(false);
+					        	clientMain.setTypeOfUser(null);
 					        } catch (Exception e) {
 								e.printStackTrace();
 								}
@@ -196,6 +205,10 @@ public class ClientConnectionController extends AbstractClient
 			System.out.println("mememem");
 			if(success==true)
 				actionToDisplay(ActionType.CONTINUE,GeneralMessages.PENDING_FOR_LIBRARIAN);
+		}
+		
+		if (type == ActionType.PENDING_USERS){
+			PendingRegistrationController.pendingUsersList = replay.getElementsList();
 		}
 	}
 	

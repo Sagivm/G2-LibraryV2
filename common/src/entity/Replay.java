@@ -60,6 +60,19 @@ public Replay(ActionType type, boolean sucess)
  * @param action - Gets a sub-action to do.
  * @param elementsList - Gets the elements list that will be decrypt in the client.
  */
+public Replay(ActionType type, boolean sucess,ArrayList<String> elementsList)
+{
+	setType(type);
+	setSucess(sucess);
+	setElementsList(elementsList);
+}
+
+/** Replay constructor that initialize the attributes.
+ * @param type - Gets the type of action.
+ * @param sucess - Gets the kind of response from SQL.
+ * @param action - Gets a sub-action to do.
+ * @param elementsList - Gets the elements list that will be decrypt in the client.
+ */
 public Replay(ActionType type, boolean sucess,int action,ArrayList<String> elementsList)
 {
 	setType(type);

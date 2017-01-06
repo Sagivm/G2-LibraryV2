@@ -314,6 +314,23 @@ public class ServerController extends AbstractServer {
 			}
 			
 		}
+		
+		if (type == ActionType.PENDING_USERS){
+			try {
+				ArrayList <String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT username,firstName,lastName FROM clients WHERE accountType='RegisterPending'");
+				while(rs.next()){
+						elementsList.add(rs.getString(1)); //username
+						elementsList.add(rs.getString(2)); //first name
+						elementsList.add(rs.getString(3)); //last name
+				}
+				replay = new Replay(ActionType.PENDING_USERS,true,elementsList);	
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		}
 		return replay;
 	}
 

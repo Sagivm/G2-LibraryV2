@@ -52,6 +52,11 @@ public enum ActionType {
 	SEARCH,
 	
 	/**
+	 * Get pending users from SQL.
+	 */
+	PENDING_USERS,
+	
+	/**
 	 * finalize connected login entity in the server.
 	 */
 	LOGOUT,
