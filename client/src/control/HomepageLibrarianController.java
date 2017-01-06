@@ -34,7 +34,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	/**
 	 * save the connected librarian
 	 */
-	private static Worker connectedLliberian;
+	private static Worker connectedLibrarian;
 	
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
@@ -93,7 +93,7 @@ public class HomepageLibrarianController implements ScreensIF {
 			ClientController clientCtrl = new ClientController();
 			if (clientCtrl.clientConnectionController == null)
 				clientCtrl.clientConnectionController = new ClientConnectionController(clientCtrl.IP_ADDRESS,clientCtrl.DEFAULT_PORT);
-			Login login = new Login(connectedLliberian.getId(),connectedLliberian.getPassword());
+			Login login = new Login(connectedLibrarian.getId(),connectedLibrarian.getPassword());
 			Message message = prepareLogout(ActionType.LOGOUT,login);
 			clientCtrl.clientConnectionController.sendToServer(message);
 		}
@@ -122,19 +122,19 @@ public class HomepageLibrarianController implements ScreensIF {
 	
 	
 	/**
-	 * @return the connected liberian.
+	 * @return the connected librarian.
 	 */
-	public Worker getConnectedLiberian()
+	public static Worker getConnectedlibrarian()
 	{
-		return connectedLliberian;
+		return connectedLibrarian;
 	}
 	
-	/**Setter of the connected liberian.
-	 * @param connectedUser - Set the connected liberian.
+	/**Setter of the connected librarian.
+	 * @param connectedUser - Set the connected librarian.
 	 */
-	public void setConnectedLiberian(Worker connectedLiberian)
+	public void setConnectedlibrarian(Worker connectedlibrarian)
 	{
-		this.connectedLliberian = connectedLiberian;
+		this.connectedLibrarian = connectedlibrarian;
 	}
 	
 	

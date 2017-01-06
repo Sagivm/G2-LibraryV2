@@ -76,9 +76,6 @@ public class SetAccountTypeController {
 				break;
 			}
 			}
-			//
-			
-			
 			ArrayList <String> elementsList = new ArrayList<String>();
 			elementsList.add(0,HomepageUserController.getConnectedUser().getId());
 			elementsList.add(1,choice);
@@ -90,7 +87,6 @@ public class SetAccountTypeController {
 						
 				actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 			}
-			//
 		}
 		else 
 		{
