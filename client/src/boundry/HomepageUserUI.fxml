@@ -36,6 +36,5 @@
         <Font name="System Bold" size="15.0" />
       </font>
     </Label>
-    <TextField fx:id="testTextField" layoutX="14.0" layoutY="448.0" prefWidth="200.0" />
   </children>
 </AnchorPane>
