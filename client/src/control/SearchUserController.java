@@ -7,12 +7,12 @@ import interfaces.ScreensIF;
 import javafx.event.ActionEvent;
 
 
-/** UserSearchController. Responsible to enable a librarian or a manager to search users.
+/** SearchUserController. Responsible to enable a librarian or a manager to search users.
  * @author itain
  */
 
 
-public class UserSearchController implements ScreensIF{
+public class SearchUserController implements ScreensIF{
 
 	@Override
 	public void backButtonPressed(ActionEvent event) {
