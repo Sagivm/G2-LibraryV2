@@ -27,6 +27,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
+/** SearchBookController. Responsible to enable users search books in DB.
+ * @author itain
+ */
 
 public class SearchBookController implements ScreensIF{
 
