@@ -191,6 +191,7 @@ public class ServerController extends AbstractServer {
 				System.out.println(replay.getSucess());
 			}
 			writeToLog("Registration attempt");
+			break;
 		}
 
 		case LOGIN: {
@@ -270,6 +271,7 @@ public class ServerController extends AbstractServer {
 			 * System.out.println(replay.getSucess()); }
 			 */
 			writeToLog("Login attempt");
+			break;
 		}
 
 		case LOGOUT: {
@@ -286,18 +288,17 @@ public class ServerController extends AbstractServer {
 				// System.out.println("Logout");
 				replay = new Replay(ActionType.LOGOUT, true);
 			}
+			break;
 		}
 		case ACCOUNTTYPEREQ: {
 			try {
-				DatabaseController
-						.updateDatabase("UPDATE clients SET accountStatus=" + "'" + message.getElementsList().get(1)
-								+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
-				// System.out.println("YAY me!!!");
+				DatabaseController.updateDatabase("UPDATE clients SET accountStatus=" + "'" + message.getElementsList().get(1)+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
 
 		}
 
@@ -317,6 +318,7 @@ public class ServerController extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
 		}
 		}
 		return replay;

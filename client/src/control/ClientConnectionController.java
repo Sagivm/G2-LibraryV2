@@ -115,6 +115,7 @@ public class ClientConnectionController extends AbstractClient {
 					}
 				});
 			}
+			break;
 		}
 		case LOGIN: {
 			if (success == true) {
@@ -199,6 +200,7 @@ public class ClientConnectionController extends AbstractClient {
 					}
 				});
 			}
+			break;
 		}
 		case LOGOUT: {
 			if (success == true) {
@@ -220,14 +222,17 @@ public class ClientConnectionController extends AbstractClient {
 					}
 				});
 			}
+			break;
 		}
 		case ACCOUNTTYPEREQ: {
 			if (success == true)
 				actionToDisplay(ActionType.CONTINUE, GeneralMessages.PENDING_FOR_LIBRARIAN);
+			break;
 		}
 
 		case PENDING_USERS: {
 			PendingRegistrationController.pendingUsersList = replay.getElementsList();
+			break;
 		}
 		}
 
