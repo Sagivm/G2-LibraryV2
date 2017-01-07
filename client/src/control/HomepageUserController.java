@@ -40,7 +40,7 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@FXML private AnchorPane content;
 	@FXML private Label userFullName;
-	@FXML private TextField testTextField;
+	//@FXML private TextField testTextField;
 	private entity.User user;
 	
 	/**
