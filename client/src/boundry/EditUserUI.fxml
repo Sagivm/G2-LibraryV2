@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controll.EditUserController">
+   <children>
+      <Label layoutX="346.0" layoutY="14.0" text="Edit User">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="274.0" layoutY="118.0" text="First Name:" />
+      <Label layoutX="275.0" layoutY="170.0" text="Last Name:" />
+      <TextField fx:id="fNameTextField" layoutX="346.0" layoutY="114.0" prefHeight="25.0" prefWidth="197.0" />
+      <TextField fx:id="lNameTextField" layoutX="346.0" layoutY="166.0" prefHeight="25.0" prefWidth="197.0" />
+      <Button fx:id="submitButton" layoutX="320.0" layoutY="235.0" mnemonicParsing="false" text="Submit" />
+      <Button fx:id="cancelButton" layoutX="452.0" layoutY="235.0" mnemonicParsing="false" text="Cancel" />
+   </children>
+</AnchorPane>

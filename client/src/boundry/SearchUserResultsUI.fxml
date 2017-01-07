@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SearchUserResultsController">
+   <children>
+      <Label layoutX="230.0" layoutY="14.0" text="User Search Results">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <TableView fx:id="resultsTable" layoutX="40.0" layoutY="109.0" prefHeight="487.0" prefWidth="820.0">
+        <columns>
+          <TableColumn fx:id="idCol" prefWidth="184.0" text="ID" />
+          <TableColumn fx:id="fNameCol" prefWidth="144.0" text="First Name" />
+            <TableColumn fx:id="lNameCol" prefWidth="136.0" text="Last Name" />
+            <TableColumn fx:id="accountTypeCol" prefWidth="144.0" text="Account Type" />
+            <TableColumn fx:id="reportCol" prefWidth="110.0" text="Report" />
+            <TableColumn fx:id="freezeCol" prefWidth="101.0" text="Freeze" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
