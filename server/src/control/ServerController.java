@@ -193,6 +193,7 @@ public class ServerController extends AbstractServer {
 		// compare to return 0 if equal
 		if ((this.date.compareTo(date)) != 0 && date.compareTo("00") == 0) {
 			createNewDay();
+			this.date=date;
 		}
 
 	}
