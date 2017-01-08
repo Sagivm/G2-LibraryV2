@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
-
 //
 /**
  * SetAccountTypeController is the controller that responsible to send the
@@ -35,11 +34,10 @@ public class SetAccountTypeController {
 	 * @param type
 	 */
 	@FXML
-	public void initializeSettingList() {
+	 public void initializeSettingList() {
 		settingList.setPromptText("Select sub.");
 		HomepageUserController userPage = new HomepageUserController();
-		if (userPage.getConnectedUser().getAccountType() != entity.AccountType.Intrested
-				&& userPage.getConnectedUser().getAccountStatus() != entity.AccountStatus.Standard) {
+		if (userPage.getConnectedUser().getAccountType() != entity.AccountType.Intrested) {
 			// Do Nothing
 		} else
 			settingList.getItems().addAll("Per book sub.", "Monthly sub.", "Yearly sub.");
@@ -55,50 +53,50 @@ public class SetAccountTypeController {
 	@FXML
 	public void submitSettingButtonPressed(ActionEvent event) throws IOException {
 		boolean valid = true;
-		String choice = new String();
+		String choice=new String();
 		if ((String) settingList.getSelectionModel().getSelectedItem() != null) {
 			HomepageUserController userPage = new HomepageUserController();
 			switch ((String) settingList.getValue()) {
 			case "Per book sub.": {
 				HomepageUserController.getConnectedUser().setAccountStatus("PendingPerBook");
-				choice = "PendingPerBook";
+				choice="PendingPerBook";
 				userPage.getConnectedUser().setAccountStatus("PendingPerBook");
 				break;
 			}
 			case "Monthly sub.": {
 				HomepageUserController.getConnectedUser().setAccountStatus("PendingMonthly");
-				choice = "PendingMonthly";
+				choice="PendingMonthly";
 				userPage.getConnectedUser().setAccountStatus("PendingMonthly");
 				break;
 			}
 			case "Yearly sub.": {
 				HomepageUserController.getConnectedUser().setAccountStatus("PendingYearly");
-				choice = "PendingYearly";
+				choice="PendingYearly";
 				userPage.getConnectedUser().setAccountStatus("PendingYearly");
 				break;
 			}
 			}
-			ArrayList<String> elementsList = new ArrayList<String>();
-			elementsList.add(0, HomepageUserController.getConnectedUser().getId());
-			elementsList.add(1, choice);
-			Message message = new Message(ActionType.ACCOUNTTYPEREQ, elementsList);
+			ArrayList <String> elementsList = new ArrayList<String>();
+			elementsList.add(0,HomepageUserController.getConnectedUser().getId());
+			elementsList.add(1,choice);
+			Message message=new Message(ActionType.ACCOUNTTYPEREQ,elementsList);
 			try {
 				ClientController.clientConnectionController.sendToServer(message);
-				this.initializeSettingList();
-
+				
 			} catch (IOException e) {
-
-				actionToDisplay("Warning", ActionType.CONTINUE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+						
+				actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 			}
-		} else {
-			actionToDisplay("Info", ActionType.CONTINUE, "Subscription must be selected");
 		}
-
+		else 
+		{
+			actionToDisplay("Info", ActionType.CONTINUE,"Subscription must be selected");
+		}
+		
 	}
 
 	/**
 	 * This function choose what to display the user.
-	 * 
 	 * @param type
 	 *            - Defines if alert or info.
 	 * @param actiontype
@@ -106,7 +104,7 @@ public class SetAccountTypeController {
 	 * @param message
 	 *            - Gets the message to display in popup.
 	 */
-	public void actionToDisplay(String type, ActionType actiontype, String message) {
+	public void actionToDisplay(String type,ActionType actiontype, String message) {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(type);
