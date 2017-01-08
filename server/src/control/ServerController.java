@@ -292,7 +292,8 @@ public class ServerController extends AbstractServer {
 		}
 		case ACCOUNTTYPEREQ: {
 			try {
-				DatabaseController.updateDatabase("UPDATE clients SET accountStatus=" + "'" + message.getElementsList().get(1)+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
+			DatabaseController.updateDatabase("UPDATE clients SET accountStatus=" + "'" + message.getElementsList().get(1)+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
+			writeToLog(message.getElementsList().get(0)+"changed accountStatus to"+message.getElementsList().get(1));
 				replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
