@@ -54,7 +54,12 @@ public enum ActionType {
 	/**
 	 * Get pending users from SQL.
 	 */
-	PENDING_USERS,
+	GET_PENDING_USERS,
+	
+	/**
+	 * Accept pending users from SQL.
+	 */
+	ACCEPT_PENDING_USERS,
 	
 	/**
 	 * finalize connected login entity in the server.

@@ -1,7 +1,19 @@
+<<<<<<< HEAD
 ιπε 10, 2017 2:47:36 PM control.ServerController writeToLog
+=======
+ιπε 10, 2017 2:48:51 PM control.ServerController writeToLog
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 INFO: Connected to database
+<<<<<<< HEAD
 ιπε 10, 2017 2:47:36 PM control.ServerController writeToLog
+=======
+ιπε 10, 2017 2:48:51 PM control.ServerController writeToLog
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 INFO: Server listening for connections
 on port: 1337
+<<<<<<< HEAD
 ιπε 10, 2017 2:47:48 PM control.ServerController writeToLog
+=======
+ιπε 10, 2017 2:48:59 PM control.ServerController writeToLog
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 INFO: Login attempt
