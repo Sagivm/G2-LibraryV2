@@ -64,4 +64,9 @@ public enum ActionType {
 	 * Request to change account type
 	 */
 	ACCOUNTTYPEREQ,
+	
+	/**
+	 * Get authors from server
+	 */
+	GET_AUTHORS,
 }

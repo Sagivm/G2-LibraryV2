@@ -34,7 +34,7 @@ import javafx.scene.control.ToggleGroup;
 public class SearchBookController implements ScreensIF{
 
 	@FXML private TextField titleTextField;
-	@FXML private ListView<Author> authorListView;
+	@FXML private  ListView<Author> authorListView;
 	@FXML private ComboBox<Language> languageComboBox;
 	@FXML private TextArea summaryTextArea;
 	@FXML private TextArea tocTextArea;
@@ -47,11 +47,18 @@ public class SearchBookController implements ScreensIF{
 
 	
 	@FXML
-	public void initiateFields(ActionEvent event) throws IOException 
-	{
-		
+	 public void initializeAuthorsList() {
+		//authorsList.setPromptText("Select author");
+		ArrayList<String> elementList = new ArrayList<String>();
+		Message message = new Message(ActionType.GET_AUTHORS,elementList);
+		try {
+			ClientController.clientConnectionController.sendToServer(message);
+			
+		} catch (IOException e) {
+					
+			//actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+		}
 	}
-	
 	
 	/** When search button is pressed a search is made.
 	 * @param event
@@ -201,5 +208,16 @@ public class SearchBookController implements ScreensIF{
 		elementsList.add(i,searchBook.getKeyWords()); //keywords
 		return message;
 	}
+	
+	
+	public ListView<Author> getAuthorListView() {
+		
+		return authorListView;
+	}
+
+	public void setAuthorListView(ListView<Author> authorListView) {
+		this.authorListView = authorListView;
+	}
+
 
 }

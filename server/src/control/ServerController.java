@@ -144,7 +144,7 @@ public class ServerController extends AbstractServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**
@@ -189,10 +189,11 @@ public class ServerController extends AbstractServer {
 			createNewDay();
 		}
 	}
-//
+
+	//
 	/**
-	 *Checks if the day has changed and if was 
-	 *create new rows in sql table book by date for each book 
+	 * Checks if the day has changed and if was create new rows in sql table
+	 * book by date for each book
 	 */
 	private void newDay() {
 		String date;
@@ -202,49 +203,53 @@ public class ServerController extends AbstractServer {
 		// compare to return 0 if equal
 		if ((this.date.compareTo(date)) != 0 && date.compareTo("00") == 0) {
 			createNewDay();
-			this.date=date;
+			this.date = date;
 		}
 
 	}
 
 	/**
-	 * Insert new rows in sql table book by date for each book 
+	 * Insert new rows in sql table book by date for each book
 	 */
-	private void createNewDay()
-	{
+	private void createNewDay() {
 		ResultSet rs = null;
 		try {
-		rs=DatabaseController.searchInDatabase("SELECT * FROM books;");
+			rs = DatabaseController.searchInDatabase("SELECT * FROM books;");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		Date Currentdate=new Date();
-//		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
-//		String date=(String)dateFormat.format(Currentdate);
+		// Date Currentdate=new Date();
+		// SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		// String date=(String)dateFormat.format(Currentdate);
 		try {
-			while(rs.next())
-			{
-				insertBookDateRow(rs,0,0);	
+			while (rs.next()) {
+				insertBookDateRow(rs, 0, 0);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	/**\
-	 * Insert a single row to book by date with the current date
-	 * @param rs- ResultSet of book by date  table with sn in the first index of rs
-	 * @param search - number of searches for the new book
-	 * @param purchase-number of purchases for the new book
+
+	/**
+	 * \ Insert a single row to book by date with the current date
+	 * 
+	 * @param rs-
+	 *            ResultSet of book by date table with sn in the first index of
+	 *            rs
+	 * @param search
+	 *            - number of searches for the new book
+	 * @param purchase-number
+	 *            of purchases for the new book
 	 * @throws SQLException
 	 */
-	private void insertBookDateRow(ResultSet rs,int search,int purchase) throws SQLException
-	{
-		Date Currentdate=new Date();
-		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
-		String date=(String)dateFormat.format(Currentdate);
-		DatabaseController.addToDatabase("INSERT INTO book_by_date VALUES ("+rs.getInt(1)+",'"+date+"',"+search+","+purchase+");");
+	private void insertBookDateRow(ResultSet rs, int search, int purchase) throws SQLException {
+		Date Currentdate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String date = (String) dateFormat.format(Currentdate);
+		DatabaseController.addToDatabase("INSERT INTO book_by_date VALUES (" + rs.getInt(1) + ",'" + date + "',"
+				+ search + "," + purchase + ");");
 	}
 
 	/**
@@ -414,9 +419,29 @@ public class ServerController extends AbstractServer {
 				e.printStackTrace();
 			}
 			break;
+
+		}
+
+		case GET_AUTHORS: {
+			ArrayList<String> elementsList = new ArrayList<String>();
+			ResultSet rs;
+			try {
+				rs = DatabaseController.searchInDatabase("SELECT id, firstName, lastName FROM authors;");
+				while(rs.next())
+				{
+					elementsList.add(rs.getString(1)+"$"+rs.getString(2)+"$"+rs.getString(3));
+				}
+			}
+
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
+			break;
 		}
 		}
 		return replay;
+		
 	}
 
 	/**
