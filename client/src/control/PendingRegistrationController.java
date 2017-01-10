@@ -151,7 +151,7 @@ public class PendingRegistrationController {
                 final Button button = new Button(); {
                   button.setGraphic(buttonGraphic);
                   button.setPrefWidth(40);
-                }//
+                }
                 @Override public void updateItem(final pendingUser user, boolean empty) {
                   super.updateItem(user, empty);
                   if (user != null) {
