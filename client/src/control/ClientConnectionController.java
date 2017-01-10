@@ -12,6 +12,8 @@ import entity.User;
 import entity.Worker;
 import enums.ActionType;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
@@ -258,21 +260,24 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
-//		case GET_AUTHORS: {
-//			ListView<Author> list=new ListView<Author>();
-//			for(int i=0;i<replay.getElementsList().size();i++)
-//			{
-//				String tmp[] = new String[3];
-//				
-//				
-//				tmp=replay.getElementsList().get(i).split("$");
-//				Author author = new Author(tmp[0],tmp[1], tmp[2]);
-//				list.getItems().add(author);		
-//			}
-//			SearchBookController search =new SearchBookController();
-//			search.setAuthorListView(list);
-//			break;
-//		}
+		case GET_AUTHORS: {
+			ArrayList<Author> list=new ArrayList<Author>();
+			String nir="HEl";
+			for(int i=0;i<replay.getElementsList().size();i++)
+			{
+				String tmp[] = new String[3];
+				//System.out.println(replay.getElementsList().get(i));
+				tmp=replay.getElementsList().get(i).split("\\^");
+				Author author = new Author(tmp[0],tmp[1], tmp[2]);
+				//System.out.println(author.getLastname());
+				list.add(author);
+			}			
+
+			SearchBookController.statush=list;
+			
+			
+			break;
+		}
 		
 		}
 

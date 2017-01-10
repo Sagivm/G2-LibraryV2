@@ -1,8 +1,11 @@
 package control;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import boundry.ClientUI;
 import entity.Author;
 import entity.Domain;
 import entity.GeneralMessages;
@@ -19,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -49,30 +53,61 @@ public class SearchBookController implements ScreensIF{
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
 	
-	
-
+	public static ArrayList<Author> statush;
 	
 	@FXML
-	 public void initializeAuthorsList() {
-		//authorsList.setPromptText("Select author");
+	public void initialize() {
+		
+
 		ArrayList<String> elementList = new ArrayList<String>();
-		//Message message = new Message(ActionType.GET_AUTHORS,elementList);
-		authorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		//String a[]=new String[3];
-		//a[0]="sagiv"; a[1]="itai"; a[1]="or"; 
-		ObservableList<String> items = FXCollections.observableArrayList("sagiv1","itai1","or1");
-		authorListView.setItems(items);
+		Message message = new Message(ActionType.GET_AUTHORS,elementList);
 		
-		System.out.println("check viewlist");
-//		try {
-//			ClientController.clientConnectionController.sendToServer(message);
-//			
-//		} catch (IOException e) {
-//					
-//			//actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-//		}
 		
+		try {
+			ClientController.clientConnectionController.sendToServer(message);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+
+				try{
+				ArrayList<String> names=new ArrayList<String>();
+				authorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+				//System.out.println(statush.get(1).getFirstname());
+				for(int i=0 ; i< statush.size();i++)
+				{
+					names.add(i, statush.get(i).getFirstname());
+				}
+				//System.out.println(names.get(0));
+				ObservableList<String> items = FXCollections.observableArrayList(names);
+				authorListView.setItems(items);	
+
+			} catch (Exception e) {
+				e.printStackTrace();		
+				}
+
+	
+			}
+		});
+		
+		
+
 	}
+	/*
+	public void inilist(ArrayList<Author> list)
+	{
+		System.out.println("dss");
+		Author a=new Author("itai", "naor", "2222");
+		//ArrayList<Author> list2 = new ArrayList<Author>();
+		//list2 = (ArrayList<Author>) TestNir.ptr;
+		ObservableList<String> items = FXCollections.observableArrayList("fds", "fdsfds");
+		authorListView.setItems(items);
+	}
+	*/
 	
 	/** When search button is pressed a search is made.
 	 * @param event
@@ -222,16 +257,17 @@ public class SearchBookController implements ScreensIF{
 		elementsList.add(i,searchBook.getKeyWords()); //keywords
 		return message;
 	}
-	
-	
-//	public ListView<Author> getAuthorListView() {
-//		
-//		return authorListView;
-//	}
-//
-//	public void setAuthorListView(ListView<Author> authorListView) {
-//		this.authorListView = authorListView;
-//	}
 
+
+	/*
+	public ListView<Author> getAuthorListView() {
+		
+		return authorListView;
+	}
+
+	public void setAuthorListView(ListView<Author> authorListView) {
+		this.authorListView = authorListView;
+	}
+	*/
 
 }

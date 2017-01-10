@@ -164,7 +164,7 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message) msg;
-		CurrentDate date=new CurrentDate();
+		//CurrentDate date=new CurrentDate();
 		try {
 			client.sendToClient(actionToPerform(message));
 		} catch (IOException e) {
@@ -349,7 +349,7 @@ public class ServerController extends AbstractServer {
 				rs = DatabaseController.searchInDatabase("SELECT id, firstName, lastName FROM authors;");
 				while(rs.next())
 				{
-					elementsList.add(rs.getString(1)+"$"+rs.getString(2)+"$"+rs.getString(3));
+					elementsList.add(rs.getString(1)+"^"+rs.getString(2)+"^"+rs.getString(3));
 				}
 			}
 
