@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.BookPageController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="93.0" layoutX="737.0" layoutY="252.0" stroke="BLACK" strokeType="INSIDE" width="142.0" />
@@ -42,5 +41,7 @@
       <Button fx:id="editButton" layoutX="221.0" layoutY="487.0" mnemonicParsing="false" text="Edit" />
       <Button fx:id="hideButton" layoutX="277.0" layoutY="487.0" mnemonicParsing="false" text="Hide" />
       <Button fx:id="deleteButton" layoutX="338.0" layoutY="487.0" mnemonicParsing="false" text="Delete" />
+      <Label layoutX="36.0" layoutY="423.0" text="Price:" />
+      <Label fx:id="priceLable" layoutX="144.0" layoutY="423.0" prefWidth="501.0" />
    </children>
 </AnchorPane>

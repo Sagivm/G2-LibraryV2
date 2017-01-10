@@ -226,7 +226,28 @@ public class ClientConnectionController extends AbstractClient {
 		}
 		case ACCOUNTTYPEREQ: {
 			if (success == true)
-				actionToDisplay(ActionType.CONTINUE, GeneralMessages.PENDING_FOR_LIBRARIAN);
+				
+				
+				
+			{
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+
+						ScreenController screenController = new ScreenController();
+						try {
+							// actionToDisplay(ActionType.CONTINUE,"The password
+							// and Username not match!");
+							actionToDisplay(ActionType.CONTINUE, GeneralMessages.PENDING_FOR_LIBRARIAN);
+
+						} catch (Exception e) {
+							// COMPELETE
+							e.printStackTrace();
+						} //
+					}
+				});
+			}
+				
 			break;
 		}
 

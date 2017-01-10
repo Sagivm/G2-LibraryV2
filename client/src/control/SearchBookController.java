@@ -40,11 +40,18 @@ public class SearchBookController implements ScreensIF{
 	@FXML private TextArea tocTextArea;
 	@FXML private ListView<Domain> domainListView;
 	@FXML private TextArea keywTextArea;
-	//@FXML private Button searchButton;
+	@FXML private Button searchButton;
 	@FXML private Button clearButton;
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
 
+	
+	@FXML
+	public void initiateFields(ActionEvent event) throws IOException 
+	{
+		
+	}
+	
 	
 	/** When search button is pressed a search is made.
 	 * @param event
