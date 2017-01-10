@@ -71,13 +71,12 @@ public enum ActionType {
 	ACCOUNTTYPEREQ,
 	
 	/**
-<<<<<<< HEAD
 	 * Get pending reviews from SQL.
 	 */
 	PENDING_REVIEWS,
-=======
+	/**
 	 * Get authors from server
 	 */
 	GET_AUTHORS,
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
+
 }

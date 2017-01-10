@@ -255,7 +255,6 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
-<<<<<<< HEAD
 		case PENDING_REVIEWS: {
 /*			Platform.runLater(new Runnable() {
 				@Override
@@ -266,24 +265,6 @@ public class ClientConnectionController extends AbstractClient {
 			});*/
 			PendingReviewsController.pendingReviewList = replay.getElementsList();
 			break;
-=======
-//		case GET_AUTHORS: {
-//			ListView<Author> list=new ListView<Author>();
-//			for(int i=0;i<replay.getElementsList().size();i++)
-//			{
-//				String tmp[] = new String[3];
-//				
-//				
-//				tmp=replay.getElementsList().get(i).split("$");
-//				Author author = new Author(tmp[0],tmp[1], tmp[2]);
-//				list.getItems().add(author);		
-//			}
-//			SearchBookController search =new SearchBookController();
-//			search.setAuthorListView(list);
-//			break;
-//		}
-		
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 		}
 		
 	}
