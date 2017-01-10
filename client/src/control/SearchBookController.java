@@ -34,7 +34,7 @@ import javafx.scene.control.ToggleGroup;
 public class SearchBookController implements ScreensIF{
 
 	@FXML private TextField titleTextField;
-	@FXML private  ListView<Author> authorListView;
+	@FXML private  ListView<String> authorListView;
 	@FXML private ComboBox<Language> languageComboBox;
 	@FXML private TextArea summaryTextArea;
 	@FXML private TextArea tocTextArea;
@@ -51,13 +51,15 @@ public class SearchBookController implements ScreensIF{
 		//authorsList.setPromptText("Select author");
 		ArrayList<String> elementList = new ArrayList<String>();
 		Message message = new Message(ActionType.GET_AUTHORS,elementList);
-		try {
-			ClientController.clientConnectionController.sendToServer(message);
-			
-		} catch (IOException e) {
-					
-			//actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-		}
+//		try {
+//			ClientController.clientConnectionController.sendToServer(message);
+//			
+//		} catch (IOException e) {
+//					
+//			//actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+//		}
+		Author a=new Author("sagiv", "melamed", "id");
+		authorListView.getItems().addAll("sagiv melamed","itai naor");
 	}
 	
 	/** When search button is pressed a search is made.
@@ -210,14 +212,14 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	
-	public ListView<Author> getAuthorListView() {
-		
-		return authorListView;
-	}
-
-	public void setAuthorListView(ListView<Author> authorListView) {
-		this.authorListView = authorListView;
-	}
+//	public ListView<Author> getAuthorListView() {
+//		
+//		return authorListView;
+//	}
+//
+//	public void setAuthorListView(ListView<Author> authorListView) {
+//		this.authorListView = authorListView;
+//	}
 
 
 }
