@@ -65,7 +65,6 @@ public class ClientConnectionController extends AbstractClient {
 	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-
 		Replay replay = (Replay) msg;
 		actionToPerform(replay);
 	}
@@ -251,7 +250,7 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 
-		case PENDING_USERS: {
+		case GET_PENDING_USERS: {
 			PendingRegistrationController.pendingUsersList = replay.getElementsList();
 			break;
 		}

@@ -328,7 +328,7 @@ public class ServerController extends AbstractServer {
 
 		}
 
-		case PENDING_USERS: {
+		case GET_PENDING_USERS: {
 			try {
 				ArrayList<String> elementsList = new ArrayList<String>();
 				Statement stmt = DatabaseController.connection.createStatement();
@@ -339,13 +339,29 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(2)); // first name
 					elementsList.add(rs.getString(3)); // last name
 				}
-				replay = new Replay(ActionType.PENDING_USERS, true, elementsList);
+				replay = new Replay(ActionType.GET_PENDING_USERS, true, elementsList);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
 		}
+		
+		case ACCEPT_PENDING_USERS: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String username = data.get(0);
+				stmt.executeUpdate(
+						"UPDATE clients SET accountType='Intrested' WHERE username="+username);
+				replay = new Replay(ActionType.ACCEPT_PENDING_USERS, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		
 		}
 		return replay;
 	}

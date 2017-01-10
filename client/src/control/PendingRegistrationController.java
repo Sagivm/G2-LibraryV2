@@ -72,7 +72,7 @@ public class PendingRegistrationController {
 	
 	@FXML
 	private void initialize(){
-		Message message = prepareGetPendingUsers(ActionType.PENDING_USERS);
+		Message message = prepareGetPendingUsers(ActionType.GET_PENDING_USERS);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
 		} catch (IOException e) {	
@@ -118,14 +118,21 @@ public class PendingRegistrationController {
                 button.setGraphic(buttonGraphic);
                 button.setPrefWidth(40);
               }
-              @Override public void updateItem(final pendingUser person, boolean empty) {
-                super.updateItem(person, empty);
-                if (person != null) {
+              @Override public void updateItem(final pendingUser user, boolean empty) {
+                super.updateItem(user, empty);
+                if (user != null) {
                   buttonGraphic.setImage(confirmImage);
                   setGraphic(button);
                   button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override public void handle(ActionEvent event) {
-                        printAction.setText("User " + person.getFirstName().toLowerCase() + " has been confirm successfully");
+                    	Message message = prepareUpdatePendingUsers(ActionType.ACCEPT_PENDING_USERS,user.getUsername());
+                		try {
+                			ClientController.clientConnectionController.sendToServer(message);
+                        	printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");     
+                        	
+                		} catch (IOException e) {	
+                			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+                		}
                     }
                   });
                 } else {
@@ -152,14 +159,14 @@ public class PendingRegistrationController {
                   button.setGraphic(buttonGraphic);
                   button.setPrefWidth(40);
                 }
-                @Override public void updateItem(final pendingUser person, boolean empty) {
-                  super.updateItem(person, empty);
-                  if (person != null) {
+                @Override public void updateItem(final pendingUser user, boolean empty) {
+                  super.updateItem(user, empty);
+                  if (user != null) {
                     buttonGraphic.setImage(declineImage);
                     setGraphic(button);
                     button.setOnAction(new EventHandler<ActionEvent>() {
                       @Override public void handle(ActionEvent event) {
-                        printAction.setText("User " + person.getFirstName().toLowerCase() + " has been decline successfully");
+                        printAction.setText("User " + user.getFirstName().toLowerCase() + " has been decline successfully");
                       }
                     });
                   } else {
@@ -179,6 +186,17 @@ public class PendingRegistrationController {
 	{
 		Message message = new Message();
 		message.setType(type);
+		return message;
+	}
+	
+	
+	public Message prepareUpdatePendingUsers(ActionType type,String username)
+	{
+		Message message = new Message();
+		ArrayList<String> elementsList = new ArrayList<String>();
+		elementsList.add(username);
+		message.setType(type);
+		message.setElementsList(elementsList);
 		return message;
 	}
 	
