@@ -167,8 +167,8 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message) msg;
-		dateInitialize();
-		newDay();
+		//dateInitialize();				//Exception - sagiv
+		//newDay();						//Exception - sagiv
 		try {
 			client.sendToClient(actionToPerform(message));
 		} catch (IOException e) {
@@ -412,6 +412,31 @@ public class ServerController extends AbstractServer {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			break;
+		}
+		case PENDING_REVIEWS: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT reviews.id, clients.username,clients.firstName,clients.lastName,books.title,reviews.date FROM reviews, clients, books WHERE clients.username = reviews.userId and books.sn = reviews.bookId and reviews.status = 'pending'");
+				while (rs.next()) {
+					elementsList.add(rs.getString(1)); // review id
+					elementsList.add(rs.getString(2)); // username
+					elementsList.add(rs.getString(3)); // first name
+					elementsList.add(rs.getString(4)); // last name
+					elementsList.add(rs.getString(5)); // book title
+					elementsList.add(rs.getString(6)); // review date
+				}
+				/*for(int i=0;i<elementsList.size();i+=6)
+					System.out.println("Review: " + elementsList.get(i) + " " + elementsList.get(i+1) + " " + elementsList.get(i+2) + " " + elementsList.get(i+3) + " " + elementsList.get(i+4) + " " + elementsList.get(i+5));
+				*/
+				replay = new Replay(ActionType.PENDING_REVIEWS, true, elementsList);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				//System.out.println("error2");
 			}
 			break;
 		}

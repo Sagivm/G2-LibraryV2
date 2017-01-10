@@ -39,9 +39,8 @@ public class HomepageUserController implements ScreensIF {
 	 * the main content frame
 	 */
 	@FXML private AnchorPane content;
-	@FXML private Label userFullName;
+	@FXML private Label usernameLabel;
 	//@FXML private TextField testTextField;
-	private entity.User user;
 	
 	/**
 	 * save the connected user
@@ -138,7 +137,6 @@ public class HomepageUserController implements ScreensIF {
 				content.getChildren().remove(0);
 			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN));
 			content.getChildren().add(root);
-			//setUsernameLabel("sada");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,32 +195,18 @@ public class HomepageUserController implements ScreensIF {
 	
     @FXML
     private void initialize() {
-    	//userFullName.setText("fullName");
-    	//testTextField.setText("ddd");
+    	//setUsernameLabel(connectedUser.getFirstname() + " " + connectedUser.getLastname());
     }
 	
+	/** Write the fuul name of the user on the screen.
+	 * @param fullName
+	 */
 	@FXML
 	public void setUsernameLabel(String fullName){
-			System.out.println(fullName);
-			
-			//System.out.println(userFullName.getText());
-			
-			userFullName.setText(fullName);
+			//System.out.println(fullName);
+			//usernameLabel.setText(fullName);
 			
 	}
-	
-/*	@Override
-	 (non-Javadoc)
-	 * @see interfaces.ScreensIF#initialize(java.net.URL, java.util.ResourceBundle)
-	 
-    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        //assert myButton != null : "fx:id=\"myButton\" was not injected: check your FXML file 'simple.fxml'.";
-    	System.out.println("eee");
-    	setUsernameLabel("dsa sd");
-        // initialize your logic here: all @FXML variables will have been injected
-
-    }*/
-	//
 	
 	/**
 	 * @return the connected user.

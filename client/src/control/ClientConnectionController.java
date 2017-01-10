@@ -226,9 +226,6 @@ public class ClientConnectionController extends AbstractClient {
 		}
 		case ACCOUNTTYPEREQ: {
 			if (success == true)
-				
-				
-				
 			{
 				Platform.runLater(new Runnable() {
 					@Override
@@ -255,7 +252,20 @@ public class ClientConnectionController extends AbstractClient {
 			PendingRegistrationController.pendingUsersList = replay.getElementsList();
 			break;
 		}
+		
+		case PENDING_REVIEWS: {
+/*			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					PendingReviewsController.pendingReviewList = replay.getElementsList();
+					System.out.print(replay.getElementsList().get(0).toString());
+				}
+			});*/
+			PendingReviewsController.pendingReviewList = replay.getElementsList();
+			break;
 		}
+		
+	}
 
 	}
 

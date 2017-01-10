@@ -109,4 +109,14 @@ public class ScreensInfo {
 	 */
 	public static final String PENDING_REGISTRATION_TITLE = "Pending Registration list";
 	
+	/**
+	 * Set Pending Reviews list path.
+	 */
+	public static final String PENDING_REVIEWS_SCREEN = "/boundry/PendingReviewsUI.fxml";
+	
+	/**
+	 * Set Pending Reviews list title.
+	 */
+	public static final String PENDING_REVIEWS_TITLE = "Pending Reviews list";
+	
 }
