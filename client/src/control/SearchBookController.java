@@ -80,7 +80,7 @@ public class SearchBookController implements ScreensIF{
 				//System.out.println(statush.get(1).getFirstname());
 				for(int i=0 ; i< statush.size();i++)
 				{
-					names.add(i, statush.get(i).getFirstname());
+					names.add(i, "("+statush.get(i).getId()+")"+"\t"+statush.get(i).getFirstname()+" "+statush.get(i).getLastname());
 				}
 				//System.out.println(names.get(0));
 				ObservableList<String> items = FXCollections.observableArrayList(names);

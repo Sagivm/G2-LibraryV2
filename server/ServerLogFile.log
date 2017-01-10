@@ -1,46 +1,7 @@
-<<<<<<< HEAD
-ιπε 10, 2017 8:45:48 PM control.ServerController writeToLog
-=======
-<<<<<<< HEAD
-ιπε 10, 2017 8:14:44 PM control.ServerController writeToLog
+ιπε 10, 2017 9:39:47 PM control.ServerController writeToLog
 INFO: Connected to database
-ιπε 10, 2017 8:14:44 PM control.ServerController writeToLog
+ιπε 10, 2017 9:39:47 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-ιπε 10, 2017 8:14:54 PM control.ServerController writeToLog
-=======
-ιπε 10, 2017 3:42:40 PM control.ServerController writeToLog
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
-INFO: Connected to database
-ιπε 10, 2017 8:45:48 PM control.ServerController writeToLog
-INFO: Server listening for connections
-on port: 1337
-<<<<<<< HEAD
-ιπε 10, 2017 8:45:55 PM control.ServerController writeToLog
-=======
-ιπε 10, 2017 3:42:49 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:46:11 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:47:20 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:47:34 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:49:29 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:50:15 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:52:23 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:53:17 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:54:50 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:57:40 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:58:23 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 10, 2017 3:59:10 PM control.ServerController writeToLog
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
+ιπε 10, 2017 9:40:01 PM control.ServerController writeToLog
 INFO: Login attempt
