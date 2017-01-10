@@ -230,9 +230,6 @@ public class ClientConnectionController extends AbstractClient {
 		}
 		case ACCOUNTTYPEREQ: {
 			if (success == true)
-				
-				
-				
 			{
 				Platform.runLater(new Runnable() {
 					@Override
@@ -260,6 +257,7 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
+
 		case GET_AUTHORS: {
 			ArrayList<Author> list=new ArrayList<Author>();
 			String nir="HEl";
@@ -279,7 +277,20 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
+
+		case PENDING_REVIEWS: {
+/*			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					PendingReviewsController.pendingReviewList = replay.getElementsList();
+					System.out.print(replay.getElementsList().get(0).toString());
+				}
+			});*/
+			PendingReviewsController.pendingReviewList = replay.getElementsList();
+			break;
 		}
+		
+	}
 
 	}
 

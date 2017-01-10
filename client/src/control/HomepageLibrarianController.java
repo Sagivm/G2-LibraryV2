@@ -118,9 +118,6 @@ public class HomepageLibrarianController implements ScreensIF {
 		return message;
 	}
 	
-	
-	
-	
 	/**
 	 * @return the connected librarian.
 	 */
@@ -145,7 +142,25 @@ public class HomepageLibrarianController implements ScreensIF {
 	@FXML
 	public void pendingRegistrationButtonPressed(ActionEvent event) throws IOException {
 		try {
+			if(content.getChildren().size()>0)
+				content.getChildren().remove(0);
 			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_PENDING_REGISTRATION_SCREEN));
+			content.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/** Handler when pressed "Pending Reviews requests". this function open the Pending Reviews requests form.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	public void pendingReviewsButtonPressed(ActionEvent event) throws IOException {
+		try {
+			if(content.getChildren().size()>0)
+				content.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.PENDING_REVIEWS_SCREEN));
 			content.getChildren().add(root);
 		} catch (Exception e) {
 			e.printStackTrace();

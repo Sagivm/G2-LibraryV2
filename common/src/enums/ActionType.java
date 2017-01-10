@@ -71,7 +71,12 @@ public enum ActionType {
 	ACCOUNTTYPEREQ,
 	
 	/**
+	 * Get pending reviews from SQL.
+	 */
+	PENDING_REVIEWS,
+	/**
 	 * Get authors from server
 	 */
 	GET_AUTHORS,
+
 }
