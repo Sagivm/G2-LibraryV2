@@ -118,14 +118,14 @@ public class PendingRegistrationController {
                 button.setGraphic(buttonGraphic);
                 button.setPrefWidth(40);
               }
-              @Override public void updateItem(final pendingUser person, boolean empty) {
-                super.updateItem(person, empty);
-                if (person != null) {
+              @Override public void updateItem(final pendingUser user, boolean empty) {
+                super.updateItem(user, empty);
+                if (user != null) {
                   buttonGraphic.setImage(confirmImage);
                   setGraphic(button);
                   button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override public void handle(ActionEvent event) {
-                        printAction.setText("User " + person.getFirstName().toLowerCase() + " has been confirm successfully");
+                        printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");
                     }
                   });
                 } else {
@@ -152,14 +152,14 @@ public class PendingRegistrationController {
                   button.setGraphic(buttonGraphic);
                   button.setPrefWidth(40);
                 }
-                @Override public void updateItem(final pendingUser person, boolean empty) {
-                  super.updateItem(person, empty);
-                  if (person != null) {
+                @Override public void updateItem(final pendingUser user, boolean empty) {
+                  super.updateItem(user, empty);
+                  if (user != null) {
                     buttonGraphic.setImage(declineImage);
                     setGraphic(button);
                     button.setOnAction(new EventHandler<ActionEvent>() {
                       @Override public void handle(ActionEvent event) {
-                        printAction.setText("User " + person.getFirstName().toLowerCase() + " has been decline successfully");
+                        printAction.setText("User " + user.getFirstName().toLowerCase() + " has been decline successfully");
                       }
                     });
                   } else {
