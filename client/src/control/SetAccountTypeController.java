@@ -36,8 +36,7 @@ public class SetAccountTypeController {
 	@FXML
 	 public void initializeSettingList() {
 		settingList.setPromptText("Select sub.");
-		HomepageUserController userPage = new HomepageUserController();
-		if (userPage.getConnectedUser().getAccountType() != entity.AccountType.Intrested) {
+		if (HomepageUserController.getConnectedUser().getAccountType() != entity.AccountType.Intrested) {
 			// Do Nothing
 		} else
 			settingList.getItems().addAll("Per book sub.", "Monthly sub.", "Yearly sub.");

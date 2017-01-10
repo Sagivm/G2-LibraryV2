@@ -54,7 +54,12 @@ public enum ActionType {
 	/**
 	 * Get pending users from SQL.
 	 */
-	PENDING_USERS,
+	GET_PENDING_USERS,
+	
+	/**
+	 * Accept pending users from SQL.
+	 */
+	ACCEPT_PENDING_USERS,
 	
 	/**
 	 * finalize connected login entity in the server.
@@ -66,7 +71,13 @@ public enum ActionType {
 	ACCOUNTTYPEREQ,
 	
 	/**
+<<<<<<< HEAD
 	 * Get pending reviews from SQL.
 	 */
 	PENDING_REVIEWS,
+=======
+	 * Get authors from server
+	 */
+	GET_AUTHORS,
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 }

@@ -1,8 +1,10 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import boundry.ClientUI;
+import entity.Author;
 import entity.GeneralMessages;
 import entity.Replay;
 import entity.ScreensInfo;
@@ -12,6 +14,7 @@ import enums.ActionType;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -65,7 +68,6 @@ public class ClientConnectionController extends AbstractClient {
 	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-
 		Replay replay = (Replay) msg;
 		actionToPerform(replay);
 	}
@@ -248,11 +250,12 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 
-		case PENDING_USERS: {
+		case GET_PENDING_USERS: {
 			PendingRegistrationController.pendingUsersList = replay.getElementsList();
 			break;
 		}
 		
+<<<<<<< HEAD
 		case PENDING_REVIEWS: {
 /*			Platform.runLater(new Runnable() {
 				@Override
@@ -263,6 +266,24 @@ public class ClientConnectionController extends AbstractClient {
 			});*/
 			PendingReviewsController.pendingReviewList = replay.getElementsList();
 			break;
+=======
+//		case GET_AUTHORS: {
+//			ListView<Author> list=new ListView<Author>();
+//			for(int i=0;i<replay.getElementsList().size();i++)
+//			{
+//				String tmp[] = new String[3];
+//				
+//				
+//				tmp=replay.getElementsList().get(i).split("$");
+//				Author author = new Author(tmp[0],tmp[1], tmp[2]);
+//				list.getItems().add(author);		
+//			}
+//			SearchBookController search =new SearchBookController();
+//			search.setAuthorListView(list);
+//			break;
+//		}
+		
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 		}
 		
 	}

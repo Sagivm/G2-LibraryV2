@@ -15,6 +15,8 @@ import entity.Validate;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,6 +25,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -31,10 +34,11 @@ import javafx.scene.control.ToggleGroup;
  * @author itain
  */
 
+
 public class SearchBookController implements ScreensIF{
 
 	@FXML private TextField titleTextField;
-	@FXML private ListView<Author> authorListView;
+	@FXML private ListView<String> authorListView;
 	@FXML private ComboBox<Language> languageComboBox;
 	@FXML private TextArea summaryTextArea;
 	@FXML private TextArea tocTextArea;
@@ -44,14 +48,31 @@ public class SearchBookController implements ScreensIF{
 	@FXML private Button clearButton;
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
+	
+	
 
 	
 	@FXML
-	public void initiateFields(ActionEvent event) throws IOException 
-	{
+	 public void initializeAuthorsList() {
+		//authorsList.setPromptText("Select author");
+		ArrayList<String> elementList = new ArrayList<String>();
+		//Message message = new Message(ActionType.GET_AUTHORS,elementList);
+		authorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		//String a[]=new String[3];
+		//a[0]="sagiv"; a[1]="itai"; a[1]="or"; 
+		ObservableList<String> items = FXCollections.observableArrayList("sagiv1","itai1","or1");
+		authorListView.setItems(items);
+		
+		System.out.println("check viewlist");
+//		try {
+//			ClientController.clientConnectionController.sendToServer(message);
+//			
+//		} catch (IOException e) {
+//					
+//			//actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+//		}
 		
 	}
-	
 	
 	/** When search button is pressed a search is made.
 	 * @param event
@@ -201,5 +222,16 @@ public class SearchBookController implements ScreensIF{
 		elementsList.add(i,searchBook.getKeyWords()); //keywords
 		return message;
 	}
+	
+	
+//	public ListView<Author> getAuthorListView() {
+//		
+//		return authorListView;
+//	}
+//
+//	public void setAuthorListView(ListView<Author> authorListView) {
+//		this.authorListView = authorListView;
+//	}
+
 
 }

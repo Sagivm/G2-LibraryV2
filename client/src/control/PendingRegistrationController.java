@@ -72,7 +72,7 @@ public class PendingRegistrationController {
 	
 	@FXML
 	private void initialize(){
-		Message message = prepareGetPendingUsers(ActionType.PENDING_USERS);
+		Message message = prepareGetPendingUsers(ActionType.GET_PENDING_USERS);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
 		} catch (IOException e) {	
@@ -125,7 +125,14 @@ public class PendingRegistrationController {
                   setGraphic(button);
                   button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override public void handle(ActionEvent event) {
-                        printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");
+                    	Message message = prepareUpdatePendingUsers(ActionType.ACCEPT_PENDING_USERS,user.getUsername());
+                		try {
+                			ClientController.clientConnectionController.sendToServer(message);
+                        	printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");     
+                        	
+                		} catch (IOException e) {	
+                			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+                		}
                     }
                   });
                 } else {
@@ -179,6 +186,17 @@ public class PendingRegistrationController {
 	{
 		Message message = new Message();
 		message.setType(type);
+		return message;
+	}
+	
+	
+	public Message prepareUpdatePendingUsers(ActionType type,String username)
+	{
+		Message message = new Message();
+		ArrayList<String> elementsList = new ArrayList<String>();
+		elementsList.add(username);
+		message.setType(type);
+		message.setElementsList(elementsList);
 		return message;
 	}
 	
