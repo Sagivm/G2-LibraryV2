@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -63,10 +64,15 @@ public class UserReportController implements Initializable {
 	 */
 	@FXML private TableColumn<Purchase,String> priceColumn;
 
+	/**
+	 * Displays user name
+	 */
+	@FXML private Label titleLabel;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		initializeTable();
+		initializeLabel();
 
 	}
 
@@ -160,6 +166,10 @@ public class UserReportController implements Initializable {
 		}
 		return list;
 		
+	}
+	private void initializeLabel()
+	{
+		this.titleLabel.setText(selectedUser.getFirstname()+" "+selectedUser.getLastname()+" Report");
 	}
 	/**
 	 * Data class for analyzing DB data and displaying it
