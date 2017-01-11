@@ -406,13 +406,13 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
-						"Select bookId,title,language,purchaseDate,bought_book.price FROM book,bought_book WHERE book.sn=bought_book.bookId;");
+						"Select bookId,title,author,language,purchaseDate,bought_book.price FROM book,bought_book WHERE book.sn=bought_book.bookId;");
 				if (!rs.isBeforeFirst())
 					replay = new Replay(ActionType.USEREPORT, false);//no data
 				else {
 					while (rs.next()) {
-						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
-								+ "^" + String.valueOf(rs.getInt(4)) + "^" + rs.getDate(5));
+						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)+"^"+rs.getString(4)
+								+ "^" + String.valueOf(rs.getInt(5)) + "^" + rs.getString(6));
 					}
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
