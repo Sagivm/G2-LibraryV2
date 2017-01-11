@@ -78,15 +78,25 @@ public enum ActionType {
 	 * Get authors from server
 	 */
 	GET_AUTHORS,
-	/**
-	 * Make a popularity Report from the server
-	 */
-	USEREPORT,
 	
 	/**
 	 * Get domains from server
 	 */
-	GET_DOMAINS
+	GET_DOMAINS,
 	
+	/**
+	 * Make a User Report from the server
+	 */
+	USEREPORT,
+	/**
+	 * Make a popularity Report from the server
+	 */
+
+	POPULARITYREPORT,
+	/**
+	 * Get Domains from DB given a book
+	 */
+	DOMAINS,
+
 
 }

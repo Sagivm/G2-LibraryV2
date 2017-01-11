@@ -52,6 +52,11 @@ public class UserReportController implements Initializable {
 	 */
 	@FXML private TableColumn<Purchase,String> titleColumn;
 	/**
+	 * Author column in the table 
+	 */
+	@FXML private TableColumn<Purchase,String> authorColumn;
+	
+	/**
 	 * Language column in the table 
 	 */
 	@FXML private TableColumn<Purchase,String> languageColumn;
@@ -111,6 +116,7 @@ public class UserReportController implements Initializable {
 						{
 							bookIdColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("id"));
 							titleColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("title"));
+							authorColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("title"));
 							languageColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("language"));
 							dateColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("date"));
 							priceColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("price"));
@@ -153,12 +159,12 @@ public class UserReportController implements Initializable {
 	/**
 	 * Transfer the list from the DB to ArrayList<Purchase> 
 	 * @param data ArrayList<String> containing Purchase data in string form divided by ^. 5 fields
-	 * @return an ArrayList<Purchase> contaning data from DB
+	 * @return an ArrayList<Purchase> containing data from DB
 	 */
 	private ArrayList<Purchase> arrangelist(ArrayList<String> data)
 	{
 		ArrayList<Purchase> list=new ArrayList<Purchase>();
-		String datasplit[]=new String[5];
+		String datasplit[]=new String[6];
 		for(int i=0;i<data.size();i++)
 		{
 			datasplit=data.get(i).split("\\^");
@@ -187,7 +193,11 @@ public class UserReportController implements Initializable {
 		 */
 		public SimpleStringProperty title;
 		/**
-		 * Book's title
+		 * Book's author
+		 */
+		public SimpleStringProperty author;
+		/**
+		 * Book's language
 		 */
 		public SimpleStringProperty language;
 		/**
@@ -206,9 +216,10 @@ public class UserReportController implements Initializable {
 		public Purchase(String split[]) {
 			this.id = new SimpleStringProperty(split[0]);
 			this.title = new SimpleStringProperty(split[1]);
-			this.language = new SimpleStringProperty(split[2]);
-			this.date = new SimpleStringProperty(split[3]);
-			this.price = new SimpleStringProperty(split[4]);
+			this.author = new SimpleStringProperty(split[2]);
+			this.language = new SimpleStringProperty(split[3]);
+			this.date = new SimpleStringProperty(split[4]);
+			this.price = new SimpleStringProperty(split[5]);
 		}
 	}
 
