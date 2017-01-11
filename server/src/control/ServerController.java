@@ -13,6 +13,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import javax.swing.text.AbstractDocument.ElementEdit;
+
 import com.mysql.jdbc.Connection;
 
 import entity.CurrentDate;
@@ -406,13 +408,15 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
-						"Select bookId,title,author,language,purchaseDate,bought_book.price FROM book,bought_book WHERE book.sn=bought_book.bookId;");
+						"Select bookId,title,authors.firstName,authors.lastName,language,purchaseDate,bought_book.price FROM book,bought_book,author,book_authors WHERE book.sn=bought_book.bookId and books.sn=book_authors.bookId and author.id=book_authors.authorid and bought_book.userId="
+								+ data.get(0) + ";");
 				if (!rs.isBeforeFirst())
-					replay = new Replay(ActionType.USEREPORT, false);//no data
+					replay = new Replay(ActionType.USEREPORT, false);// no data
 				else {
 					while (rs.next()) {
-						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)+"^"+rs.getString(4)
-								+ "^" + String.valueOf(rs.getInt(5)) + "^" + rs.getString(6));
+						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
+								+ " " + rs.getString(4) + "^" + rs.getString(4) + "^" + String.valueOf(rs.getInt(5))
+								+ "^" + rs.getString(6));
 					}
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
@@ -423,6 +427,45 @@ public class ServerController extends AbstractServer {
 			break;
 
 		}
+		case DOMAINS: {
+			ArrayList<String> elementsList = new ArrayList<String>();
+			try {
+				ResultSet rs = DatabaseController.searchInDatabase(
+						"SELECT domains.name FROM book,subject,book_subject,domain WHERE subject.domain=domain.id and subject.id=book_subject.subjectId and book_subject.bookId="
+								+ data.get(0) + ";");
+				while (rs.next()) {
+					elementsList.add(rs.getString(1));
+
+				}
+				replay = new Replay(ActionType.DOMAINS, true, elementsList);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		case POPULARITYREPORT: {
+			ArrayList<String> elementsList = new ArrayList<String>();
+			try {
+				ResultSet rs = DatabaseController.searchInDatabase(
+						"SELECT sn,title,authors.firstName,authors.lastName,language,purchase FROM books,authors,book_authors_book_by_date WHERE books.sn=book_authos.bookId and authors.authorId=authors.id and book.sn=book_by_date.bookId;");
+				if (!rs.isBeforeFirst())
+					replay = new Replay(ActionType.USEREPORT, false);// no data
+				else {
+					while (rs.next()) {
+						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
+								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + String.valueOf(rs.getInt(6)));
+					}
+					replay = new Replay(ActionType.USEREPORT, true, elementsList);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+
+		}
+
 		}
 		return replay;
 
