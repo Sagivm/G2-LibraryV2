@@ -81,6 +81,12 @@ public enum ActionType {
 	/**
 	 * Make a popularity Report from the server
 	 */
-	USEREPORT
+	USEREPORT,
+	
+	/**
+	 * Get domains from server
+	 */
+	GET_DOMAINS
+	
 
 }

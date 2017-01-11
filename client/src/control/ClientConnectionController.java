@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import boundry.ClientUI;
 import entity.Author;
+import entity.Domain;
 import entity.GeneralMessages;
 import entity.Replay;
 import entity.ScreensInfo;
@@ -258,17 +259,20 @@ public class ClientConnectionController extends AbstractClient {
 
 		case GET_AUTHORS: {
 			ArrayList<Author> list = new ArrayList<Author>();
-			String nir = "HEl";
 			for (int i = 0; i < replay.getElementsList().size(); i++) {
 				String tmp[] = new String[3];
-				// System.out.println(replay.getElementsList().get(i));
 				tmp = replay.getElementsList().get(i).split("\\^");
 				Author author = new Author(tmp[0], tmp[1], tmp[2]);
-				// System.out.println(author.getLastname());
 				list.add(author);
 			}
 
-			SearchBookController.statush = list;
+			SearchBookController.authorList = list;
+
+			break;
+		}
+		
+		case GET_DOMAINS: {
+			SearchBookController.domainList = replay.getElementsList();
 
 			break;
 		}

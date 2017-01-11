@@ -359,6 +359,21 @@ public class ServerController extends AbstractServer {
 			replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
 			break;
 		}
+		
+		case GET_DOMAINS: {
+			ArrayList<String> domainList = new ArrayList<String>();
+			ResultSet rs;
+			try {
+				rs = DatabaseController.searchInDatabase("SELECT name FROM domains;");
+				while (rs.next()) {
+					domainList.add(rs.getString(1));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			replay = new Replay(ActionType.GET_DOMAINS, true, domainList);
+			break;
+		}
 
 		case ACCEPT_PENDING_USERS: {
 			try {

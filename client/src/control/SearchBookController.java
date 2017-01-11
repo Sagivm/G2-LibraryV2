@@ -1,8 +1,10 @@
 package control;
 
+import java.awt.List;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import boundry.ClientUI;
@@ -43,17 +45,18 @@ public class SearchBookController implements ScreensIF{
 
 	@FXML private TextField titleTextField;
 	@FXML private ListView<String> authorListView;
-	@FXML private ComboBox<Language> languageComboBox;
+	@FXML private ComboBox<String> languageComboBox;
 	@FXML private TextArea summaryTextArea;
 	@FXML private TextArea tocTextArea;
-	@FXML private ListView<Domain> domainListView;
+	@FXML private ListView<String> domainListView;
 	@FXML private TextArea keywTextArea;
 	@FXML private Button searchButton;
 	@FXML private Button clearButton;
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
 	
-	public static ArrayList<Author> statush;
+	public static ArrayList<Author> authorList;
+	public static ArrayList<String> domainList;
 	
 	@FXML
 	public void initialize() {
@@ -61,15 +64,15 @@ public class SearchBookController implements ScreensIF{
 
 		ArrayList<String> elementList = new ArrayList<String>();
 		Message message = new Message(ActionType.GET_AUTHORS,elementList);
-		
-		
+		Message message2 = new Message(ActionType.GET_DOMAINS,domainList);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
+			ClientController.clientConnectionController.sendToServer(message2);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//
+		
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -78,9 +81,9 @@ public class SearchBookController implements ScreensIF{
 				ArrayList<String> names=new ArrayList<String>();
 				authorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 				//System.out.println(statush.get(1).getFirstname());
-				for(int i=0 ; i< statush.size();i++)
+				for(int i=0 ; i< authorList.size();i++)
 				{
-					names.add(i, "("+statush.get(i).getId()+")"+"\t"+statush.get(i).getFirstname()+" "+statush.get(i).getLastname());
+					names.add(i, "("+authorList.get(i).getId()+")"+"\t"+authorList.get(i).getFirstname()+" "+authorList.get(i).getLastname());
 				}
 				//System.out.println(names.get(0));
 				ObservableList<String> items = FXCollections.observableArrayList(names);
@@ -89,11 +92,26 @@ public class SearchBookController implements ScreensIF{
 			} catch (Exception e) {
 				e.printStackTrace();		
 				}
-
-	
-			}
+				
+				ObservableList<String> lanaguageOptions = FXCollections.observableArrayList("Hebrew", "English", "Russian");
+				languageComboBox.getItems().addAll(lanaguageOptions);
+				
+				
+				try{
+				domainListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+				ObservableList<String> items2 = FXCollections.observableArrayList(domainList);
+				domainListView.setItems(items2);
+				} catch (Exception e) {
+					e.printStackTrace();		
+					}
+				
+				
+				}
+			
 		});
-		
+
+
+
 		
 
 	}
@@ -180,11 +198,12 @@ public class SearchBookController implements ScreensIF{
 		try {
 			titleTextField.clear();
 			authorListView.getItems().clear();
-			languageComboBox.valueProperty().set(null);
+			languageComboBox.getItems().clear();
 			summaryTextArea.setText(null);
 			tocTextArea.setText(null);
 			domainListView.getItems().clear();
 			keywTextArea.setText(null);
+			initialize();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
