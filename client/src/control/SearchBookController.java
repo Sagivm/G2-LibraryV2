@@ -25,6 +25,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -57,6 +59,7 @@ public class SearchBookController implements ScreensIF{
 	
 	public static ArrayList<Author> authorList;
 	public static ArrayList<String> domainList;
+	int goToServer_flag=1;
 	
 	@FXML
 	public void initialize() {
@@ -66,9 +69,12 @@ public class SearchBookController implements ScreensIF{
 		Message message = new Message(ActionType.GET_AUTHORS,elementList);
 		Message message2 = new Message(ActionType.GET_DOMAINS,domainList);
 		try {
+			if(goToServer_flag==1)
+			{
 			ClientController.clientConnectionController.sendToServer(message);
 			ClientController.clientConnectionController.sendToServer(message2);
-			
+			goToServer_flag=0;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,8 +99,9 @@ public class SearchBookController implements ScreensIF{
 				e.printStackTrace();		
 				}
 				
-				ObservableList<String> lanaguageOptions = FXCollections.observableArrayList("Hebrew", "English", "Russian");
+				ObservableList<String> lanaguageOptions = FXCollections.observableArrayList("","Hebrew", "English", "Russian");
 				languageComboBox.getItems().addAll(lanaguageOptions);
+				languageComboBox.getSelectionModel().select(0);
 				
 				
 				try{
@@ -115,17 +122,6 @@ public class SearchBookController implements ScreensIF{
 		
 
 	}
-	/*
-	public void inilist(ArrayList<Author> list)
-	{
-		System.out.println("dss");
-		Author a=new Author("itai", "naor", "2222");
-		//ArrayList<Author> list2 = new ArrayList<Author>();
-		//list2 = (ArrayList<Author>) TestNir.ptr;
-		ObservableList<String> items = FXCollections.observableArrayList("fds", "fdsfds");
-		authorListView.setItems(items);
-	}
-	*/
 	
 	/** When search button is pressed a search is made.
 	 * @param event
@@ -134,60 +130,63 @@ public class SearchBookController implements ScreensIF{
 	public void searchButtonPressed(ActionEvent event) throws IOException {
 		// TODO Auto-generated method stub
 		int i;
-		String title=titleTextField.getText();
-		
 
-	/*	change to search
-		ArrayList<String> authors=authorListView.getItems();
-		for(i=0;i<authorChoiceBox.getValue();i++)
-		=authorChoiceBox.getItems();
-		String language;
-		String summary;
-		String toc;
-		String domain;
-		String keyWords;
+        Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				try{
+				String title=titleTextField.getText();;
+				
+		        ObservableList<String> selectedAuthors =  authorListView.getSelectionModel().getSelectedItems();
+				ArrayList<String> authorList= new ArrayList<String>();
+		        for(String s : selectedAuthors)
+		        	authorList.add(s);
+		        
+		        
+		        String language=languageComboBox.getSelectionModel().getSelectedItem().toString();
+		        
+		        String summary=summaryTextArea.getText();
+		        
+		        String toc=tocTextArea.getText();
+		        
+		        ObservableList<String> selectedDomains =  domainListView.getSelectionModel().getSelectedItems();
+				ArrayList<String> domainList= new ArrayList<String>();
+		        for(String s : selectedDomains)
+		        	domainList.add(s);
+		        
+		        String keyWords=keywTextArea.getText();
+				if (title.equals("") && authorList.isEmpty() &&	language.equals("") && summary.equals("") && toc.equals("") && domainList.isEmpty() && keyWords.equals(""))
+				{
+					System.out.println("test2");
+					actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_FIELDS);
+					return;
+				}
+				
+				SearchBook newSearch = new SearchBook(title, authorList, language, summary, toc, domainList, keyWords);
+				Message message = prepareSerachBook(ActionType.SEARCH,newSearch);
+				
+				try {
+					ClientController.clientConnectionController.sendToServer(message);
+				} catch (IOException e) {
+							
+					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+				}
+		        
+		        //System.out.println(title+"  "+authorList.get(0)+"  "+language+"  "+summary+"  "+toc+"  "+domainList.get(0)+"  "+keyWords);
+				} catch (Exception e) {
+					e.printStackTrace();		
+					}
+				
 
-		String password = passField.getText();
-		String confirmPassword = confirmPassField.getText();
-		String firstName = firstNameField.getText();
-		String lastName = lastNameField.getText();
-		String username = userField.getText();
-		if (password.equals("") || confirmPassword.equals("") ||
-			firstName.equals("") || lastName.equals("") || username.equals(""))
-		{
-			actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_FIELDS);
-			return;
-		}
-		if (Validate.usernameValidate(username) == false)
-		{
-			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_DIGITS);
-			return;
-		}
-		
-		if (password.length() < 5)
-		{
-			actionOnError(ActionType.CONTINUE,GeneralMessages.PASSWORD_TOO_SHORT);
-			return;
-		}
-		
-		if (!password.equals(confirmPassword))
-		{
-			actionOnError(ActionType.CONTINUE,GeneralMessages.PASSWORD_NOT_MATCH);
-			return;
-		}
-		// register session
-		
-		Register register = new Register(username,password,firstName,lastName);
-		Message message = prepareRegistration(ActionType.REGISTER,register);
-		
-		try {
-			ClientController.clientConnectionController.sendToServer(message);
-		} catch (IOException e) {
-					
-			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-		}*/
+				
+
+			}
+		});
 		
 	}
+	
+	
+	
 	
 	
 	/** When clear button is pressed the function clears all fields.
@@ -229,7 +228,18 @@ public class SearchBookController implements ScreensIF{
 	 */
 	@Override
 	public void actionOnError(ActionType type, String errorCode) {
-		// TODO Auto-generated method stub
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Error");
+		alert.setHeaderText(null);
+		alert.setContentText(errorCode);
+		alert.showAndWait();
+		if (type == ActionType.TERMINATE)
+		{
+			Platform.exit();
+			System.exit(1);
+		}
+		if (type == ActionType.CONTINUE)
+			return;
 		
 	}
 	
@@ -258,35 +268,33 @@ public class SearchBookController implements ScreensIF{
 		
 		elementsList.add(0,searchBook.getTitle()); //title
 		
-		elementsList.add(1, Integer.toString(searchBook.getAuthorsNumber())); //authors
-		for(i=0;i<searchBook.getAuthorsNumber();i++)
-			elementsList.add(i+2,searchBook.getAuthors().get(i));
+		elementsList.add(1, Integer.toString(searchBook.getAuthorsNumber())); //authors number
+		for(i=0;i<searchBook.getAuthorsNumber();i++) //authors
+			elementsList.add(2+i,searchBook.getAuthors().get(i));
 		
 		i=elementsList.size();
-		i--;
 		elementsList.add(i,searchBook.getLanguage()); i++; //language
 		elementsList.add(i,searchBook.getSummary()); i++; //summary
 		elementsList.add(i,searchBook.getToc()); i++; //table of contents
 		
+		
+		elementsList.add(i, Integer.toString(searchBook.getDomainsNumber())); //domains number
+		i++;
 		for(j=0;j<searchBook.getDomainsNumber();j++) //domains
 			elementsList.add(j+i,searchBook.getDomains().get(j));
 		
 		i=elementsList.size();
-		i--;
 		elementsList.add(i,searchBook.getKeyWords()); //keywords
+		
+		/*
+		for(int k=0;k<elementsList.size();k++)
+			System.out.println(elementsList.get(k));
+		*/	
+		
 		return message;
 	}
 
 
-	/*
-	public ListView<Author> getAuthorListView() {
-		
-		return authorListView;
-	}
 
-	public void setAuthorListView(ListView<Author> authorListView) {
-		this.authorListView = authorListView;
-	}
-	*/
 
 }

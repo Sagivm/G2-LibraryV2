@@ -18,7 +18,6 @@
     <Label layoutX="271.0" layoutY="117.0" text="Author:" />
     <Label layoutX="271.0" layoutY="195.0" text="Language:" />
     <Label layoutX="271.0" layoutY="230.0" text="Summary:" />
-    <TextArea fx:id="summaryTextArea" layoutX="373.0" layoutY="236.0" prefHeight="60.0" prefWidth="280.0" />
     <Label layoutX="269.0" layoutY="317.0" text="Table of contents:" />
     <TextArea fx:id="tocTextArea" layoutX="373.0" layoutY="317.0" prefHeight="54.0" prefWidth="280.0" />
     <Label layoutX="269.0" layoutY="392.0" text="Domain:" />
@@ -35,5 +34,6 @@
     <ComboBox fx:id="languageComboBox" layoutX="373.0" layoutY="192.0" prefWidth="280.0" />
     <ListView fx:id="authorListView" layoutX="373.0" layoutY="117.0" prefHeight="60.0" prefWidth="280.0" />
     <ListView fx:id="domainListView" layoutX="373.0" layoutY="391.0" prefHeight="54.0" prefWidth="280.0" />
+      <TextArea fx:id="summaryTextArea" layoutX="374.0" layoutY="234.0" prefHeight="60.0" prefWidth="280.0" />
   </children>
 </AnchorPane>
