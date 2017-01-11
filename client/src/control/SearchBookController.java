@@ -163,7 +163,7 @@ public class SearchBookController implements ScreensIF{
 				}
 				
 				SearchBook newSearch = new SearchBook(title, authorList, language, summary, toc, domainList, keyWords);
-				Message message = prepareSerachBook(ActionType.SEARCH,newSearch);
+				Message message = prepareSerachBook(ActionType.SEARCH_BOOK,newSearch);
 				
 				try {
 					ClientController.clientConnectionController.sendToServer(message);

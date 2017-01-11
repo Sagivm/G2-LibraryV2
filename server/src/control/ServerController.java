@@ -346,12 +346,17 @@ public class ServerController extends AbstractServer {
 			break;
 
 		}
+		
+		case SEARCH_BOOK: {
+
+			break;
+		}
 
 		case GET_AUTHORS: {
 			ArrayList<String> elementsList = new ArrayList<String>();
-			ResultSet rs;
 			try {
-				rs = DatabaseController.searchInDatabase("SELECT id, firstName, lastName FROM authors;");
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT id, firstName, lastName FROM authors;");
 				while (rs.next()) {
 					elementsList.add(rs.getString(1) + "^" + rs.getString(2) + "^" + rs.getString(3));
 				}
@@ -364,9 +369,9 @@ public class ServerController extends AbstractServer {
 		
 		case GET_DOMAINS: {
 			ArrayList<String> domainList = new ArrayList<String>();
-			ResultSet rs;
 			try {
-				rs = DatabaseController.searchInDatabase("SELECT name FROM domains;");
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT name FROM domains;");
 				while (rs.next()) {
 					domainList.add(rs.getString(1));
 				}
@@ -376,6 +381,8 @@ public class ServerController extends AbstractServer {
 			replay = new Replay(ActionType.GET_DOMAINS, true, domainList);
 			break;
 		}
+		
+		
 
 		case ACCEPT_PENDING_USERS: {
 			try {
