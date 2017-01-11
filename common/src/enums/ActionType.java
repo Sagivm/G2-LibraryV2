@@ -81,6 +81,6 @@ public enum ActionType {
 	/**
 	 * Make a popularity Report from the server
 	 */
-	POPULARITYREPORT
+	USEREPORT
 
 }

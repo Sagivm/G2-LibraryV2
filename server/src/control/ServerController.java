@@ -402,19 +402,19 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
-		case POPULARITYREPORT: {
+		case USEREPORT: {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
-						"Select bookId,title,language,price,purchaseDate FROM book,bought_book WHERE book.sn=bought_book.bookId;");
+						"Select bookId,title,language,purchaseDate,bought_book.price FROM book,bought_book WHERE book.sn=bought_book.bookId;");
 				if (!rs.isBeforeFirst())
-					replay = new Replay(ActionType.POPULARITYREPORT, false);//no data
+					replay = new Replay(ActionType.USEREPORT, false);//no data
 				else {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
 								+ "^" + String.valueOf(rs.getInt(4)) + "^" + rs.getDate(5));
 					}
-					replay = new Replay(ActionType.POPULARITYREPORT, true, elementsList);
+					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

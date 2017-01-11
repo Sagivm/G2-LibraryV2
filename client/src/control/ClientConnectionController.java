@@ -286,11 +286,11 @@ public class ClientConnectionController extends AbstractClient {
 			PendingReviewsController.pendingReviewList = replay.getElementsList();
 			break;
 		}
-		case POPULARITYREPORT: {
+		case USEREPORT: {
 			if (success == true)
-				PopularityReportController.data = replay.getElementsList();
+				UserReportController.data = replay.getElementsList();
 			else
-				PopularityReportController.data = null;
+				UserReportController.data = null;
 			break;
 		}
 
