@@ -78,5 +78,9 @@ public enum ActionType {
 	 * Get authors from server
 	 */
 	GET_AUTHORS,
+	/**
+	 * Make a popularity Report from the server
+	 */
+	POPULARITYREPORT
 
 }

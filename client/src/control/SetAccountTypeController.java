@@ -1,7 +1,9 @@
 package control;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import entity.GeneralMessages;
 import entity.Message;
@@ -10,6 +12,7 @@ import enums.ActionType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
@@ -20,7 +23,7 @@ import javafx.scene.control.Alert.AlertType;
  * 
  * @author sagivm
  */
-public class SetAccountTypeController {
+public class SetAccountTypeController implements Initializable{
 
 	/**
 	 * List of Account Types
@@ -116,6 +119,17 @@ public class SetAccountTypeController {
 		}
 		if (actiontype == ActionType.CONTINUE)
 			return;
+	}
+
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		initializeSettingList();
+		
+		
 	}
 
 }

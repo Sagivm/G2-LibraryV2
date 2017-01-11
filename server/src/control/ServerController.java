@@ -111,7 +111,6 @@ public class ServerController extends AbstractServer {
 			logger.addHandler(fh);
 			SimpleFormatter formatter = new SimpleFormatter();
 			fh.setFormatter(formatter);
-			
 
 		} catch (SecurityException e) {
 			e.printStackTrace();
@@ -165,10 +164,10 @@ public class ServerController extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message) msg;
 
-		//CurrentDate date=new CurrentDate();
+		// CurrentDate date=new CurrentDate();
 
-		//dateInitialize();				//Exception - sagiv
-		//newDay();						//Exception - sagiv
+		// dateInitialize(); //Exception - sagiv
+		// newDay(); //Exception - sagiv
 		try {
 			client.sendToClient(actionToPerform(message));
 		} catch (IOException e) {
@@ -177,7 +176,7 @@ public class ServerController extends AbstractServer {
 	}
 
 	/**
-	* Given a message from client actionToPerform decide what to perform and
+	 * Given a message from client actionToPerform decide what to perform and
 	 * the reply to return
 	 * 
 	 * @param message
@@ -185,226 +184,248 @@ public class ServerController extends AbstractServer {
 	 */
 	private Replay actionToPerform(Message message) {
 
-			ActionType type = message.getType();
-			ArrayList<String> data = message.getElementsList();
-			boolean sqlResult = false;
-			Replay replay = null;
-			int action = 0;
-			switch (type) {
-			case REGISTER: {
-	
-				Registration registration = new Registration(Integer.parseInt(data.get(0)), data.get(1).toString(),
-						data.get(2).toString(), data.get(3).toString());
-	
-				try {
-					DatabaseController.addToDatabase(registration.PrepareAddStatement());
-					sqlResult = true;
-				} catch (SQLException e) {
-					if (e.getErrorCode() == 1062) { //// duplicate primary key
-						System.out.println("username already exist");
+		ActionType type = message.getType();
+		ArrayList<String> data = message.getElementsList();
+		boolean sqlResult = false;
+		Replay replay = null;
+		int action = 0;
+		switch (type) {
+		case REGISTER: {
+
+			Registration registration = new Registration(Integer.parseInt(data.get(0)), data.get(1).toString(),
+					data.get(2).toString(), data.get(3).toString());
+
+			try {
+				DatabaseController.addToDatabase(registration.PrepareAddStatement());
+				sqlResult = true;
+			} catch (SQLException e) {
+				if (e.getErrorCode() == 1062) { //// duplicate primary key
+					System.out.println("username already exist");
+				}
+			}
+			if (sqlResult == true)
+				replay = new Replay(ActionType.REGISTER, true);
+			else {
+				replay = new Replay(ActionType.REGISTER, false);
+				System.out.println(replay.getSucess());
+			}
+			writeToLog("Registration attempt");
+			break;
+		}
+
+		case LOGIN: {
+			try {
+				boolean isConnected = false;
+				ArrayList<String> elementsList = new ArrayList<String>();
+				for (int i = 0; i < connectedList.size(); i++) {
+					if (connectedList.get(i).getUsername().equals(data.get(0).toString())) {
+						isConnected = true;
+						break;
 					}
 				}
-				if (sqlResult == true)
-					replay = new Replay(ActionType.REGISTER, true);
-				else {
-					replay = new Replay(ActionType.REGISTER, false);
-					System.out.println(replay.getSucess());
-				}
-				writeToLog("Registration attempt");
-				break;
-			}
-	
-			case LOGIN: {
-				try {
-					boolean isConnected = false;
-					ArrayList<String> elementsList = new ArrayList<String>();
-					for (int i = 0; i < connectedList.size(); i++) {
-						if (connectedList.get(i).getUsername().equals(data.get(0).toString())) {
-							isConnected = true;
+				if (!isConnected) {
+					Login login = new Login(data.get(0).toString(), data.get(1).toString());
+					Statement stmt = DatabaseController.connection.createStatement();
+					ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
+
+					while (rs.next()) {
+						if (rs.getString(4).equals(data.get(1).toString())) {
+							System.out.println("login succssefully");
+							sqlResult = true;
+							action = 1;
+							elementsList.add(0, rs.getString(1)); // username
+							elementsList.add(1, rs.getString(2)); // first name
+							elementsList.add(2, rs.getString(3)); // last name
+							elementsList.add(3, rs.getString(4)); // password
+							elementsList.add(4, rs.getString(5)); // account
+																	// type
+							elementsList.add(5, rs.getString(6)); // account
+																	// status
 							break;
 						}
 					}
-					if (!isConnected) {
-						Login login = new Login(data.get(0).toString(), data.get(1).toString());
-						Statement stmt = DatabaseController.connection.createStatement();
-						ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
-	
+					if (!sqlResult) {
+						rs = stmt.executeQuery(login.PrepareSelectStatement(2));
 						while (rs.next()) {
 							if (rs.getString(4).equals(data.get(1).toString())) {
 								System.out.println("login succssefully");
 								sqlResult = true;
-								action = 1;
+								if (rs.getString(6).toString().equals("Manager"))
+									action = 3;
+								else
+									action = 2;
+
 								elementsList.add(0, rs.getString(1)); // username
-								elementsList.add(1, rs.getString(2)); // first name
-								elementsList.add(2, rs.getString(3)); // last name
+								elementsList.add(1, rs.getString(2)); // first
+																		// name
+								elementsList.add(2, rs.getString(3)); // last
+																		// name
 								elementsList.add(3, rs.getString(4)); // password
-								elementsList.add(4, rs.getString(5)); // account
-																		// type
-								elementsList.add(5, rs.getString(6)); // account
-																		// status
+								elementsList.add(4, rs.getString(5)); // email
+								elementsList.add(5, rs.getString(6)); // job
+								elementsList.add(6, rs.getString(7)); // department
 								break;
 							}
 						}
-						if (!sqlResult) {
-							rs = stmt.executeQuery(login.PrepareSelectStatement(2));
-							while (rs.next()) {
-								if (rs.getString(4).equals(data.get(1).toString())) {
-									System.out.println("login succssefully");
-									sqlResult = true;
-									if (rs.getString(6).toString().equals("Manager"))
-										action = 3;
-									else
-										action = 2;
-	
-									elementsList.add(0, rs.getString(1)); // username
-									elementsList.add(1, rs.getString(2)); // first
-																			// name
-									elementsList.add(2, rs.getString(3)); // last
-																			// name
-									elementsList.add(3, rs.getString(4)); // password
-									elementsList.add(4, rs.getString(5)); // email
-									elementsList.add(5, rs.getString(6)); // job
-									elementsList.add(6, rs.getString(7)); // department
-									break;
-								}
-							}
-						}
-						if (sqlResult == true) {
-							replay = new Replay(ActionType.LOGIN, true, action, elementsList);
-							connectedList.add(login);
-						} else {
-							replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_LOGGED_IN_FAILED);
-							System.out.println(replay.getSucess());
-						}
+					}
+					if (sqlResult == true) {
+						replay = new Replay(ActionType.LOGIN, true, action, elementsList);
+						connectedList.add(login);
 					} else {
-						replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_ALREADY_LOGGED_IN);
+						replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_LOGGED_IN_FAILED);
 						System.out.println(replay.getSucess());
 					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-					System.out.println("error");
+				} else {
+					replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_ALREADY_LOGGED_IN);
+					System.out.println(replay.getSucess());
 				}
-				/*
-				 * if (sqlResult == true) { replay = new
-				 * Replay(ActionType.LOGIN,true,action); } else { replay = new
-				 * Replay(ActionType.LOGIN,false);
-				 * System.out.println(replay.getSucess()); }
-				 */
-				writeToLog("Login attempt");
-				break;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println("error");
 			}
-	
-			case LOGOUT: {
-				// ArrayList <String> elementsList = new ArrayList<String>();
-				boolean succes = false;
-				for (int i = 0; i < connectedList.size(); i++) {
-					if (connectedList.get(i).getUsername().equals(data.get(0).toString())) {
-						connectedList.remove(i);
-						succes = true;
-						break;
-					}
+			/*
+			 * if (sqlResult == true) { replay = new
+			 * Replay(ActionType.LOGIN,true,action); } else { replay = new
+			 * Replay(ActionType.LOGIN,false);
+			 * System.out.println(replay.getSucess()); }
+			 */
+			writeToLog("Login attempt");
+			break;
+		}
+
+		case LOGOUT: {
+			// ArrayList <String> elementsList = new ArrayList<String>();
+			boolean succes = false;
+			for (int i = 0; i < connectedList.size(); i++) {
+				if (connectedList.get(i).getUsername().equals(data.get(0).toString())) {
+					connectedList.remove(i);
+					succes = true;
+					break;
 				}
-				if (succes) {
-					// System.out.println("Logout");
-					replay = new Replay(ActionType.LOGOUT, true);
-				}
-				break;
 			}
-			case ACCOUNTTYPEREQ: {
-				try {
-					DatabaseController
-							.updateDatabase("UPDATE clients SET accountStatus=" + "'" + message.getElementsList().get(1)
-									+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
-					writeToLog(message.getElementsList().get(0) + " Changed accountStatus to"
-							+ message.getElementsList().get(1));
-					replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-	
+			if (succes) {
+				// System.out.println("Logout");
+				replay = new Replay(ActionType.LOGOUT, true);
 			}
-	
-			case GET_PENDING_USERS: {
-				try {
-					ArrayList<String> elementsList = new ArrayList<String>();
-					Statement stmt = DatabaseController.connection.createStatement();
-					ResultSet rs = stmt.executeQuery(
-							"SELECT username,firstName,lastName FROM clients WHERE accountType='RegisterPending'");
-					while (rs.next()) {
-						elementsList.add(rs.getString(1)); // username
-						elementsList.add(rs.getString(2)); // first name
-						elementsList.add(rs.getString(3)); // last name
-					}
-					replay = new Replay(ActionType.GET_PENDING_USERS, true, elementsList);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-	
+			break;
+		}
+		case ACCOUNTTYPEREQ: {
+			try {
+				DatabaseController
+						.updateDatabase("UPDATE clients SET accountStatus=" + "'" + message.getElementsList().get(1)
+								+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
+				writeToLog(message.getElementsList().get(0) + " Changed accountStatus to"
+						+ message.getElementsList().get(1));
+				replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			break;
+
+		}
+
+		case GET_PENDING_USERS: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT username,firstName,lastName FROM clients WHERE accountType='RegisterPending'");
+				while (rs.next()) {
+					elementsList.add(rs.getString(1)); // username
+					elementsList.add(rs.getString(2)); // first name
+					elementsList.add(rs.getString(3)); // last name
+				}
+				replay = new Replay(ActionType.GET_PENDING_USERS, true, elementsList);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+
+		}
 
 		case GET_AUTHORS: {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			ResultSet rs;
 			try {
 				rs = DatabaseController.searchInDatabase("SELECT id, firstName, lastName FROM authors;");
-				while(rs.next())
-				{
-					elementsList.add(rs.getString(1)+"^"+rs.getString(2)+"^"+rs.getString(3));
+				while (rs.next()) {
+					elementsList.add(rs.getString(1) + "^" + rs.getString(2) + "^" + rs.getString(3));
 				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-				catch (SQLException e) {
-					e.printStackTrace();
+			replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
+			break;
+		}
+
+		case ACCEPT_PENDING_USERS: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String username = data.get(0);
+				stmt.executeUpdate("UPDATE clients SET accountType='Intrested' WHERE username=" + username);
+				replay = new Replay(ActionType.ACCEPT_PENDING_USERS, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+
+		case PENDING_REVIEWS: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT reviews.id, clients.username,clients.firstName,clients.lastName,books.title,reviews.date FROM reviews, clients, books WHERE clients.username = reviews.userId and books.sn = reviews.bookId and reviews.status = 'pending'");
+				while (rs.next()) {
+					elementsList.add(rs.getString(1)); // review id
+					elementsList.add(rs.getString(2)); // username
+					elementsList.add(rs.getString(3)); // first name
+					elementsList.add(rs.getString(4)); // last name
+					elementsList.add(rs.getString(5)); // book title
+					elementsList.add(rs.getString(6)); // review date
 				}
-				replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
-				break;
+				/*
+				 * for(int i=0;i<elementsList.size();i+=6)
+				 * System.out.println("Review: " + elementsList.get(i) + " " +
+				 * elementsList.get(i+1) + " " + elementsList.get(i+2) + " " +
+				 * elementsList.get(i+3) + " " + elementsList.get(i+4) + " " +
+				 * elementsList.get(i+5));
+				 */
+				replay = new Replay(ActionType.PENDING_REVIEWS, true, elementsList);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				// System.out.println("error2");
 			}
-			
-			case ACCEPT_PENDING_USERS: {
-				try {
-					Statement stmt = DatabaseController.connection.createStatement();
-					String username = data.get(0);
-					stmt.executeUpdate(
-							"UPDATE clients SET accountType='Intrested' WHERE username="+username);
-					replay = new Replay(ActionType.ACCEPT_PENDING_USERS, true);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-			}
-	
-			case PENDING_REVIEWS: {
-				try {
-					ArrayList<String> elementsList = new ArrayList<String>();
-					Statement stmt = DatabaseController.connection.createStatement();
-					ResultSet rs = stmt.executeQuery(
-							"SELECT reviews.id, clients.username,clients.firstName,clients.lastName,books.title,reviews.date FROM reviews, clients, books WHERE clients.username = reviews.userId and books.sn = reviews.bookId and reviews.status = 'pending'");
+			break;
+		}
+		case POPULARITYREPORT: {
+			ArrayList<String> elementsList = new ArrayList<String>();
+			try {
+				ResultSet rs = DatabaseController.searchInDatabase(
+						"Select bookId,title,language,price,purchaseDate FROM book,bought_book WHERE book.sn=bought_book.bookId;");
+				if (!rs.isBeforeFirst())
+					replay = new Replay(ActionType.POPULARITYREPORT, false);//no data
+				else {
 					while (rs.next()) {
-						elementsList.add(rs.getString(1)); // review id
-						elementsList.add(rs.getString(2)); // username
-						elementsList.add(rs.getString(3)); // first name
-						elementsList.add(rs.getString(4)); // last name
-						elementsList.add(rs.getString(5)); // book title
-						elementsList.add(rs.getString(6)); // review date
+						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
+								+ "^" + String.valueOf(rs.getInt(4)) + "^" + rs.getDate(5));
 					}
-					/*for(int i=0;i<elementsList.size();i+=6)
-						System.out.println("Review: " + elementsList.get(i) + " " + elementsList.get(i+1) + " " + elementsList.get(i+2) + " " + elementsList.get(i+3) + " " + elementsList.get(i+4) + " " + elementsList.get(i+5));
-					*/
-					replay = new Replay(ActionType.PENDING_REVIEWS, true, elementsList);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-					//System.out.println("error2");
+					replay = new Replay(ActionType.POPULARITYREPORT, true, elementsList);
 				}
-				break;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			break;
+
+		}
 		}
 		return replay;
-		
+
 	}
 
 	/**

@@ -229,8 +229,7 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		case ACCOUNTTYPEREQ: {
-			if (success == true)
-			{
+			if (success == true) {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -248,7 +247,7 @@ public class ClientConnectionController extends AbstractClient {
 					}
 				});
 			}
-				
+
 			break;
 		}
 
@@ -256,41 +255,46 @@ public class ClientConnectionController extends AbstractClient {
 			PendingRegistrationController.pendingUsersList = replay.getElementsList();
 			break;
 		}
-		
 
 		case GET_AUTHORS: {
-			ArrayList<Author> list=new ArrayList<Author>();
-			String nir="HEl";
-			for(int i=0;i<replay.getElementsList().size();i++)
-			{
+			ArrayList<Author> list = new ArrayList<Author>();
+			String nir = "HEl";
+			for (int i = 0; i < replay.getElementsList().size(); i++) {
 				String tmp[] = new String[3];
-				//System.out.println(replay.getElementsList().get(i));
-				tmp=replay.getElementsList().get(i).split("\\^");
-				Author author = new Author(tmp[0],tmp[1], tmp[2]);
-				//System.out.println(author.getLastname());
+				// System.out.println(replay.getElementsList().get(i));
+				tmp = replay.getElementsList().get(i).split("\\^");
+				Author author = new Author(tmp[0], tmp[1], tmp[2]);
+				// System.out.println(author.getLastname());
 				list.add(author);
-			}			
+			}
 
-			SearchBookController.statush=list;
-			
-			
+			SearchBookController.statush = list;
+
 			break;
 		}
-		
 
 		case PENDING_REVIEWS: {
-/*			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					PendingReviewsController.pendingReviewList = replay.getElementsList();
-					System.out.print(replay.getElementsList().get(0).toString());
-				}
-			});*/
+			/*
+			 * Platform.runLater(new Runnable() {
+			 * 
+			 * @Override public void run() {
+			 * PendingReviewsController.pendingReviewList =
+			 * replay.getElementsList();
+			 * System.out.print(replay.getElementsList().get(0).toString()); }
+			 * });
+			 */
 			PendingReviewsController.pendingReviewList = replay.getElementsList();
 			break;
 		}
-		
-	}
+		case POPULARITYREPORT: {
+			if (success == true)
+				PopularityReportController.data = replay.getElementsList();
+			else
+				PopularityReportController.data = null;
+			break;
+		}
+
+		}
 
 	}
 
