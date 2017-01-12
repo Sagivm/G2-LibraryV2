@@ -165,7 +165,6 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message) msg;
-
 		// CurrentDate date=new CurrentDate();
 
 		// dateInitialize(); //Exception - sagiv
@@ -348,44 +347,76 @@ public class ServerController extends AbstractServer {
 		}
 		
 		case SEARCH_BOOK_AND: { //itai
-			System.out.println("test0");
 			ArrayList<String> elementsList = new ArrayList<String>();
+			ArrayList<String> book_sn = new ArrayList<String>();
+			ArrayList<String> book_authors = new ArrayList<String>();
+			ArrayList<String> authors = new ArrayList<String>();
+			
+			ArrayList<String> bookId_authorName = new ArrayList<String>();
+			
+			
+			
 			try {
-				
 				Statement stmt = DatabaseController.connection.createStatement();
-				System.out.println("test1");
-				if(!message.getElementsList().get(0).equals(""))
+				ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language FROM books;");
+				while(rs_books.next())
 				{
-					System.out.println("test2");
-					ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language FROM books;");
-					while (rs_books.next()) 
-					{
-						System.out.println("test3");
-						elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3));
-						
-						//ResultSet rs_book_authors = stmt.executeQuery("SELECT authorId FROM books WHERE bookId="+rs_books.getString(1)+";");          
-						/*
-						while(rs_book_authors.next())
-						{
-							ArrayList<String> authorsList = new ArrayList<String>();  
-							ResultSet rs_authors = stmt.executeQuery("SELECT firstName, lastName FROM authors WHERE id="+rs_book_authors.getString(1)+";");
-							while(rs_authors.next())
-							{
-								
-								for(int i=1;i<=authorsList.size();i++)
-								{
-									authorsList.add(rs_books.getString(i));
-									elementsList.add(elementsList.size()-1, "^"+authorsList.get(i));
-								}
-							}
-						}
-						*/
-					}
+					elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3));
+					book_sn.add(rs_books.getString(1));
 				}
-				System.out.println("test4");
+				
+				/*
 				for(int i=0;i<elementsList.size();i++)
 					System.out.println(elementsList.get(i));
-				System.out.println("test5");
+				System.out.println(" ");
+				*/
+				int [] bookId_cntAuthors = new int[book_sn.size()+1];
+				
+				ResultSet rs_book_authors = stmt.executeQuery("SELECT * FROM book_authors;");
+				while(rs_book_authors.next())
+				{
+					book_authors.add(rs_book_authors.getString(1)); //bookId
+					book_authors.add(rs_book_authors.getString(2)); //authorId
+				}
+				
+				
+				for(int i=0;i<book_authors.size();i++)
+					System.out.println(book_authors.get(i));
+				System.out.println(" ");
+				 
+				
+				
+				ResultSet rs_authors = stmt.executeQuery("SELECT * FROM authors;");
+				while(rs_authors.next())
+				{
+					authors.add(rs_authors.getString(1)); //author id
+					authors.add(rs_authors.getString(2)+" "+rs_authors.getString(3)); //author name
+				}
+				
+				for(int i=1;i<book_authors.size();i=i+2)
+				{
+					for(int j=0;j<authors.size();j=j+2)
+					{
+						if(book_authors.get(i).equals(authors.get(j)))
+						{
+							bookId_authorName.add(book_authors.get(i-1)); //book sn
+							bookId_authorName.add(authors.get(j+1)); //book author
+							bookId_cntAuthors[Integer.parseInt(book_authors.get(i))]++;
+							break;
+						}
+					}
+				}
+				
+				for(int i=0;i<bookId_cntAuthors.length;i++)
+					System.out.println(i+": "+bookId_cntAuthors[i]);
+				
+				
+				
+				/*
+				for(int i=0;i<authors.size();i++)
+					System.out.println(authors.get(i));
+				*/
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
