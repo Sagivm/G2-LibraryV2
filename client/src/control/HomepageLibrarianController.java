@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -27,7 +28,12 @@ public class HomepageLibrarianController implements ScreensIF {
 
 	
 	/**
-	 * the main content frame
+	 * page gets the screen to load in the content pane.
+	 */
+	private static String page = null;
+	
+	/**
+	 * the main content frame.
 	 */
 	@FXML private AnchorPane content;
 	
@@ -60,6 +66,24 @@ public class HomepageLibrarianController implements ScreensIF {
 		}
 	}
 
+	
+	
+	 /**
+	 * Choose which screen to load in the content pane.
+	 */
+	@FXML
+	    public void initialize() {
+		if (page != null)
+		 {
+			try {
+				loadPage(page);
+				page=null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		 }
+	 }
+	
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)
 	 */
@@ -141,14 +165,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	 */
 	@FXML
 	public void pendingRegistrationButtonPressed(ActionEvent event) throws IOException {
-		try {
-			if(content.getChildren().size()>0)
-				content.getChildren().remove(0);
-			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_PENDING_REGISTRATION_SCREEN));
-			content.getChildren().add(root);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		loadPage(ScreensInfo.HOMEPAGE_PENDING_REGISTRATION_SCREEN);
 	}
 	
 	/** Handler when pressed "Pending Reviews requests". this function open the Pending Reviews requests form.
@@ -157,14 +174,48 @@ public class HomepageLibrarianController implements ScreensIF {
 	 */
 	@FXML
 	public void pendingReviewsButtonPressed(ActionEvent event) throws IOException {
-		try {
-			if(content.getChildren().size()>0)
-				content.getChildren().remove(0);
-			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.PENDING_REVIEWS_SCREEN));
-			content.getChildren().add(root);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		loadPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
+	}
+	
+	/**
+	 * this method load the page to the content AnchorPane.
+	 * @param screenPath
+	 * @throws IOException
+	 */
+	@FXML
+	public void loadPage(String screenPath) throws IOException {
+				try {
+					if(content.getChildren().size()>0)
+						content.getChildren().remove(0);
+					Parent root = FXMLLoader.load(getClass().getResource(screenPath));
+					content.getChildren().add(root);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	}
+	
+	/** Getter for the main AnchorPane. All the screens will shown in this AnchorPane.
+	 * @return
+	 */
+	public AnchorPane getContent()
+	{
+		return content;
+	}
+	
+	/** Setter for page.
+	 * @param page
+	 */
+	public void setPage(String page)
+	{
+		this.page = page;
+	}
+	
+	/** Getter for page.
+	 * @return
+	 */
+	public String getPage()
+	{
+		return page;
 	}
 
 }
