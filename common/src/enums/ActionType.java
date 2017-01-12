@@ -52,9 +52,15 @@ public enum ActionType {
 	SEARCH,
 	
 	/**
-	 * Search book in SQL.
+	 * Search book (AND style) in SQL.
 	 */
-	SEARCH_BOOK,
+	SEARCH_BOOK_AND,
+	
+	/**
+	 * Search book (OR style) in SQL.
+	 */
+	SEARCH_BOOK_OR,
+	
 	
 	/**
 	 * Get pending users from SQL.

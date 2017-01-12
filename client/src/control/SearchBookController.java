@@ -56,6 +56,7 @@ public class SearchBookController implements ScreensIF{
 	@FXML private Button clearButton;
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
+	@FXML private ToggleGroup searchGroup;
 	
 	public static ArrayList<Author> authorList;
 	public static ArrayList<String> domainList;
@@ -111,8 +112,7 @@ public class SearchBookController implements ScreensIF{
 				} catch (Exception e) {
 					e.printStackTrace();		
 					}
-				
-				
+
 				}
 			
 		});
@@ -157,13 +157,27 @@ public class SearchBookController implements ScreensIF{
 		        String keyWords=keywTextArea.getText();
 				if (title.equals("") && authorList.isEmpty() &&	language.equals("") && summary.equals("") && toc.equals("") && domainList.isEmpty() && keyWords.equals(""))
 				{
-					System.out.println("test2");
 					actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_FIELDS);
 					return;
 				}
-				
+		
 				SearchBook newSearch = new SearchBook(title, authorList, language, summary, toc, domainList, keyWords);
-				Message message = prepareSerachBook(ActionType.SEARCH_BOOK,newSearch);
+				
+				/* get type of search - AND / OR */
+				String selectedToggle=searchGroup.getSelectedToggle().toString();
+				
+				/*
+				if(selectedToggle.contains("AND"))
+					System.out.println("AND");
+				else
+					System.out.println("OR"); 
+				*/
+				
+				Message message = new Message();
+				if(selectedToggle.equals("AND"))
+					message = prepareSerachBook(ActionType.SEARCH_BOOK_AND,newSearch);
+				else
+					message = prepareSerachBook(ActionType.SEARCH_BOOK_OR,newSearch);
 				
 				try {
 					ClientController.clientConnectionController.sendToServer(message);

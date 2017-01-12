@@ -347,8 +347,11 @@ public class ServerController extends AbstractServer {
 
 		}
 		
-		case SEARCH_BOOK: {
-
+		case SEARCH_BOOK_AND: { //itai
+			break;
+		}
+		
+		case SEARCH_BOOK_OR: { //itai
 			break;
 		}
 
