@@ -239,10 +239,8 @@ public class ServerController extends AbstractServer {
 							elementsList.add(1, rs.getString(2)); // first name
 							elementsList.add(2, rs.getString(3)); // last name
 							elementsList.add(3, rs.getString(4)); // password
-							elementsList.add(4, rs.getString(5)); // account
-																	// type
-							elementsList.add(5, rs.getString(6)); // account
-																	// status
+							elementsList.add(4, rs.getString(5)); // account type
+							elementsList.add(5, rs.getString(6)); // account status
 							break;
 						}
 					}

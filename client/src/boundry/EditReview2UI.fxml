@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?scenebuilder-background-color 0xf4f4f4ff?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0000999999975" prefWidth="1125.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.EditReview2Controller">
+  <children>
+      <Label fx:id="lblTitle" layoutX="25.0" layoutY="160.0" prefHeight="27.0" prefWidth="177.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+  </children>
+</AnchorPane>

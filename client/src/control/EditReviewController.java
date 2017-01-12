@@ -39,8 +39,8 @@ public class EditReviewController {
 			e.printStackTrace();
 		}
 		//while(editReview==null);
-		//Platform.runLater(new Runnable() {
-		javafx.application.Platform.runLater(new Runnable() {
+		Platform.runLater(new Runnable() {
+		//javafx.application.Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 		//Platform.runLater(() -> {

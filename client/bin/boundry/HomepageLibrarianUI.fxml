@@ -32,5 +32,10 @@
     <Button id="userMsgsButton" fx:id="exitButton" font="$x1" layoutX="2.0" layoutY="611.0" mnemonicParsing="false" onAction="#pressedCloseMenu" prefHeight="42.0" prefWidth="235.0" text="Exit" />
     <Button id="userMsgsButton" fx:id="userMngButton" font="$x1" layoutX="0.0" layoutY="403.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="User Management" />
     <AnchorPane fx:id="content" layoutX="235.0" layoutY="35.0" prefHeight="617.7070922851562" prefWidth="889.0" />
+      <Label fx:id="usernameLabel" layoutX="25.0" layoutY="160.0" prefHeight="27.0" prefWidth="177.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
   </children>
 </AnchorPane>

@@ -39,6 +39,9 @@ public class HomepageUserController implements ScreensIF {
 	 * the main content frame
 	 */
 	@FXML private AnchorPane content;
+	/**
+	 * The user full name will shown in this label.
+	 */
 	@FXML private Label usernameLabel;
 	//@FXML private TextField testTextField;
 	
@@ -67,10 +70,6 @@ public class HomepageUserController implements ScreensIF {
 	@Override
 	public void pressedCloseMenu(ActionEvent event) throws IOException{
 		try{
-			//ClientController clientCtrl = new ClientController();
-			//clientCtrl.logout(connectedUser.getId(),connectedUser.getPassword());
-			//LogoutController logoutCtrl = new LogoutController();
-			//logoutCtrl.logout();
 			logout();
 			Platform.exit();
 			System.exit(0);
@@ -149,8 +148,6 @@ public class HomepageUserController implements ScreensIF {
 	@FXML
 	public void logoutButtonPressed(ActionEvent event) throws IOException{    
 		try{
-			//LogoutController logoutCtrl = new LogoutController();
-			//logoutCtrl.logout();
 			logout();
 		}
 		catch(Exception e) {
@@ -193,20 +190,18 @@ public class HomepageUserController implements ScreensIF {
 	}
 	
 	
+    /**
+     * Print the name of the user on the screen.
+     */
     @FXML
     private void initialize() {
-    	//setUsernameLabel(connectedUser.getFirstname() + " " + connectedUser.getLastname());
+    	Platform.runLater(new Runnable() {
+    		@Override
+    		public void run() {
+    			usernameLabel.setText(connectedUser.getFirstname() + " " + connectedUser.getLastname());
+    		}
+    	});
     }
-	
-	/** Write the fuul name of the user on the screen.
-	 * @param fullName
-	 */
-	@FXML
-	public void setUsernameLabel(String fullName){
-			//System.out.println(fullName);
-			//usernameLabel.setText(fullName);
-			
-	}
 	
 	/**
 	 * @return the connected user.
