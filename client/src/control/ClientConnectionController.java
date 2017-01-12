@@ -297,7 +297,7 @@ public class ClientConnectionController extends AbstractClient {
 				UserReportController.data = null;
 			break;
 		}
-		case DOMAINS:
+		case GETDOMAINSSPECIFIC:
 		{
 			BookPopularityReportController.domainsdata=replay.getElementsList();
 			break;

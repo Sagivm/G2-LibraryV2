@@ -105,9 +105,9 @@ public enum ActionType {
 
 	POPULARITYREPORT,
 	/**
-	 * Get Domains from DB given a book
+	 * Get Domains from DB given a specific book
 	 */
-	DOMAINS,
+	GETDOMAINSSPECIFIC,
 
 
 }
