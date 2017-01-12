@@ -160,33 +160,34 @@ public class SearchBookController implements ScreensIF{
 					actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_FIELDS);
 					return;
 				}
-		
 				SearchBook newSearch = new SearchBook(title, authorList, language, summary, toc, domainList, keyWords);
 				
-				/* get type of search - AND / OR */
 				String selectedToggle=searchGroup.getSelectedToggle().toString();
-				
-				
-				if(selectedToggle.contains("AND"))
-					System.out.println("AND");
-				else
-					System.out.println("OR"); 
-				
-				
-				Message message = new Message();
+			
+				/* get type of search - AND / OR */
 				if(selectedToggle.contains("AND"))
 				{
-					message = prepareSerachBook(ActionType.SEARCH_BOOK_AND,newSearch);
-					System.out.println("test6");
+					Message message = prepareSerachBook(ActionType.SEARCH_BOOK_AND,newSearch);
+					try {
+						
+						ClientController.clientConnectionController.sendToServer(message);
+					
+					} catch (IOException e) {
+								
+						actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+					}
 				}
 				else if(selectedToggle.contains("OR"))
-					message = prepareSerachBook(ActionType.SEARCH_BOOK_OR,newSearch);
-				
-				try {
-					ClientController.clientConnectionController.sendToServer(message);
-				} catch (IOException e) {
-							
-					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+				{
+					Message message = prepareSerachBook(ActionType.SEARCH_BOOK_OR,newSearch);
+					try {
+						
+						ClientController.clientConnectionController.sendToServer(message);
+					
+					} catch (IOException e) {
+								
+						actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+					}
 				}
 		        
 		        //System.out.println(title+"  "+authorList.get(0)+"  "+language+"  "+summary+"  "+toc+"  "+domainList.get(0)+"  "+keyWords);
@@ -306,7 +307,8 @@ public class SearchBookController implements ScreensIF{
 		/*
 		for(int k=0;k<elementsList.size();k++)
 			System.out.println(elementsList.get(k));
-		*/	
+			*/
+		message.setElementsList(elementsList);
 		
 		return message;
 	}

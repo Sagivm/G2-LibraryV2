@@ -165,7 +165,6 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message) msg;
-
 		// CurrentDate date=new CurrentDate();
 
 		// dateInitialize(); //Exception - sagiv
@@ -346,44 +345,107 @@ public class ServerController extends AbstractServer {
 		}
 		
 		case SEARCH_BOOK_AND: { //itai
-			System.out.println("test0");
 			ArrayList<String> elementsList = new ArrayList<String>();
+			ArrayList<String> book_sn = new ArrayList<String>();
+			ArrayList<String> bookId_authorId = new ArrayList<String>();
+			ArrayList<String> authors = new ArrayList<String>();
+			
+			ArrayList<String> bookId_authorName = new ArrayList<String>();
+			ArrayList<String> authorsData = new ArrayList<String>();
+			
+			
+			
 			try {
-				
 				Statement stmt = DatabaseController.connection.createStatement();
-				System.out.println("test1");
-				if(!message.getElementsList().get(0).equals(""))
+				ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language FROM books;");
+				while(rs_books.next())
 				{
-					System.out.println("test2");
-					ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language FROM books;");
-					while (rs_books.next()) 
-					{
-						System.out.println("test3");
-						elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3));
-						
-						//ResultSet rs_book_authors = stmt.executeQuery("SELECT authorId FROM books WHERE bookId="+rs_books.getString(1)+";");          
-						/*
-						while(rs_book_authors.next())
-						{
-							ArrayList<String> authorsList = new ArrayList<String>();  
-							ResultSet rs_authors = stmt.executeQuery("SELECT firstName, lastName FROM authors WHERE id="+rs_book_authors.getString(1)+";");
-							while(rs_authors.next())
-							{
-								
-								for(int i=1;i<=authorsList.size();i++)
-								{
-									authorsList.add(rs_books.getString(i));
-									elementsList.add(elementsList.size()-1, "^"+authorsList.get(i));
-								}
-							}
-						}
-						*/
-					}
+					elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3));
+					book_sn.add(rs_books.getString(1));
 				}
-				System.out.println("test4");
+				
+				/*
 				for(int i=0;i<elementsList.size();i++)
 					System.out.println(elementsList.get(i));
-				System.out.println("test5");
+				System.out.println(" ");
+				*/
+				int [] bookId_cntAuthors = new int[book_sn.size()+1];
+				
+				ResultSet rs_book_authors = stmt.executeQuery("SELECT * FROM book_authors;");
+				while(rs_book_authors.next())
+				{
+					bookId_authorId.add(rs_book_authors.getString(1)); //bookId
+					bookId_authorId.add(rs_book_authors.getString(2)); //authorId
+				}
+				
+				/*
+				for(int i=0;i<bookId_authorId.size();i++)
+					System.out.println(bookId_authorId.get(i));
+				System.out.println(" ");
+				 */
+				
+				
+				ResultSet rs_authors = stmt.executeQuery("SELECT * FROM authors;");
+				while(rs_authors.next())
+				{
+					authors.add(rs_authors.getString(1)); //author id
+					authors.add(rs_authors.getString(2)+" "+rs_authors.getString(3)); //author name
+				}
+				
+				/*
+				for(int i=0;i<authors.size();i++)
+					System.out.println(authors.get(i));
+				System.out.println(" ");
+				*/
+				
+				for(int i=0;i<bookId_authorId.size();i=i+2)
+				{
+					for(int j=0;j<authors.size();j=j+2)
+					{
+						if(bookId_authorId.get(i+1).equals(authors.get(j)))
+						{
+							bookId_authorName.add(bookId_authorId.get(i)); //book id
+							bookId_authorName.add(authors.get(j+1)); //book author
+							bookId_cntAuthors[Integer.parseInt(bookId_authorId.get(i))]++; //count number of authors for each book
+							break;
+						}
+					}
+				}
+				/*
+				for(int i=0;i<bookId_authorName.size();i=i+2)
+				{
+					if(bookId_authorName.get(i).equals(i))
+					authorsData.add(bookId_cntAuthors+)
+				}
+				*/
+					/*
+					for(int j=0;j<bookId_authorName.size();j=j+2)
+					{
+						if(bookId_authorName.get(j).equals(i))
+							elementsList.add(i,"^" + bookId_authorName.get(j+1));	
+					}*/
+				
+				//}
+				for(int i=0;i<elementsList.size();i++)
+					System.out.println(elementsList.get(i));
+				System.out.println(" ");
+				
+				/*
+				for(int i=0;i<bookId_authorName.size();i=i+2)
+					System.out.println(bookId_authorName.get(i)+": "+bookId_authorName.get(i+1));
+				System.out.println(" ");
+				
+				for(int i=1;i<bookId_cntAuthors.length;i++)
+					System.out.println(i+": "+bookId_cntAuthors[i]);
+					System.out.println(" ");
+				
+				
+				
+				
+				for(int i=0;i<authors.size();i++)
+					System.out.println(authors.get(i));
+				
+				*/
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -489,7 +551,7 @@ public class ServerController extends AbstractServer {
 			break;
 
 		}
-		case DOMAINS: {
+		case GETDOMAINSSPECIFIC: {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
@@ -499,7 +561,7 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(1));
 
 				}
-				replay = new Replay(ActionType.DOMAINS, true, elementsList);
+				replay = new Replay(ActionType.GETDOMAINSSPECIFIC, true, elementsList);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -510,13 +572,13 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
-						"SELECT sn,title,authors.firstName,authors.lastName,language,purchase FROM books,authors,book_authors_book_by_date WHERE books.sn=book_authos.bookId and authors.authorId=authors.id and book.sn=book_by_date.bookId;");
+						"SELECT sn,title,authors.firstName,authors.lastName,language,purchase,domains.name FROM books,authors,book_authors_book_by_date,subject,book_subject,domain WHERE books.sn=book_authos.bookId and authors.authorId=authors.id and book.sn=book_by_date.bookId and subject.domain=domain.id and subject.id=book_subject.subjectId and book_subject.bookId=books.sn;");
 				if (!rs.isBeforeFirst())
 					replay = new Replay(ActionType.USEREPORT, false);// no data
 				else {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
-								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + String.valueOf(rs.getInt(6)));
+								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + String.valueOf(rs.getInt(6))+"^"+rs.getString(7));
 					}
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
