@@ -119,4 +119,14 @@ public class ScreensInfo {
 	 */
 	public static final String PENDING_REVIEWS_TITLE = "Pending Reviews list";
 	
+	/**
+	 * Set Edit Review path.
+	 */
+	public static final String EDIT_REVIEW_SCREEN = "/boundry/EditReviewUI.fxml";
+	
+	/**
+	 * Set Edit Review title.
+	 */
+	public static final String EDIT_REVIEW_TITLE = "Edit Review";
+	
 }

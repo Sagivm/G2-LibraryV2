@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import control.PendingRegistrationController.pendingUser;
 import entity.GeneralMessages;
 import entity.Message;
+import entity.Review;
+import entity.ScreensInfo;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -18,16 +20,23 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
@@ -92,6 +101,10 @@ public class PendingReviewsController implements ScreensIF {
 	 * static Array list of all the pending reviews from the DB.
 	 */
 	public static ArrayList <String> pendingReviewList;
+	
+	private static HomepageLibrarianController librarianMain;
+	
+	private static EditReviewController editReview;
     
 	/**
 	 * this attribute insert the data (pending review) to the table.
@@ -146,19 +159,19 @@ public class PendingReviewsController implements ScreensIF {
 	 */
 	@FXML
 	private void initialize(){
+		//reviewIdLabel.setText("df");/////////////
 		Message message = prepareGetPendingReviews(ActionType.PENDING_REVIEWS);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
 		} catch (IOException e) {	
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
-		
 		//while(pendingReviewList==null);
 		Platform.runLater(new Runnable() {
 		@Override
 		public void run() {
-			for(int i=0;i<pendingReviewList.size();i+=6){
-				data.add(new pendingReview(pendingReviewList.get(i), pendingReviewList.get(i+1), pendingReviewList.get(i+2), pendingReviewList.get(i+3), pendingReviewList.get(i+4), pendingReviewList.get(i+5)));
+			for(int i=0;i<pendingReviewList.size();i+=7){
+				data.add(new pendingReview(pendingReviewList.get(i), pendingReviewList.get(i+1), pendingReviewList.get(i+2), pendingReviewList.get(i+3), pendingReviewList.get(i+4), pendingReviewList.get(i+5), pendingReviewList.get(i+6)));
 			}
 			
 	        table.setEditable(true);
@@ -211,7 +224,7 @@ public class PendingReviewsController implements ScreensIF {
 	        });
 	
 	        btnEdit.setCellFactory(new Callback<TableColumn<pendingReview, pendingReview>, TableCell<pendingReview, pendingReview>>() {
-	          @Override public TableCell<pendingReview, pendingReview> call(TableColumn<pendingReview, pendingReview> btnConfirm) {
+	          @Override public TableCell<pendingReview, pendingReview> call(TableColumn<pendingReview, pendingReview> btnEdit) {
 	            return new TableCell<pendingReview, pendingReview>() {
 	              final ImageView buttonGraphic = new ImageView();
 	              final Button button = new Button(); {
@@ -226,8 +239,31 @@ public class PendingReviewsController implements ScreensIF {
 	                  setGraphic(button);
 	                  button.setOnAction(new EventHandler<ActionEvent>() {
 	                    @Override public void handle(ActionEvent event) {
-	                    	reviewIdLabel.setText(review.getReviewId());
-	                        //printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");
+	                    	
+	                    	reviewIdLabel.setText(review.getReviewContent());
+	                    	if (librarianMain == null)
+	                    		librarianMain = new HomepageLibrarianController();
+	                    	
+                    		//System.out.println(librarianMain.getConnectedlibrarian());
+                    		
+                    		librarianMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
+                    		Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getBookTitle(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
+                    		EditReviewController editReviewPage = new EditReviewController();
+                    		editReviewPage.editReview = editReview;
+                    		ScreenController screenController = new ScreenController();
+                    		try{
+							screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,
+									ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+							} 
+                    		catch (Exception e) {
+								e.printStackTrace();
+							}  
+                    		
+
+                    		
+                    		//editReview = new EditReviewController();
+                    		//editReview.test = "erer";
+
 	                    }
 	                  });
 	                } else {
@@ -237,44 +273,10 @@ public class PendingReviewsController implements ScreensIF {
 	            };
 	          }
 	        });
-/*	               
-	        btnDecline.setCellValueFactory(new Callback<CellDataFeatures<pendingUser, pendingUser>, ObservableValue<pendingUser>>() {
-	            @Override public ObservableValue<pendingUser> call(CellDataFeatures<pendingUser, pendingUser> features) {
-	                return new ReadOnlyObjectWrapper(features.getValue());
-	            }
-	          });
-	
-	        btnDecline.setCellFactory(new Callback<TableColumn<pendingUser, pendingUser>, TableCell<pendingUser, pendingUser>>() {
-	            @Override public TableCell<pendingUser, pendingUser> call(TableColumn<pendingUser, pendingUser> btnDecline) {
-	              return new TableCell<pendingUser, pendingUser>() {
-	                final ImageView buttonGraphic = new ImageView();
-	                final Button button = new Button(); {
-	                  button.setGraphic(buttonGraphic);
-	                  button.setPrefWidth(40);
-	                }
-	                @Override public void updateItem(final pendingUser user, boolean empty) {
-	                  super.updateItem(user, empty);
-	                  if (user != null) {
-	                    buttonGraphic.setImage(declineImage);
-	                    setGraphic(button);
-	                    button.setOnAction(new EventHandler<ActionEvent>() {
-	                      @Override public void handle(ActionEvent event) {
-	                        printAction.setText("User " + user.getFirstName().toLowerCase() + " has been decline successfully");
-	                      }
-	                    });
-	                  } else {
-	                    setGraphic(null);
-	                  }
-	                }
-	              };
-	            }
-	          });*/
-	
 	        table.setItems(data);
 			}
 		});
 	}
-	
 	
 	/** Create a message to the server with the Pending Reviews ActionType.
 	 * @param type
@@ -298,6 +300,7 @@ public class PendingReviewsController implements ScreensIF {
 	    private final SimpleStringProperty firstName;
 	    private final SimpleStringProperty lastName;
 	    private final SimpleStringProperty bookTitle;
+	    private final SimpleStringProperty reviewContent;
 	    private final SimpleStringProperty reviewDate;
 	    
 	    
@@ -307,14 +310,16 @@ public class PendingReviewsController implements ScreensIF {
 		 * @param firstName - Gets the firstName.
 		 * @param lastName - Gets lastName.
 		 * @param bookTitle - Gets bookTitle.
+		 * @param reviewContent - Gets reviewContent.
 		 * @param reviewDate - Gets reviewDate.
 		 */
-	    private pendingReview(String reviewId, String username, String firstName,String lastName, String bookTitle, String reviewDate) {
+	    private pendingReview(String reviewId, String username, String firstName,String lastName, String bookTitle,String reviewContent, String reviewDate) {
 	    	this.reviewId = new SimpleStringProperty(reviewId);
 	        this.username = new SimpleStringProperty(username);
 	        this.firstName = new SimpleStringProperty(firstName);       
 	    	this.lastName = new SimpleStringProperty(lastName);
 	        this.bookTitle = new SimpleStringProperty(bookTitle);
+	        this.reviewContent = new SimpleStringProperty(reviewContent);
 	        this.reviewDate = new SimpleStringProperty(reviewDate);
 	    }
 
@@ -351,6 +356,13 @@ public class PendingReviewsController implements ScreensIF {
 	     */
 	    public String getBookTitle() {
 	        return bookTitle.get();
+	    }
+	    
+	    /** Getter for reviewContent.
+	     * @return
+	     */
+	    public String getReviewContent() {
+	        return reviewContent.get();
 	    }
 	    
 	    /** Getter for reviewDate.
@@ -394,6 +406,13 @@ public class PendingReviewsController implements ScreensIF {
 	     */
 	    public void setBookTitle(String bookTitle) {
 	    	this.bookTitle.set(bookTitle);
+	    }
+	    
+	    /** Setter for reviewContent.
+	     * @param reviewContent
+	     */
+	    public void setReviewContent(String reviewContent) {
+	        this.reviewContent.set(reviewContent);
 	    }
 
 	    /** Setter for reviewDate.
