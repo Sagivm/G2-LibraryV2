@@ -166,17 +166,20 @@ public class SearchBookController implements ScreensIF{
 				/* get type of search - AND / OR */
 				String selectedToggle=searchGroup.getSelectedToggle().toString();
 				
-				/*
+				
 				if(selectedToggle.contains("AND"))
 					System.out.println("AND");
 				else
 					System.out.println("OR"); 
-				*/
+				
 				
 				Message message = new Message();
-				if(selectedToggle.equals("AND"))
+				if(selectedToggle.contains("AND"))
+				{
 					message = prepareSerachBook(ActionType.SEARCH_BOOK_AND,newSearch);
-				else
+					System.out.println("test6");
+				}
+				else if(selectedToggle.contains("OR"))
 					message = prepareSerachBook(ActionType.SEARCH_BOOK_OR,newSearch);
 				
 				try {

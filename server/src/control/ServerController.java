@@ -348,6 +348,48 @@ public class ServerController extends AbstractServer {
 		}
 		
 		case SEARCH_BOOK_AND: { //itai
+			System.out.println("test0");
+			ArrayList<String> elementsList = new ArrayList<String>();
+			try {
+				
+				Statement stmt = DatabaseController.connection.createStatement();
+				System.out.println("test1");
+				if(!message.getElementsList().get(0).equals(""))
+				{
+					System.out.println("test2");
+					ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language FROM books;");
+					while (rs_books.next()) 
+					{
+						System.out.println("test3");
+						elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3));
+						
+						//ResultSet rs_book_authors = stmt.executeQuery("SELECT authorId FROM books WHERE bookId="+rs_books.getString(1)+";");          
+						/*
+						while(rs_book_authors.next())
+						{
+							ArrayList<String> authorsList = new ArrayList<String>();  
+							ResultSet rs_authors = stmt.executeQuery("SELECT firstName, lastName FROM authors WHERE id="+rs_book_authors.getString(1)+";");
+							while(rs_authors.next())
+							{
+								
+								for(int i=1;i<=authorsList.size();i++)
+								{
+									authorsList.add(rs_books.getString(i));
+									elementsList.add(elementsList.size()-1, "^"+authorsList.get(i));
+								}
+							}
+						}
+						*/
+					}
+				}
+				System.out.println("test4");
+				for(int i=0;i<elementsList.size();i++)
+					System.out.println(elementsList.get(i));
+				System.out.println("test5");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
 			break;
 		}
 		
