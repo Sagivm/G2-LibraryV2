@@ -349,10 +349,11 @@ public class ServerController extends AbstractServer {
 		case SEARCH_BOOK_AND: { //itai
 			ArrayList<String> elementsList = new ArrayList<String>();
 			ArrayList<String> book_sn = new ArrayList<String>();
-			ArrayList<String> book_authors = new ArrayList<String>();
+			ArrayList<String> bookId_authorId = new ArrayList<String>();
 			ArrayList<String> authors = new ArrayList<String>();
 			
 			ArrayList<String> bookId_authorName = new ArrayList<String>();
+			ArrayList<String> authorsData = new ArrayList<String>();
 			
 			
 			
@@ -375,15 +376,15 @@ public class ServerController extends AbstractServer {
 				ResultSet rs_book_authors = stmt.executeQuery("SELECT * FROM book_authors;");
 				while(rs_book_authors.next())
 				{
-					book_authors.add(rs_book_authors.getString(1)); //bookId
-					book_authors.add(rs_book_authors.getString(2)); //authorId
+					bookId_authorId.add(rs_book_authors.getString(1)); //bookId
+					bookId_authorId.add(rs_book_authors.getString(2)); //authorId
 				}
 				
-				
-				for(int i=0;i<book_authors.size();i++)
-					System.out.println(book_authors.get(i));
+				/*
+				for(int i=0;i<bookId_authorId.size();i++)
+					System.out.println(bookId_authorId.get(i));
 				System.out.println(" ");
-				 
+				 */
 				
 				
 				ResultSet rs_authors = stmt.executeQuery("SELECT * FROM authors;");
@@ -393,30 +394,60 @@ public class ServerController extends AbstractServer {
 					authors.add(rs_authors.getString(2)+" "+rs_authors.getString(3)); //author name
 				}
 				
-				for(int i=1;i<book_authors.size();i=i+2)
+				/*
+				for(int i=0;i<authors.size();i++)
+					System.out.println(authors.get(i));
+				System.out.println(" ");
+				*/
+				
+				for(int i=0;i<bookId_authorId.size();i=i+2)
 				{
 					for(int j=0;j<authors.size();j=j+2)
 					{
-						if(book_authors.get(i).equals(authors.get(j)))
+						if(bookId_authorId.get(i+1).equals(authors.get(j)))
 						{
-							bookId_authorName.add(book_authors.get(i-1)); //book sn
+							bookId_authorName.add(bookId_authorId.get(i)); //book id
 							bookId_authorName.add(authors.get(j+1)); //book author
-							bookId_cntAuthors[Integer.parseInt(book_authors.get(i))]++;
+							bookId_cntAuthors[Integer.parseInt(bookId_authorId.get(i))]++; //count number of authors for each book
 							break;
 						}
 					}
 				}
+				/*
+				for(int i=0;i<bookId_authorName.size();i=i+2)
+				{
+					if(bookId_authorName.get(i).equals(i))
+					authorsData.add(bookId_cntAuthors+)
+				}
+				*/
+					/*
+					for(int j=0;j<bookId_authorName.size();j=j+2)
+					{
+						if(bookId_authorName.get(j).equals(i))
+							elementsList.add(i,"^" + bookId_authorName.get(j+1));	
+					}*/
 				
-				for(int i=0;i<bookId_cntAuthors.length;i++)
-					System.out.println(i+": "+bookId_cntAuthors[i]);
-				
-				
+				//}
+				for(int i=0;i<elementsList.size();i++)
+					System.out.println(elementsList.get(i));
+				System.out.println(" ");
 				
 				/*
+				for(int i=0;i<bookId_authorName.size();i=i+2)
+					System.out.println(bookId_authorName.get(i)+": "+bookId_authorName.get(i+1));
+				System.out.println(" ");
+				
+				for(int i=1;i<bookId_cntAuthors.length;i++)
+					System.out.println(i+": "+bookId_cntAuthors[i]);
+					System.out.println(" ");
+				
+				
+				
+				
 				for(int i=0;i<authors.size();i++)
 					System.out.println(authors.get(i));
-				*/
 				
+				*/
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
