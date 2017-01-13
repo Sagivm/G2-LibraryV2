@@ -348,7 +348,7 @@ public class ServerController extends AbstractServer {
 
 		case SEARCH_BOOK_AND: { // itai
 			ArrayList<String> elementsList = new ArrayList<String>();
-<<<<<<< HEAD
+
 	
 			elementsList=makeSearchBook();
 			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
@@ -357,10 +357,10 @@ public class ServerController extends AbstractServer {
 			
 			/*
 			for(i=0;i<elementsList.size();i++)
-=======
+
 			elementsList = makeSearchBook();
 			for (int i = 0; i < elementsList.size(); i++)
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
+
 				System.out.println(elementsList.get(i));
 			System.out.println(" ");
 			*/
@@ -707,19 +707,15 @@ public class ServerController extends AbstractServer {
 	 * 
 	 * writeToLog("Server stopped"); }
 	 */
-<<<<<<< HEAD
+
 	
 	
 	/**
 	 * This function returns relevant data for book search
 	 * @author itain
 	 */
-	private ArrayList<String> makeSearchBook() throws IOException
-	{
-=======
-
 	private ArrayList<String> makeSearchBook() throws IOException {
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
+
 		ArrayList<String> elementsList = new ArrayList<String>();
 
 		try {
@@ -736,17 +732,11 @@ public class ServerController extends AbstractServer {
 
 			/* add sn, title, language, authors count for each book */
 			Statement stmt = DatabaseController.connection.createStatement();
-<<<<<<< HEAD
+
 			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
 			while(rs_books.next())
 			{
 				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
-=======
-			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, authorsCount FROM books;");
-			while (rs_books.next()) {
-				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^"
-						+ rs_books.getString(4));
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 				book_sn.add(rs_books.getString(1));
 			}
 
@@ -806,7 +796,7 @@ public class ServerController extends AbstractServer {
 				elementsList.remove(k);
 				k++;
 			}
-<<<<<<< HEAD
+
 			
 			
 			
@@ -816,15 +806,8 @@ public class ServerController extends AbstractServer {
 			{
 				book_subjects.add(rs_bookSubjects.getString(1)); //book id
 				book_subjects.add(rs_bookSubjects.getString(2)); //subject id
-=======
 
-			// download book_subjects table from DB
-			ResultSet rs_bookSubjects = stmt.executeQuery("SELECT * from book_subjects");
-			while (rs_bookSubjects.next()) {
-				book_subjects.add(rs_bookSubjects.getString(1)); // book id
-				book_subjects.add(rs_bookSubjects.getString(2)); // subject id
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
-			}
+
 
 			// download subjects table from DB
 			ResultSet rs_subjects = stmt.executeQuery("SELECT * from subjects");
@@ -840,19 +823,13 @@ public class ServerController extends AbstractServer {
 				domains.add(rs_domains.getString(1)); // domain id
 				domains.add(rs_domains.getString(2)); // domain name
 			}
-<<<<<<< HEAD
-		
+	
 
 			
-			//build book_subjects_domains
-			
-			for(int i=0; i<book_sn.size();i++) //add book id
-=======
 
 			// build book_subjects_domains
 
 			for (int i = 0; i < book_sn.size(); i++) // add book id
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 				book_subjects_domains.add("");
 
 			for (int i = 0; i < book_subjects_domains.size(); i++) //
@@ -896,13 +873,13 @@ public class ServerController extends AbstractServer {
 																						// name
 									{
 										String tmp2 = book_subjects_domains.get(i);
-<<<<<<< HEAD
+
 										tmp2=tmp2+"^"+domains.get(n+1);
 										book_subjects_domains.add(i+1, tmp2);
-=======
+
 										tmp2 = tmp2 + domains.get(n + 1);
 										book_subjects_domains.add(i + 1, tmp2);
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
+
 										book_subjects_domains.remove(i);
 										break;
 									}
@@ -914,30 +891,34 @@ public class ServerController extends AbstractServer {
 				}
 			}
 
-<<<<<<< HEAD
+
 			for(int i=0;i<elementsList.size();i++)
 			{
 				String tmp =elementsList.get(i);
 				tmp=tmp+book_subjects_domains.get(i);
 				elementsList.add(i+1, tmp);
-=======
-			for (int i = 0; i < elementsList.size(); i++) {
+			}
+
+			for (int i = 0; i < elementsList.size(); i++)
+			{
 				String tmp = elementsList.get(i);
 				tmp = tmp + "^" + book_subjects_domains.get(i);
 				elementsList.add(i + 1, tmp);
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
+
 				elementsList.remove(i);
 			}
 			/*
 			 * for(int i=0;i<elementsList.size();i++)
 			 * System.out.println(elementsList.get(i)); System.out.println(" ");
 			 */
-
-		} catch (SQLException e) {
+			
+		}} 
+		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return elementsList;
 	}
+
 	
 	
 	
