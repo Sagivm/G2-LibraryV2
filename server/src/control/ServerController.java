@@ -348,23 +348,11 @@ public class ServerController extends AbstractServer {
 
 		case SEARCH_BOOK_AND: { // itai
 			ArrayList<String> elementsList = new ArrayList<String>();
-
-	
 			elementsList=makeSearchBook();
 			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
 			int i,j;
 			ArrayList<String> newSearch=message.getElementsList();
-			
-			/*
-			for(i=0;i<elementsList.size();i++)
 
-			elementsList = makeSearchBook();
-			for (int i = 0; i < elementsList.size(); i++)
-
-				System.out.println(elementsList.get(i));
-			System.out.println(" ");
-			*/
-			
 			//initiate filterResults
 			for(i=0;i<filterResults.length;i++)
 				filterResults[i]=1;
@@ -400,9 +388,15 @@ public class ServerController extends AbstractServer {
 				
 				if(!newSearch.get(4).isEmpty()) //key words
 				{
-					String[] tmp = new String[countItems(newSearch.get(4), ",")];
-					if(!bookRow[5].toLowerCase().contains(newSearch.get(4).toLowerCase())) //searched key words don't appear
-						filterResults[i]=0;
+					int size=countItems(newSearch.get(4), ",");
+					String[] tmp = new String[size];
+					tmp = newSearch.get(4).split("\\,");
+					for(j=0;j<size;j++)
+					{
+						if(!bookRow[5].toLowerCase().contains(tmp[j].toLowerCase().trim())) //searched key words don't appear
+							filterResults[i]=0;
+							
+					}
 				}
 				
 				
@@ -714,7 +708,8 @@ public class ServerController extends AbstractServer {
 	 * This function returns relevant data for book search
 	 * @author itain
 	 */
-	private ArrayList<String> makeSearchBook() throws IOException {
+	private ArrayList<String> makeSearchBook() throws IOException 
+	{
 
 		ArrayList<String> elementsList = new ArrayList<String>();
 
@@ -732,7 +727,6 @@ public class ServerController extends AbstractServer {
 
 			/* add sn, title, language, authors count for each book */
 			Statement stmt = DatabaseController.connection.createStatement();
-
 			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
 			while(rs_books.next())
 			{
@@ -740,38 +734,43 @@ public class ServerController extends AbstractServer {
 				book_sn.add(rs_books.getString(1));
 			}
 
+			
 			/* add authors names for each book */
 			ResultSet rs_book_authors = stmt.executeQuery("SELECT * FROM book_authors;");
-			while (rs_book_authors.next()) {
+			while (rs_book_authors.next())
+			{
 				bookId_authorId.add(rs_book_authors.getString(1)); // bookId
 				bookId_authorId.add(rs_book_authors.getString(2)); // authorId
 			}
 
 			ResultSet rs_authors = stmt.executeQuery("SELECT * FROM authors;");
-			while (rs_authors.next()) {
+			while (rs_authors.next())
+			{
 				authors.add(rs_authors.getString(1)); // author id
-				authors.add(rs_authors.getString(2) + " " + rs_authors.getString(3)); // author
-																						// name
+				authors.add(rs_authors.getString(2) + " " + rs_authors.getString(3)); // author name
 			}
 
-			for (int i = 0; i < bookId_authorId.size(); i = i + 2) {
-				for (int j = 0; j < authors.size(); j = j + 2) {
-					if (bookId_authorId.get(i + 1).equals(authors.get(j))) {
-						bookId_authorName.add(bookId_authorId.get(i)); // book
-																		// id
-						bookId_authorName.add(authors.get(j + 1)); // book
-																	// author
-																	// full name
+			for (int i = 0; i < bookId_authorId.size(); i = i + 2)
+			{
+				for (int j = 0; j < authors.size(); j = j + 2)
+				{
+					if (bookId_authorId.get(i + 1).equals(authors.get(j)))
+					{
+						bookId_authorName.add(bookId_authorId.get(i)); // book id
+						bookId_authorName.add(authors.get(j + 1)); // book's author full name
 						break;
 					}
 				}
 			}
 
-			for (int i = 0; i < bookId_authorName.size(); i = i + 2) {
-				for (int j = 0; j < elementsList.size(); j++) {
+			for (int i = 0; i < bookId_authorName.size(); i = i + 2)
+			{
+				for (int j = 0; j < elementsList.size(); j++) 
+				{
 					String bookid[] = new String[4];
 					bookid = elementsList.get(j).split("\\^");
-					if (bookId_authorName.get(i).equals(bookid[0])) {
+					if (bookId_authorName.get(i).equals(bookid[0]))
+					{
 						String tmp2 = elementsList.get(j);
 						tmp2 = tmp2 + "^" + bookId_authorName.get(i + 1);
 						elementsList.add(j + 1, tmp2);
@@ -783,10 +782,9 @@ public class ServerController extends AbstractServer {
 				}
 
 			}
-
-			/*
-			 * add domains count for each book (domains count = subjects count)
-			 */
+			
+		 
+			/* add domains count for each book (domains count = subjects count)*/ 
 			ResultSet rs_books2 = stmt.executeQuery("SELECT domainsCount FROM books;");
 			int k = 0;
 			while (rs_books2.next()) {
@@ -796,35 +794,36 @@ public class ServerController extends AbstractServer {
 				elementsList.remove(k);
 				k++;
 			}
-
 			
-			
-			
+		
 			//download book_subjects table from DB
 			ResultSet rs_bookSubjects= stmt.executeQuery("SELECT * from book_subjects");
 			while(rs_bookSubjects.next())
 			{
 				book_subjects.add(rs_bookSubjects.getString(1)); //book id
 				book_subjects.add(rs_bookSubjects.getString(2)); //subject id
+			}
 
-
+		
 
 			// download subjects table from DB
 			ResultSet rs_subjects = stmt.executeQuery("SELECT * from subjects");
-			while (rs_subjects.next()) {
+			while (rs_subjects.next()) 
+			{
 				subjects.add(rs_subjects.getString(1)); // subject id
 				subjects.add(rs_subjects.getString(2)); // subject name
 				subjects.add(rs_subjects.getString(4)); // domain id
 			}
+			
+	
 
 			// download domains table from DB
 			ResultSet rs_domains = stmt.executeQuery("SELECT * from domains");
-			while (rs_domains.next()) {
+			while (rs_domains.next())
+			{
 				domains.add(rs_domains.getString(1)); // domain id
 				domains.add(rs_domains.getString(2)); // domain name
 			}
-	
-
 			
 
 			// build book_subjects_domains
@@ -834,25 +833,13 @@ public class ServerController extends AbstractServer {
 
 			for (int i = 0; i < book_subjects_domains.size(); i++) //
 			{
-				for (int j = 0; j < book_subjects.size(); j = j + 2) {
-					if (book_sn.get(i).equals(book_subjects.get(j))) // found
-																		// book
-																		// id in
-																		// books_subjects,
-																		// now
-																		// find
-																		// its
-																		// name
+				for (int j = 0; j < book_subjects.size(); j = j + 2)
+				{
+					if (book_sn.get(i).equals(book_subjects.get(j))) // found book id in books_subjects, now find its name
 					{
-						for (int m = 0; m < subjects.size(); m = m + 3) {
-							if (book_subjects.get(j + 1).equals(subjects.get(m))) // subjects
-																					// ids
-																					// are
-																					// equal,
-																					// now
-																					// take
-																					// its
-																					// name
+						for (int m = 0; m < subjects.size(); m = m + 3) 
+						{
+							if (book_subjects.get(j + 1).equals(subjects.get(m))) // subjects ids are equal, now take its name
 							{
 								String tmp = book_subjects_domains.get(i);
 								tmp = tmp + "^" + subjects.get(m + 1);
@@ -861,25 +848,14 @@ public class ServerController extends AbstractServer {
 								book_subjects_domains.remove(i);
 
 								// now take domain's name
-								for (int n = 0; n < domains.size(); n = n + 2) {
+								for (int n = 0; n < domains.size(); n = n + 2)
+								{
 
-									if ((subjects.get(m + 2).equals(domains.get(n)))) // domains
-																						// ids
-																						// are
-																						// equal,
-																						// now
-																						// take
-																						// its
-																						// name
+									if ((subjects.get(m + 2).equals(domains.get(n)))) // domains ids are equal,now take its name
 									{
 										String tmp2 = book_subjects_domains.get(i);
-
 										tmp2=tmp2+"^"+domains.get(n+1);
 										book_subjects_domains.add(i+1, tmp2);
-
-										tmp2 = tmp2 + domains.get(n + 1);
-										book_subjects_domains.add(i + 1, tmp2);
-
 										book_subjects_domains.remove(i);
 										break;
 									}
@@ -891,28 +867,21 @@ public class ServerController extends AbstractServer {
 				}
 			}
 
-
-			for(int i=0;i<elementsList.size();i++)
-			{
-				String tmp =elementsList.get(i);
-				tmp=tmp+book_subjects_domains.get(i);
-				elementsList.add(i+1, tmp);
-			}
-
 			for (int i = 0; i < elementsList.size(); i++)
 			{
 				String tmp = elementsList.get(i);
 				tmp = tmp + "^" + book_subjects_domains.get(i);
 				elementsList.add(i + 1, tmp);
-
 				elementsList.remove(i);
 			}
+			
 			/*
-			 * for(int i=0;i<elementsList.size();i++)
-			 * System.out.println(elementsList.get(i)); System.out.println(" ");
+			 for(int i=0;i<elementsList.size();i++)
+				 System.out.println(elementsList.get(i)); 
+			 System.out.println(" ");
 			 */
 			
-		}} 
+		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
