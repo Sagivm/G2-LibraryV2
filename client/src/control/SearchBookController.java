@@ -190,7 +190,7 @@ public class SearchBookController implements ScreensIF{
 					}
 				}
 		        
-		        //System.out.println(title+"  "+authorList.get(0)+"  "+language+"  "+summary+"  "+toc+"  "+domainList.get(0)+"  "+keyWords);
+		        
 				} catch (Exception e) {
 					e.printStackTrace();		
 					}
@@ -297,12 +297,13 @@ public class SearchBookController implements ScreensIF{
 		elementsList.add(Integer.toString(searchBook.getDomainsNumber())); //domains number
 		for(i=0;i<searchBook.getDomainsNumber();i++) //domains
 			elementsList.add(searchBook.getDomains().get(i));
-		
+		/*
 		System.out.println(elementsList.size());
 		
 		for(int k=0;k<elementsList.size();k++)
 			System.out.println(elementsList.get(k));
-			
+			*/
+		
 		message.setElementsList(elementsList);
 		
 		return message;
