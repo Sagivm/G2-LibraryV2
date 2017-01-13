@@ -238,10 +238,8 @@ public class ServerController extends AbstractServer {
 							elementsList.add(1, rs.getString(2)); // first name
 							elementsList.add(2, rs.getString(3)); // last name
 							elementsList.add(3, rs.getString(4)); // password
-							elementsList.add(4, rs.getString(5)); // account
-																	// type
-							elementsList.add(5, rs.getString(6)); // account
-																	// status
+							elementsList.add(4, rs.getString(5)); // account type
+							elementsList.add(5, rs.getString(6)); // account status
 							break;
 						}
 					}
@@ -454,7 +452,7 @@ public class ServerController extends AbstractServer {
 			break;
 
 		}
-		case DOMAINS: {
+		case GETDOMAINSSPECIFIC: {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
@@ -464,7 +462,7 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(1));
 
 				}
-				replay = new Replay(ActionType.DOMAINS, true, elementsList);
+				replay = new Replay(ActionType.GETDOMAINSSPECIFIC, true, elementsList);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -475,13 +473,13 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
-						"SELECT sn,title,authors.firstName,authors.lastName,language,purchase FROM books,authors,book_authors_book_by_date WHERE books.sn=book_authos.bookId and authors.authorId=authors.id and book.sn=book_by_date.bookId;");
+						"SELECT sn,title,authors.firstName,authors.lastName,language,purchase,domains.name FROM books,authors,book_authors_book_by_date,subject,book_subject,domain WHERE books.sn=book_authos.bookId and authors.authorId=authors.id and book.sn=book_by_date.bookId and subject.domain=domain.id and subject.id=book_subject.subjectId and book_subject.bookId=books.sn;");
 				if (!rs.isBeforeFirst())
 					replay = new Replay(ActionType.USEREPORT, false);// no data
 				else {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
-								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + String.valueOf(rs.getInt(6)));
+								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + String.valueOf(rs.getInt(6))+"^"+rs.getString(7));
 					}
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}

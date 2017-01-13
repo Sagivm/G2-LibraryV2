@@ -35,7 +35,7 @@ public class UserReportController implements Initializable {
 	@FXML private TableView<Purchase> table;
 	
 	/**
-	 * Data returned from Db will be inserted here
+	 * Data returned from Db will be inserted here comes in 6 strings divided by ^
 	 */
 	public static ArrayList<String> data;
 	
@@ -73,6 +73,10 @@ public class UserReportController implements Initializable {
 	 * Displays user name
 	 */
 	@FXML private Label titleLabel;
+	/**
+	 * ArrayList containing the data in Purchase form
+	 */
+	private ArrayList<Purchase> list;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -116,11 +120,11 @@ public class UserReportController implements Initializable {
 						{
 							bookIdColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("id"));
 							titleColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("title"));
-							authorColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("title"));
+							authorColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("author"));
 							languageColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("language"));
 							dateColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("date"));
 							priceColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("price"));
-							ArrayList<Purchase> list=arrangelist(data);
+							arrangelist();
 							ObservableList<Purchase> items =FXCollections.observableArrayList(list);
 							table.setItems(items);
 							
@@ -158,19 +162,16 @@ public class UserReportController implements Initializable {
 	}
 	/**
 	 * Transfer the list from the DB to ArrayList<Purchase> 
-	 * @param data ArrayList<String> containing Purchase data in string form divided by ^. 5 fields
-	 * @return an ArrayList<Purchase> containing data from DB
 	 */
-	private ArrayList<Purchase> arrangelist(ArrayList<String> data)
+	private void arrangelist()
 	{
-		ArrayList<Purchase> list=new ArrayList<Purchase>();
+		list=new ArrayList<Purchase>();
 		String datasplit[]=new String[6];
 		for(int i=0;i<data.size();i++)
 		{
 			datasplit=data.get(i).split("\\^");
 			list.add(new Purchase(datasplit));
 		}
-		return list;
 		
 	}
 	private void initializeLabel()
@@ -210,8 +211,8 @@ public class UserReportController implements Initializable {
 		public SimpleStringProperty price;
 		/**
 		 * constructor
-		 * @param split String array containing the 5 attributes of Purchase in the order
-		 * id,title,language,date,price
+		 * @param split String array containing the 6 attributes of Purchase in the order
+		 * id,title,author,language,date,price
 		 */
 		public Purchase(String split[]) {
 			this.id = new SimpleStringProperty(split[0]);

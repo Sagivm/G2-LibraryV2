@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -41,6 +42,13 @@ public class HomepageLibrarianController implements ScreensIF {
 	 * save the connected librarian
 	 */
 	private static Worker connectedLibrarian;
+	
+	/**
+	 * The user full name will shown in this label.
+	 */
+	@FXML private Label usernameLabel;
+
+
 	
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
@@ -72,7 +80,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	 * Choose which screen to load in the content pane.
 	 */
 	@FXML
-	    public void initialize() {
+    public void initialize() {
 		if (page != null)
 		 {
 			try {
@@ -82,7 +90,14 @@ public class HomepageLibrarianController implements ScreensIF {
 				e.printStackTrace();
 			} 
 		 }
-	 }
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				usernameLabel.setText(connectedLibrarian.getFirstname() + " " + connectedLibrarian.getLastname());
+				//usernameLabel.setText("fdsfsd");
+			}
+		});
+	}
 	
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)

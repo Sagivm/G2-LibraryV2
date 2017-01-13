@@ -28,10 +28,10 @@ public class Person {
 	 * @param lastname
 	 * @param username
 	 */
-	public Person(String username, String firstname, String lastname) {
-		this.username = username;
+	public Person(String firstname, String lastname,String username) {
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.username = username;
 	}
 	/**
 	 * @return Persons's first Name
