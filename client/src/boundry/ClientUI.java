@@ -106,15 +106,15 @@ public class ClientUI extends Application {
 	/**Setter for setTypeOfUser.
 	 * @param typeOfUser
 	 */
-	public void setTypeOfUser(String typeOfUser)
+	public static void setTypeOfUser(String typeOfUser1)
 	{
-		this.typeOfUser = typeOfUser;
+		typeOfUser = typeOfUser1;
 	}
 	
 	/** Getter for getTypeOfUser.
 	 * @return
 	 */
-	public String getTypeOfUser()
+	public static String getTypeOfUser()
 	{
 		return typeOfUser;
 	}

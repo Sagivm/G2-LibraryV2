@@ -6,20 +6,43 @@ import java.util.ArrayList;
 
 import entity.Login;
 import entity.Message;
+import entity.ScreensInfo;
 import entity.Worker;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 //
 public class HomepageManagerController implements ScreensIF {
 	
+	/**
+	 * page gets the screen to load in the content pane.
+	 */
+	private static String page = null;
+	
+	/**
+	 * the main content frame.
+	 */
+	@FXML private AnchorPane content;
 	
 	/**
 	 * save the connected manager
 	 */
 	private static Worker connectedManager;
+	
+	/**
+	 * The user full name will shown in this label.
+	 */
+	@FXML private Label usernameLabel;
+	
+	
+	
+	
 
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
@@ -45,6 +68,44 @@ public class HomepageManagerController implements ScreensIF {
 		}
 	}
 	
+	 /**
+	 * Choose which screen to load in the content pane.
+	 */
+	@FXML
+   public void initialize() {
+		if (page != null)
+		 {
+			try {
+				loadPage(page);
+				page=null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		 }
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				usernameLabel.setText(connectedManager.getFirstname() + " " + connectedManager.getLastname());
+			}
+		});
+	}
+	
+	/**
+	 * this method load the page to the content AnchorPane.
+	 * @param screenPath
+	 * @throws IOException
+	 */
+	@FXML
+	public void loadPage(String screenPath) throws IOException {
+				try {
+					if(content.getChildren().size()>0)
+						content.getChildren().remove(0);
+					Parent root = FXMLLoader.load(getClass().getResource(screenPath));
+					content.getChildren().add(root);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	}
 	
 	/** Handler when pressed "Logout". this function log out the current manager.
 	 * @param event - gets the ActionEvent when the function called.
@@ -94,7 +155,6 @@ public class HomepageManagerController implements ScreensIF {
 		message.setElementsList(elementsList);
 		return message;
 	}
-	
 
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)
@@ -117,6 +177,50 @@ public class HomepageManagerController implements ScreensIF {
 	public void setConnectedManager(Worker connectedManager)
 	{
 		this.connectedManager = connectedManager;
+	}
+	
+	/** Handler when pressed "Pending Reviews requests". this function open the Pending Reviews requests form.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	public void pendingReviewsButtonPressed(ActionEvent event) throws IOException {
+		loadPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
+	}
+	
+	/**
+	 * Handler when pressed "search book". this function open the search book
+	 * form.
+	 * 
+	 * @param event - gets the ActionEvent when the function called.
+	 * @throws IOException
+	 */
+	@FXML
+	public void searchBookButtonPressed(ActionEvent event) throws IOException {
+		try {
+			if(content.getChildren().size()>0)
+				content.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.SEARCH_BOOK_SCREEN));
+			content.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/** Setter for page.
+	 * @param page
+	 */
+	public static void setPage(String pageToLoad)
+	{
+		page = pageToLoad;
+	}
+	
+	/** Getter for page.
+	 * @return
+	 */
+	public String getPage()
+	{
+		return page;
 	}
 	
 }

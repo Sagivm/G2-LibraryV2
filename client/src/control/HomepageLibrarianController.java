@@ -94,7 +94,6 @@ public class HomepageLibrarianController implements ScreensIF {
 			@Override
 			public void run() {
 				usernameLabel.setText(connectedLibrarian.getFirstname() + " " + connectedLibrarian.getLastname());
-				//usernameLabel.setText("fdsfsd");
 			}
 		});
 	}
@@ -190,6 +189,25 @@ public class HomepageLibrarianController implements ScreensIF {
 	@FXML
 	public void pendingReviewsButtonPressed(ActionEvent event) throws IOException {
 		loadPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
+	}
+	
+	/**
+	 * Handler when pressed "search book". this function open the search book
+	 * form.
+	 * 
+	 * @param event - gets the ActionEvent when the function called.
+	 * @throws IOException
+	 */
+	@FXML
+	public void searchBookButtonPressed(ActionEvent event) throws IOException {
+		try {
+			if(content.getChildren().size()>0)
+				content.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.SEARCH_BOOK_SCREEN));
+			content.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -31,7 +31,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="btnDecline" layoutX="627.0" layoutY="507.0" mnemonicParsing="false" onAction="#declineButtonPressed" prefHeight="46.0" prefWidth="127.0" text="Decline">
+      <Button fx:id="btnDecline" layoutX="359.0" layoutY="507.0" mnemonicParsing="false" onAction="#declineButtonPressed" prefHeight="46.0" prefWidth="127.0" text="Decline">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -46,5 +46,10 @@
             <Font size="16.0" />
          </font>
       </Label>
+      <Button fx:id="btnBack" layoutX="627.0" layoutY="507.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="46.0" prefWidth="127.0" text="&lt; Back">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
