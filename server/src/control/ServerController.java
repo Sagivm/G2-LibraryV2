@@ -348,25 +348,11 @@ public class ServerController extends AbstractServer {
 
 		case SEARCH_BOOK_AND: { // itai
 			ArrayList<String> elementsList = new ArrayList<String>();
-			System.out.println("test1");
-	
 			elementsList=makeSearchBook();
-			System.out.println("test2");
 			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
-			System.out.println("test3");
 			int i,j;
 			ArrayList<String> newSearch=message.getElementsList();
-			System.out.println("test4");
-			/*
-			for(i=0;i<elementsList.size();i++)
 
-			elementsList = makeSearchBook();
-			for (int i = 0; i < elementsList.size(); i++)
-
-				System.out.println(elementsList.get(i));
-			System.out.println(" ");
-			*/
-			
 			//initiate filterResults
 			for(i=0;i<filterResults.length;i++)
 				filterResults[i]=1;
@@ -399,14 +385,20 @@ public class ServerController extends AbstractServer {
 					if(!bookRow[4].toLowerCase().contains(newSearch.get(3).toLowerCase())) //searched toc doesn't appear
 						filterResults[i]=0;
 				}
-				/*
+				
 				if(!newSearch.get(4).isEmpty()) //key words
 				{
-					String[] tmp = new String[countItems(newSearch.get(4), ",")];
-					if(!bookRow[5].toLowerCase().contains(newSearch.get(4).toLowerCase())) //searched key words don't appear
-						filterResults[i]=0;
+					int size=countItems(newSearch.get(4), ",");
+					String[] tmp = new String[size];
+					tmp = newSearch.get(4).split("\\,");
+					for(j=0;j<size;j++)
+					{
+						if(!bookRow[5].toLowerCase().contains(tmp[j].toLowerCase().trim())) //searched key words don't appear
+							filterResults[i]=0;
+							
+					}
 				}
-				*/
+				
 				
 			}
 			
@@ -874,12 +866,6 @@ public class ServerController extends AbstractServer {
 					}
 				}
 			}
-
-			 
-
-			 for(int i=0;i<elementsList.size();i++)
-				 System.out.println(elementsList.get(i)); 
-			 System.out.println(" ");
 
 			for (int i = 0; i < elementsList.size(); i++)
 			{
