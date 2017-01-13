@@ -135,7 +135,7 @@ public class SearchBookController implements ScreensIF{
 			@Override
 			public void run() {
 				try{
-				String title=titleTextField.getText();;
+				String title=titleTextField.getText().trim();
 				
 		        ObservableList<String> selectedAuthors =  authorListView.getSelectionModel().getSelectedItems();
 				ArrayList<String> authorList= new ArrayList<String>();
@@ -145,16 +145,16 @@ public class SearchBookController implements ScreensIF{
 		        
 		        String language=languageComboBox.getSelectionModel().getSelectedItem().toString();
 		        
-		        String summary=summaryTextArea.getText();
+		        String summary=summaryTextArea.getText().trim();
 		        
-		        String toc=tocTextArea.getText();
+		        String toc=tocTextArea.getText().trim();
 		        
 		        ObservableList<String> selectedDomains =  domainListView.getSelectionModel().getSelectedItems();
 				ArrayList<String> domainList= new ArrayList<String>();
 		        for(String s : selectedDomains)
 		        	domainList.add(s);
 		        
-		        String keyWords=keywTextArea.getText();
+		        String keyWords=keywTextArea.getText().trim();
 				if (title.equals("") && authorList.isEmpty() &&	language.equals("") && summary.equals("") && toc.equals("") && domainList.isEmpty() && keyWords.equals(""))
 				{
 					actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_FIELDS);
@@ -279,35 +279,30 @@ public class SearchBookController implements ScreensIF{
 	 */
 	public Message prepareSerachBook(ActionType type, SearchBook searchBook)
 	{
-		int i,j;
+		int i;
 		Message message = new Message();
 		message.setType(type);
 		ArrayList <String> elementsList = new ArrayList<String>();
 		
-		elementsList.add(0,searchBook.getTitle()); //title
+		elementsList.add(searchBook.getTitle()); //title
+		elementsList.add(searchBook.getLanguage()); //language
+		elementsList.add(searchBook.getSummary()); //summary
+		elementsList.add(searchBook.getToc()); //table of contents
+		elementsList.add(searchBook.getKeyWords()); //keywords
 		
-		elementsList.add(1, Integer.toString(searchBook.getAuthorsNumber())); //authors number
+		elementsList.add(Integer.toString(searchBook.getAuthorsNumber())); //authors number
 		for(i=0;i<searchBook.getAuthorsNumber();i++) //authors
-			elementsList.add(2+i,searchBook.getAuthors().get(i));
+			elementsList.add(searchBook.getAuthors().get(i));
+
+		elementsList.add(Integer.toString(searchBook.getDomainsNumber())); //domains number
+		for(i=0;i<searchBook.getDomainsNumber();i++) //domains
+			elementsList.add(searchBook.getDomains().get(i));
 		
-		i=elementsList.size();
-		elementsList.add(i,searchBook.getLanguage()); i++; //language
-		elementsList.add(i,searchBook.getSummary()); i++; //summary
-		elementsList.add(i,searchBook.getToc()); i++; //table of contents
+		System.out.println(elementsList.size());
 		
-		
-		elementsList.add(i, Integer.toString(searchBook.getDomainsNumber())); //domains number
-		i++;
-		for(j=0;j<searchBook.getDomainsNumber();j++) //domains
-			elementsList.add(j+i,searchBook.getDomains().get(j));
-		
-		i=elementsList.size();
-		elementsList.add(i,searchBook.getKeyWords()); //keywords
-		
-		/*
 		for(int k=0;k<elementsList.size();k++)
 			System.out.println(elementsList.get(k));
-			*/
+			
 		message.setElementsList(elementsList);
 		
 		return message;

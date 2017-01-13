@@ -262,7 +262,7 @@ public class ClientConnectionController extends AbstractClient {
 			for (int i = 0; i < replay.getElementsList().size(); i++) {
 				String tmp[] = new String[3];
 				tmp = replay.getElementsList().get(i).split("\\^");
-				Author author = new Author(tmp[0], tmp[1], tmp[2]);
+				Author author = new Author(tmp[1], tmp[2], tmp[0]);
 				list.add(author);
 			}
 

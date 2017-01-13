@@ -346,10 +346,66 @@ public class ServerController extends AbstractServer {
 		
 		case SEARCH_BOOK_AND: { //itai
 			ArrayList<String> elementsList = new ArrayList<String>();
+	
 			elementsList=makeSearchBook();
-			for(int i=0;i<elementsList.size();i++)
+			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
+			int i,j;
+			ArrayList<String> newSearch=message.getElementsList();
+			
+			/*
+			for(i=0;i<elementsList.size();i++)
 				System.out.println(elementsList.get(i));
 			System.out.println(" ");
+			*/
+			
+			//initiate filterResults
+			for(i=0;i<filterResults.length;i++)
+				filterResults[i]=1;
+			
+			for(i=0;i<elementsList.size();i++)
+			{
+				String bookRow[] = new String[countItems(elementsList.get(i),"^")];
+				bookRow = elementsList.get(i).split("\\^");
+				
+				if(!newSearch.get(0).isEmpty()) //title
+				{
+					if(!bookRow[1].toLowerCase().contains(newSearch.get(0).toLowerCase())) //searched title doesn't appear
+						filterResults[i]=0;
+				}
+					
+				if(!newSearch.get(1).equals("")) //language
+				{
+					if(!bookRow[2].equals(newSearch.get(1))) //searched language wansn't found
+						filterResults[i]=0;
+				}
+				
+				if(!newSearch.get(2).isEmpty()) //summary
+				{
+					if(!bookRow[3].toLowerCase().contains(newSearch.get(2).toLowerCase())) //searched summary doesn't appear
+						filterResults[i]=0;
+				}
+				
+				if(!newSearch.get(3).isEmpty()) //toc
+				{
+					if(!bookRow[4].toLowerCase().contains(newSearch.get(3).toLowerCase())) //searched toc doesn't appear
+						filterResults[i]=0;
+				}
+				
+				if(!newSearch.get(4).isEmpty()) //key words
+				{
+					String[] tmp = new String[countItems(newSearch.get(4), ",")];
+					if(!bookRow[5].toLowerCase().contains(newSearch.get(4).toLowerCase())) //searched key words don't appear
+						filterResults[i]=0;
+				}
+				
+				
+			}
+			
+			for(i=0;i<filterResults.length;i++)
+				System.out.println(filterResults[i]);
+			System.out.println(" ");
+			
+
 			replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
 			break;
 		}
@@ -609,6 +665,10 @@ public class ServerController extends AbstractServer {
 	 */
 	
 	
+	/**
+	 * This function returns relevant data for book search
+	 * @author itain
+	 */
 	private ArrayList<String> makeSearchBook() throws IOException
 	{
 		ArrayList<String> elementsList = new ArrayList<String>();
@@ -627,10 +687,10 @@ public class ServerController extends AbstractServer {
 			
 			/* add sn, title, language, authors count for each book */
 			Statement stmt = DatabaseController.connection.createStatement();
-			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, authorsCount FROM books;");
+			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
 			while(rs_books.next())
 			{
-				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4));
+				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
 				book_sn.add(rs_books.getString(1));
 			}
 			
@@ -701,6 +761,8 @@ public class ServerController extends AbstractServer {
 				k++;
 			}
 			
+			
+			
 			//download book_subjects table from DB
 			ResultSet rs_bookSubjects= stmt.executeQuery("SELECT * from book_subjects");
 			while(rs_bookSubjects.next())
@@ -726,6 +788,7 @@ public class ServerController extends AbstractServer {
 				domains.add(rs_domains.getString(2)); //domain name
 			}
 		
+
 			
 			//build book_subjects_domains
 			
@@ -756,7 +819,7 @@ public class ServerController extends AbstractServer {
 									if((subjects.get(m+2).equals(domains.get(n)))) //domains ids are equal, now take its name
 									{
 										String tmp2 = book_subjects_domains.get(i);
-										tmp2=tmp2+domains.get(n+1);
+										tmp2=tmp2+"^"+domains.get(n+1);
 										book_subjects_domains.add(i+1, tmp2);
 										book_subjects_domains.remove(i);
 										break;
@@ -773,7 +836,7 @@ public class ServerController extends AbstractServer {
 			for(int i=0;i<elementsList.size();i++)
 			{
 				String tmp =elementsList.get(i);
-				tmp=tmp+"^"+book_subjects_domains.get(i);
+				tmp=tmp+book_subjects_domains.get(i);
 				elementsList.add(i+1, tmp);
 				elementsList.remove(i);
 			}
@@ -788,6 +851,31 @@ public class ServerController extends AbstractServer {
 			e.printStackTrace();
 		}
 		return elementsList;
+	}
+	
+	
+	
+	/**
+	 * This function returns number of items on each book row on search
+	 * @author itain
+	 * @param str- string to be checked
+	 */
+	private int countItems(String str, String lookFor)
+	{
+		String findStr = lookFor;
+		int lastIndex = 0;
+		int count = 0;
+
+		while (lastIndex != -1) {
+
+		    lastIndex = str.indexOf(findStr, lastIndex);
+
+		    if (lastIndex != -1) {
+		        count++;
+		        lastIndex += findStr.length();
+		    }
+		}
+		return count+1;
 	}
 
 }
