@@ -238,8 +238,10 @@ public class ServerController extends AbstractServer {
 							elementsList.add(1, rs.getString(2)); // first name
 							elementsList.add(2, rs.getString(3)); // last name
 							elementsList.add(3, rs.getString(4)); // password
-							elementsList.add(4, rs.getString(5)); // account type
-							elementsList.add(5, rs.getString(6)); // account status
+							elementsList.add(4, rs.getString(5)); // account
+																	// type
+							elementsList.add(5, rs.getString(6)); // account
+																	// status
 							break;
 						}
 					}
@@ -343,9 +345,10 @@ public class ServerController extends AbstractServer {
 			break;
 
 		}
-		
-		case SEARCH_BOOK_AND: { //itai
+
+		case SEARCH_BOOK_AND: { // itai
 			ArrayList<String> elementsList = new ArrayList<String>();
+<<<<<<< HEAD
 	
 			elementsList=makeSearchBook();
 			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
@@ -354,6 +357,10 @@ public class ServerController extends AbstractServer {
 			
 			/*
 			for(i=0;i<elementsList.size();i++)
+=======
+			elementsList = makeSearchBook();
+			for (int i = 0; i < elementsList.size(); i++)
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 				System.out.println(elementsList.get(i));
 			System.out.println(" ");
 			*/
@@ -409,8 +416,8 @@ public class ServerController extends AbstractServer {
 			replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
 			break;
 		}
-		
-		case SEARCH_BOOK_OR: { //itai
+
+		case SEARCH_BOOK_OR: { // itai
 			break;
 		}
 
@@ -428,7 +435,7 @@ public class ServerController extends AbstractServer {
 			replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
 			break;
 		}
-		
+
 		case GET_DOMAINS: {
 			ArrayList<String> domainList = new ArrayList<String>();
 			try {
@@ -443,8 +450,6 @@ public class ServerController extends AbstractServer {
 			replay = new Replay(ActionType.GET_DOMAINS, true, domainList);
 			break;
 		}
-		
-		
 
 		case ACCEPT_PENDING_USERS: {
 			try {
@@ -474,14 +479,18 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(6)); // review content
 					elementsList.add(rs.getString(7)); // review date
 				}
-				/*for(int i=0;i<elementsList.size();i+=7)
-					System.out.println("Review: " + elementsList.get(i) + " " + elementsList.get(i+1) + " " + elementsList.get(i+2) + " " + elementsList.get(i+3) + " " + elementsList.get(i+4) + " " + elementsList.get(i+5));
-				*/
+				/*
+				 * for(int i=0;i<elementsList.size();i+=7)
+				 * System.out.println("Review: " + elementsList.get(i) + " " +
+				 * elementsList.get(i+1) + " " + elementsList.get(i+2) + " " +
+				 * elementsList.get(i+3) + " " + elementsList.get(i+4) + " " +
+				 * elementsList.get(i+5));
+				 */
 				replay = new Replay(ActionType.PENDING_REVIEWS, true, elementsList);
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
-				//System.out.println("error2");
+				// System.out.println("error2");
 			}
 			break;
 		}
@@ -535,7 +544,8 @@ public class ServerController extends AbstractServer {
 				else {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
-								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + String.valueOf(rs.getInt(6))+"^"+rs.getString(7));
+								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + String.valueOf(rs.getInt(6))
+								+ "^" + rs.getString(7));
 					}
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
@@ -545,6 +555,40 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 
+		}
+		case BOOKREPORT: {
+			ArrayList<String> elementsList = new ArrayList<String>();
+			try {
+				ResultSet rs = DatabaseController
+						.searchInDatabase("SELECT date,searchCount,purchaseCount FROM book_by_date WHERE bookId="
+								+ Integer.valueOf(elementsList.get(0)) + ";");
+				while (rs.next()) {
+					elementsList.add(
+							rs.getString(1) + "^" + String.valueOf(rs.getInt(2)) + "^" + String.valueOf(rs.getInt(3)));
+				}
+				replay = new Replay(ActionType.BOOKREPORT, true, elementsList);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+
+		}
+		case UPDATE_REVIEW_STATUS: {
+			try {
+				char quotationMarks = '"';  
+				Statement stmt = DatabaseController.connection.createStatement();
+				//System.out.println("UPDATE project.reviews SET reviews.status = '" + data.get(2) + "' , reviews.content = " + quotationMarks + data.get(1) + quotationMarks + "  WHERE reviews.id =" + data.get(0));
+				stmt.executeUpdate("UPDATE project.reviews SET reviews.status = '" + data.get(2) + "' , reviews.content = " + quotationMarks + data.get(1) + quotationMarks + " WHERE reviews.id =" + data.get(0));
+				replay = new Replay(ActionType.UPDATE_REVIEW_STATUS, true);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
 		}
 
 		}
@@ -663,6 +707,7 @@ public class ServerController extends AbstractServer {
 	 * 
 	 * writeToLog("Server stopped"); }
 	 */
+<<<<<<< HEAD
 	
 	
 	/**
@@ -671,95 +716,97 @@ public class ServerController extends AbstractServer {
 	 */
 	private ArrayList<String> makeSearchBook() throws IOException
 	{
+=======
+
+	private ArrayList<String> makeSearchBook() throws IOException {
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 		ArrayList<String> elementsList = new ArrayList<String>();
-		
+
 		try {
-			
+
 			ArrayList<String> book_sn = new ArrayList<String>();
 			ArrayList<String> bookId_authorId = new ArrayList<String>();
 			ArrayList<String> authors = new ArrayList<String>();
 			ArrayList<String> bookId_authorName = new ArrayList<String>();
-			
+
 			ArrayList<String> book_subjects = new ArrayList<String>();
 			ArrayList<String> domains = new ArrayList<String>();
 			ArrayList<String> subjects = new ArrayList<String>();
 			ArrayList<String> book_subjects_domains = new ArrayList<String>();
-			
+
 			/* add sn, title, language, authors count for each book */
 			Statement stmt = DatabaseController.connection.createStatement();
+<<<<<<< HEAD
 			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
 			while(rs_books.next())
 			{
 				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
+=======
+			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, authorsCount FROM books;");
+			while (rs_books.next()) {
+				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^"
+						+ rs_books.getString(4));
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 				book_sn.add(rs_books.getString(1));
 			}
-			
-			
+
 			/* add authors names for each book */
 			ResultSet rs_book_authors = stmt.executeQuery("SELECT * FROM book_authors;");
-			while(rs_book_authors.next())
-			{
-				bookId_authorId.add(rs_book_authors.getString(1)); //bookId
-				bookId_authorId.add(rs_book_authors.getString(2)); //authorId
+			while (rs_book_authors.next()) {
+				bookId_authorId.add(rs_book_authors.getString(1)); // bookId
+				bookId_authorId.add(rs_book_authors.getString(2)); // authorId
 			}
-			
 
-			
 			ResultSet rs_authors = stmt.executeQuery("SELECT * FROM authors;");
-			while(rs_authors.next())
-			{
-				authors.add(rs_authors.getString(1)); //author id
-				authors.add(rs_authors.getString(2)+" "+rs_authors.getString(3)); //author name
+			while (rs_authors.next()) {
+				authors.add(rs_authors.getString(1)); // author id
+				authors.add(rs_authors.getString(2) + " " + rs_authors.getString(3)); // author
+																						// name
 			}
-			
 
-			
-			for(int i=0;i<bookId_authorId.size();i=i+2)
-			{
-				for(int j=0;j<authors.size();j=j+2)
-				{
-					if(bookId_authorId.get(i+1).equals(authors.get(j)))
-					{
-						bookId_authorName.add(bookId_authorId.get(i)); //book id
-						bookId_authorName.add(authors.get(j+1)); //book author full name
+			for (int i = 0; i < bookId_authorId.size(); i = i + 2) {
+				for (int j = 0; j < authors.size(); j = j + 2) {
+					if (bookId_authorId.get(i + 1).equals(authors.get(j))) {
+						bookId_authorName.add(bookId_authorId.get(i)); // book
+																		// id
+						bookId_authorName.add(authors.get(j + 1)); // book
+																	// author
+																	// full name
 						break;
 					}
 				}
 			}
-			
-			
-			for(int i=0;i<bookId_authorName.size();i=i+2)
-			{
-				for(int j=0;j<elementsList.size();j++)
-				{
+
+			for (int i = 0; i < bookId_authorName.size(); i = i + 2) {
+				for (int j = 0; j < elementsList.size(); j++) {
 					String bookid[] = new String[4];
 					bookid = elementsList.get(j).split("\\^");
-					if(bookId_authorName.get(i).equals(bookid[0]))
-					{
-						String tmp2 =elementsList.get(j);
-						tmp2=tmp2+"^"+bookId_authorName.get(i+1);
-						elementsList.add(j+1, tmp2);
+					if (bookId_authorName.get(i).equals(bookid[0])) {
+						String tmp2 = elementsList.get(j);
+						tmp2 = tmp2 + "^" + bookId_authorName.get(i + 1);
+						elementsList.add(j + 1, tmp2);
 						elementsList.remove(j);
 						break;
-						
+
 					}
-					
+
 				}
 
 			}
-			
-		
-			/* add domains count for each book (domains count = subjects count) */
+
+			/*
+			 * add domains count for each book (domains count = subjects count)
+			 */
 			ResultSet rs_books2 = stmt.executeQuery("SELECT domainsCount FROM books;");
-			int k=0;
-			while(rs_books2.next())
-			{
-				String tmp =elementsList.get(k);
-				tmp=tmp+"^"+rs_books2.getString(1);
-				elementsList.add(k+1, tmp);
+			int k = 0;
+			while (rs_books2.next()) {
+				String tmp = elementsList.get(k);
+				tmp = tmp + "^" + rs_books2.getString(1);
+				elementsList.add(k + 1, tmp);
 				elementsList.remove(k);
 				k++;
 			}
+<<<<<<< HEAD
 			
 			
 			
@@ -769,58 +816,93 @@ public class ServerController extends AbstractServer {
 			{
 				book_subjects.add(rs_bookSubjects.getString(1)); //book id
 				book_subjects.add(rs_bookSubjects.getString(2)); //subject id
+=======
+
+			// download book_subjects table from DB
+			ResultSet rs_bookSubjects = stmt.executeQuery("SELECT * from book_subjects");
+			while (rs_bookSubjects.next()) {
+				book_subjects.add(rs_bookSubjects.getString(1)); // book id
+				book_subjects.add(rs_bookSubjects.getString(2)); // subject id
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 			}
-			
-			//download subjects table from DB
-			ResultSet rs_subjects= stmt.executeQuery("SELECT * from subjects");
-			while(rs_subjects.next())
-			{
-				subjects.add(rs_subjects.getString(1)); //subject id
-				subjects.add(rs_subjects.getString(2)); //subject name
-				subjects.add(rs_subjects.getString(4)); //domain id
+
+			// download subjects table from DB
+			ResultSet rs_subjects = stmt.executeQuery("SELECT * from subjects");
+			while (rs_subjects.next()) {
+				subjects.add(rs_subjects.getString(1)); // subject id
+				subjects.add(rs_subjects.getString(2)); // subject name
+				subjects.add(rs_subjects.getString(4)); // domain id
 			}
-			
-			//download domains table from DB
-			ResultSet rs_domains= stmt.executeQuery("SELECT * from domains");
-			while(rs_domains.next())
-			{
-				domains.add(rs_domains.getString(1)); //domain id
-				domains.add(rs_domains.getString(2)); //domain name
+
+			// download domains table from DB
+			ResultSet rs_domains = stmt.executeQuery("SELECT * from domains");
+			while (rs_domains.next()) {
+				domains.add(rs_domains.getString(1)); // domain id
+				domains.add(rs_domains.getString(2)); // domain name
 			}
+<<<<<<< HEAD
 		
 
 			
 			//build book_subjects_domains
 			
 			for(int i=0; i<book_sn.size();i++) //add book id
+=======
+
+			// build book_subjects_domains
+
+			for (int i = 0; i < book_sn.size(); i++) // add book id
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 				book_subjects_domains.add("");
-			
-			
-			for(int i=0; i<book_subjects_domains.size();i++) //
+
+			for (int i = 0; i < book_subjects_domains.size(); i++) //
 			{
-				for(int j=0;j<book_subjects.size();j=j+2)
-				{
-					if(book_sn.get(i).equals(book_subjects.get(j))) //found book id in books_subjects, now find its name 
+				for (int j = 0; j < book_subjects.size(); j = j + 2) {
+					if (book_sn.get(i).equals(book_subjects.get(j))) // found
+																		// book
+																		// id in
+																		// books_subjects,
+																		// now
+																		// find
+																		// its
+																		// name
 					{
-						for(int m=0;m<subjects.size();m=m+3)
-						{
-							if(book_subjects.get(j+1).equals(subjects.get(m))) //subjects ids are equal, now take its name
+						for (int m = 0; m < subjects.size(); m = m + 3) {
+							if (book_subjects.get(j + 1).equals(subjects.get(m))) // subjects
+																					// ids
+																					// are
+																					// equal,
+																					// now
+																					// take
+																					// its
+																					// name
 							{
 								String tmp = book_subjects_domains.get(i);
-								tmp=tmp+"^"+subjects.get(m+1);
-								
-								book_subjects_domains.add(i+1, tmp);
+								tmp = tmp + "^" + subjects.get(m + 1);
+
+								book_subjects_domains.add(i + 1, tmp);
 								book_subjects_domains.remove(i);
-								
-								//now take domain's name
-								for(int n=0;n<domains.size();n=n+2)
-								{
-									
-									if((subjects.get(m+2).equals(domains.get(n)))) //domains ids are equal, now take its name
+
+								// now take domain's name
+								for (int n = 0; n < domains.size(); n = n + 2) {
+
+									if ((subjects.get(m + 2).equals(domains.get(n)))) // domains
+																						// ids
+																						// are
+																						// equal,
+																						// now
+																						// take
+																						// its
+																						// name
 									{
 										String tmp2 = book_subjects_domains.get(i);
+<<<<<<< HEAD
 										tmp2=tmp2+"^"+domains.get(n+1);
 										book_subjects_domains.add(i+1, tmp2);
+=======
+										tmp2 = tmp2 + domains.get(n + 1);
+										book_subjects_domains.add(i + 1, tmp2);
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 										book_subjects_domains.remove(i);
 										break;
 									}
@@ -831,21 +913,25 @@ public class ServerController extends AbstractServer {
 					}
 				}
 			}
-							
 
+<<<<<<< HEAD
 			for(int i=0;i<elementsList.size();i++)
 			{
 				String tmp =elementsList.get(i);
 				tmp=tmp+book_subjects_domains.get(i);
 				elementsList.add(i+1, tmp);
+=======
+			for (int i = 0; i < elementsList.size(); i++) {
+				String tmp = elementsList.get(i);
+				tmp = tmp + "^" + book_subjects_domains.get(i);
+				elementsList.add(i + 1, tmp);
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 				elementsList.remove(i);
 			}
 			/*
-			for(int i=0;i<elementsList.size();i++)
-				System.out.println(elementsList.get(i));
-			System.out.println(" ");
-			*/
-			
+			 * for(int i=0;i<elementsList.size();i++)
+			 * System.out.println(elementsList.get(i)); System.out.println(" ");
+			 */
 
 		} catch (SQLException e) {
 			e.printStackTrace();

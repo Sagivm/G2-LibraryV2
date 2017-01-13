@@ -270,7 +270,7 @@ public class ClientConnectionController extends AbstractClient {
 
 			break;
 		}
-		
+
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
 
@@ -278,15 +278,6 @@ public class ClientConnectionController extends AbstractClient {
 		}
 
 		case PENDING_REVIEWS: {
-			/*
-			 * Platform.runLater(new Runnable() {
-			 * 
-			 * @Override public void run() {
-			 * PendingReviewsController.pendingReviewList =
-			 * replay.getElementsList();
-			 * System.out.print(replay.getElementsList().get(0).toString()); }
-			 * });
-			 */
 			PendingReviewsController.pendingReviewList = replay.getElementsList();
 			break;
 		}
@@ -297,9 +288,8 @@ public class ClientConnectionController extends AbstractClient {
 				UserReportController.data = null;
 			break;
 		}
-		case GETDOMAINSSPECIFIC:
-		{
-			BookPopularityReportController.domainsdata=replay.getElementsList();
+		case GETDOMAINSSPECIFIC: {
+			BookPopularityReportController.domainsdata = replay.getElementsList();
 			break;
 		}
 		case POPULARITYREPORT: {
@@ -308,6 +298,36 @@ public class ClientConnectionController extends AbstractClient {
 			else
 				BookPopularityReportController.data = null;
 			break;
+		}
+		
+		case UPDATE_REVIEW_STATUS: {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					HomepageLibrarianController.setPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
+					ScreenController screenController = new ScreenController();
+					try{
+						if (success == true)
+						{
+							actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_SUCCEEDED);
+							screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);
+						}
+						else
+						{actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_FAILED);
+							//screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);	
+						}
+					}
+		    		catch (Exception e) {
+						e.printStackTrace();
+					} 
+				}
+			});
+			break;
+		}
+		case BOOKREPORT: {
+			BookReportController.data=replay.getElementsList();
+			break;
+
 		}
 
 		}

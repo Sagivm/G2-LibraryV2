@@ -25,6 +25,5 @@
             <TableColumn fx:id="btnEdit" prefWidth="79.0" />
         </columns>
       </TableView>
-      <Label fx:id="reviewIdLabel" layoutX="119.0" layoutY="113.0" prefHeight="25.0" prefWidth="84.0" text="Label" />
   </children>
 </AnchorPane>
