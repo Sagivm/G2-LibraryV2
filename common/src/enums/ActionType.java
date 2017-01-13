@@ -108,6 +108,11 @@ public enum ActionType {
 	 * Get Domains from DB given a specific book
 	 */
 	GETDOMAINSSPECIFIC,
+	
+	/**
+	 * Update the review status to "Approve" or "Decline".
+	 */
+	UPDATE_REVIEW_STATUS,
 
 
 }

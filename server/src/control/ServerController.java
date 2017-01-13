@@ -589,6 +589,19 @@ public class ServerController extends AbstractServer {
 			break;
 
 		}
+		case UPDATE_REVIEW_STATUS: {
+			try {
+				char quotationMarks = '"';  
+				Statement stmt = DatabaseController.connection.createStatement();
+				//System.out.println("UPDATE project.reviews SET reviews.status = '" + data.get(2) + "' , reviews.content = " + quotationMarks + data.get(1) + quotationMarks + "  WHERE reviews.id =" + data.get(0));
+				stmt.executeUpdate("UPDATE project.reviews SET reviews.status = '" + data.get(2) + "' , reviews.content = " + quotationMarks + data.get(1) + quotationMarks + " WHERE reviews.id =" + data.get(0));
+				replay = new Replay(ActionType.UPDATE_REVIEW_STATUS, true);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
 
 		}
 		return replay;

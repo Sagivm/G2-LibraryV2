@@ -99,6 +99,24 @@ public class GeneralMessages {
 	 */
 	public static final String USER_LOGGED_IN_FAILED = "Username or password are incorrect";
 	
-
+	/**
+	 * User Already logged in.
+	 */
 	public static final String USER_ALREADY_LOGGED_IN = "You are already connected to the system!";
+
+	/**
+	 * Review can't be empty.
+	 */
+	public static final String EMPTY_REVIEW = "The review's content can't be empty";
+	
+	/**
+	 * Operation succeeded
+	 */
+	public static final String OPERATION_SUCCEEDED = "Operation succeeded!";
+	
+	/**
+	 * Operation failed
+	 */
+	public static final String OPERATION_FAILED = "Operation failed!";
+	
 }

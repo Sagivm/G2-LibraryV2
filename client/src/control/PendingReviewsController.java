@@ -3,7 +3,7 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import control.PendingRegistrationController.pendingUser;
+
 import entity.GeneralMessages;
 import entity.Message;
 import entity.Review;
@@ -20,23 +20,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
@@ -87,9 +79,6 @@ public class PendingReviewsController implements ScreensIF {
 	 */
 	@FXML
     private TableColumn dateCol;
-	
-	@FXML
-	private Label reviewIdLabel;
 	
 	/**
 	 * Click on this button to open the review approve/decline form.
@@ -159,7 +148,6 @@ public class PendingReviewsController implements ScreensIF {
 	 */
 	@FXML
 	private void initialize(){
-		//reviewIdLabel.setText("df");/////////////
 		Message message = prepareGetPendingReviews(ActionType.PENDING_REVIEWS);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -240,14 +228,13 @@ public class PendingReviewsController implements ScreensIF {
 	                  button.setOnAction(new EventHandler<ActionEvent>() {
 	                    @Override public void handle(ActionEvent event) {
 	                    	
-	                    	reviewIdLabel.setText(review.getReviewContent());
 	                    	if (librarianMain == null)
 	                    		librarianMain = new HomepageLibrarianController();
 	                    	
                     		//System.out.println(librarianMain.getConnectedlibrarian());
                     		
                     		librarianMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
-                    		Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getBookTitle(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
+                    		Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getFirstName(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
                     		EditReviewController editReviewPage = new EditReviewController();
                     		editReviewPage.editReview = editReview;
                     		ScreenController screenController = new ScreenController();
@@ -258,12 +245,6 @@ public class PendingReviewsController implements ScreensIF {
                     		catch (Exception e) {
 								e.printStackTrace();
 							}  
-                    		
-
-                    		
-                    		//editReview = new EditReviewController();
-                    		//editReview.test = "erer";
-
 	                    }
 	                  });
 	                } else {

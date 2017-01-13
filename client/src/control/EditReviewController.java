@@ -1,12 +1,20 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import entity.GeneralMessages;
+import entity.Message;
 import entity.Review;
+import enums.ActionType;
+import interfaces.ScreensIF;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * EditReviewController is the controller that responsible to show
@@ -14,45 +22,187 @@ import javafx.scene.control.TextField;
  * @author ork
  *
  */
-public class EditReviewController {
+public class EditReviewController implements ScreensIF {
 	
 	
-	public String test="22";
+	/**
+	 * This is the current review that shown on the screen.
+	 */
 	public static entity.Review editReview;
 	
+	/**
+	 * The name of the book.
+	 */
+	@FXML
 	private Label lblTitle;
-	private TextField txtTitle;
+	
+	/**
+	 * The username of the user that wrote the review.
+	 */
+	@FXML
+	private Label lblUsername;
+	
+	/**
+	 * The full name of the user that wrote the review.
+	 */
+	@FXML
+	private Label lblFullName;
+	
+	/**
+	 * The date of the review.
+	 */
+	@FXML
+	private Label lblDate;
+	
+	/**
+	 * The review content (Editable).
+	 */
+	@FXML
+	private TextArea txtAreaContent;
+	
+	/**
+	 * ArrayList with the response for the DB (What to do and if approved saves the new content).
+	 */
+	private ArrayList<String> reviewStatus = new ArrayList<>();
 	
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
+	 */
+	@Override
+	public void backButtonPressed(ActionEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.ScreensIF#pressedCloseMenu(javafx.event.ActionEvent)
+	 */
+	@Override
+	public void pressedCloseMenu(ActionEvent event) throws IOException{
+
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType,
+	 * java.lang.String)
+	 */
+	@Override
+	public void actionOnError(ActionType type, String errorCode) {
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Error");
+		alert.setHeaderText(null);
+		alert.setContentText(errorCode);
+		alert.showAndWait();
+		if (type == ActionType.TERMINATE) {
+			Platform.exit();
+			System.exit(1);
+		}
+		if (type == ActionType.CONTINUE)
+			return;
+	}
+	
+	/**
+	 * Initialize values to the FX components from the DB.
+	 */
 	@FXML
     public void initialize() {
 		try{
-			//Review editReview;
-			//test = editReview.getBookTitle();
-			test = "Review of Book: " + editReview.getBookTitle();
-			printTest();
-			
-			//lblTitle.setText("Review of Book: " + editReview.getBookTitle());
 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		//while(editReview==null);
 		Platform.runLater(new Runnable() {
-		//javafx.application.Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-		//Platform.runLater(() -> {
-				lblTitle.setText("Review of Book: ");
-				//txtTitle.setText("Review of Book: " + editReview.getBookTitle());
+				lblTitle.setText(editReview.getBookTitle());
+				lblUsername.setText("User: " + editReview.getUsername());
+				lblFullName.setText(editReview.getFirstName() + " " + editReview.getLastName());
+				lblDate.setText("reviewed on " + editReview.getReviewDate());
+				txtAreaContent.setText(editReview.getReviewContent());		
 			}
 		});
 	}
 	
-	public void printTest()
+	/**
+	 * Sends the action tho the DB.
+	 * @param status
+	 * @param content
+	 */
+	public void actionPressed(String status,String content)
 	{
-		System.out.print(test);
+		try{
+			System.out.print(editReview.getReviewID());
+			reviewStatus.add(editReview.getReviewID());
+			reviewStatus.add(content);
+			reviewStatus.add(status);
+			Message message = updateReviewStatus(ActionType.UPDATE_REVIEW_STATUS,reviewStatus);
+			
+			ClientController clientCtrl = new ClientController();
+			if (clientCtrl.clientConnectionController == null)
+				clientCtrl.clientConnectionController = new ClientConnectionController(clientCtrl.IP_ADDRESS,clientCtrl.DEFAULT_PORT);
+			clientCtrl.clientConnectionController.sendToServer(message);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Move the action "declined" to actionPressed method.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	public void declineButtonPressed(ActionEvent event) throws IOException{    
+		try{
+			actionPressed("declined",editReview.getReviewContent());
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Move the action "approved" to actionPressed method.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	public void aprroveButtonPressed(ActionEvent event) throws IOException{    
+		try{
+			if (txtAreaContent.getText().length() == 0)
+			{
+				actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_REVIEW);
+				return;
+			}
+			actionPressed("approved",txtAreaContent.getText());
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Create a message to the server with the review status ActionType.
+	 * @param type
+	 * @param reviewStatus
+	 * @return
+	 */
+	public Message updateReviewStatus(ActionType type, ArrayList<String> reviewStatus)
+	{
+		Message message = new Message();
+		message.setType(type);
+		message.setElementsList(reviewStatus);
+		return message;
 	}
 
 }

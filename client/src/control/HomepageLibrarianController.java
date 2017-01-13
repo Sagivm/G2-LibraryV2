@@ -220,9 +220,9 @@ public class HomepageLibrarianController implements ScreensIF {
 	/** Setter for page.
 	 * @param page
 	 */
-	public void setPage(String page)
+	public static void setPage(String pageToLoad)
 	{
-		this.page = page;
+		page = pageToLoad;
 	}
 	
 	/** Getter for page.
