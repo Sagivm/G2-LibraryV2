@@ -335,6 +335,37 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 
 		}
+		case BOOK_REVIEWS: {
+			BookReviewsController.data=replay.getElementsList();
+			break;
+
+		}
+		case WRITE_REVIEW: {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					//HomepageUserController.setPage(ScreensInfo.HOMEPAGE_USER_SCREEN);
+					HomepageUserController.setPage(null);
+					ScreenController screenController = new ScreenController();
+					try{
+						if (success == true)
+						{
+							actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_SUCCEEDED);
+							screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+						}
+						else
+						{
+							actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_FAILED);	
+						}
+					}
+		    		catch (Exception e) {
+						e.printStackTrace();
+					} 
+				}
+			});
+			break;
+
+		}
 
 		}
 

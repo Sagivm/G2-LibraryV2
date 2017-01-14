@@ -119,6 +119,16 @@ public enum ActionType {
 	 * Get data from DB for book report
 	 */
 	BOOKREPORT,
+	
+	/**
+	 * Get data from DB for book reviews
+	 */
+	BOOK_REVIEWS,
+	
+	/**
+	 * Add new review to DB.
+	 */
+	WRITE_REVIEW,
 
 
 

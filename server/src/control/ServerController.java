@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -581,6 +582,60 @@ public class ServerController extends AbstractServer {
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}
+			break;
+		}
+		case BOOK_REVIEWS: {
+			try { 
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				//System.out.println("SELECT clients.firstName,clients.lastName,bought_book.purchaseDate,reviews.date,reviews.content FROM project.reviews,project.clients,project.bought_book WHERE reviews.userId=clients.username and reviews.userId=bought_book.userId and bought_book.bookId = " + data.get(0) + " and reviews.bookId = " + data.get(0));
+				ResultSet rs = stmt.executeQuery("SELECT clients.firstName,clients.lastName,bought_book.purchaseDate,reviews.date,reviews.content FROM project.reviews,project.clients,project.bought_book WHERE reviews.status='approved' and reviews.userId=clients.username and reviews.userId=bought_book.userId and bought_book.bookId = " + data.get(0) + " and reviews.bookId = " + data.get(0));
+				
+				if(rs == null)
+				{
+					elementsList.add("null"); // no results
+				}
+				else
+				{
+					while (rs.next()) {
+						elementsList.add(rs.getString(1)); // first name
+						elementsList.add(rs.getString(2)); // last name
+						elementsList.add(rs.getString(3)); // purchase date
+						elementsList.add(rs.getString(4)); // review date
+						elementsList.add(rs.getString(5)); // content
+					}
+				}
+				replay = new Replay(ActionType.BOOK_REVIEWS, true, elementsList);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+		case WRITE_REVIEW: {
+			
+			//DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			Date date = new Date();
+			
+			String sqlStmt = "INSERT INTO reviews (`userId`, `bookId`, `content`, `status`, `date`)"
+					+ "VALUES ('"+data.get(0)+"','"+data.get(1)+"','"+data.get(2)+"','pending','"+dateFormat.format(date)+"')";
+	
+			try {
+				DatabaseController.addToDatabase(sqlStmt);
+				sqlResult = true;
+			} catch (SQLException e) {
+				System.out.println(e);
+				if (e.getErrorCode() == 1062) { //// duplicate primary key
+					System.out.println("duplicate primary key - Write a review");
+				}
+			}
+			if (sqlResult == true)
+				replay = new Replay(ActionType.WRITE_REVIEW, true);
+			else {
+				replay = new Replay(ActionType.WRITE_REVIEW, false);
+				System.out.println(replay.getSucess());
 			}
 			break;
 		}

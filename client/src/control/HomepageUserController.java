@@ -5,6 +5,7 @@ import java.io.IOException;
 //import java.util.ResourceBundle;
 import java.util.ArrayList;
 
+import entity.Book;
 import entity.GeneralMessages;
 import entity.Login;
 import entity.Message;
@@ -28,13 +29,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * HomepageController is the controller after user logged in. this the main menu
+ * HomepageUserController is the controller after user logged in. this the main menu
  * of the user, here he manages the actions in system.
  * 
  * @author ork
  */
 public class HomepageUserController implements ScreensIF {
 
+	/**
+	 * page gets the screen to load in the content pane.
+	 */
+	private static String page = null;
+	
 	/**
 	 * the main content frame
 	 */
@@ -110,14 +116,15 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@FXML
 	public void searchBookButtonPressed(ActionEvent event) throws IOException {
-		try {
+/*		try {
 			if(content.getChildren().size()>0)
 				content.getChildren().remove(0);
 			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.SEARCH_BOOK_SCREEN));
 			content.getChildren().add(root);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
+		loadPage(ScreensInfo.SEARCH_BOOK_SCREEN);
 	}
 
 	/**
@@ -130,16 +137,46 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@FXML
 	public void settingsButtonPressed(ActionEvent event) throws IOException {
-		try {
-			// help: https://www.youtube.com/watch?v=Y-NjIPV1kLQ
-			if(content.getChildren().size()>0)
-				content.getChildren().remove(0);
-			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN));
-			content.getChildren().add(root);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		loadPage(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN);
 	}
+	/*--------------------------------------------------------------------------*/
+	@FXML
+	public void btnTestReadReviewsPressed(ActionEvent event) throws IOException {
+		String bookSummary = "The film begins with a summary of the prehistory of the ring of power."
+				+ " Long ago, twenty rings existed: three for elves, seven for dwarves, nine for"
+				+ " men, and one made by the Dark Lord Sauron, in Mordor, which would rule all the"
+				+ " others. Sauron poured all his evil and his will to dominate into this ring. An"
+				+ " alliance of elves and humans resisted Sauron’s ring and fought against Mordor."
+				+ " They won the battle and the ring fell to Isildur, the son of the king of Gondor,"
+				+ " but just as he was about to destroy the ring in Mount Doom, he changed his mind"
+				+ " and held on to it for himself. Later he was killed, and the ring fell to the bottom"
+				+ " of the sea. The creature Gollum discovered it and brought it to his cave. Then he lost"
+				+ " it to the hobbit Bilbo Baggins.";
+		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord",(float)52.5);
+		BookReviewsController bookReview = new BookReviewsController();
+		bookReview.book = book;
+		loadPage(ScreensInfo.BOOK_REVIEWS_SCREEN);
+	}
+	
+	@FXML
+	public void btnTestWriteReviewPressed(ActionEvent event) throws IOException {
+		String bookSummary = "The film begins with a summary of the prehistory of the ring of power."
+				+ " Long ago, twenty rings existed: three for elves, seven for dwarves, nine for"
+				+ " men, and one made by the Dark Lord Sauron, in Mordor, which would rule all the"
+				+ " others. Sauron poured all his evil and his will to dominate into this ring. An"
+				+ " alliance of elves and humans resisted Sauron’s ring and fought against Mordor."
+				+ " They won the battle and the ring fell to Isildur, the son of the king of Gondor,"
+				+ " but just as he was about to destroy the ring in Mount Doom, he changed his mind"
+				+ " and held on to it for himself. Later he was killed, and the ring fell to the bottom"
+				+ " of the sea. The creature Gollum discovered it and brought it to his cave. Then he lost"
+				+ " it to the hobbit Bilbo Baggins.";
+		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord",(float)52.5);
+		WriteReviewController bookReview = new WriteReviewController();
+		bookReview.book = book;
+		loadPage(ScreensInfo.WRITE_REVIEW_SCREEN);
+	}
+	/*----------------------------------------------------------------------------*/
+	
 
 	/** Handler when pressed "Logout". this function log out the current user.
 	 * @param event - gets the ActionEvent when the function called.
@@ -240,6 +277,39 @@ public class HomepageUserController implements ScreensIF {
 		}
 		if (type == ActionType.CONTINUE)
 			return;
+	}
+	
+	/**
+	 * this method load the page to the content AnchorPane.
+	 * @param screenPath
+	 * @throws IOException
+	 */
+	@FXML
+	public void loadPage(String screenPath) throws IOException {
+				try {
+					if(content.getChildren().size()>0)
+						content.getChildren().remove(0);
+					Parent root = FXMLLoader.load(getClass().getResource(screenPath));
+					content.getChildren().add(root);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	}
+	
+	/** Setter for page.
+	 * @param page
+	 */
+	public static void setPage(String pageToLoad)
+	{
+		page = pageToLoad;
+	}
+	
+	/** Getter for page.
+	 * @return
+	 */
+	public String getPage()
+	{
+		return page;
 	}
 
 }

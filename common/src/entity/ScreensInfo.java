@@ -129,4 +129,24 @@ public class ScreensInfo {
 	 */
 	public static final String EDIT_REVIEW_TITLE = "Edit Review";
 	
+	/**
+	 * Set Edit Review path.
+	 */
+	public static final String BOOK_REVIEWS_SCREEN = "/boundry/BookReviewsUI.fxml";
+	
+	/**
+	 * Set Edit Review title.
+	 */
+	public static final String BOOK_REVIEWS_TITLE = "Book Reviews";
+	
+	/**
+	 * Set Edit Review path.
+	 */
+	public static final String WRITE_REVIEW_SCREEN = "/boundry/WriteReviewUI.fxml";
+	
+	/**
+	 * Set Edit Review title.
+	 */
+	public static final String WRITE_REVIEW_TITLE = "Write a review";
+	
 }
