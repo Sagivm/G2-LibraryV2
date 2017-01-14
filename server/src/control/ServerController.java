@@ -440,10 +440,11 @@ public class ServerController extends AbstractServer {
 					for(j=0;j<domainsCount;j++)
 					{
 						for(int k=0;k<domainsInRow;k=k+2)
-						{
-
-							if(bookRow[10+k].equals(newSearch.get(continue_index+1+j)))
+						{						
+							if(bookRow[9+authorsInRow+k].equals(newSearch.get(continue_index+1+j)))
+							{
 								domainsFound[j]++;
+							}
 
 						}
 					}
@@ -474,24 +475,26 @@ public class ServerController extends AbstractServer {
 				}
 			}
 			
-			/*
+			
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				 */ 
+				  
 
-			replay = new Replay(ActionType.GET_AUTHORS, true, res);
+			replay = new Replay(ActionType.SEARCH_BOOK_AND, true, res);
 			break;
 		}
 
 		case SEARCH_BOOK_OR: { // itai -need to fix
-			/*
+			
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
 			//int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
 			int i,j, continue_index;
 			ArrayList<String> newSearch=message.getElementsList();
 
-			List<String> res=new ArrayList<String>();
+			ArrayList<String> res=new ArrayList<String>();
+			
+			System.out.println("OR");
 			
 			for(i=0;i<elementsList.size();i++)
 			{
@@ -500,10 +503,12 @@ public class ServerController extends AbstractServer {
 				
 				if(!newSearch.get(0).isEmpty()) //title
 				{
+					
 					if(bookRow[1].toLowerCase().contains(newSearch.get(0).toLowerCase())) //searched title doesn't appear
 					{
+						System.out.println("title_test");
 						res.add(elementsList.get(i));
-						break;
+						//break;
 					}
 				}
 					
@@ -511,8 +516,9 @@ public class ServerController extends AbstractServer {
 				{
 					if(bookRow[2].equals(newSearch.get(1))) //searched language wansn't found
 					{
+						System.out.println("language_test");
 						res.add(elementsList.get(i));
-						break;
+						//break;
 					}
 				}
 				
@@ -520,17 +526,19 @@ public class ServerController extends AbstractServer {
 				{
 					if(bookRow[3].toLowerCase().contains(newSearch.get(2).toLowerCase())) //searched summary doesn't appear
 					{
+						System.out.println("summary_test");
 						res.add(elementsList.get(i));
-						break;
+						//break;
 					}
 				}
 				
-				if(newSearch.get(3).isEmpty()) //toc
+				if(!newSearch.get(3).isEmpty()) //toc
 				{
 					if(bookRow[4].toLowerCase().contains(newSearch.get(3).toLowerCase())) //searched toc doesn't appear
 					{
+						System.out.println("toc_test");
 						res.add(elementsList.get(i));
-						break;
+						//break;
 					}
 				}
 				
@@ -543,8 +551,9 @@ public class ServerController extends AbstractServer {
 					{
 						if(bookRow[5].toLowerCase().contains(keyWords[j].toLowerCase().trim())) //searched key words don't appear
 						{
+							System.out.println("keyWords_test");
 							res.add(elementsList.get(i));
-							break;
+							//break;
 						}
 							
 					}
@@ -555,7 +564,7 @@ public class ServerController extends AbstractServer {
 				//authors
 				int authorsCount=Integer.parseInt(newSearch.get(5)); //newSearch
 				int authorsInRow=Integer.parseInt(bookRow[6]); //bookRow
-				int[] authorsFound=new int[authorsCount];
+				//int[] authorsFound=new int[authorsCount];
 				if(authorsCount!=0) 
 				{
 					for(j=0;j<authorsCount;j++)
@@ -566,9 +575,9 @@ public class ServerController extends AbstractServer {
 							String aName=newSearch.get(6+j).substring(beginName).trim();
 							if(bookRow[7+k].equals(aName))
 							{
-							
+								System.out.println("author_test");
 								res.add(elementsList.get(i));
-								break;
+								//break;
 							
 							}
 							
@@ -582,7 +591,7 @@ public class ServerController extends AbstractServer {
 				//domains
 				int domainsCount=Integer.parseInt(newSearch.get(continue_index));
 				int domainsInRow=Integer.parseInt(bookRow[7+authorsInRow]);
-				int[] domainsFound=new int[domainsCount];
+				//int[] domainsFound=new int[domainsCount];
 				
 				
 				if(domainsCount!=0) 
@@ -592,10 +601,11 @@ public class ServerController extends AbstractServer {
 						for(int k=0;k<domainsInRow;k=k+2)
 						{
 
-							if(bookRow[10+k].equals(newSearch.get(continue_index+1+j)))
+							if(bookRow[9+authorsInRow+k].equals(newSearch.get(continue_index+1+j)))
 							{
+
 								res.add(elementsList.get(i));
-								break;
+								//break;
 							}
 
 						}
@@ -607,14 +617,14 @@ public class ServerController extends AbstractServer {
 				
 				
 			}
-			res = res.stream().distinct().collect(Collectors.toList());
+			//res = res.stream().distinct().collect(Collectors.toList());
 
 			
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
 				  
-			 */
-			//replay = new Replay(ActionType.GET_AUTHORS, true, res);
+			 
+			replay = new Replay(ActionType.SEARCH_BOOK_OR, true, res);
 			break;
 		}
 
@@ -1078,11 +1088,11 @@ public class ServerController extends AbstractServer {
 				elementsList.remove(i);
 			}
 			
-			
+			/*
 			 for(int i=0;i<elementsList.size();i++)
 				 System.out.println(elementsList.get(i)); 
 			 System.out.println(" ");
-			 
+			 */
 			
 		}
 		catch (SQLException e) {
