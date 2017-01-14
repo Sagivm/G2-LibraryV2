@@ -88,6 +88,7 @@ public class Book {
 	 * @param domains - Gets the domains.
 	 * @param subjects - Gets the subjects.
 	 */
+
 	public Book(String title, String language, String summary, String tableOfContent, String keywords,
 			float price, ArrayList <Author> authors, ArrayList <Domain> domains, ArrayList <Subject> subjects) {
 		booksIdCounter++;
@@ -105,6 +106,16 @@ public class Book {
 		this.subjects=subjects;
 	}
 	
+	/**
+	 * empty Book constructor
+	 * @param booksIdCounter - adds 1 to booksIdCounter.
+	 * @param sn - Gets the booksIdCounter.
+	 */
+	public Book() {
+		booksIdCounter++;
+		this.sn = booksIdCounter;
+	}
+
 	/** Getter for sn
 	 * @return sn
 	 */
