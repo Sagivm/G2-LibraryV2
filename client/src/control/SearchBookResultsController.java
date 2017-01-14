@@ -56,32 +56,22 @@ public class SearchBookResultsController implements ScreensIF{
 				book.setTableOfContent(tmp[4]);
 				book.setKeywords(tmp[5]);
 				int authorsCount=Integer.parseInt(tmp[6]);
-				ArrayList<Author> authors = new ArrayList<Author>();
+				ArrayList<String> authors = new ArrayList<String>();
 				for(j=0; j<authorsCount;j++)
-				{
-					Author author = new Author();
-					String[] tmp2 = new String[2];
-					tmp2 = tmp[7+j].split(" ");
-					author.setFirstname(tmp2[1]);
-					author.setLastname(tmp2[2]);
-					authors.add(author);
-				}
+					authors.add(tmp[7+j]);
+				
 				book.setAuthors(authors);
 				int continue_index=7+j;
 				
 				int subjectsCount=Integer.parseInt(tmp[continue_index]);
-				ArrayList<Domain> domains = new ArrayList<Domain>();
-				ArrayList<Subject> subjects = new ArrayList<Subject>();
+				ArrayList<String> domains = new ArrayList<String>();
+				ArrayList<String> subjects = new ArrayList<String>();
 				for(j=0; j<subjectsCount*2;j+=2)
 				{
-					Domain domain = new Domain();
-					Subject subject = new Subject();
-					
-					domain.setName(tmp[continue_index+1+j]);
-					subject.setName(tmp[continue_index+1+j+1]);
-					domains.add(domain);
-					subjects.add(subject);
+					domains.add(tmp[continue_index+1+j]);
+					subjects.add(tmp[continue_index+1+j+1]);
 				}
+				
 				book.setDomains(domains);
 				book.setSubjects(subjects);
 				
@@ -99,16 +89,16 @@ public class SearchBookResultsController implements ScreensIF{
                 new PropertyValueFactory<Book, String>("title"));
 		
 		authorsCol.setCellValueFactory(
-                new PropertyValueFactory<Book, ArrayList<Author>>("authors"));
+                new PropertyValueFactory<Book, ArrayList<String>>("authors"));
 		
 		languageCol.setCellValueFactory(
                 new PropertyValueFactory<Book, String>("language"));
 
 		domainsCol.setCellValueFactory(
-                new PropertyValueFactory<Book, ArrayList<Domain>>("domains"));
+                new PropertyValueFactory<Book, ArrayList<String>>("domains"));
 		
 		subjectsCol.setCellValueFactory(
-                new PropertyValueFactory<Book, ArrayList<Subject>>("subjects"));
+                new PropertyValueFactory<Book, ArrayList<String>>("subjects"));
 		
 		
 		resultsTable.setItems(data);

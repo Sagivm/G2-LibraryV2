@@ -52,18 +52,18 @@ public class Book {
 	/**
 	 *authors of book
 	 */
-	private ArrayList <Author> authors;
+	private ArrayList <String> authors;
 	
 	
 	/**
 	 *domains of book
 	 */
-	private ArrayList <Domain> domains;
+	private ArrayList <String> domains;
 	
 	/**
 	 *subjects of book
 	 */
-	private ArrayList <Subject> subjects;
+	private ArrayList <String> subjects;
 	
 	/**
 	 * counter for books id
@@ -89,7 +89,7 @@ public class Book {
 	 * @param subjects - Gets the subjects.
 	 */
 	public Book(String title, String language, String summary, String tableOfContent, String keywords,
-			float price, ArrayList <Author> authors, ArrayList <Domain> domains, ArrayList <Subject> subjects) 
+			float price, ArrayList <String> authors, ArrayList <String> domains, ArrayList <String> subjects) 
 	{
 		booksIdCounter++;
 		
@@ -120,7 +120,7 @@ public class Book {
 	 * @param authors - Gets the authors.
 	 */
 	public Book(int sn,String title, String language, String summary, String tableOfContent, String keywords,
-			float price, ArrayList <Author> authors) 
+			float price, ArrayList <String> authors, ArrayList <String> domains, ArrayList <String> subjects) 
 	{
 		this.sn = sn;
 		this.title = title;
@@ -131,6 +131,8 @@ public class Book {
 		this.price = price;
 		this.hide = false;
 		this.authors=authors;
+		this.domains=domains;
+		this.subjects=subjects;
 	}
 	
 	/**
@@ -264,42 +266,42 @@ public class Book {
 	/** Getter for authors
 	 * @return authors
 	 */
-	public ArrayList<Author> getAuthors() {
+	public ArrayList<String> getAuthors() {
 		return authors;
 	}
 
 	/** Setter for authors
 	 * authors - list of authors
 	 */
-	public void setAuthors(ArrayList<Author> authors) {
+	public void setAuthors(ArrayList<String> authors) {
 		this.authors = authors;
 	}
 
 	/** Getter for domains
 	 * @return domains
 	 */
-	public ArrayList<Domain> getDomains() {
+	public ArrayList<String> getDomains() {
 		return domains;
 	}
 
 	/** Setter for domains
 	 * domains - list of domains
 	 */
-	public void setDomains(ArrayList<Domain> domains) {
+	public void setDomains(ArrayList<String> domains) {
 		this.domains = domains;
 	}
 
 	/** Getter for subjects
 	 * @return subjects
 	 */
-	public ArrayList<Subject> getSubjects() {
+	public ArrayList<String> getSubjects() {
 		return subjects;
 	}
 
 	/** Setter for subjects
 	 * domains - list of subjects
 	 */
-	public void setSubjects(ArrayList<Subject> subjects) {
+	public void setSubjects(ArrayList<String> subjects) {
 		this.subjects = subjects;
 	}
 	
