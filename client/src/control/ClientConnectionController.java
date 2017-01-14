@@ -304,13 +304,19 @@ public class ClientConnectionController extends AbstractClient {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					HomepageLibrarianController.setPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
+					if(ClientUI.getTypeOfUser()=="Librarian")
+						HomepageLibrarianController.setPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
+					else
+						HomepageManagerController.setPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
 					ScreenController screenController = new ScreenController();
 					try{
 						if (success == true)
 						{
 							actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_SUCCEEDED);
-							screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);
+							if(ClientUI.getTypeOfUser()=="Librarian")
+								screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);
+							else
+								screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
 						}
 						else
 						{actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_FAILED);

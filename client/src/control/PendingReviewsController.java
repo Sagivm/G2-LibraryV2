@@ -3,7 +3,7 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
+import boundry.ClientUI;
 import entity.GeneralMessages;
 import entity.Message;
 import entity.Review;
@@ -91,7 +91,15 @@ public class PendingReviewsController implements ScreensIF {
 	 */
 	public static ArrayList <String> pendingReviewList;
 	
+	/**
+	 * static reference of librarian home page.
+	 */
 	private static HomepageLibrarianController librarianMain;
+	
+	/**
+	 * static reference of manager home page.
+	 */
+	private static HomepageManagerController managerMain;
 	
 	private static EditReviewController editReview;
     
@@ -228,20 +236,28 @@ public class PendingReviewsController implements ScreensIF {
 	                  button.setOnAction(new EventHandler<ActionEvent>() {
 	                    @Override public void handle(ActionEvent event) {
 	                    	
-	                    	if (librarianMain == null)
-	                    		librarianMain = new HomepageLibrarianController();
-	                    	
-                    		//System.out.println(librarianMain.getConnectedlibrarian());
-                    		
-                    		librarianMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
+	                    	if(ClientUI.getTypeOfUser()=="Librarian")
+	                    	{
+		                    	if (librarianMain == null)
+		                    		librarianMain = new HomepageLibrarianController();
+		                    	librarianMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
+	                    	}
+	                    	else if(ClientUI.getTypeOfUser()=="Manager")
+	                    	{
+		                    	if (managerMain == null)
+		                    		managerMain = new HomepageManagerController();
+		                    	managerMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
+	                    	}
                     		Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getFirstName(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
                     		EditReviewController editReviewPage = new EditReviewController();
                     		editReviewPage.editReview = editReview;
                     		ScreenController screenController = new ScreenController();
                     		try{
-							screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,
-									ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
-							} 
+                    			if(ClientUI.getTypeOfUser()=="Librarian")
+                    				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+                    			else if(ClientUI.getTypeOfUser()=="Manager")
+                    				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);	
+                    		} 
                     		catch (Exception e) {
 								e.printStackTrace();
 							}  

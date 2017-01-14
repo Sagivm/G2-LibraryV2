@@ -3,9 +3,11 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import boundry.ClientUI;
 import entity.GeneralMessages;
 import entity.Message;
 import entity.Review;
+import entity.ScreensInfo;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -73,8 +75,22 @@ public class EditReviewController implements ScreensIF {
 	 */
 	@Override
 	public void backButtonPressed(ActionEvent event) {
-		// TODO Auto-generated method stub
-
+		ScreenController screenController = new ScreenController();
+		try{
+			if(ClientUI.getTypeOfUser()=="Librarian")
+			{
+				HomepageLibrarianController.setPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);
+			}
+			else
+			{
+				HomepageManagerController.setPage(ScreensInfo.PENDING_REVIEWS_SCREEN);
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*
