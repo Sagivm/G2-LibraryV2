@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import enums.ActionType;
 import interfaces.ScreensIF;
@@ -15,6 +16,8 @@ import javafx.event.ActionEvent;
 
 public class SearchUserResultsController implements ScreensIF{
 
+	public static ArrayList<String> resultList;
+	
 	@Override
 	public void backButtonPressed(ActionEvent event) {
 		// TODO Auto-generated method stub

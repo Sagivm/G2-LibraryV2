@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.ArrayList;
+
 /**
  * This entity stores domain's details.
  * @author itain
@@ -17,9 +19,9 @@ public class Domain {
 	private String name;
 	
 	/**
-	 * number of subjects under this domain
+	 * subjects under this domain
 	 */
-	private int subjectsCount;
+	private ArrayList <Subject> subjects;
 	
 	
 	/**
@@ -30,16 +32,27 @@ public class Domain {
 	
 	/**
 	 * Domain constructor store the data.
-	 * @param id - Gets the id.
+	 * @param domainsIdCounter - add 1 to domainsIdCounter.
+	 * @param id - Gets domainsIdCounter.
 	 * @param name - Gets the name.
-	 * @param subjectsCount - adds 1 to subjectsCount.
+	 * @param subjects - initiate empty array
 	 */
-	public Domain(int id, String name) {
-		
-		this.id = id;
-		this.name = name;
-		this.subjectsCount = 0;
+	public Domain(String name) {
 		domainsIdCounter++;
+		this.id = domainsIdCounter;
+		this.name = name;
+		this.subjects=new ArrayList<Subject>();
+		
+	}
+	
+	/**
+	 * Domain empty constructor
+	 * @param subjects - initiate empty array
+	 */
+	public Domain() {
+
+		this.subjects=new ArrayList<Subject>();
+		
 	}
 
 	/** Getter for id
@@ -50,10 +63,10 @@ public class Domain {
 	}
 
 	/** Setter for id
-	 * @id - the id of domain
+	 * @id - id of domain
 	 */
 	public void setId(int id) {
-		this.id = id;
+		this.id=id;
 	}
 
 	/** Getter for name
@@ -70,24 +83,36 @@ public class Domain {
 		this.name = name;
 	}
 	
-	/** Getter for subjectsCount
-	 * @return subjectsCount
-	 */
-	public int getSubjectsCount() {
-		return subjectsCount;
-	}
 
-	/** Setter for subjectsCount
-	 * subjectsCount - the number of subjects under this domain.
-	 */
-	public void setSubjectsCount(int subjectsCount) {
-		this.subjectsCount = subjectsCount;
-	}	
-	
 	/** Getter for domainsIdCounter
 	 * @return domainsIdCounter
 	 */
 	public static int getdomainsIdCounter() {
 		return domainsIdCounter;
 	}
+
+	
+	/** Getter for subjects
+	 * @return subjects
+	 */
+	public ArrayList<Subject> getSubjects() {
+		return subjects;
+	}
+
+	/** Setter for subjects
+	 * subjects - subjects under this domain
+	 */
+	public void setSubjects(ArrayList<Subject> subjects) {
+		this.subjects = subjects;
+	}
+	
+	/** Getter for subjects count
+	 * @return subjects.size()
+	 */
+	public int getSubjectsCount() {
+		return subjects.size();
+	}
+	
+	
+	
 }

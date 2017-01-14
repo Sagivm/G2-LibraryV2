@@ -10,9 +10,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.stream.Collectors;
 
 import javax.swing.text.AbstractDocument.ElementEdit;
 
@@ -347,11 +350,14 @@ public class ServerController extends AbstractServer {
 
 		}
 
+		
+		
+		
 		case SEARCH_BOOK_AND: { // itai
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
 			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
-			int i,j;
+			int i,j, continue_index;
 			ArrayList<String> newSearch=message.getElementsList();
 
 			//initiate filterResults
@@ -390,30 +396,307 @@ public class ServerController extends AbstractServer {
 				if(!newSearch.get(4).isEmpty()) //key words
 				{
 					int size=countItems(newSearch.get(4), ",");
-					String[] tmp = new String[size];
-					tmp = newSearch.get(4).split("\\,");
+					String[] keyWords = new String[size];
+					keyWords = newSearch.get(4).split("\\,");
 					for(j=0;j<size;j++)
 					{
-						if(!bookRow[5].toLowerCase().contains(tmp[j].toLowerCase().trim())) //searched key words don't appear
+						if(!bookRow[5].toLowerCase().contains(keyWords[j].toLowerCase().trim())) //searched key words don't appear
 							filterResults[i]=0;
 							
 					}
 				}
 				
+				continue_index=6; //in case there are no authors on search
+				
+				//authors
+				int authorsCount=Integer.parseInt(newSearch.get(5)); //newSearch
+				int authorsInRow=Integer.parseInt(bookRow[6]); //bookRow
+				int[] authorsFound=new int[authorsCount];
+				if(authorsCount!=0) 
+				{
+					for(j=0;j<authorsCount;j++)
+					{
+						for(int k=0;k<authorsInRow;k++)
+						{
+							int beginName=newSearch.get(6+j).lastIndexOf(")")+1;
+							String aName=newSearch.get(6+j).substring(beginName).trim();
+							if(bookRow[7+k].equals(aName))
+								authorsFound[j]++;
+							
+						}
+					}
+					continue_index=6+authorsCount;
+					
+					for(j=0;j<authorsFound.length;j++)
+						if(authorsFound[j]==0)
+							filterResults[i]=0;
+
+				}
+					
+				//domains
+				int domainsCount=Integer.parseInt(newSearch.get(continue_index));
+				int domainsInRow=Integer.parseInt(bookRow[7+authorsInRow]);
+				int[] domainsFound=new int[domainsCount];
+				
+				
+				if(domainsCount!=0) 
+				{
+					for(j=0;j<domainsCount;j++)
+					{
+						for(int k=0;k<domainsInRow;k=k+2)
+						{						
+							if(bookRow[9+authorsInRow+k].equals(newSearch.get(continue_index+1+j)))
+							{
+								domainsFound[j]++;
+							}
+
+						}
+					}
+					
+					
+					for(j=0;j<domainsFound.length;j++)
+						if(domainsFound[j]==0)
+							filterResults[i]=0;
+				}
+				
+				
 				
 			}
-			
-			for(i=0;i<filterResults.length;i++)
-				System.out.println(filterResults[i]);
-			System.out.println(" ");
-			
 
-			replay = new Replay(ActionType.GET_AUTHORS, true, elementsList);
+			j=0;
+			for(i=0;i<elementsList.size();i=i+2)
+			{
+				elementsList.add(i, Integer.toString(filterResults[j]));
+				j++;
+			}
+			
+			ArrayList<String> res = new ArrayList<>();
+			for(i=0;i<elementsList.size();i=i+2)
+			{
+				if(Integer.parseInt(elementsList.get(i))==1)
+				{
+					res.add(elementsList.get(i+1));
+				}
+			}
+			
+			
+			 for(i=0;i<res.size();i++)
+				 System.out.println(res.get(i));
+				  
+
+			replay = new Replay(ActionType.SEARCH_BOOK_AND, true, res);
 			break;
 		}
 
-		case SEARCH_BOOK_OR: { // itai
+		case SEARCH_BOOK_OR: { // itai -need to fix
+			
+			ArrayList<String> elementsList = new ArrayList<String>();
+			elementsList=makeSearchBook();
+			//int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
+			int i,j, continue_index;
+			ArrayList<String> newSearch=message.getElementsList();
+
+			ArrayList<String> res=new ArrayList<String>();
+			
+			System.out.println("OR");
+			
+			for(i=0;i<elementsList.size();i++)
+			{
+				String bookRow[] = new String[countItems(elementsList.get(i),"^")];
+				bookRow = elementsList.get(i).split("\\^");
+				
+				if(!newSearch.get(0).isEmpty()) //title
+				{
+					
+					if(bookRow[1].toLowerCase().contains(newSearch.get(0).toLowerCase())) //searched title doesn't appear
+					{
+						System.out.println("title_test");
+						res.add(elementsList.get(i));
+						//break;
+					}
+				}
+					
+				if(!newSearch.get(1).equals("")) //language
+				{
+					if(bookRow[2].equals(newSearch.get(1))) //searched language wansn't found
+					{
+						System.out.println("language_test");
+						res.add(elementsList.get(i));
+						//break;
+					}
+				}
+				
+				if(!newSearch.get(2).isEmpty()) //summary
+				{
+					if(bookRow[3].toLowerCase().contains(newSearch.get(2).toLowerCase())) //searched summary doesn't appear
+					{
+						System.out.println("summary_test");
+						res.add(elementsList.get(i));
+						//break;
+					}
+				}
+				
+				if(!newSearch.get(3).isEmpty()) //toc
+				{
+					if(bookRow[4].toLowerCase().contains(newSearch.get(3).toLowerCase())) //searched toc doesn't appear
+					{
+						System.out.println("toc_test");
+						res.add(elementsList.get(i));
+						//break;
+					}
+				}
+				
+				if(!newSearch.get(4).isEmpty()) //key words
+				{
+					int size=countItems(newSearch.get(4), ",");
+					String[] keyWords = new String[size];
+					keyWords = newSearch.get(4).split("\\,");
+					for(j=0;j<size;j++)
+					{
+						if(bookRow[5].toLowerCase().contains(keyWords[j].toLowerCase().trim())) //searched key words don't appear
+						{
+							System.out.println("keyWords_test");
+							res.add(elementsList.get(i));
+							//break;
+						}
+							
+					}
+				}
+				
+				continue_index=6; //in case there are no authors on search
+				
+				//authors
+				int authorsCount=Integer.parseInt(newSearch.get(5)); //newSearch
+				int authorsInRow=Integer.parseInt(bookRow[6]); //bookRow
+				//int[] authorsFound=new int[authorsCount];
+				if(authorsCount!=0) 
+				{
+					for(j=0;j<authorsCount;j++)
+					{
+						for(int k=0;k<authorsInRow;k++)
+						{
+							int beginName=newSearch.get(6+j).lastIndexOf(")")+1;
+							String aName=newSearch.get(6+j).substring(beginName).trim();
+							if(bookRow[7+k].equals(aName))
+							{
+								System.out.println("author_test");
+								res.add(elementsList.get(i));
+								//break;
+							
+							}
+							
+						}
+					}
+					continue_index=6+authorsCount;
+
+
+				}
+					
+				//domains
+				int domainsCount=Integer.parseInt(newSearch.get(continue_index));
+				int domainsInRow=Integer.parseInt(bookRow[7+authorsInRow]);
+				//int[] domainsFound=new int[domainsCount];
+				
+				
+				if(domainsCount!=0) 
+				{
+					for(j=0;j<domainsCount;j++)
+					{
+						for(int k=0;k<domainsInRow;k=k+2)
+						{
+
+							if(bookRow[9+authorsInRow+k].equals(newSearch.get(continue_index+1+j)))
+							{
+
+								res.add(elementsList.get(i));
+								//break;
+							}
+
+						}
+					}
+					
+	
+				}
+				
+				
+				
+			}
+			//res = res.stream().distinct().collect(Collectors.toList());
+
+			
+			 for(i=0;i<res.size();i++)
+				 System.out.println(res.get(i));
+				  
+			 
+			replay = new Replay(ActionType.SEARCH_BOOK_OR, true, res);
 			break;
+		}
+		
+		case SEARCH_USER: {
+			try
+			{
+				ArrayList<String> elementsList = new ArrayList<String>();
+				ArrayList<String> res = new ArrayList<String>();
+				
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName FROM clients");
+				while (rs.next())
+				{
+					elementsList.add(rs.getString(1)); // username
+					elementsList.add(rs.getString(2)); // first name
+					elementsList.add(rs.getString(3)); // last name
+				}
+				
+				int[] filterResult = new int[elementsList.size()/3];
+				
+				for(int i=0;i<filterResult.length;i++)
+					filterResult[i]=1;
+				
+				for(int i=0;i<elementsList.size();i+=3)
+				{
+					if(!message.getElementsList().get(0).isEmpty())
+						if(!elementsList.get(i).equals(message.getElementsList().get(0)))
+							filterResult[i]=0;
+					
+					if(!message.getElementsList().get(1).isEmpty())
+						if(!message.getElementsList().get(1).contains(elementsList.get(i+1)))
+							filterResult[i]=0;
+					
+					if(!message.getElementsList().get(2).isEmpty())
+						if(!message.getElementsList().get(2).contains(elementsList.get(i+2)))
+							filterResult[i]=0;
+					
+				}
+				
+				for(int i=0;i<filterResult.length;i++)
+				{
+					for(int j=0;j<elementsList.size();j+=3)
+					{
+						if(filterResult[i]==1)
+							res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2));
+					}
+				}
+				
+				replay = new Replay(ActionType.SEARCH_USER, true, res);
+			} 
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		case EDIT_USER: {
+			try
+			{
+				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
+						+ "'" + "and lastName=" + "'" + message.getElementsList().get(2) +"'" +  "WHERE username=" + "'" + message.getElementsList().get(0) + "'");
+				writeToLog(message.getElementsList().get(0) + " Changed name to"
+				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				replay = new Replay(ActionType.EDIT_USER, true);
+			} 
+			catch (Exception e) {
+				e.printStackTrace();		
+			}
 		}
 
 		case GET_AUTHORS: {
@@ -839,8 +1122,8 @@ public class ServerController extends AbstractServer {
 			}
 			
 		 
-			/* add domains count for each book (domains count = subjects count)*/ 
-			ResultSet rs_books2 = stmt.executeQuery("SELECT domainsCount FROM books;");
+			/* add subjects count for each book */ 
+			ResultSet rs_books2 = stmt.executeQuery("SELECT subjectsCount FROM books;");
 			int k = 0;
 			while (rs_books2.next()) {
 				String tmp = elementsList.get(k);
@@ -883,7 +1166,7 @@ public class ServerController extends AbstractServer {
 
 			// build book_subjects_domains
 
-			for (int i = 0; i < book_sn.size(); i++) // add book id
+			for (int i = 0; i < book_sn.size(); i++)
 				book_subjects_domains.add("");
 
 			for (int i = 0; i < book_subjects_domains.size(); i++) //
@@ -925,9 +1208,23 @@ public class ServerController extends AbstractServer {
 			for (int i = 0; i < elementsList.size(); i++)
 			{
 				String tmp = elementsList.get(i);
-				tmp = tmp + "^" + book_subjects_domains.get(i);
+				tmp = tmp + book_subjects_domains.get(i);
 				elementsList.add(i + 1, tmp);
 				elementsList.remove(i);
+			}
+
+			
+			
+			
+			ResultSet rs_books3 = stmt.executeQuery("SELECT price FROM books;");
+			k = 0;
+			while (rs_books3.next())
+			{
+				String tmp = elementsList.get(k);
+				tmp = tmp + "^" + rs_books3.getString(1); //price
+				elementsList.add(k + 1, tmp);
+				elementsList.remove(k);
+				k++;
 			}
 			
 			/*

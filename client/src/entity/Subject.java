@@ -33,19 +33,28 @@ public class Subject {
 	
 	/**
 	 * Subject constructor store the data.
+	 * @param subjectsIdCounter - adds 1 to subjectsIdCounter.
 	 * @param id - Gets the id.
 	 * @param name - Gets the name.
 	 * @param booksCount - Gets the number of books under this subject.
 	 * @param domain - Gets the number of books under this subject.
-	 * @param subjectsIdCounter - adds 1 to subjectsIdCounter.
+	 
 	 */
-	public Subject(int id, String name, int booksCount, int domain) {
-		this.id = id;
+	public Subject(String name, int booksCount, int domain) {
+		subjectsIdCounter++;
+		this.id = subjectsIdCounter;
 		this.name = name;
 		this.booksCount = booksCount;
 		this.domain = domain;
 		
-		subjectsIdCounter++;
+		
+	}
+	
+	/**
+	 * Subject constructor store the data.
+	  */ 
+	public Subject() {
+
 	}
 
 	/** Getter for id
@@ -56,10 +65,10 @@ public class Subject {
 	}
 
 	/** Setter for id
-	 * @id - the id of subject
+	 * @id - id of subject
 	 */
 	public void setId(int id) {
-		this.id = id;
+		this.id=id;
 	}
 
 	/** Getter for name

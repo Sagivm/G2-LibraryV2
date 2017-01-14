@@ -130,6 +130,7 @@ public class ScreensInfo {
 	public static final String EDIT_REVIEW_TITLE = "Edit Review";
 	
 	/**
+<<<<<<< HEAD
 	 * Set Edit Review path.
 	 */
 	public static final String BOOK_REVIEWS_SCREEN = "/boundry/BookReviewsUI.fxml";
@@ -148,5 +149,15 @@ public class ScreensInfo {
 	 * Set Edit Review title.
 	 */
 	public static final String WRITE_REVIEW_TITLE = "Write a review";
+=======
+	 *  search user screen path
+	 */
+	public static final String SEARCH_USER_SCREEN = "/boundry/SearchUserUI.fxml";
+	
+	/**
+	 *  Set search user screen title
+	 */
+	public static final String SEARCH_USER_TITLE = "Search User";
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 	
 }

@@ -24,8 +24,15 @@ public class Author extends Person{
 	 * @param authorsIdCounter - adds 1 to authorsIdCounter.
 	 */
 	public Author(String id, String firstname, String lastname) {
-		super(id, firstname, lastname);
+		super(Integer.toString(authorsIdCounter+1), firstname, lastname);
 		authorsIdCounter++;
+	}
+	
+	/**
+	 * empty Author constructor
+	 */
+	public Author() {
+		super();
 	}
 	
 	

@@ -256,6 +256,62 @@ public class ClientConnectionController extends AbstractClient {
 			PendingRegistrationController.pendingUsersList = replay.getElementsList();
 			break;
 		}
+		
+		case SEARCH_USER:{
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			SearchUserResultsController.resultList = list;
+			break;
+		}
+		
+		case SEARCH_BOOK_AND:{
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			SearchBookResultsController.resultList = list;
+			break;
+		}
+		
+		case SEARCH_BOOK_OR:{
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			SearchBookResultsController.resultList = list;
+			break;
+		}
+		
+		case EDIT_USER:{
+			if (success == true) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+
+						ScreenController screenController  = new ScreenController();
+						try {
+							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_SUCCEEDED);
+							screenController.replaceSceneContent(ScreensInfo.SEARCH_USER_SCREEN, ScreensInfo.SEARCH_USER_TITLE);
+						} catch (Exception e) {
+							// COMPELETE
+							e.printStackTrace();
+						}
+					}
+				});
+			} else {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+
+						ScreenController screenController = new ScreenController();
+						try {
+							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_FAILED);
+							screenController.replaceSceneContent(ScreensInfo.SEARCH_USER_SCREEN, ScreensInfo.SEARCH_USER_TITLE);
+						} catch (Exception e) {
+							// COMPELETE
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+			break;
+		}
 
 		case GET_AUTHORS: {
 			ArrayList<Author> list = new ArrayList<Author>();

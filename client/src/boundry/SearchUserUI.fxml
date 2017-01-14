@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.UserSearchController">
    <children>
       <Text layoutX="315.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Search">
@@ -20,7 +19,7 @@
       <TextField fx:id="idTextField" layoutX="431.0" layoutY="122.0" />
       <TextField fx:id="fNameTextField" layoutX="431.0" layoutY="172.0" />
       <TextField fx:id="lNameTextField" layoutX="431.0" layoutY="225.0" />
-      <Button fx:id="searchButton" layoutX="348.0" layoutY="296.0" mnemonicParsing="false" text="Search" />
-      <Button fx:id="clearButton" layoutX="472.0" layoutY="296.0" mnemonicParsing="false" text="Clear" />
+      <Button fx:id="searchButton" layoutX="348.0" layoutY="296.0" mnemonicParsing="false" onAction="#searchButtonPressed" text="Search" />
+      <Button fx:id="clearButton" layoutX="472.0" layoutY="296.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
    </children>
 </AnchorPane>
