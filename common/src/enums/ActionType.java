@@ -61,6 +61,15 @@ public enum ActionType {
 	 */
 	SEARCH_BOOK_OR,
 	
+	/**
+	 * Search user in SQL.
+	 */
+	SEARCH_USER,
+	
+	/**
+	 * edit user information in SQL.
+	 */
+	EDIT_USER,
 	
 	/**
 	 * Get pending users from SQL.

@@ -129,4 +129,14 @@ public class ScreensInfo {
 	 */
 	public static final String EDIT_REVIEW_TITLE = "Edit Review";
 	
+	/**
+	 *  search user screen path
+	 */
+	public static final String SEARCH_USER_SCREEN = "/boundry/SearchUserUI.fxml";
+	
+	/**
+	 *  Set search user screen title
+	 */
+	public static final String SEARCH_USER_TITLE = "Search User";
+	
 }

@@ -19,6 +19,9 @@ import javafx.scene.control.TextField;
 
 public class BookPageController implements ScreensIF
 {
+	/**
+	 * book row data
+	 */
 	private String bookRow;
 	
 	@FXML private Label bookLable;
@@ -66,6 +69,8 @@ public class BookPageController implements ScreensIF
 		priceLable.setText(bookData[continue_index]);
 	}
 	
+	
+	
 	/**
 	 * This function returns number of items on each book row on search
 	 * @author itain
@@ -89,6 +94,10 @@ public class BookPageController implements ScreensIF
 		return count+1;
 	}
 	
+	/**
+	 * Book page constructor store the data.
+	 * @param bookRow - Gets a book row from search.
+	 */
 	public BookPageController(String bookRow) {
 		this.bookRow = bookRow;
 	}

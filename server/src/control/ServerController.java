@@ -349,6 +349,9 @@ public class ServerController extends AbstractServer {
 
 		}
 
+		
+		
+		
 		case SEARCH_BOOK_AND: { // itai
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
@@ -626,6 +629,73 @@ public class ServerController extends AbstractServer {
 			 
 			replay = new Replay(ActionType.SEARCH_BOOK_OR, true, res);
 			break;
+		}
+		
+		case SEARCH_USER: {
+			try
+			{
+				ArrayList<String> elementsList = new ArrayList<String>();
+				ArrayList<String> res = new ArrayList<String>();
+				
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName FROM clients");
+				while (rs.next())
+				{
+					elementsList.add(rs.getString(1)); // username
+					elementsList.add(rs.getString(2)); // first name
+					elementsList.add(rs.getString(3)); // last name
+				}
+				
+				int[] filterResult = new int[elementsList.size()/3];
+				
+				for(int i=0;i<filterResult.length;i++)
+					filterResult[i]=1;
+				
+				for(int i=0;i<elementsList.size();i+=3)
+				{
+					if(!message.getElementsList().get(0).isEmpty())
+						if(!elementsList.get(i).equals(message.getElementsList().get(0)))
+							filterResult[i]=0;
+					
+					if(!message.getElementsList().get(1).isEmpty())
+						if(!message.getElementsList().get(1).contains(elementsList.get(i+1)))
+							filterResult[i]=0;
+					
+					if(!message.getElementsList().get(2).isEmpty())
+						if(!message.getElementsList().get(2).contains(elementsList.get(i+2)))
+							filterResult[i]=0;
+					
+				}
+				
+				for(int i=0;i<filterResult.length;i++)
+				{
+					for(int j=0;j<elementsList.size();j+=3)
+					{
+						if(filterResult[i]==1)
+							res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2));
+					}
+				}
+				
+				replay = new Replay(ActionType.SEARCH_USER, true, res);
+			} 
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		case EDIT_USER: {
+			try
+			{
+				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
+						+ "'" + "and lastName=" + "'" + message.getElementsList().get(2) +"'" +  "WHERE username=" + "'" + message.getElementsList().get(0) + "'");
+				writeToLog(message.getElementsList().get(0) + " Changed name to"
+				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				replay = new Replay(ActionType.EDIT_USER, true);
+			} 
+			catch (Exception e) {
+				e.printStackTrace();		
+			}
 		}
 
 		case GET_AUTHORS: {
