@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import control.PendingRegistrationController.pendingUser;
 import entity.Author;
 import entity.Book;
+import entity.Domain;
+import entity.Subject;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.collections.FXCollections;
@@ -39,27 +41,81 @@ public class SearchBookResultsController implements ScreensIF{
 	@FXML
 	private void initialize()
 	{
-		int j;
-		for(int i=0;i<resultList.size();i++)
-		{
-			Book book=new Book();
-			int size=countItems(resultList.get(i),"^");
-			String[] tmp=new String[size];
-			tmp = resultList.get(i).split("\\^");
-			book.setSn(Integer.parseInt(tmp[0]));
-			book.setTitle(tmp[1]);
-			int authorsCount=Integer.parseInt(tmp[5]);
-			ArrayList<Author> authors = new ArrayList<Author>();
-			for(j=0; j<authorsCount;j++)
+		try{
+			int j;
+			for(int i=0;i<resultList.size();i++)
 			{
-				Author author = new Author();
+				Book book=new Book();
+				int size=countItems(resultList.get(i),"^");
+				String[] tmp=new String[size];
+				tmp = resultList.get(i).split("\\^");
+				book.setSn(Integer.parseInt(tmp[0]));
+				book.setTitle(tmp[1]);
+				book.setLanguage(tmp[2]);
+				book.setSummary(tmp[3]);
+				book.setTableOfContent(tmp[4]);
+				book.setKeywords(tmp[5]);
+				int authorsCount=Integer.parseInt(tmp[6]);
+				ArrayList<Author> authors = new ArrayList<Author>();
+				for(j=0; j<authorsCount;j++)
+				{
+					Author author = new Author();
+					String[] tmp2 = new String[2];
+					tmp2 = tmp[7+j].split(" ");
+					author.setFirstname(tmp2[1]);
+					author.setLastname(tmp2[2]);
+					authors.add(author);
+				}
+				book.setAuthors(authors);
+				int continue_index=7+j;
 				
+				int subjectsCount=Integer.parseInt(tmp[continue_index]);
+				ArrayList<Domain> domains = new ArrayList<Domain>();
+				ArrayList<Subject> subjects = new ArrayList<Subject>();
+				for(j=0; j<subjectsCount*2;j+=2)
+				{
+					Domain domain = new Domain();
+					Subject subject = new Subject();
+					
+					domain.setName(tmp[continue_index+1+j]);
+					subject.setName(tmp[continue_index+1+j+1]);
+					domains.add(domain);
+					subjects.add(subject);
+				}
+				book.setDomains(domains);
+				book.setSubjects(subjects);
+				
+				continue_index=continue_index+1+subjectsCount;
+				book.setPrice(Integer.parseInt(tmp[continue_index]));
+				
+				data.add(book);
 			}
-			int continue_index=6+j;
-		}
+			
+		
 		
 		resultsTable.setEditable(true);
+		
+		bookCol.setCellValueFactory(
+                new PropertyValueFactory<Book, String>("title"));
+		
+		authorsCol.setCellValueFactory(
+                new PropertyValueFactory<Book, ArrayList<Author>>("authors"));
+		
+		languageCol.setCellValueFactory(
+                new PropertyValueFactory<Book, String>("language"));
 
+		domainsCol.setCellValueFactory(
+                new PropertyValueFactory<Book, ArrayList<Domain>>("domains"));
+		
+		subjectsCol.setCellValueFactory(
+                new PropertyValueFactory<Book, ArrayList<Subject>>("subjects"));
+		
+		
+		resultsTable.setItems(data);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	@Override
