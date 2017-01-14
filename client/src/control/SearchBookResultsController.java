@@ -42,21 +42,18 @@ public class SearchBookResultsController implements ScreensIF{
 		int j;
 		for(int i=0;i<resultList.size();i++)
 		{
+			Book book=new Book();
 			int size=countItems(resultList.get(i),"^");
 			String[] tmp=new String[size];
 			tmp = resultList.get(i).split("\\^");
-			String sn=tmp[0];
-			String title=tmp[1];
-			String authors=new String();
+			book.setSn(Integer.parseInt(tmp[0]));
+			book.setTitle(tmp[1]);
 			int authorsCount=Integer.parseInt(tmp[5]);
-			authors=authors+tmp[6];
-			
-			for(j=1; j<authorsCount;j++)
+			ArrayList<Author> authors = new ArrayList<Author>();
+			for(j=0; j<authorsCount;j++)
 			{
-				if(j<authorsCount-1)
-					authors=authors+tmp[6+j];
-				else
-					authors=authors+tmp[6+j];
+				Author author = new Author();
+				
 			}
 			int continue_index=6+j;
 		}

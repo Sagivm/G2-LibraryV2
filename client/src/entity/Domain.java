@@ -47,13 +47,10 @@ public class Domain {
 	
 	/**
 	 * Domain empty constructor
-	 * @param domainsIdCounter - add 1 to domainsIdCounter.
-	 * @param id - Gets domainsIdCounter.
 	 * @param subjects - initiate empty array
 	 */
 	public Domain() {
-		domainsIdCounter++;
-		this.id = domainsIdCounter;
+
 		this.subjects=new ArrayList<Subject>();
 		
 	}

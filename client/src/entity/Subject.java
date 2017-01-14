@@ -52,12 +52,9 @@ public class Subject {
 	
 	/**
 	 * Subject constructor store the data.
-	 * @param subjectsIdCounter - adds 1 to subjectsIdCounter
-	 * @param id - Gets the id.
 	  */ 
 	public Subject() {
-		subjectsIdCounter++;
-		this.id = subjectsIdCounter;
+
 	}
 
 	/** Getter for id

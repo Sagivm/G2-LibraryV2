@@ -108,12 +108,9 @@ public class Book {
 	
 	/**
 	 * empty Book constructor
-	 * @param booksIdCounter - adds 1 to booksIdCounter.
-	 * @param sn - Gets the booksIdCounter.
 	 */
 	public Book() {
-		booksIdCounter++;
-		this.sn = booksIdCounter;
+
 	}
 
 	/** Getter for sn
