@@ -95,6 +95,13 @@ public class Domain {
 		this.subjects = subjects;
 	}
 	
+	/** Getter for subjects count
+	 * @return subjects.size()
+	 */
+	public int getSubjectsCount() {
+		return subjects.size();
+	}
+	
 	
 	
 }
