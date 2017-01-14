@@ -297,9 +297,8 @@ public class SearchBookController implements ScreensIF{
 		elementsList.add(Integer.toString(searchBook.getDomainsNumber())); //domains number
 		for(i=0;i<searchBook.getDomainsNumber();i++) //domains
 			elementsList.add(searchBook.getDomains().get(i));
-		/*
-		System.out.println(elementsList.size());
 		
+		/*
 		for(int k=0;k<elementsList.size();k++)
 			System.out.println(elementsList.get(k));
 			*/
