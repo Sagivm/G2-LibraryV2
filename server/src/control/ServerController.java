@@ -1087,6 +1087,20 @@ public class ServerController extends AbstractServer {
 				elementsList.add(i + 1, tmp);
 				elementsList.remove(i);
 			}
+
+			
+			
+			
+			ResultSet rs_books3 = stmt.executeQuery("SELECT price FROM books;");
+			k = 0;
+			while (rs_books3.next())
+			{
+				String tmp = elementsList.get(k);
+				tmp = tmp + "^" + rs_books3.getString(1); //price
+				elementsList.add(k + 1, tmp);
+				elementsList.remove(k);
+				k++;
+			}
 			
 			/*
 			 for(int i=0;i<elementsList.size();i++)

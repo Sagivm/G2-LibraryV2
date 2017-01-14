@@ -256,6 +256,20 @@ public class ClientConnectionController extends AbstractClient {
 			PendingRegistrationController.pendingUsersList = replay.getElementsList();
 			break;
 		}
+		
+		case SEARCH_BOOK_AND:{
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			SearchBookResultsController.resultList = list;
+			break;
+		}
+		
+		case SEARCH_BOOK_OR:{
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			SearchBookResultsController.resultList = list;
+			break;
+		}
 
 		case GET_AUTHORS: {
 			ArrayList<Author> list = new ArrayList<Author>();
