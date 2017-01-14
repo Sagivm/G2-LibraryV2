@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.ArrayList;
+
 /**
  * This entity stores book's details.
  * @author itain
@@ -46,6 +48,23 @@ public class Book {
 	 */
 	private boolean hide;
 	
+	
+	/**
+	 *authors of book
+	 */
+	private ArrayList <Author> authors;
+	
+	
+	/**
+	 *domains of book
+	 */
+	private ArrayList <Domain> domains;
+	
+	/**
+	 *subjects of book
+	 */
+	private ArrayList <Subject> subjects;
+	
 	/**
 	 * counter for books id
 	 */
@@ -57,18 +76,21 @@ public class Book {
 
 	/**
 	 * Book constructor store the data.
-	 * @param sn - Gets the sn.
+	 * @param booksIdCounter - adds 1 to booksIdCounter.
+	 * @param sn - Gets the booksIdCounter.
 	 * @param title - Gets the title.
 	 * @param language - Gets the title.
 	 * @param summary - Gets the title.
 	 * @param tableOfContent - Gets the tableOfContent.
 	 * @param keywords - Gets the keywords.
 	 * @param price - Gets the price.
-	 * @param booksIdCounter - adds 1 to booksIdCounter.
+	 * 
 	 */
-	public Book(int sn, String title, String language, String summary, String tableOfContent, String keywords,
-			float price) {
-		this.sn = sn;
+	public Book(String title, String language, String summary, String tableOfContent, String keywords,
+			float price, ArrayList <Author> authors, ArrayList <Domain> domains, ArrayList <Subject> subjects) {
+		booksIdCounter++;
+		
+		this.sn = booksIdCounter;
 		this.title = title;
 		this.language = language;
 		this.summary = summary;
@@ -76,8 +98,9 @@ public class Book {
 		this.keywords = keywords;
 		this.price = price;
 		this.hide = false;
-		
-		booksIdCounter++;
+		this.authors=authors;
+		this.domains=domains;
+		this.subjects=subjects;
 	}
 	
 	/** Getter for sn
@@ -198,6 +221,50 @@ public class Book {
 	public static int getbooksIdCounter() {
 		return booksIdCounter;
 	}
+
+	/** Getter for authors
+	 * @return authors
+	 */
+	public ArrayList<Author> getAuthors() {
+		return authors;
+	}
+
+	/** Setter for authors
+	 * authors - list of authors
+	 */
+	public void setAuthors(ArrayList<Author> authors) {
+		this.authors = authors;
+	}
+
+	/** Getter for domains
+	 * @return domains
+	 */
+	public ArrayList<Domain> getDomains() {
+		return domains;
+	}
+
+	/** Setter for domains
+	 * domains - list of domains
+	 */
+	public void setDomains(ArrayList<Domain> domains) {
+		this.domains = domains;
+	}
+
+	/** Getter for subjects
+	 * @return subjects
+	 */
+	public ArrayList<Subject> getSubjects() {
+		return subjects;
+	}
+
+	/** Setter for subjects
+	 * domains - list of subjects
+	 */
+	public void setSubjects(ArrayList<Subject> subjects) {
+		this.subjects = subjects;
+	}
+	
+	
 	
 	
 }

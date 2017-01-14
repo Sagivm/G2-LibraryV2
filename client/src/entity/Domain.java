@@ -34,12 +34,12 @@ public class Domain {
 	 * @param name - Gets the name.
 	 * @param subjectsCount - adds 1 to subjectsCount.
 	 */
-	public Domain(int id, String name) {
-		
-		this.id = id;
+	public Domain(String name) {
+		domainsIdCounter++;
+		this.id = domainsIdCounter;
 		this.name = name;
 		this.subjectsCount = 0;
-		domainsIdCounter++;
+		
 	}
 
 	/** Getter for id

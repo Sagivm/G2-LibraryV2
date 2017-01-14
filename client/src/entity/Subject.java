@@ -39,13 +39,14 @@ public class Subject {
 	 * @param domain - Gets the number of books under this subject.
 	 * @param subjectsIdCounter - adds 1 to subjectsIdCounter.
 	 */
-	public Subject(int id, String name, int booksCount, int domain) {
-		this.id = id;
+	public Subject(String name, int booksCount, int domain) {
+		subjectsIdCounter++;
+		this.id = subjectsIdCounter;
 		this.name = name;
 		this.booksCount = booksCount;
 		this.domain = domain;
 		
-		subjectsIdCounter++;
+		
 	}
 
 	/** Getter for id
