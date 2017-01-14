@@ -160,9 +160,9 @@ public class BookReviewsController implements ScreensIF {
 				Date purchaseDate,reviewDate;
 				
 				lblBookTitle.setText(book.getTitle());
-				authors = book.getAuthors().get(0).getFirstname() + " " + book.getAuthors().get(0).getLastname();
-				for(int i=1;i<book.getAuthors().size();i++)
-					authors +=", " + book.getAuthors().get(i).getFirstname() + " " + book.getAuthors().get(i).getLastname();
+				authors = book.getAuthorsList().get(0).getFirstname() + " " + book.getAuthorsList().get(0).getLastname();
+				for(int i=1;i<book.getAuthorsList().size();i++)
+					authors +=", " + book.getAuthorsList().get(i).getFirstname() + " " + book.getAuthorsList().get(i).getLastname();
 				lblAuthor.setText(authors);
 				lblLanguage.setText(book.getLanguage());
 				bookSummary = book.getSummary();

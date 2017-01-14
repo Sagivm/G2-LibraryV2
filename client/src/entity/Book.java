@@ -54,6 +54,11 @@ public class Book {
 	 */
 	private ArrayList <String> authors;
 	
+	/**
+	 *authors of book
+	 */
+	private ArrayList <Author> authorsList;
+	
 	
 	/**
 	 *domains of book
@@ -117,10 +122,10 @@ public class Book {
 	 * @param tableOfContent - Gets the tableOfContent.
 	 * @param keywords - Gets the keywords.
 	 * @param price - Gets the price.
-	 * @param authors - Gets the authors.
+	 * @param authorsList - Gets the authors.
 	 */
 	public Book(int sn,String title, String language, String summary, String tableOfContent, String keywords,
-			float price, ArrayList <String> authors, ArrayList <String> domains, ArrayList <String> subjects) 
+			float price, ArrayList <Author> authorsList) 
 	{
 		this.sn = sn;
 		this.title = title;
@@ -130,7 +135,7 @@ public class Book {
 		this.keywords = keywords;
 		this.price = price;
 		this.hide = false;
-		this.authors=authors;
+		this.authorsList=authorsList;
 		this.domains=domains;
 		this.subjects=subjects;
 	}
@@ -270,12 +275,26 @@ public class Book {
 	public ArrayList<String> getAuthors() {
 		return authors;
 	}
+	
+	/** Getter for authors
+	 * @return authors
+	 */
+	public ArrayList<Author> getAuthorsList() {
+		return authorsList;
+	}
 
 	/** Setter for authors
 	 * authors - list of authors
 	 */
 	public void setAuthors(ArrayList<String> authors) {
 		this.authors = authors;
+	}
+	
+	/** Setter for authors
+	 * authors - list of authors
+	 */
+	public void setAuthorsList(ArrayList<Author> authorsList) {
+		this.authorsList = authorsList;
 	}
 
 	/** Getter for domains

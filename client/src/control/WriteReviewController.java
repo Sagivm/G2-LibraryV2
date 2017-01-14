@@ -131,12 +131,15 @@ public class WriteReviewController implements ScreensIF {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				String reviewContent,bookSummary;
+				String reviewContent,bookSummary,authors="";
 				int textLength,rows,h=10,y=50,posY=50;
 				
 				System.out.print(book.getTitle());
 				lblBookTitle.setText(book.getTitle());
-				lblAuthor.setText("fsfdsfs???");///add to book entity
+				authors = book.getAuthorsList().get(0).getFirstname() + " " + book.getAuthorsList().get(0).getLastname();
+				for(int i=1;i<book.getAuthorsList().size();i++)
+					authors +=", " + book.getAuthorsList().get(i).getFirstname() + " " + book.getAuthorsList().get(i).getLastname();
+				lblAuthor.setText(authors);
 				lblLanguage.setText(book.getLanguage());
 				bookSummary = book.getSummary();
 				
