@@ -123,13 +123,7 @@ public class Book {
 		return sn;
 	}
 	
-	/** Setter for sn
-	 * @sn - the serial number of book
-	 */
-	public void setSn(int sn) {
-		this.sn = sn;
-	}
-	
+
 	/** Getter for title
 	 * @return title
 	 */

@@ -65,12 +65,6 @@ public class Domain {
 		return id;
 	}
 
-	/** Setter for id
-	 * @id - the id of domain
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	/** Getter for name
 	 * @return name
