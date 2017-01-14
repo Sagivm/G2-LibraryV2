@@ -123,6 +123,14 @@ public class Book {
 		return sn;
 	}
 	
+	
+
+	/** Setter for sn
+	 *@ sn - the sn of book
+	 */
+	public void setSn(int sn) {
+		this.sn = sn;
+	}
 
 	/** Getter for title
 	 * @return title

@@ -67,7 +67,12 @@ public class Subject {
 		return id;
 	}
 
-
+	/** Setter for id
+	 * @id - id of subject
+	 */
+	public void setId(int id) {
+		this.id=id;
+	}
 
 	/** Getter for name
 	 * @return name
