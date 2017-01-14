@@ -484,6 +484,7 @@ public class ServerController extends AbstractServer {
 		}
 
 		case SEARCH_BOOK_OR: { // itai -need to fix
+			/*
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
 			//int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
@@ -612,7 +613,7 @@ public class ServerController extends AbstractServer {
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
 				  
-
+			 */
 			//replay = new Replay(ActionType.GET_AUTHORS, true, res);
 			break;
 		}
