@@ -84,7 +84,9 @@ public class Book {
 	 * @param tableOfContent - Gets the tableOfContent.
 	 * @param keywords - Gets the keywords.
 	 * @param price - Gets the price.
-	 * 
+	 * @param authors - Gets the authors.
+	 * @param domains - Gets the domains.
+	 * @param subjects - Gets the subjects.
 	 */
 	public Book(String title, String language, String summary, String tableOfContent, String keywords,
 			float price, ArrayList <Author> authors, ArrayList <Domain> domains, ArrayList <Subject> subjects) {

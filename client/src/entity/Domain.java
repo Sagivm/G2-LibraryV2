@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.ArrayList;
+
 /**
  * This entity stores domain's details.
  * @author itain
@@ -17,9 +19,9 @@ public class Domain {
 	private String name;
 	
 	/**
-	 * number of subjects under this domain
+	 * subjects under this domain
 	 */
-	private int subjectsCount;
+	private ArrayList <Subject> subjects;
 	
 	
 	/**
@@ -30,15 +32,15 @@ public class Domain {
 	
 	/**
 	 * Domain constructor store the data.
-	 * @param id - Gets the id.
+	 * @param domainsIdCounter - add 1 to domainsIdCounter.
+	 * @param id - Gets domainsIdCounter.
 	 * @param name - Gets the name.
-	 * @param subjectsCount - adds 1 to subjectsCount.
 	 */
 	public Domain(String name) {
 		domainsIdCounter++;
 		this.id = domainsIdCounter;
 		this.name = name;
-		this.subjectsCount = 0;
+		this.subjects=new ArrayList<Subject>();
 		
 	}
 
@@ -70,24 +72,29 @@ public class Domain {
 		this.name = name;
 	}
 	
-	/** Getter for subjectsCount
-	 * @return subjectsCount
-	 */
-	public int getSubjectsCount() {
-		return subjectsCount;
-	}
 
-	/** Setter for subjectsCount
-	 * subjectsCount - the number of subjects under this domain.
-	 */
-	public void setSubjectsCount(int subjectsCount) {
-		this.subjectsCount = subjectsCount;
-	}	
-	
 	/** Getter for domainsIdCounter
 	 * @return domainsIdCounter
 	 */
 	public static int getdomainsIdCounter() {
 		return domainsIdCounter;
 	}
+
+	
+	/** Getter for subjects
+	 * @return subjects
+	 */
+	public ArrayList<Subject> getSubjects() {
+		return subjects;
+	}
+
+	/** Setter for subjects
+	 * subjects - subjects under this domain
+	 */
+	public void setSubjects(ArrayList<Subject> subjects) {
+		this.subjects = subjects;
+	}
+	
+	
+	
 }
