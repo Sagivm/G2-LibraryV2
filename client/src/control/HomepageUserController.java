@@ -5,6 +5,7 @@ import java.io.IOException;
 //import java.util.ResourceBundle;
 import java.util.ArrayList;
 
+import entity.Author;
 import entity.Book;
 import entity.GeneralMessages;
 import entity.Login;
@@ -152,7 +153,14 @@ public class HomepageUserController implements ScreensIF {
 				+ " and held on to it for himself. Later he was killed, and the ring fell to the bottom"
 				+ " of the sea. The creature Gollum discovered it and brought it to his cave. Then he lost"
 				+ " it to the hobbit Bilbo Baggins.";
-		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord",(float)52.5);
+		Author author = new Author();
+		ArrayList <Author> authors = new ArrayList<Author>();
+		author.setId("3");;
+		author.setFirstname("JRR");
+		author.setLastname("Tolkien");
+		authors.add(author);
+		//authors.add(author);
+		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord",(float)52.5,authors);
 		BookReviewsController bookReview = new BookReviewsController();
 		bookReview.book = book;
 		loadPage(ScreensInfo.BOOK_REVIEWS_SCREEN);
@@ -170,7 +178,14 @@ public class HomepageUserController implements ScreensIF {
 				+ " and held on to it for himself. Later he was killed, and the ring fell to the bottom"
 				+ " of the sea. The creature Gollum discovered it and brought it to his cave. Then he lost"
 				+ " it to the hobbit Bilbo Baggins.";
-		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord",(float)52.5);
+		Author author = new Author();
+		ArrayList <Author> authors = new ArrayList<Author>();
+		author.setId("3");;
+		author.setFirstname("JRR");
+		author.setLastname("Tolkien");
+		authors.add(author);
+		//authors.add(author);
+		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord",(float)52.5,authors);
 		WriteReviewController bookReview = new WriteReviewController();
 		bookReview.book = book;
 		loadPage(ScreensInfo.WRITE_REVIEW_SCREEN);

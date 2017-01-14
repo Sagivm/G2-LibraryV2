@@ -88,9 +88,9 @@ public class Book {
 	 * @param domains - Gets the domains.
 	 * @param subjects - Gets the subjects.
 	 */
-
 	public Book(String title, String language, String summary, String tableOfContent, String keywords,
-			float price, ArrayList <Author> authors, ArrayList <Domain> domains, ArrayList <Subject> subjects) {
+			float price, ArrayList <Author> authors, ArrayList <Domain> domains, ArrayList <Subject> subjects) 
+	{
 		booksIdCounter++;
 		
 		this.sn = booksIdCounter;
@@ -104,6 +104,33 @@ public class Book {
 		this.authors=authors;
 		this.domains=domains;
 		this.subjects=subjects;
+	}
+	
+	
+	/**
+	 * Book constructor store the data.
+	 * @param booksIdCounter - adds 1 to booksIdCounter.
+	 * @param sn - Gets the booksIdCounter.
+	 * @param title - Gets the title.
+	 * @param language - Gets the title.
+	 * @param summary - Gets the title.
+	 * @param tableOfContent - Gets the tableOfContent.
+	 * @param keywords - Gets the keywords.
+	 * @param price - Gets the price.
+	 * @param authors - Gets the authors.
+	 */
+	public Book(int sn,String title, String language, String summary, String tableOfContent, String keywords,
+			float price, ArrayList <Author> authors) 
+	{
+		this.sn = sn;
+		this.title = title;
+		this.language = language;
+		this.summary = summary;
+		this.tableOfContent = tableOfContent;
+		this.keywords = keywords;
+		this.price = price;
+		this.hide = false;
+		this.authors=authors;
 	}
 	
 	/**
