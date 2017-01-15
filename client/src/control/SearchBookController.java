@@ -271,6 +271,8 @@ public class SearchBookController implements ScreensIF{
 			tocTextArea.setText(null);
 			domainListView.getItems().clear();
 			keywTextArea.setText(null);
+			andRadioButton.setSelected(true);
+			orRadioButton.setSelected(false);
 			initialize();
 		} catch (Exception e) {
 			e.printStackTrace();

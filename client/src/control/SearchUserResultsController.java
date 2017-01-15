@@ -3,6 +3,8 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.sun.javafx.scene.control.skin.TableHeaderRow;
+
 import entity.AccountType;
 import entity.Book;
 import entity.Message;
@@ -78,7 +80,7 @@ public class SearchUserResultsController implements ScreensIF{
 					lNameCol.setSortType(TableColumn.SortType.ASCENDING);
 					
 					resultsTable.setEditable(false);
-					
+										
 					usernameCol.setCellValueFactory(
 			                new PropertyValueFactory<userResult, String>("username"));
 					

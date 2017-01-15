@@ -54,6 +54,12 @@ public class GeneralMessages {
 	 */
 	public static final String MUST_INCLUDE_ONLY_DIGITS = "The username must include "
 			+ "only numbers and be at least 9 digits.";
+	
+	/**
+	 * Validation of the username
+	 */
+	public static final String MUST_INCLUDE_ONLY_DIGITS_VER2 = "The username must include "
+			+ "only numbers.";
 
 
 	/**

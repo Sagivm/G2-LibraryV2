@@ -34,4 +34,19 @@ public class Validate {
 	
 	return false;
 	}
+	
+	
+	/** 
+	 * This static function validate username for search user.
+	 * @param text - Gets string
+	 * @return true when the string contains only numbers, and else false.
+	 */
+	public static boolean usernameValidateNumbresOnly(String text) {
+	if(text.isEmpty())
+		return true;
+	if (text.matches("[0-9]+")) 
+		return true;
+	
+	return false;
+	}
 }

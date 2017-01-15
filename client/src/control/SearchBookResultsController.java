@@ -2,6 +2,8 @@ package control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import control.PendingRegistrationController.pendingUser;
 import entity.Author;
@@ -10,6 +12,7 @@ import entity.Domain;
 import entity.Subject;
 import enums.ActionType;
 import interfaces.ScreensIF;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -80,10 +83,15 @@ public class SearchBookResultsController implements ScreensIF{
 					domains.add(tmp[continue_index+1+j+1]);
 				}
 				
+				//remove duplicates in domains
+				Set<String> hs = new HashSet<>();
+				hs.addAll(domains);
+				domains.clear();
+				domains.addAll(hs);
+				
 				book.setSubjects(subjects);
 				book.setDomains(domains);
-				
-				
+							
 				continue_index=continue_index+1+subjectsCount;
 				book.setPrice(tmp[continue_index]);
 
@@ -166,6 +174,8 @@ public class SearchBookResultsController implements ScreensIF{
 		}
 		return count+1;
 	}
+	
+
 
 }
 

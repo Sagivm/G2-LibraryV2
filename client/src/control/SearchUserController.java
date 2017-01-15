@@ -60,11 +60,12 @@ public class SearchUserController implements ScreensIF{
 			return;
 		}
 		
-/*		if (Validate.usernameValidate(id) == false)
+		if (Validate.usernameValidateNumbresOnly(id) == false)
 		{
-			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_DIGITS);
+			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_DIGITS_VER2);
 			return;
-		}*/
+		}
+
 		
 		User user = new User();
 		user.setId(id);
