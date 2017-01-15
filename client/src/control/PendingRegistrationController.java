@@ -57,7 +57,12 @@ public class PendingRegistrationController {
 	@FXML
     private Label printAction;
 	
+	@FXML
+    private Label CountLabel;
+	
 	public static ArrayList <String> pendingUsersList;
+	
+	public static int countUsers;
     
 	private ObservableList<pendingUser> data = FXCollections.observableArrayList();;
 
@@ -79,10 +84,14 @@ public class PendingRegistrationController {
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
 		
-		while(pendingUsersList==null);
+		Platform.runLater(() -> {
+		countUsers=0;
 		for(int i=0;i<pendingUsersList.size();i+=3){
+			countUsers++;
 			data.add(new pendingUser(pendingUsersList.get(i), pendingUsersList.get(i+1), pendingUsersList.get(i+2)));
 		}
+		
+		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
 		
         table.setEditable(true);
         
@@ -129,7 +138,9 @@ public class PendingRegistrationController {
                 		try {
                 			ClientController.clientConnectionController.sendToServer(message);
                         	printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");     
-                        	
+                        	table.getItems().remove(user);
+                        	countUsers--;
+                    		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
                 		} catch (IOException e) {	
                 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
                 		}
@@ -166,7 +177,16 @@ public class PendingRegistrationController {
                     setGraphic(button);
                     button.setOnAction(new EventHandler<ActionEvent>() {
                       @Override public void handle(ActionEvent event) {
-                        printAction.setText("User " + user.getFirstName().toLowerCase() + " has been decline successfully");
+                      	Message message = prepareUpdatePendingUsers(ActionType.DECLINE_PENDING_USERS,user.getUsername());
+                  		try {
+                  			ClientController.clientConnectionController.sendToServer(message);
+                            printAction.setText("User " + user.getFirstName().toLowerCase() + " has been decline successfully");
+                          	table.getItems().remove(user);
+                          	countUsers--;
+                    		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
+                  		} catch (IOException e) {	
+                  			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+                  		}
                       }
                     });
                   } else {
@@ -179,6 +199,7 @@ public class PendingRegistrationController {
 
         table.setItems(data);
         //table.getColumns().addAll(firstNameCol, lastNameCol, emailCol, btnCol);
+		});
 	
 	}
 	

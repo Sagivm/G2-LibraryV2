@@ -27,5 +27,6 @@
             <Insets />
          </opaqueInsets></TableView>
       <Label fx:id="printAction" layoutX="164.0" layoutY="551.0" prefHeight="27.0" prefWidth="518.0" />
+      <Label fx:id="CountLabel" layoutX="164.0" layoutY="161.0" />
   </children>
 </AnchorPane>

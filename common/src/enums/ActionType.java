@@ -82,6 +82,11 @@ public enum ActionType {
 	ACCEPT_PENDING_USERS,
 	
 	/**
+	 * Decline and delete pending users from SQL.
+	 */
+	DECLINE_PENDING_USERS,
+	
+	/**
 	 * finalize connected login entity in the server.
 	 */
 	LOGOUT,
