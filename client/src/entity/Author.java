@@ -11,21 +11,17 @@ public class Author extends Person{
 	 */
 	private int booksCount;
 	
-	/**
-	 * counter for author id
-	 */
-	private static int authorsIdCounter=0;
+
 
 	/**
 	 * Author constructor store the data.
 	 * @param firstname - Gets the firstname.
 	 * @param lastname - Gets the lastname.
 	 * @param id - Gets id.
-	 * @param authorsIdCounter - adds 1 to authorsIdCounter.
 	 */
 	public Author(String id, String firstname, String lastname) {
-		super(Integer.toString(authorsIdCounter+1), firstname, lastname);
-		authorsIdCounter++;
+		super(id, firstname, lastname);
+
 	}
 	
 	/**

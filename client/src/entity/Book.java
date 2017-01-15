@@ -69,20 +69,12 @@ public class Book {
 	 *subjects of book
 	 */
 	private ArrayList <String> subjects;
-	
-	/**
-	 * counter for books id
-	 */
-	private static int booksIdCounter=0;
-	
-	public static void setbooksIdCounter(int booksIdCounter) {
-		Book.booksIdCounter = booksIdCounter;
-	}
+
+
 
 	/**
 	 * Book constructor store the data.
-	 * @param booksIdCounter - adds 1 to booksIdCounter.
-	 * @param sn - Gets the booksIdCounter.
+	 * @param sn - Gets the sn.
 	 * @param title - Gets the title.
 	 * @param language - Gets the title.
 	 * @param summary - Gets the title.
@@ -93,12 +85,11 @@ public class Book {
 	 * @param domains - Gets the domains.
 	 * @param subjects - Gets the subjects.
 	 */
-	public Book(String title, String language, String summary, String tableOfContent, String keywords,
+	public Book(int sn, String title, String language, String summary, String tableOfContent, String keywords,
 			float price, ArrayList <String> authors, ArrayList <String> domains, ArrayList <String> subjects) 
 	{
-		booksIdCounter++;
 		
-		this.sn = booksIdCounter;
+		this.sn = sn;
 		this.title = title;
 		this.language = language;
 		this.summary = summary;
@@ -261,13 +252,7 @@ public class Book {
 	public void setHide(boolean hide) {
 		this.hide = hide;
 	}
-	
-	/** Getter for booksIdCounter
-	 * @return booksIdCounter
-	 */
-	public static int getbooksIdCounter() {
-		return booksIdCounter;
-	}
+
 
 	/** Getter for authors
 	 * @return authors

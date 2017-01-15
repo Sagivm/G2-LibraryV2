@@ -25,21 +25,14 @@ public class Domain {
 	
 	
 	/**
-	 * counter for domain id
-	 */
-	private static int domainsIdCounter=0;
-	
-	
-	/**
 	 * Domain constructor store the data.
 	 * @param domainsIdCounter - add 1 to domainsIdCounter.
 	 * @param id - Gets domainsIdCounter.
 	 * @param name - Gets the name.
 	 * @param subjects - initiate empty array
 	 */
-	public Domain(String name) {
-		domainsIdCounter++;
-		this.id = domainsIdCounter;
+	public Domain(int id, String name) {
+		this.id = id;
 		this.name = name;
 		this.subjects=new ArrayList<Subject>();
 		
@@ -83,13 +76,6 @@ public class Domain {
 		this.name = name;
 	}
 	
-
-	/** Getter for domainsIdCounter
-	 * @return domainsIdCounter
-	 */
-	public static int getdomainsIdCounter() {
-		return domainsIdCounter;
-	}
 
 	
 	/** Getter for subjects
