@@ -38,14 +38,9 @@ public class EditUserController implements ScreensIF{
 	@FXML private Button submitButton;
 	@FXML private Button cancelButton;
 
-	/**
-	 * Book page constructor store the data.
-	 * @param userInfo - Gets user's information.
-	 */
-	public EditUserController(String userInfo) {
-		this.userInfo = userInfo;
-	}
-
+	public static User user;
+	
+	
 	@FXML
 	public void initialize()
 	{

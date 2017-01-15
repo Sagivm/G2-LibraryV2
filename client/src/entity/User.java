@@ -79,6 +79,9 @@ public class User extends Person {
 		case "PerBook":
 			this.accountType=AccountType.PerBook;
 			break;
+		case "PendingYearly":
+			this.accountStatus=AccountStatus.PendingYearly;
+			break;
 		}
 	}
 	

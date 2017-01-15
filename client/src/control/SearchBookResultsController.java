@@ -76,12 +76,13 @@ public class SearchBookResultsController implements ScreensIF{
 				ArrayList<String> subjects = new ArrayList<String>();
 				for(j=0; j<subjectsCount*2;j+=2)
 				{
-					domains.add(tmp[continue_index+1+j]);
-					subjects.add(tmp[continue_index+1+j+1]);
+					subjects.add(tmp[continue_index+1+j]);
+					domains.add(tmp[continue_index+1+j+1]);
 				}
 				
-				book.setDomains(domains);
 				book.setSubjects(subjects);
+				book.setDomains(domains);
+				
 				
 				continue_index=continue_index+1+subjectsCount;
 				book.setPrice(tmp[continue_index]);
@@ -90,7 +91,7 @@ public class SearchBookResultsController implements ScreensIF{
 				data.add(book);
 			}
 			
-		
+		bookCol.setSortType(TableColumn.SortType.ASCENDING);
 		
 		resultsTable.setEditable(true);
 		
@@ -109,8 +110,16 @@ public class SearchBookResultsController implements ScreensIF{
 		subjectsCol.setCellValueFactory(
                 new PropertyValueFactory<Book, ArrayList<String>>("subjects"));
 		
-		
 		resultsTable.setItems(data);
+		resultsTable.getSortOrder().add(bookCol);
+		
+		bookCol.setStyle( "-fx-alignment: CENTER;");
+		authorsCol.setStyle( "-fx-alignment: CENTER;");
+		languageCol.setStyle( "-fx-alignment: CENTER;");
+		domainsCol.setStyle( "-fx-alignment: CENTER;");
+		subjectsCol.setStyle( "-fx-alignment: CENTER;");
+		
+		
 		}
 		catch (Exception e) {
 			e.printStackTrace();

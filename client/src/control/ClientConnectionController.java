@@ -260,7 +260,7 @@ public class ClientConnectionController extends AbstractClient {
 		case SEARCH_USER:{
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
-			SearchUserResultsController.resultList = list;
+			SearchUserResultsController.userResult = list;
 			break;
 		}
 		
