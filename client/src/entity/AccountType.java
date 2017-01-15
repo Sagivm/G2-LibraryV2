@@ -2,10 +2,29 @@ package entity;
 
 /**
  * Enum Class. Define available account types for Users
- * @author Sagivm
+ * @author sagivm
  *
  */
 public enum AccountType {
-	Intrested, Blocked,PerBook,Monthly,Yearly
+	/**
+	 * States that the user doesn't have a payment agreement with the system.
+	 */
+	Intrested,
+	/**
+	 * States that the user is blocked by an operator and cannot interact with the system.
+	 */
+	Blocked,
+	/**
+	 * States that the user has a per book subscription.
+	 */
+	PerBook,
+	/**
+	 * States that the user has a monthly subscription.
+	 */
+	Monthly,
+	/**
+	 * States that the user has a yearly subscription.
+	 */
+	Yearly
 
 };
