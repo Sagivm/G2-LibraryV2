@@ -2,10 +2,26 @@ package entity;
 
 /**
  * Enum class. Defines available account status for user
- * @author Sagivm
+ * @author sagivm
  *
  */
 public enum AccountStatus {
-	Standard,PendingPerBook,PendingMonthly,PendingYearly
+	
+	/**
+	 * States that the user doesn't wish to change his account type.
+	 */
+	Standard,
+	/**
+	 * States that the user wants to change his account type to per book subscription.
+	 */
+	PendingPerBook,
+	/**
+	 * States that the user wants to change his account type to monthly subscription.
+	 */
+	PendingMonthly,
+	/**
+	 * States that the user wants to change his account type to yearly subscription.
+	 */
+	PendingYearly
 
 };

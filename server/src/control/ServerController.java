@@ -698,6 +698,19 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
+		
+		case DECLINE_PENDING_USERS: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String username = data.get(0);
+				stmt.executeUpdate("DELETE FROM clients WHERE username=" + username);
+				replay = new Replay(ActionType.DECLINE_PENDING_USERS, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
 
 		case PENDING_REVIEWS: {
 			try {

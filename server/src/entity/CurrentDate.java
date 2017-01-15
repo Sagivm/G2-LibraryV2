@@ -6,16 +6,29 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import control.DatabaseController;
 
+/**
+ * @author sagivm
+ *Generates each passing day and each time the Db is starting to run new tuple for each book in 
+ *book by date table representing book's stats in this day
+ */
 public class CurrentDate   {
 	/**
 	 * Date format for create new rows in sql table Book_by_date
 	 */
 	private String date;
+	/**
+	 * Constructor
+	 * Calls the relevant functions for generating the new tuples
+	 */
 	public CurrentDate()
 	{
 		dateInitialize();
 		newDay();
 	}
+	/**
+	 * Checks if the date was already initialize in this session of the Db
+	 * and if not checks the current date and will follow to generate tuples
+	 */
 	private void dateInitialize() {
 		// fix multiply occurrence per date
 		if (date == null) {
