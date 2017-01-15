@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="59.0" layoutY="57.0" text="&lt;Book name&gt; Report">
+      <Label fx:id="titleLabel" layoutX="59.0" layoutY="57.0" text="&lt;Book name&gt; Report">
          <font>
             <Font size="50.0" />
          </font>
