@@ -38,6 +38,10 @@ public class Author extends Person{
 	public int getBooksCount() {
 		return booksCount;
 	}
+	
+	public String toString() { 
+	    return getFirstname()+" "+getLastname();
+	} 
 }
 
 

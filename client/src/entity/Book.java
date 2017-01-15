@@ -41,7 +41,7 @@ public class Book {
 	/**
 	 * price of book
 	 */
-	private float price;
+	private String price;
 	
 	/**
 	 * book is hidden from catalog or not
@@ -69,6 +69,16 @@ public class Book {
 	 *subjects of book
 	 */
 	private ArrayList <String> subjects;
+	
+	/**
+	 *domains of book
+	 */
+	private ArrayList <Domain> domainsList;
+	
+	/**
+	 *subjects of book
+	 */
+	private ArrayList <Subject> subjectsList;
 
 
 
@@ -85,8 +95,9 @@ public class Book {
 	 * @param domains - Gets the domains.
 	 * @param subjects - Gets the subjects.
 	 */
+	
 	public Book(int sn, String title, String language, String summary, String tableOfContent, String keywords,
-			float price, ArrayList <String> authors, ArrayList <String> domains, ArrayList <String> subjects) 
+			String price, ArrayList <String> authors, ArrayList <String> domains, ArrayList <String> subjects) 
 	{
 		
 		this.sn = sn;
@@ -116,7 +127,7 @@ public class Book {
 	 * @param authorsList - Gets the authors.
 	 */
 	public Book(int sn,String title, String language, String summary, String tableOfContent, String keywords,
-			float price, ArrayList <Author> authorsList) 
+			String price, ArrayList <Author> authorsList) 
 	{
 		this.sn = sn;
 		this.title = title;
@@ -228,14 +239,14 @@ public class Book {
 	/** Getter for price
 	 * @return price
 	 */
-	public float getPrice() {
+	public String getPrice() {
 		return price;
 	}
 	
 	/** Setter for price
 	 * price - the price of book
 	 */
-	public void setPrice(float price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 	
@@ -309,8 +320,24 @@ public class Book {
 	public void setSubjects(ArrayList<String> subjects) {
 		this.subjects = subjects;
 	}
+
+	public ArrayList<Domain> getDomainsList() {
+		return domainsList;
+	}
+
+	public void setDomainsList(ArrayList<Domain> domainsList) {
+		this.domainsList = domainsList;
+	}
+
+	public ArrayList<Subject> getSubjectsList() {
+		return subjectsList;
+	}
+
+	public void setSubjectsList(ArrayList<Subject> subjectsList) {
+		this.subjectsList = subjectsList;
+	}
 	
 	
-	
+
 	
 }

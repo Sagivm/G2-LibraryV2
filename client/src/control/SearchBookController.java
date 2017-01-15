@@ -14,6 +14,7 @@ import entity.GeneralMessages;
 import entity.Language;
 import entity.Message;
 import entity.Register;
+import entity.Review;
 import entity.ScreensInfo;
 import entity.SearchBook;
 import entity.Validate;
@@ -60,6 +61,23 @@ public class SearchBookController implements ScreensIF{
 	
 	public static ArrayList<Author> authorList;
 	public static ArrayList<String> domainList;
+	
+	
+	/**
+	 * static reference of user home page.
+	 */
+	private static HomepageUserController userMain;
+	
+	/**
+	 * static reference of librarian home page.
+	 */
+	private static HomepageLibrarianController librarianMain;
+	
+	/**
+	 * static reference of manager home page.
+	 */
+	private static HomepageManagerController managerMain;
+	
 	int goToServer_flag=1;
 	
 	@FXML
@@ -128,7 +146,6 @@ public class SearchBookController implements ScreensIF{
 	 */
 	@FXML
 	public void searchButtonPressed(ActionEvent event) throws IOException {
-		// TODO Auto-generated method stub
 		int i;
 
         Platform.runLater(new Runnable() {
@@ -196,6 +213,40 @@ public class SearchBookController implements ScreensIF{
 					}
 				
 
+				if(ClientUI.getTypeOfUser()=="Librarian")
+            	{
+                	if (librarianMain == null)
+                		librarianMain = new HomepageLibrarianController();
+                	librarianMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
+            	}
+            	else if(ClientUI.getTypeOfUser()=="Manager")
+            	{
+                	if (managerMain == null)
+                		managerMain = new HomepageManagerController();
+                	managerMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
+            	}
+            	else if(ClientUI.getTypeOfUser()=="User")
+            	{
+                	if (userMain == null)
+                		userMain = new HomepageUserController();
+                	userMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
+            	}
+        		//Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getFirstName(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
+        		//EditReviewController editReviewPage = new EditReviewController();
+        		//editReviewPage.editReview = editReview;
+        		ScreenController screenController = new ScreenController();
+        		try{
+        			if(ClientUI.getTypeOfUser()=="Librarian")
+        				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+        			else if(ClientUI.getTypeOfUser()=="Manager")
+        				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+        			else if(ClientUI.getTypeOfUser()=="User")
+        				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+        		} 
+        		catch (Exception e) {
+					e.printStackTrace();
+				}  
+				
 				
 
 			}

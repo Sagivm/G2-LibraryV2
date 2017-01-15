@@ -158,6 +158,26 @@ public class ScreensInfo {
 	 *  Set search user screen title
 	 */
 	public static final String SEARCH_USER_TITLE = "Search User";
+	
+	/**
+	 *  Search Book results screen path
+	 */
+	public static final String SEARCH_BOOK_RESULTS_SCREEN = "/boundry/SearchBookResultsUI.fxml";
+	
+	/**
+	 *  Set Search Book results screen title
+	 */
+	public static final String SEARCH_BOOK_RESULTS_TITLE = "Search Book results";
+	
+	/**
+	 *  Search User results screen path
+	 */
+	public static final String SEARCH_USER_RESULTS_SCREEN = "/boundry/SearchUserResultsUI.fxml";
+	
+	/**
+	 *  Set Search User results screen title
+	 */
+	public static final String SEARCH_USER_RESULTS_TITLE = "Search User results";
 
 	
 }
