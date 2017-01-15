@@ -179,6 +179,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	 */
 	@FXML
 	public void pendingRegistrationButtonPressed(ActionEvent event) throws IOException {
+		Platform.runLater(() -> {
 		try {
 			while(content.getChildren().size()>0)
 				content.getChildren().remove(0);
@@ -187,6 +188,7 @@ public class HomepageLibrarianController implements ScreensIF {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		});
 	}
 	
 	/** Handler when pressed "Pending Reviews requests". this function open the Pending Reviews requests form.

@@ -1,7 +1,9 @@
-ιπε 15, 2017 9:56:09 PM control.ServerController writeToLog
+ιπε 15, 2017 10:19:30 PM control.ServerController writeToLog
 INFO: Connected to database
-ιπε 15, 2017 9:56:09 PM control.ServerController writeToLog
+ιπε 15, 2017 10:19:30 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-ιπε 15, 2017 9:56:14 PM control.ServerController writeToLog
+ιπε 15, 2017 10:19:34 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 15, 2017 10:21:17 PM control.ServerController writeToLog
 INFO: Login attempt
