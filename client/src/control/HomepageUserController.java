@@ -160,7 +160,7 @@ public class HomepageUserController implements ScreensIF {
 		author.setLastname("Tolkien");
 		authors.add(author);
 		//authors.add(author);
-		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord",(float)52.5,authors);
+		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord","52.5",authors);
 		BookReviewsController bookReview = new BookReviewsController();
 		bookReview.book = book;
 		loadPage(ScreensInfo.BOOK_REVIEWS_SCREEN);
@@ -185,7 +185,7 @@ public class HomepageUserController implements ScreensIF {
 		author.setLastname("Tolkien");
 		authors.add(author);
 		//authors.add(author);
-		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord",(float)52.5,authors);
+		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord","52.5",authors);
 		WriteReviewController bookReview = new WriteReviewController();
 		bookReview.book = book;
 		loadPage(ScreensInfo.WRITE_REVIEW_SCREEN);
@@ -247,6 +247,15 @@ public class HomepageUserController implements ScreensIF {
      */
     @FXML
     private void initialize() {
+		if (page != null)
+		 {
+			try {
+				loadPage(page);
+				page=null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		 }
     	Platform.runLater(new Runnable() {
     		@Override
     		public void run() {

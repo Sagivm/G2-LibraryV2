@@ -36,6 +36,9 @@ public class SearchBookResultsController implements ScreensIF{
 	@FXML private TableColumn subjectsCol;
 	
 	public static ArrayList<String> resultList;
+	
+	
+	
 	private ObservableList<Book> data = FXCollections.observableArrayList();
 	
 	@FXML
@@ -57,10 +60,15 @@ public class SearchBookResultsController implements ScreensIF{
 				book.setKeywords(tmp[5]);
 				int authorsCount=Integer.parseInt(tmp[6]);
 				ArrayList<String> authors = new ArrayList<String>();
+				
 				for(j=0; j<authorsCount;j++)
 					authors.add(tmp[7+j]);
 				
+
 				book.setAuthors(authors);
+
+	
+				
 				int continue_index=7+j;
 				
 				int subjectsCount=Integer.parseInt(tmp[continue_index]);
@@ -76,7 +84,8 @@ public class SearchBookResultsController implements ScreensIF{
 				book.setSubjects(subjects);
 				
 				continue_index=continue_index+1+subjectsCount;
-				book.setPrice(Integer.parseInt(tmp[continue_index]));
+				book.setPrice(tmp[continue_index]);
+
 				
 				data.add(book);
 			}

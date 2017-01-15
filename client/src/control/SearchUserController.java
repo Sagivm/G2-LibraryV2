@@ -3,17 +3,22 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import boundry.ClientUI;
 import entity.GeneralMessages;
 import entity.Message;
 import entity.Register;
+import entity.ScreensInfo;
 import entity.User;
 import entity.Validate;
 import enums.ActionType;
 import interfaces.ScreensIF;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 
 /** SearchUserController. Responsible to enable a librarian or a manager to search users.
@@ -26,6 +31,16 @@ public class SearchUserController implements ScreensIF{
 	@FXML private TextField idTextField;
 	@FXML private TextField fNameTextField;
 	@FXML private TextField lNameTextField;
+	
+	/**
+	 * static reference of librarian home page.
+	 */
+	private static HomepageLibrarianController librarianMain;
+	
+	/**
+	 * static reference of manager home page.
+	 */
+	private static HomepageManagerController managerMain;
 	
 	
 	/** This function called when the worker press on search. the function tests the
@@ -45,11 +60,11 @@ public class SearchUserController implements ScreensIF{
 			return;
 		}
 		
-		if (Validate.usernameValidate(id) == false)
+/*		if (Validate.usernameValidate(id) == false)
 		{
 			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_DIGITS);
 			return;
-		}
+		}*/
 		
 		User user = new User();
 		user.setId(id);
@@ -64,6 +79,30 @@ public class SearchUserController implements ScreensIF{
 					
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
+		
+    	if(ClientUI.getTypeOfUser()=="Librarian")
+    	{
+        	if (librarianMain == null)
+        		librarianMain = new HomepageLibrarianController();
+        	librarianMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
+    	}
+    	else if(ClientUI.getTypeOfUser()=="Manager")
+    	{
+        	if (managerMain == null)
+        		managerMain = new HomepageManagerController();
+        	managerMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
+    	}
+    	
+		ScreenController screenController = new ScreenController();
+		try{
+			if(ClientUI.getTypeOfUser()=="Librarian")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+			else if(ClientUI.getTypeOfUser()=="Manager")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);	
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}  
 	}
 	
 	/** When clear button pressed the function clear the fields.
@@ -107,9 +146,25 @@ public class SearchUserController implements ScreensIF{
 		
 	}
 
+	/**
+	 * This function gets message and perform the task by the error type.
+	 * @param type - Gets error type.
+	 * @param errorCode - Gets error message.
+	 */
 	@Override
 	public void actionOnError(ActionType type, String errorCode) {
-		// TODO Auto-generated method stub
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Error");
+		alert.setHeaderText(null);
+		alert.setContentText(errorCode);
+		alert.showAndWait();
+		if (type == ActionType.TERMINATE)
+		{
+			Platform.exit();
+			System.exit(1);
+		}
+		if (type == ActionType.CONTINUE)
+			return;
 		
 	}
 

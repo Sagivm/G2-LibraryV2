@@ -210,6 +210,11 @@ public class HomepageLibrarianController implements ScreensIF {
 		}
 	}
 	
+	@FXML
+	public void userMngButtonPressed(ActionEvent event) throws IOException {
+		loadPage(ScreensInfo.SEARCH_USER_SCREEN);
+	}
+	
 	/**
 	 * this method load the page to the content AnchorPane.
 	 * @param screenPath
