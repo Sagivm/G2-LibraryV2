@@ -135,8 +135,7 @@ public class SearchBookController implements ScreensIF{
 				authorImage.setImage(questionMarkImage);
 				domainImage.setImage(questionMarkImage);
 				keyWordsImage.setImage(questionMarkImage);
-				//tooltipListView.setText("For multiple choice, use ctrl+right click\n");
-				//authorImage.
+
 				
 
 				ObservableList<String> lanaguageOptions = FXCollections.observableArrayList("","Hebrew", "English", "Russian");
@@ -274,8 +273,34 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	
+	/** When listview question mark is pressed the function shows proper message.
+	 * @param event
+	 */
+	@FXML
+	public void msgMultipleChoice() throws IOException {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setHeaderText(null);
+		alert.setContentText("For multiple choice, use ctrl+right click");
+		alert.showAndWait();			
+		return;
+		
+	}
 	
 	
+	/** When question mark of Key Words is pressed the function shows proper message.
+	 * @param event
+	 */
+	@FXML
+	public void msgKeyWords() throws IOException {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setHeaderText(null);
+		alert.setContentText("Seperate key words using ','");
+		alert.showAndWait();			
+		return;
+		
+	}
 	
 	/** When clear button is pressed the function clears all fields.
 	 * @param event
