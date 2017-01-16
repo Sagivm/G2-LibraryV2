@@ -746,15 +746,17 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
-						"Select bookId,title,authors.firstName,authors.lastName,language,purchaseDate,bought_book.price FROM book,bought_book,author,book_authors WHERE book.sn=bought_book.bookId and books.sn=book_authors.bookId and author.id=book_authors.authorid and bought_book.userId="
+						"Select books.sn,title,authors.firstName,authors.lastName,language,purchaseDate,bought_book.price "
+						+ "FROM books,bought_book,authors,book_authors "
+						+ "WHERE books.sn=bought_book.bookId and books.sn=book_authors.bookId and authors.id=book_authors.authorid and bought_book.userId="
 								+ data.get(0) + ";");
 				if (!rs.isBeforeFirst())
 					replay = new Replay(ActionType.USEREPORT, false);// no data
 				else {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
-								+ " " + rs.getString(4) + "^" + rs.getString(4) + "^" + String.valueOf(rs.getInt(5))
-								+ "^" + rs.getString(6));
+								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" +rs.getString(6) 
+								+ "^" +String.valueOf(rs.getInt(7)));
 					}
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
