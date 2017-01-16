@@ -55,13 +55,12 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="178.0" fitWidth="142.0" layoutX="680.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../Desktop/pikme/icon.png" />
-                           </image>
-                        </ImageView>
+                        <ImageView fx:id="imageView" fitHeight="178.0" fitWidth="142.0" layoutX="680.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="InfoKeywords" layoutX="148.0" layoutY="362.0" />
                         <Button fx:id="delBtn" layoutX="90.0" layoutY="489.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0" text="Delete Book" />
+                        <TextArea fx:id="BookSummary" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" layoutX="388.0" layoutY="327.0" pickOnBounds="false" prefHeight="200.0" prefWidth="285.0" scaleShape="false" />
+                        <Label layoutX="87.0" layoutY="56.0" text="Search:" />
+                        <TextField fx:id="filterField" layoutX="130.0" layoutY="54.0" prefHeight="25.0" prefWidth="286.0" promptText="Please Insert Sn/Title/Authors/keywords" />
                      </children></AnchorPane>
             </content>
           </Tab>

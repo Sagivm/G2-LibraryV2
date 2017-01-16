@@ -1,7 +1,12 @@
 package control;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
+
+import javax.imageio.ImageIO;
 
 import control.PendingRegistrationController.pendingUser;
 import entity.GeneralMessages;
@@ -12,19 +17,23 @@ import img.*;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -66,7 +75,17 @@ public class BookManagementController {
     private Label InfoKeywords;
 	
 	@FXML
+    private TextArea BookSummary;
+	
+	@FXML
     private Button delBtn;
+	
+	@FXML
+    private ImageView imageView;
+	
+	@FXML
+    private TextField filterField;
+
 	
 	
 	
@@ -74,10 +93,12 @@ public class BookManagementController {
 
     
 	private ObservableList<PropertyBook> data = FXCollections.observableArrayList();;
-
+	private ObservableList<PropertyBook> filteredData = FXCollections.observableArrayList();
 	
 	@FXML
 	private void initialize(){
+        BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+
 		Message message = prepareGetBooksList(ActionType.GET_BOOK_LIST);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -89,20 +110,24 @@ public class BookManagementController {
 			String authors="";
 			@Override
 			public void run() {
-				for(int i=0;i<BooksList.size();i+=6){
-					if(i+6<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+6)))
+				for(int i=0;i<BooksList.size();i+=8){
+					if(i+8<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+8)))
 					{
 						authors=authors+BooksList.get(i+5)+",";
-						//System.out.println(authors);
 					}
 					else{
-						if(authors.equals(""))
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5)));
-						else
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), authors+BooksList.get(i+5)));
+						if(authors.equals("")){
+							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+						}
+						else{
+							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+						}
 						authors = "";
 					}
 				}
+					
 				
 		BooksTableView.setEditable(true);
         
@@ -133,15 +158,36 @@ public class BookManagementController {
 
 
 
-		BooksTableView.setItems(data);
+		BooksTableView.setItems(filteredData);
 		
 		BooksTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 		    if (newSelection != null) {
 		        InfoTitle.setText(newSelection.getBookTitle());
 		        InfoAuthors.setText(newSelection.getAuthorName());
-		        InfoKeywords.setMaxWidth(200);
+		        InfoKeywords.setMaxWidth(170);
 		        InfoKeywords.setWrapText(true);
 		        InfoKeywords.setText(newSelection.getBookKeywords());
+		        BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+		        BookSummary.setMaxWidth(280);
+		        BookSummary.setWrapText(true);
+		        BookSummary.setText(newSelection.getBookSummary());
+		        BookSummary.setEditable(false);
+		        
+		        //show picture
+		        String data = newSelection.getBookImage();
+		        String base64EncodedImage = data.split(",")[1];
+		        byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+		        BufferedImage imgbuf;
+				try {
+					imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+					Image image = SwingFXUtils.toFXImage(imgbuf, null);
+					imageView.setImage(image);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        //end show picture
+
 		    }
 		});
 
@@ -149,12 +195,63 @@ public class BookManagementController {
 		delBtn.setOnAction(e -> {
 		    PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
 		    BooksTableView.getItems().remove(selectedItem);
+		    data.remove(selectedItem);
 		});
+		
+		
+		
+		 filterField.textProperty().addListener(new ChangeListener<String>() {
+	            @Override
+	            public void changed(ObservableValue<? extends String> observable,
+	                    String oldValue, String newValue) {
+
+	                updateFilteredData();
+	            }
+	        });	
+		
+		
+		
 		
 			}
 		});
 	
 	}
+	
+	
+    private void updateFilteredData() {
+        filteredData.clear();
+
+        for (PropertyBook b : data) {
+            if (matchesFilter(b)) {
+                filteredData.add(b);
+            }
+        }
+
+        // Must re-sort table after items changed
+        reapplyTableSortOrder();
+    }
+    
+    private boolean matchesFilter(PropertyBook book) {
+        String filterString = filterField.getText();
+        if (filterString == null || filterString.isEmpty()) {
+            // No filter --> Add all.
+            return true;
+        }
+
+        String lowerCaseFilterString = filterString.toLowerCase();
+
+        if (book.getBookTitle().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        }
+
+        return false; // Does not match
+    }
+
+    private void reapplyTableSortOrder() {
+        ArrayList<TableColumn<PropertyBook, ?>> sortOrder = new ArrayList<>(BooksTableView.getSortOrder());
+        BooksTableView.getSortOrder().clear();
+        BooksTableView.getSortOrder().addAll(sortOrder);
+    }
 	
 	public Message prepareGetBooksList(ActionType type)
 	{
@@ -199,14 +296,18 @@ public class BookManagementController {
 	    private final SimpleStringProperty bookHide;
 	    private final SimpleStringProperty authorId;
 	    private final SimpleStringProperty authorName;
+	    private final SimpleStringProperty bookSummary;
+	    private final SimpleStringProperty bookImage;
 
-	    private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName) {
+	    private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName, String bookSummary, String bookImage) {
 	        this.bookSn = new SimpleStringProperty(bookSn);
 	        this.bookTitle = new SimpleStringProperty(bookTitle);
 	        this.bookKeywords = new SimpleStringProperty(bookKeywords);
 	        this.bookHide = new SimpleStringProperty(bookHide);
 	        this.authorId = new SimpleStringProperty(authorId);
 	        this.authorName = new SimpleStringProperty(authorName);
+	        this.bookSummary = new SimpleStringProperty(bookSummary);
+	        this.bookImage = new SimpleStringProperty(bookImage);
 	    }
 
 	    public String getBookSn() {
@@ -232,6 +333,14 @@ public class BookManagementController {
 	    public String getAuthorName() {
 	        return authorName.get();
 	    }
+	    
+	    public String getBookSummary() {
+	        return bookSummary.get();
+	    }
+	    
+	    public String getBookImage() {
+	        return bookImage.get();
+	    }
 
 
 	    public void setBookSn(String bookSn) {
@@ -256,6 +365,14 @@ public class BookManagementController {
 	    
 	    public void setAuthorName(String authorName) {
 	    	this.authorName.set(authorName);
+	    }
+	    
+	    public void setBookSummary(String bookSummary) {
+	    	this.bookSummary.set(bookSummary);
+	    }
+	    
+	    public void setBookImage(String bookImage) {
+	    	this.bookImage.set(bookImage);
 	    }
 
 
