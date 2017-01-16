@@ -2,6 +2,10 @@ package entity;
 
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * This entity store the search user result details.
+ * @author itain
+ */
 public class SearchUserResult {
 
     private final SimpleStringProperty username;

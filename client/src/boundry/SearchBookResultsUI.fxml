@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SearchBookResultsController">
    <children>
       <Label layoutX="223.0" layoutY="20.0" text="Search Book Results">
@@ -14,13 +13,14 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <TableView fx:id="resultsTable" layoutX="40.0" layoutY="109.0" prefHeight="487.0" prefWidth="820.0">
+      <TableView fx:id="resultsTable" layoutX="40.0" layoutY="109.0" prefHeight="487.0" prefWidth="844.0">
         <columns>
-          <TableColumn fx:id="bookCol" prefWidth="223.0" text="Title" />
-          <TableColumn fx:id="authorsCol" prefWidth="231.0" text="Authors" />
-            <TableColumn fx:id="languageCol" prefWidth="74.0" text="Language" />
-            <TableColumn fx:id="domainsCol" prefWidth="128.0" text="Domains" />
-            <TableColumn fx:id="subjectsCol" prefWidth="162.0" text="Subjects" />
+          <TableColumn fx:id="bookCol" prefWidth="160.0" text="Title" />
+          <TableColumn fx:id="authorsCol" prefWidth="162.0" text="Authors" />
+            <TableColumn fx:id="languageCol" prefWidth="69.0" text="Language" />
+            <TableColumn fx:id="domainsCol" prefWidth="207.0" text="Domains" />
+            <TableColumn fx:id="subjectsCol" minWidth="0.0" prefWidth="186.0" text="Subjects" />
+            <TableColumn fx:id="bookPageCol" prefWidth="52.0" />
         </columns>
       </TableView>
    </children>
