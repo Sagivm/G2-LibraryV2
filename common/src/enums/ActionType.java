@@ -153,7 +153,16 @@ public enum ActionType {
 	 * Get data from DB for list of books
 	 */
 	GET_BOOK_LIST,
+	
+	/**
+	 * Delete Book from DB
+	 */
+	DELETE_BOOK,
 
+	/**
+	 * update Book from DB by set hide
+	 */
+	HIDE_BOOK,
 
 
 }
