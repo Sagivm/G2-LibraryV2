@@ -901,7 +901,7 @@ public class ServerController extends AbstractServer {
 				ArrayList<String> elementsList = new ArrayList<String>();
 				Statement stmt = DatabaseController.connection.createStatement();
 				ResultSet rs = stmt.executeQuery(
-						"SELECT books.sn,books.title,books.keywords,books.hide,authors.id,CONCAT(authors.firstName,' ',authors.lastName) as authorName FROM books,book_authors,authors "
+						"SELECT books.sn,books.title,books.keywords,books.hide,authors.id,CONCAT(authors.firstName,' ',authors.lastName) as authorName, books.summary FROM books,book_authors,authors "
 						+ "WHERE books.sn=book_authors.bookId AND book_authors.authorId=authors.id "
 						+ "ORDER BY sn");
 				while (rs.next()) {
@@ -911,6 +911,7 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(4)); // hide
 					elementsList.add(rs.getString(5)); // author id
 					elementsList.add(rs.getString(6)); // author name
+					elementsList.add(rs.getString(7)); // book summary
 				}
 				replay = new Replay(ActionType.GET_BOOK_LIST, true, elementsList);
 			} catch (SQLException e) {

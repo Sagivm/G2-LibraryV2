@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -66,7 +67,11 @@ public class BookManagementController {
     private Label InfoKeywords;
 	
 	@FXML
+    private TextArea BookSummary;
+	
+	@FXML
     private Button delBtn;
+
 	
 	
 	
@@ -78,6 +83,8 @@ public class BookManagementController {
 	
 	@FXML
 	private void initialize(){
+        BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+
 		Message message = prepareGetBooksList(ActionType.GET_BOOK_LIST);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -89,17 +96,16 @@ public class BookManagementController {
 			String authors="";
 			@Override
 			public void run() {
-				for(int i=0;i<BooksList.size();i+=6){
-					if(i+6<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+6)))
+				for(int i=0;i<BooksList.size();i+=7){
+					if(i+7<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+7)))
 					{
 						authors=authors+BooksList.get(i+5)+",";
-						//System.out.println(authors);
 					}
 					else{
 						if(authors.equals(""))
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5)));
+							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6)));
 						else
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), authors+BooksList.get(i+5)));
+							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6)));
 						authors = "";
 					}
 				}
@@ -139,9 +145,15 @@ public class BookManagementController {
 		    if (newSelection != null) {
 		        InfoTitle.setText(newSelection.getBookTitle());
 		        InfoAuthors.setText(newSelection.getAuthorName());
-		        InfoKeywords.setMaxWidth(200);
+		        InfoKeywords.setMaxWidth(170);
 		        InfoKeywords.setWrapText(true);
 		        InfoKeywords.setText(newSelection.getBookKeywords());
+		        BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+		        BookSummary.setMaxWidth(280);
+		        BookSummary.setWrapText(true);
+		        BookSummary.setText(newSelection.getBookSummary());
+		        BookSummary.setEditable(false);
+
 		    }
 		});
 
@@ -199,14 +211,16 @@ public class BookManagementController {
 	    private final SimpleStringProperty bookHide;
 	    private final SimpleStringProperty authorId;
 	    private final SimpleStringProperty authorName;
+	    private final SimpleStringProperty bookSummary;
 
-	    private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName) {
+	    private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName, String bookSummary) {
 	        this.bookSn = new SimpleStringProperty(bookSn);
 	        this.bookTitle = new SimpleStringProperty(bookTitle);
 	        this.bookKeywords = new SimpleStringProperty(bookKeywords);
 	        this.bookHide = new SimpleStringProperty(bookHide);
 	        this.authorId = new SimpleStringProperty(authorId);
 	        this.authorName = new SimpleStringProperty(authorName);
+	        this.bookSummary = new SimpleStringProperty(bookSummary);
 	    }
 
 	    public String getBookSn() {
@@ -232,6 +246,10 @@ public class BookManagementController {
 	    public String getAuthorName() {
 	        return authorName.get();
 	    }
+	    
+	    public String getBookSummary() {
+	        return bookSummary.get();
+	    }
 
 
 	    public void setBookSn(String bookSn) {
@@ -256,6 +274,10 @@ public class BookManagementController {
 	    
 	    public void setAuthorName(String authorName) {
 	    	this.authorName.set(authorName);
+	    }
+	    
+	    public void setBookSummary(String bookSummary) {
+	    	this.bookSummary.set(bookSummary);
 	    }
 
 
