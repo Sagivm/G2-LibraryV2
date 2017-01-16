@@ -52,7 +52,7 @@ public class SearchBookResultsController implements ScreensIF{
 	@FXML private TableColumn bookPageCol;
 	
 	public static ArrayList<String> resultList;
-	private final Image enterImage = new Image("/img/confirm.png");
+	private final Image enterImage = new Image("/img/questionMark.png");
 	
 	
 	
@@ -139,7 +139,7 @@ public class SearchBookResultsController implements ScreensIF{
 	              final ImageView buttonGraphic = new ImageView();
 	              final Button button = new Button(); {
 	                button.setGraphic(buttonGraphic);
-	                button.setPrefWidth(10);
+	                button.setPrefWidth(5);
 	              }
 	            
 	              @Override public void updateItem(final SearchBookResult bookRes, boolean empty) {
