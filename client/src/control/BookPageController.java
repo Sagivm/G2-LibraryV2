@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -33,6 +35,12 @@ public class BookPageController implements ScreensIF
 	@FXML private Label tocLable;
 	@FXML private Label summaryLable;
 	@FXML private Label priceLable;
+	
+	@FXML private TabPane bookTabPane;
+	@FXML private Tab readReviewsTab;
+	@FXML private Tab writeReviewTab;
+	@FXML private Tab bookReportTab;
+	@FXML private Tab popularityReportTab;
 	
 	@FXML
 	public void initialize() 
@@ -94,14 +102,6 @@ public class BookPageController implements ScreensIF
 		return count+1;
 	}
 	
-	/**
-	 * Book page constructor store the data.
-	 * @param bookRow - Gets a book row from search.
-	 */
-	public BookPageController(String bookRow) {
-		this.bookRow = bookRow;
-	}
-
 	@Override
 	public void backButtonPressed(ActionEvent event) {
 		// TODO Auto-generated method stub

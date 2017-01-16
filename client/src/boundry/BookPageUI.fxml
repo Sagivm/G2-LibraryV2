@@ -10,38 +10,56 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.BookPageController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="93.0" layoutX="737.0" layoutY="252.0" stroke="BLACK" strokeType="INSIDE" width="142.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="66.0" layoutX="440.0" layoutY="466.0" stroke="BLACK" strokeType="INSIDE" width="231.0" />
       <AnchorPane layoutX="445.0" layoutY="511.0" />
       <Label fx:id="bookLable" layoutX="373.0" layoutY="28.0" prefHeight="0.0" prefWidth="143.0">
          <font>
             <Font size="50.0" />
          </font>
       </Label>
-      <Label layoutX="36.0" layoutY="141.0" prefHeight="0.0" text="Authors:" />
-      <Label fx:id="authorsLable" layoutX="144.0" layoutY="140.0" prefHeight="0.0" prefWidth="501.0" />
-      <Label layoutX="36.0" layoutY="179.0" prefHeight="0.0" text="Language:" />
-      <Label fx:id="languageLable" layoutX="144.0" layoutY="178.0" prefHeight="0.0" prefWidth="501.0" />
-      <Label layoutX="34.0" layoutY="215.0" prefHeight="0.0" text="Domains:" />
-      <Label fx:id="domainsLable" layoutX="138.0" layoutY="214.0" prefHeight="0.0" prefWidth="501.0" />
-      <Label layoutX="34.0" layoutY="247.0" prefHeight="0.0" text="Subjects:" />
-      <Label fx:id="subjectsLable" layoutX="138.0" layoutY="246.0" prefHeight="0.0" prefWidth="501.0" />
-      <Label layoutX="34.0" layoutY="279.0" prefHeight="0.0" text="Key words:" />
-      <Label fx:id="keyWordsLable" alignment="TOP_LEFT" layoutX="144.0" layoutY="278.0" prefHeight="37.0" prefWidth="501.0" />
-      <Label layoutX="34.0" layoutY="323.0" prefHeight="0.0" text="Table of contents:" />
-      <Label fx:id="tocLable" alignment="TOP_LEFT" layoutX="138.0" layoutY="326.0" prefHeight="37.0" prefWidth="501.0" />
-      <Label layoutX="36.0" layoutY="363.0" text="Summary:" />
-      <Label fx:id="summaryLable" alignment="TOP_LEFT" layoutX="144.0" layoutY="372.0" prefHeight="37.0" prefWidth="501.0" />
-      <Button fx:id="writeReviewButton" layoutX="745.0" layoutY="306.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" text="Write a review" />
-      <Button fx:id="readReviewButton" layoutX="745.0" layoutY="266.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" text="Read reviews" />
-      <Button fx:id="purchaseButton" layoutX="746.0" layoutY="101.0" mnemonicParsing="false" prefHeight="93.0" prefWidth="126.0" text="Purchase" />
-      <Button fx:id="bookReportButton" layoutX="453.0" layoutY="487.0" mnemonicParsing="false" text="Book report" />
-      <Button fx:id="popularityReportButton" layoutX="546.0" layoutY="487.0" mnemonicParsing="false" text="Popularity Report" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="66.0" layoutX="205.0" layoutY="466.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-      <Button fx:id="editButton" layoutX="221.0" layoutY="487.0" mnemonicParsing="false" text="Edit" />
-      <Button fx:id="hideButton" layoutX="277.0" layoutY="487.0" mnemonicParsing="false" text="Hide" />
-      <Button fx:id="deleteButton" layoutX="338.0" layoutY="487.0" mnemonicParsing="false" text="Delete" />
-      <Label layoutX="36.0" layoutY="423.0" text="Price:" />
-      <Label fx:id="priceLable" layoutX="144.0" layoutY="423.0" prefWidth="501.0" />
+      <TabPane fx:id="bookTabPane" layoutX="1.0" layoutY="109.0" prefHeight="500.0" prefWidth="885.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="detailsTab" text="Book Details">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="684.0">
+                     <children>
+                        <Label layoutX="37.0" layoutY="28.0" prefHeight="0.0" text="Authors:" />
+                        <Label fx:id="authorsLable" layoutX="169.0" layoutY="28.0" prefHeight="0.0" prefWidth="501.0" />
+                        <Label layoutX="37.0" layoutY="68.0" prefHeight="0.0" text="Language:" />
+                        <Label fx:id="languageLable" layoutX="127.0" layoutY="68.0" prefHeight="0.0" prefWidth="501.0" />
+                        <Label layoutX="35.0" layoutY="108.0" prefHeight="0.0" text="Domains:" />
+                        <Label fx:id="domainsLable" layoutX="127.0" layoutY="108.0" prefHeight="0.0" prefWidth="501.0" />
+                        <Label layoutX="36.0" layoutY="143.0" prefHeight="0.0" text="Subjects:" />
+                        <Label fx:id="subjectsLable" layoutX="127.0" layoutY="143.0" prefHeight="0.0" prefWidth="501.0" />
+                        <Label layoutX="36.0" layoutY="186.0" prefHeight="0.0" text="Key words:" />
+                        <Label fx:id="keyWordsLable" alignment="TOP_LEFT" layoutX="127.0" layoutY="185.0" prefHeight="37.0" prefWidth="501.0" />
+                        <Label layoutX="36.0" layoutY="242.0" prefHeight="0.0" text="Table of contents:" />
+                        <Label fx:id="tocLable" alignment="TOP_LEFT" layoutX="145.0" layoutY="242.0" prefHeight="37.0" prefWidth="501.0" />
+                        <Label layoutX="38.0" layoutY="294.0" text="Summary:" />
+                        <Label fx:id="summaryLable" alignment="TOP_LEFT" layoutX="145.0" layoutY="294.0" prefHeight="37.0" prefWidth="501.0" />
+                        <Label layoutX="38.0" layoutY="339.0" text="Price:" />
+                        <Label fx:id="priceLable" layoutX="121.0" layoutY="339.0" prefWidth="501.0" />
+                        <Button fx:id="purchaseButton" layoutX="372.0" layoutY="408.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="126.0" text="Purchase" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="readReviewsTab" text="Read reviews">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+          <Tab fx:id="writeReviewTab" text="Write a review">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="790.0" />
+            </content>
+          </Tab>
+          <Tab fx:id="bookReportTab" text="Book Report">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="684.0" />
+            </content>
+          </Tab>
+          <Tab fx:id="popularityReportTab" text="Popularity Report" />
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>

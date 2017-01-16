@@ -9,6 +9,7 @@ import entity.AccountType;
 import entity.Book;
 import entity.Message;
 import entity.Review;
+import entity.SearchUserResult;
 import entity.User;
 import enums.ActionType;
 import interfaces.ScreensIF;
@@ -39,7 +40,7 @@ public class SearchUserResultsController implements ScreensIF{
 	@FXML private TableColumn accountStatusCol;
 	
 	public static ArrayList<String> userResult;
-	private ObservableList<userResult> data = FXCollections.observableArrayList();
+	private ObservableList<SearchUserResult> data = FXCollections.observableArrayList();
 			
 	/**
 	 * initialize data from the DB in the form on load.
@@ -66,7 +67,7 @@ public class SearchUserResultsController implements ScreensIF{
 						*/
 						
 						//data.add(user);
-						data.add(new userResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4]));
+						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4]));
 					}
 					
 					
@@ -82,19 +83,19 @@ public class SearchUserResultsController implements ScreensIF{
 					resultsTable.setEditable(false);
 										
 					usernameCol.setCellValueFactory(
-			                new PropertyValueFactory<userResult, String>("username"));
+			                new PropertyValueFactory<SearchUserResult, String>("username"));
 					
 					fNameCol.setCellValueFactory(
-			                new PropertyValueFactory<userResult, String>("firstName"));
+			                new PropertyValueFactory<SearchUserResult, String>("firstName"));
 					
 					lNameCol.setCellValueFactory(
-			                new PropertyValueFactory<userResult, String>("lastName"));
+			                new PropertyValueFactory<SearchUserResult, String>("lastName"));
 		
 					accountTypeCol.setCellValueFactory(
-			                new PropertyValueFactory<userResult, String>("accountType"));
+			                new PropertyValueFactory<SearchUserResult, String>("accountType"));
 					
 					accountStatusCol.setCellValueFactory(
-			                new PropertyValueFactory<userResult, String>("accountStatus"));
+			                new PropertyValueFactory<SearchUserResult, String>("accountStatus"));
 					
 					usernameCol.setStyle( "-fx-alignment: CENTER;");
 					fNameCol.setStyle( "-fx-alignment: CENTER;");
@@ -134,62 +135,6 @@ public class SearchUserResultsController implements ScreensIF{
 		
 	}
 	
-	public static class userResult {
-
-	    private final SimpleStringProperty username;
-	    private final SimpleStringProperty firstName;
-	    private final SimpleStringProperty lastName;
-	    private final SimpleStringProperty accountType;
-	    private final SimpleStringProperty accountStatus;
-
-	    private userResult(String username, String firstName, String lastName, String accountType, String accountStatus) {
-	        this.username = new SimpleStringProperty(username);
-	        this.firstName = new SimpleStringProperty(firstName);
-	        this.lastName = new SimpleStringProperty(lastName);
-	        this.accountType = new SimpleStringProperty(accountType);
-	        this.accountStatus = new SimpleStringProperty(accountStatus);
-	    }
-
-	    public String getUsername() {
-	        return username.get();
-	    }
-	    
-	    public String getFirstName() {
-	        return firstName.get();
-	    }
-	    
-	    public String getLastName() {
-	        return lastName.get();
-	    }
-	    
-	    public String getAccountType() {
-	        return accountType.get();
-	    }
-	    
-	    public String getAccountStatus() {
-	        return accountStatus.get();
-	    }
-	    
-	    
-	    public void setFirstName(String fName) {
-	    	firstName.set(fName);
-	    }
-
-	    public void setLastName(String fName) {
-	        lastName.set(fName);
-	    }
-	    
-	    public void setAccountType(String fName) {
-	    	accountType.set(fName);
-	    }
-	    
-	    public void setAccountStatus(String fName) {
-	    	accountStatus.set(fName);
-	    }
-	    
-	    
-	    
-
-	}
+	
 
 }

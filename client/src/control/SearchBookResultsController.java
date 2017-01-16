@@ -9,6 +9,7 @@ import control.PendingRegistrationController.pendingUser;
 import entity.Author;
 import entity.Book;
 import entity.Domain;
+import entity.SearchBookResult;
 import entity.Subject;
 import enums.ActionType;
 import interfaces.ScreensIF;
@@ -42,7 +43,7 @@ public class SearchBookResultsController implements ScreensIF{
 	
 	
 	
-	private ObservableList<Book> data = FXCollections.observableArrayList();
+	private ObservableList<SearchBookResult> data = FXCollections.observableArrayList();
 	
 	@FXML
 	private void initialize()
@@ -51,26 +52,16 @@ public class SearchBookResultsController implements ScreensIF{
 			int j;
 			for(int i=0;i<resultList.size();i++)
 			{
-				Book book=new Book();
 				int size=countItems(resultList.get(i),"^");
 				String[] tmp=new String[size];
 				tmp = resultList.get(i).split("\\^");
-				book.setSn(Integer.parseInt(tmp[0]));
-				book.setTitle(tmp[1]);
-				book.setLanguage(tmp[2]);
-				book.setSummary(tmp[3]);
-				book.setTableOfContent(tmp[4]);
-				book.setKeywords(tmp[5]);
+				
+
 				int authorsCount=Integer.parseInt(tmp[6]);
 				ArrayList<String> authors = new ArrayList<String>();
 				
 				for(j=0; j<authorsCount;j++)
 					authors.add(tmp[7+j]);
-				
-
-				book.setAuthors(authors);
-
-	
 				
 				int continue_index=7+j;
 				
@@ -88,13 +79,17 @@ public class SearchBookResultsController implements ScreensIF{
 				hs.addAll(domains);
 				domains.clear();
 				domains.addAll(hs);
-				
-				book.setSubjects(subjects);
-				book.setDomains(domains);
 							
 				continue_index=continue_index+1+subjectsCount;
-				book.setPrice(tmp[continue_index]);
-
+				
+				String author=authors.toString();
+				author=author.substring(1, author.length()-1);
+				String subject=subjects.toString();
+				subject=subject.substring(1, subject.length()-1);
+				String domain=domains.toString();
+				domain=domain.substring(1, domain.length()-1);
+				
+				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, tmp[continue_index]);
 				
 				data.add(book);
 			}
@@ -104,19 +99,19 @@ public class SearchBookResultsController implements ScreensIF{
 		resultsTable.setEditable(true);
 		
 		bookCol.setCellValueFactory(
-                new PropertyValueFactory<Book, String>("title"));
+                new PropertyValueFactory<SearchBookResult, String>("bookTitle"));
 		
 		authorsCol.setCellValueFactory(
-                new PropertyValueFactory<Book, ArrayList<String>>("authors"));
+                new PropertyValueFactory<SearchBookResult, String>("bookAuthors"));
 		
 		languageCol.setCellValueFactory(
-                new PropertyValueFactory<Book, String>("language"));
+                new PropertyValueFactory<SearchBookResult, String>("bookLanguage"));
 
 		domainsCol.setCellValueFactory(
-                new PropertyValueFactory<Book, ArrayList<String>>("domains"));
+                new PropertyValueFactory<SearchBookResult, String>("bookDomains"));
 		
 		subjectsCol.setCellValueFactory(
-                new PropertyValueFactory<Book, ArrayList<String>>("subjects"));
+                new PropertyValueFactory<SearchBookResult, String>("bookSubjects"));
 		
 		resultsTable.setItems(data);
 		resultsTable.getSortOrder().add(bookCol);
@@ -175,6 +170,8 @@ public class SearchBookResultsController implements ScreensIF{
 		return count+1;
 	}
 	
+	
+
 
 
 }
