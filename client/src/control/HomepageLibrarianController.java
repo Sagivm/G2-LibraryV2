@@ -173,6 +173,22 @@ public class HomepageLibrarianController implements ScreensIF {
 	}
 	
 	
+	@FXML
+	public void bookManagmentButtonPressed(ActionEvent event) throws IOException {
+		Platform.runLater(() -> {
+		try {
+			while(content.getChildren().size()>0)
+				content.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_BOOK_MANAGEMENT));
+			content.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		});
+	}
+	
+	
 	/** Handler when pressed "Pending Registration requests". this function open the Pending Registration requests form.
 	 * @param event - gets the ActionEvent when the function called.
 	 * @throws IOException

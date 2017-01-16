@@ -179,5 +179,14 @@ public class ScreensInfo {
 	 */
 	public static final String SEARCH_USER_RESULTS_TITLE = "Search User results";
 
+	/**
+	 *  Search book management screen path
+	 */
+	public static final String HOMEPAGE_BOOK_MANAGEMENT = "/boundry/BookManagementUI.fxml";
+	
+	/**
+	 *  Set book management screen title
+	 */
+	public static final String HOMEPAGE_BOOK_MANAGEMENT_TITLE = "Books Managment";
 	
 }

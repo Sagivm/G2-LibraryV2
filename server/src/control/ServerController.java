@@ -892,6 +892,32 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
+		
+		
+		case GET_BOOK_LIST: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT books.sn,books.title,books.keywords,books.hide,authors.id,CONCAT(authors.firstName,' ',authors.lastName) as authorName FROM books,book_authors,authors "
+						+ "WHERE books.sn=book_authors.bookId AND book_authors.authorId=authors.id "
+						+ "ORDER BY sn");
+				while (rs.next()) {
+					elementsList.add(rs.getString(1)); // sn
+					elementsList.add(rs.getString(2)); // title
+					elementsList.add(rs.getString(3)); // keywords
+					elementsList.add(rs.getString(4)); // hide
+					elementsList.add(rs.getString(5)); // author id
+					elementsList.add(rs.getString(6)); // author name
+				}
+				replay = new Replay(ActionType.GET_BOOK_LIST, true, elementsList);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+
+		}
 
 		}
 		return replay;

@@ -422,6 +422,12 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 
 		}
+		
+		case GET_BOOK_LIST: {
+			BookManagementController.BooksList = replay.getElementsList();
+			break;
+		}
+		
 
 		}
 

@@ -143,6 +143,11 @@ public enum ActionType {
 	 * Add new review to DB.
 	 */
 	WRITE_REVIEW,
+	
+	/**
+	 * Get data from DB for list of books
+	 */
+	GET_BOOK_LIST,
 
 
 
