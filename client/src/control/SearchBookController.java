@@ -30,6 +30,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -40,6 +42,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 
 /** SearchBookController. Responsible to enable users search books in DB.
  * @author itain
@@ -61,6 +64,12 @@ public class SearchBookController implements ScreensIF{
 	@FXML private RadioButton orRadioButton;
 	@FXML private ToggleGroup searchGroup;
 	@FXML private ImageView authorImage;
+	//@FXML private VBox authorVbox;
+	@FXML private ImageView domainImage;
+	@FXML private ImageView keyWordsImage;
+	
+	private Image questionMarkImage;
+	//final Tooltip tooltipListView = new Tooltip();
 
 	public static ArrayList<Author> authorList;
 	public static ArrayList<String> domainList;
@@ -121,10 +130,15 @@ public class SearchBookController implements ScreensIF{
 				e.printStackTrace();		
 				}
 				
-				authorImage = new ImageView();
-				authorImage.setImage(new Image ("/img/questionMark.png"));
+				//question mark images
+				questionMarkImage = new Image("/img/questionMark.png");
+				authorImage.setImage(questionMarkImage);
+				domainImage.setImage(questionMarkImage);
+				keyWordsImage.setImage(questionMarkImage);
+				//tooltipListView.setText("For multiple choice, use ctrl+right click\n");
+				//authorImage.
 				
-				
+
 				ObservableList<String> lanaguageOptions = FXCollections.observableArrayList("","Hebrew", "English", "Russian");
 				languageComboBox.getItems().addAll(lanaguageOptions);
 				languageComboBox.getSelectionModel().select(0);
@@ -219,7 +233,7 @@ public class SearchBookController implements ScreensIF{
 					e.printStackTrace();		
 					}
 				
-
+				//WHY U DONT WORK?!!?
 				if(ClientUI.getTypeOfUser()=="Librarian")
             	{
                 	if (librarianMain == null)
@@ -238,9 +252,7 @@ public class SearchBookController implements ScreensIF{
                 		userMain = new HomepageUserController();
                 	userMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
             	}
-        		//Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getFirstName(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
-        		//EditReviewController editReviewPage = new EditReviewController();
-        		//editReviewPage.editReview = editReview;
+        		
         		ScreenController screenController = new ScreenController();
         		try{
         			if(ClientUI.getTypeOfUser()=="Librarian")

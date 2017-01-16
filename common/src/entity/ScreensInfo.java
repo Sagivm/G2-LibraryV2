@@ -191,4 +191,14 @@ public class ScreensInfo {
 	 */
 	public static final String HOMEPAGE_BOOK_MANAGEMENT_TITLE = "Books Managment";
 	
+	
+	/**
+	 *  book page screen path
+	 */
+	public static final String BOOK_PAGE_SCREEN = "/boundry/BookPageUI.fxml";
+	
+	/**
+	 *  Set book page screen title
+	 */
+	public static final String BOOK_PAGE_SCREEN_TITLE = "Book Page";
 }

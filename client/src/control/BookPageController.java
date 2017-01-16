@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 
+import entity.SearchBookResult;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.event.ActionEvent;
@@ -13,6 +14,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+
+
 
 /** BookPageController. Responsible to show a specific book page.
  * @author itain
@@ -21,11 +25,7 @@ import javafx.scene.control.TextField;
 
 public class BookPageController implements ScreensIF
 {
-	/**
-	 * book row data
-	 */
-	private String bookRow;
-	
+
 	@FXML private Label bookLable;
 	@FXML private Label authorsLable;
 	@FXML private Label languageLable;
@@ -42,24 +42,26 @@ public class BookPageController implements ScreensIF
 	@FXML private Tab bookReportTab;
 	@FXML private Tab popularityReportTab;
 	
+	public static SearchBookResult searchedBookPage;
+	
 	@FXML
 	public void initialize() 
 	{
 		int i;
-		int size=countItems(bookRow,"^");
-		String bookData[] = new String[size];
-		bookData = bookRow.split("\\^");
-		bookLable.setText(bookData[1]);
-		languageLable.setText(bookData[2]);
-		summaryLable.setText(bookData[3]);
-		tocLable.setText(bookData[4]);
-		keyWordsLable.setText(bookData[5]);
-		
+		System.out.println("test3");
+		bookLable.setText(searchedBookPage.getBookTitle());
+		languageLable.setText(searchedBookPage.getBookLanguage());
+		summaryLable.setText(searchedBookPage.getBookSummary());
+		tocLable.setText(searchedBookPage.getBookToc());
+		keyWordsLable.setText(searchedBookPage.getBookKeywords());
+		/*
 		int authorsCount=Integer.parseInt(bookData[6]);
 		String authors=bookData[7]; //first author
 		for(i=1;i<authorsCount;i++)
 			authors+=", "+bookData[7+i];
-		authorsLable.setText(authors);
+			*/
+		authorsLable.setText(searchedBookPage.getBookAuthors());
+		/*
 		int continue_index=7+authorsCount;
 		
 		int domainsCount=Integer.parseInt(bookData[continue_index]);
@@ -71,36 +73,14 @@ public class BookPageController implements ScreensIF
 			subjects+=", "+bookData[continue_index+1+i];
 			domains+=", "+bookData[continue_index+2+i];
 		}
-		subjectsLable.setText(subjects);
-		domainsLable.setText(domains);
-		continue_index=continue_index+domainsCount;
-		priceLable.setText(bookData[continue_index]);
+		*/
+		subjectsLable.setText(searchedBookPage.getBookSubjects());
+		domainsLable.setText(searchedBookPage.getBookDomains());
+		//continue_index=continue_index+domainsCount;
+		priceLable.setText(searchedBookPage.getBookPrice());
 	}
 	
 	
-	
-	/**
-	 * This function returns number of items on each book row on search
-	 * @author itain
-	 * @param str- string to be checked
-	 */
-	private int countItems(String str, String lookFor)
-	{
-		String findStr = lookFor;
-		int lastIndex = 0;
-		int count = 0;
-
-		while (lastIndex != -1) {
-
-		    lastIndex = str.indexOf(findStr, lastIndex);
-
-		    if (lastIndex != -1) {
-		        count++;
-		        lastIndex += findStr.length();
-		    }
-		}
-		return count+1;
-	}
 	
 	@Override
 	public void backButtonPressed(ActionEvent event) {

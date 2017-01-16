@@ -36,6 +36,12 @@
     <ListView fx:id="authorListView" layoutX="373.0" layoutY="117.0" prefHeight="60.0" prefWidth="280.0" />
     <ListView fx:id="domainListView" layoutX="373.0" layoutY="391.0" prefHeight="54.0" prefWidth="280.0" />
       <TextArea fx:id="summaryTextArea" layoutX="374.0" layoutY="234.0" prefHeight="60.0" prefWidth="280.0" />
-      <ImageView fx:id="authorImage" fitHeight="25.0" fitWidth="26.0" layoutX="675.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox fx:id="authorVbox" layoutX="665.0" layoutY="118.0">
+         <children>
+            <ImageView fx:id="authorImage" fitHeight="16.0" fitWidth="16.0" layoutX="665.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
+      <ImageView fx:id="domainImage" fitHeight="16.0" fitWidth="16.0" layoutX="662.0" layoutY="392.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="keyWordsImage" fitHeight="16.0" fitWidth="16.0" layoutX="662.0" layoutY="465.0" pickOnBounds="true" preserveRatio="true" />
   </children>
 </AnchorPane>
