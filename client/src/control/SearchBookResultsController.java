@@ -9,22 +9,33 @@ import control.PendingRegistrationController.pendingUser;
 import entity.Author;
 import entity.Book;
 import entity.Domain;
+import entity.GeneralMessages;
+import entity.Message;
 import entity.SearchBookResult;
 import entity.Subject;
 import enums.ActionType;
 import interfaces.ScreensIF;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 
 /** SearchBookResultsController. Responsible show users their search book results.
  * @author itain
@@ -38,8 +49,10 @@ public class SearchBookResultsController implements ScreensIF{
 	@FXML private TableColumn languageCol;
 	@FXML private TableColumn domainsCol;
 	@FXML private TableColumn subjectsCol;
+	@FXML private TableColumn bookPageCol;
 	
 	public static ArrayList<String> resultList;
+	private final Image enterImage = new Image("/img/enter.png");
 	
 	
 	
@@ -113,8 +126,54 @@ public class SearchBookResultsController implements ScreensIF{
 		subjectsCol.setCellValueFactory(
                 new PropertyValueFactory<SearchBookResult, String>("bookSubjects"));
 		
+		
+		bookPageCol.setCellValueFactory(new Callback<CellDataFeatures<SearchBookResult, SearchBookResult>, ObservableValue<SearchBookResult>>() {
+	          @Override public ObservableValue<SearchBookResult> call(CellDataFeatures<SearchBookResult, SearchBookResult> features) {
+	              return new ReadOnlyObjectWrapper(features.getValue());
+	          }
+	        });
+		
+		bookPageCol.setCellFactory(new Callback<TableColumn<SearchBookResult, SearchBookResult>, TableCell<SearchBookResult, SearchBookResult>>() {
+	          @Override public TableCell<SearchBookResult, SearchBookResult> call(TableColumn<SearchBookResult, SearchBookResult> bookPageCol) {
+	            return new TableCell<SearchBookResult, SearchBookResult>() {
+	              final ImageView buttonGraphic = new ImageView();
+	              final Button button = new Button(); {
+	                button.setGraphic(buttonGraphic);
+	                button.setPrefWidth(5);
+	              }
+	            
+	              @Override public void updateItem(final SearchBookResult bookRes, boolean empty) {
+	                  super.updateItem(bookRes, empty);
+	                  if (bookRes != null) {
+	                    buttonGraphic.setImage(enterImage);
+	                    setGraphic(button);
+	                    button.setOnAction(new EventHandler<ActionEvent>() {
+	                      @Override public void handle(ActionEvent event) {
+	                    	  /*
+	                      	Message message = prepareUpdatePendingUsers(ActionType.ACCEPT_PENDING_USERS,user.getUsername());
+	                  		try {
+	                  			ClientController.clientConnectionController.sendToServer(message);
+	                          	printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");     
+	                          	table.getItems().remove(user);
+	                          	countUsers--;
+	                      		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
+	                  		} catch (IOException e) {	
+	                  			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+	                  		}
+	                  		*/
+	                      }
+	                    });
+	                  } else {
+	                    setGraphic(null);
+	                  }
+	                }
+	              };
+	            }
+	          });
+		
 		resultsTable.setItems(data);
 		resultsTable.getSortOrder().add(bookCol);
+		
 		
 		bookCol.setStyle( "-fx-alignment: CENTER;");
 		authorsCol.setStyle( "-fx-alignment: CENTER;");
