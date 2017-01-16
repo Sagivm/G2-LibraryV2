@@ -78,7 +78,25 @@ public class BookManagementController {
     private TextArea BookSummary;
 	
 	@FXML
+    private Label TitleLabel;
+	
+	@FXML
+    private Label AuthorsLabel;
+	
+	@FXML
+    private Label KeywordsLabel;
+	
+	@FXML
+    private Label SummaryLabel;
+	
+	@FXML
     private Button delBtn;
+	
+	@FXML
+    private Button editBtn;
+	
+	@FXML
+    private Button hideBtn;
 	
 	@FXML
     private ImageView imageView;
@@ -98,7 +116,14 @@ public class BookManagementController {
 	@FXML
 	private void initialize(){
         BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
-
+        TitleLabel.setVisible(false);
+        AuthorsLabel.setVisible(false);
+        KeywordsLabel.setVisible(false);
+        SummaryLabel.setVisible(false);
+        BookSummary.setVisible(false);
+        delBtn.setVisible(false);
+        editBtn.setVisible(false);
+        hideBtn.setVisible(false);
 		Message message = prepareGetBooksList(ActionType.GET_BOOK_LIST);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -117,12 +142,18 @@ public class BookManagementController {
 					}
 					else{
 						if(authors.equals("")){
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+							String hide;
+							if(BooksList.get(i+3).equals("000")) hide="no";
+							else hide="yes";
+							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
 						}
 						else{
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+							String hide;
+							if(BooksList.get(i+3).equals("000")) hide="no";
+							else hide="yes";
+							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
 						}
 						authors = "";
 					}
@@ -162,6 +193,20 @@ public class BookManagementController {
 		
 		BooksTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 		    if (newSelection != null) {
+		    	TitleLabel.setVisible(true);
+		        AuthorsLabel.setVisible(true);
+		        KeywordsLabel.setVisible(true);
+		        SummaryLabel.setVisible(true);
+		        BookSummary.setVisible(true);
+		        delBtn.setVisible(true);
+		        editBtn.setVisible(true);
+		        hideBtn.setVisible(true);
+		        
+		        if(newSelection.getBookHide().equals("yes"))
+		        	hideBtn.setText("Unhide Book");
+		        else
+		        	hideBtn.setText("Hide Book");
+		        
 		        InfoTitle.setText(newSelection.getBookTitle());
 		        InfoAuthors.setText(newSelection.getAuthorName());
 		        InfoKeywords.setMaxWidth(170);
@@ -194,8 +239,57 @@ public class BookManagementController {
 
 		delBtn.setOnAction(e -> {
 		    PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
-		    BooksTableView.getItems().remove(selectedItem);
-		    data.remove(selectedItem);
+		    //BooksTableView.getItems().remove(selectedItem);
+			//Message message = prepareDeleteBook(ActionType.DELETE_BOOK ,selectedItem.getBookSn());
+			/*try {
+				ClientController.clientConnectionController.sendToServer(message);
+			} catch (IOException e1) {	
+				actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+			}
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						data.remove(selectedItem);
+				}
+			});*/
+			//delete book
+		});
+		
+		hideBtn.setOnAction(e -> {
+		    PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
+		    if(selectedItem.getBookHide().equals("yes")){
+		    	
+		    	Message message = prepareHideBook(ActionType.HIDE_BOOK , selectedItem.getBookSn(), "000");
+				try {
+					ClientController.clientConnectionController.sendToServer(message);
+				} catch (IOException e1) {	
+					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+				}
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+							selectedItem.setBookHide("no");
+							hideBtn.setText("Hide Book");
+					}
+				});
+		    }
+		    else{
+		    	Message message = prepareHideBook(ActionType.HIDE_BOOK , selectedItem.getBookSn(), "001");
+				try {
+					ClientController.clientConnectionController.sendToServer(message);
+				} catch (IOException e1) {	
+					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+				}
+				Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+							selectedItem.setBookHide("yes");
+							hideBtn.setText("Unhide Book");
+					}
+				});
+		    }
+		    BookHide.setVisible(false);
+		    BookHide.setVisible(true);
 		});
 		
 		
@@ -240,7 +334,16 @@ public class BookManagementController {
 
         String lowerCaseFilterString = filterString.toLowerCase();
 
+        if (book.getBookSn().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        }
         if (book.getBookTitle().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        }
+        if (book.getAuthorName().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        }
+        if (book.getBookKeywords().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
             return true;
         }
 
@@ -266,6 +369,27 @@ public class BookManagementController {
 		Message message = new Message();
 		ArrayList<String> elementsList = new ArrayList<String>();
 		elementsList.add(username);
+		message.setType(type);
+		message.setElementsList(elementsList);
+		return message;
+	}
+	
+	public Message prepareDeleteBook(ActionType type,String sn)
+	{
+		Message message = new Message();
+		ArrayList<String> elementsList = new ArrayList<String>();
+		elementsList.add(sn);
+		message.setType(type);
+		message.setElementsList(elementsList);
+		return message;
+	}
+	
+	public Message prepareHideBook(ActionType type, String sn, String hide)
+	{
+		Message message = new Message();
+		ArrayList<String> elementsList = new ArrayList<String>();
+		elementsList.add(sn);
+		elementsList.add(hide);
 		message.setType(type);
 		message.setElementsList(elementsList);
 		return message;

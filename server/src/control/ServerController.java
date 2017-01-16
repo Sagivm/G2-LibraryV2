@@ -922,6 +922,33 @@ public class ServerController extends AbstractServer {
 			break;
 
 		}
+		
+		case DELETE_BOOK: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String sn = data.get(0);
+				stmt.executeUpdate("DELETE FROM books WHERE sn=" + sn);
+				replay = new Replay(ActionType.DELETE_BOOK, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case HIDE_BOOK: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String sn = data.get(0);
+				String hide = data.get(1);
+				stmt.executeUpdate("UPDATE books SET hide="+hide+" WHERE sn="+sn);
+				replay = new Replay(ActionType.HIDE_BOOK, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
 
 		}
 		return replay;
