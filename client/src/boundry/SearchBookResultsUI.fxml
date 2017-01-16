@@ -16,7 +16,7 @@
       </Label>
       <TableView fx:id="resultsTable" layoutX="40.0" layoutY="109.0" prefHeight="487.0" prefWidth="820.0">
         <columns>
-          <TableColumn fx:id="bookCol" prefWidth="223.0" text="Book name" />
+          <TableColumn fx:id="bookCol" prefWidth="223.0" text="Title" />
           <TableColumn fx:id="authorsCol" prefWidth="231.0" text="Authors" />
             <TableColumn fx:id="languageCol" prefWidth="74.0" text="Language" />
             <TableColumn fx:id="domainsCol" prefWidth="128.0" text="Domains" />

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -35,5 +36,6 @@
     <ListView fx:id="authorListView" layoutX="373.0" layoutY="117.0" prefHeight="60.0" prefWidth="280.0" />
     <ListView fx:id="domainListView" layoutX="373.0" layoutY="391.0" prefHeight="54.0" prefWidth="280.0" />
       <TextArea fx:id="summaryTextArea" layoutX="374.0" layoutY="234.0" prefHeight="60.0" prefWidth="280.0" />
+      <ImageView fx:id="authorImage" fitHeight="25.0" fitWidth="26.0" layoutX="675.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" />
   </children>
 </AnchorPane>

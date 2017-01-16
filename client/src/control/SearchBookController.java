@@ -28,6 +28,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -58,7 +60,8 @@ public class SearchBookController implements ScreensIF{
 	@FXML private RadioButton andRadioButton;
 	@FXML private RadioButton orRadioButton;
 	@FXML private ToggleGroup searchGroup;
-	
+	@FXML private ImageView authorImage;
+
 	public static ArrayList<Author> authorList;
 	public static ArrayList<String> domainList;
 	
@@ -117,6 +120,10 @@ public class SearchBookController implements ScreensIF{
 			} catch (Exception e) {
 				e.printStackTrace();		
 				}
+				
+				authorImage = new ImageView();
+				authorImage.setImage(new Image ("/img/questionMark.png"));
+				
 				
 				ObservableList<String> lanaguageOptions = FXCollections.observableArrayList("","Hebrew", "English", "Russian");
 				languageComboBox.getItems().addAll(lanaguageOptions);
