@@ -52,7 +52,7 @@ public class SearchBookResultsController implements ScreensIF{
 	@FXML private TableColumn bookPageCol;
 	
 	public static ArrayList<String> resultList;
-	private final Image enterImage = new Image("/img/questionMark.png");
+	private final Image enterImage = new Image("/img/enter.png");
 	
 	
 	
