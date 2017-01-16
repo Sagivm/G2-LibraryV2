@@ -46,28 +46,28 @@ public class UserReportController implements Initializable {
 	/**
 	 * Book id column in the table
 	 */
-	@FXML private TableColumn<Purchase, SimpleStringProperty> bookIdColumn;
+	@FXML private TableColumn<Purchase, String> bookIdColumn;
 	/**
 	 * Title column in the table 
 	 */
-	@FXML private TableColumn<Purchase, SimpleStringProperty> titleColumn;
+	@FXML private TableColumn<Purchase, String> titleColumn;
 	/**
 	 * Author column in the table 
 	 */
-	@FXML private TableColumn<Purchase, SimpleStringProperty> authorColumn;
+	@FXML private TableColumn<Purchase, String> authorColumn;
 	
 	/**
 	 * Language column in the table 
 	 */
-	@FXML private TableColumn<Purchase, SimpleStringProperty> languageColumn;
+	@FXML private TableColumn<Purchase, String> languageColumn;
 	/**
 	 * Date column in the table 
 	 */
-	@FXML private TableColumn<Purchase, SimpleStringProperty> dateColumn;
+	@FXML private TableColumn<Purchase, String> dateColumn;
 	/**
 	 * Price column in the table 
 	 */
-	@FXML private TableColumn<Purchase, SimpleStringProperty> priceColumn;
+	@FXML private TableColumn<Purchase, String> priceColumn;
 
 	/**
 	 * Displays user name
@@ -77,7 +77,7 @@ public class UserReportController implements Initializable {
 	 * ArrayList containing the data in Purchase form
 	 */
 	private ArrayList<Purchase> list;
-	private ObservableList<Purchase> items;
+	private ObservableList<Purchase> items= FXCollections.observableArrayList();;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -125,28 +125,35 @@ public class UserReportController implements Initializable {
 						{
 							table.setEditable(true);
 							arrangelist();
-							items =FXCollections.observableArrayList(list);
-							
-							
-							bookIdColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("id"));
-							titleColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("title"));
-							authorColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("author"));
-							languageColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("language"));
-							dateColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("date"));
-							priceColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("price"));
-							
-		
+							items =FXCollections.observableArrayList();
 							for(int i=0;i<list.size();i++)
 							{
-								System.out.println(list.get(i).toString());
+								//System.out.println(list.get(i).toString());
+								items.add(list.get(i));
 							}
+
 							
+							bookIdColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("id"));
+							titleColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("title"));
+							authorColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("author"));
+							languageColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("language"));
+							dateColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("date"));
+							priceColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("price"));
 							
+		
+							
+							table.setVisible(true);
 							table.setItems(items);
 							//items.add(new Purchase(list.get(0)));
 							
 							//table.getItems().addAll(items);
-							
+							bookIdColumn.setStyle( "-fx-alignment: CENTER;");
+							titleColumn.setStyle( "-fx-alignment: CENTER;");
+							authorColumn.setStyle( "-fx-alignment: CENTER;");
+							languageColumn.setStyle( "-fx-alignment: CENTER;");
+							dateColumn.setStyle( "-fx-alignment: CENTER;");
+							priceColumn.setStyle( "-fx-alignment: CENTER;");
+							table.setVisible(true);
 							
 							
 						}
@@ -196,11 +203,7 @@ public class UserReportController implements Initializable {
 		}
 		
 	}
-	public void addtest()
-	{
-		items.add(new Purchase("1", "title", "author", "language", "date", "price"));
-		table.setItems(items);
-	}
+
 	/**
 	 * Creates a label displaying the current user
 	 */
@@ -213,46 +216,46 @@ public class UserReportController implements Initializable {
 	 * @author sagivm
 	 *
 	 */
-	class Purchase 
+	public class Purchase 
 	{
 		/**
 		 * Book's id
 		 */
-		//public SimpleStringProperty id;
-		public SimpleStringProperty id;
+		//public String id;
+		public String id;
 		
 		/**
 		 * Book's title
 		 */
-		public SimpleStringProperty title;
+		public String title;
 		/**
 		 * Book's author
 		 */
-		public SimpleStringProperty author;
+		public String author;
 		/**
 		 * Book's language
 		 */
-		public SimpleStringProperty language;
+		public String language;
 		/**
 		 * User date
 		 */
-		public SimpleStringProperty date;
+		public String date;
 		/**
 		 * Book's price at the acquisition date
 		 */
-		public SimpleStringProperty price;
+		public String price;
 		/**
 		 * constructor
 		 * @param split String array containing the 6 attributes of Purchase in the order
 		 * id,title,author,language,date,price
 		 */
 		public Purchase(String split[]) {
-			this.id = new SimpleStringProperty(split[0]);
-			this.title = new SimpleStringProperty(split[1]);
-			this.author = new SimpleStringProperty(split[2]);
-			this.language = new SimpleStringProperty(split[3]);
-			this.date = new SimpleStringProperty(split[4]);
-			this.price = new SimpleStringProperty(split[5]);
+			this.id = new String(split[0]);
+			this.title = new String(split[1]);
+			this.author = new String(split[2]);
+			this.language = new String(split[3]);
+			this.date = new String(split[4]);
+			this.price = new String(split[5]);
 		}
 		public String toString()
 		{
@@ -261,12 +264,12 @@ public class UserReportController implements Initializable {
 		public Purchase(String id, String title, String author,
 				String language, String date, String price) {
 			super();
-			this.id = new SimpleStringProperty(id);
-			this.title = new SimpleStringProperty(title);
-			this.author = new SimpleStringProperty(author);
-			this.language = new SimpleStringProperty(language);
-			this.date = new SimpleStringProperty(date);
-			this.price = new SimpleStringProperty(price);
+			this.id = new String(id);
+			this.title = new String(title);
+			this.author = new String(author);
+			this.language = new String(language);
+			this.date = new String(date);
+			this.price = new String(price);
 		}
 		public Purchase(Purchase p)
 		{
@@ -277,40 +280,40 @@ public class UserReportController implements Initializable {
 			this.date=p.date;
 			this.price=p.price;
 		}
-		private SimpleStringProperty getId() {
+		public String getId() {
 			return id;
 		}
-		private void setId(SimpleStringProperty id) {
+		public void setId(String id) {
 			this.id = id;
 		}
-		private SimpleStringProperty getTitle() {
+		public String getTitle() {
 			return title;
 		}
-		private void setTitle(SimpleStringProperty title) {
+		public void setTitle(String title) {
 			this.title = title;
 		}
-		private SimpleStringProperty getAuthor() {
+		public String getAuthor() {
 			return author;
 		}
-		private void setAuthor(SimpleStringProperty author) {
+		public void setAuthor(String author) {
 			this.author = author;
 		}
-		private SimpleStringProperty getLanguage() {
+		public String getLanguage() {
 			return language;
 		}
-		private void setLanguage(SimpleStringProperty language) {
+		public void setLanguage(String language) {
 			this.language = language;
 		}
-		private SimpleStringProperty getDate() {
+		public String getDate() {
 			return date;
 		}
-		private void setDate(SimpleStringProperty date) {
+		public void setDate(String date) {
 			this.date = date;
 		}
-		private SimpleStringProperty getPrice() {
+		public String getPrice() {
 			return price;
 		}
-		private void setPrice(SimpleStringProperty price) {
+		public void setPrice(String price) {
 			this.price = price;
 		}
 		

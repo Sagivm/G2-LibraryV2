@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import boundry.ClientUI;
 import control.PendingRegistrationController.pendingUser;
+import javafx.fxml.Initializable;
 import entity.Author;
 import entity.Book;
 import entity.Domain;
 import entity.GeneralMessages;
 import entity.Message;
+import entity.ScreensInfo;
 import entity.SearchBookResult;
 import entity.Subject;
 import enums.ActionType;
@@ -23,6 +26,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -54,9 +59,22 @@ public class SearchBookResultsController implements ScreensIF{
 	public static ArrayList<String> resultList;
 	private final Image enterImage = new Image("/img/enter.png");
 	
-	
-	
 	private ObservableList<SearchBookResult> data = FXCollections.observableArrayList();
+	
+	/**
+	 * static reference of user home page.
+	 */
+	private static HomepageUserController userMain;
+	
+	/**
+	 * static reference of librarian home page.
+	 */
+	private static HomepageLibrarianController librarianMain;
+	
+	/**
+	 * static reference of manager home page.
+	 */
+	private static HomepageManagerController managerMain;
 	
 	@FXML
 	private void initialize()
@@ -149,18 +167,42 @@ public class SearchBookResultsController implements ScreensIF{
 	                    setGraphic(button);
 	                    button.setOnAction(new EventHandler<ActionEvent>() {
 	                      @Override public void handle(ActionEvent event) {
-	                    	  /*
-	                      	Message message = prepareUpdatePendingUsers(ActionType.ACCEPT_PENDING_USERS,user.getUsername());
-	                  		try {
-	                  			ClientController.clientConnectionController.sendToServer(message);
-	                          	printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");     
-	                          	table.getItems().remove(user);
-	                          	countUsers--;
-	                      		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
-	                  		} catch (IOException e) {	
-	                  			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-	                  		}
-	                  		*/
+	                    	BookPageController.searchedBookPage = bookRes;
+	          				if(ClientUI.getTypeOfUser()=="Librarian")
+	                    	{
+	                        	if (librarianMain == null)
+	                        		librarianMain = new HomepageLibrarianController();
+	                        	librarianMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+	                        	System.out.println("test1");
+	                    	}
+	                    	else if(ClientUI.getTypeOfUser()=="Manager")
+	                    	{
+	                        	if (managerMain == null)
+	                        		managerMain = new HomepageManagerController();
+	                        	managerMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+	                    	}
+	                    	else if(ClientUI.getTypeOfUser()=="User")
+	                    	{
+	                        	if (userMain == null)
+	                        		userMain = new HomepageUserController();
+	                        	userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+	                    	}
+	                		
+	                		ScreenController screenController = new ScreenController();
+	                		try{
+	                			if(ClientUI.getTypeOfUser()=="Librarian")
+	                			{
+	                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+	                				System.out.println("test2");
+	                			}
+	                			else if(ClientUI.getTypeOfUser()=="Manager")
+	                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+	                			else if(ClientUI.getTypeOfUser()=="User")
+	                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+	                		} 
+	                		catch (Exception e) {
+	        					e.printStackTrace();
+	        				}  
 	                      }
 	                    });
 	                  } else {

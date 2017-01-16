@@ -55,28 +55,12 @@ public class SearchUserResultsController implements ScreensIF{
 		
 					for(int i=0;i<userResult.size();i++)
 					{
-						User user = new User();
 						String[] tmp=new String[5];
 						tmp = userResult.get(i).split("\\^");
-						/*
-						user.setId(tmp[0]);
-						user.setFirstname(tmp[1]);
-						user.setLastname(tmp[2]);
-						user.setAccountType(tmp[3]);
-						user.setAccountStatus(tmp[4]);
-						*/
-						
-						//data.add(user);
 						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4]));
 					}
 					
-					
-					/*
-					User editUser = new User();
-					EditReviewController editReviewPage = new EditReviewController();
-					editReviewPage.editReview = editReview;
-					*/
-					
+										
 					fNameCol.setSortType(TableColumn.SortType.ASCENDING);
 					lNameCol.setSortType(TableColumn.SortType.ASCENDING);
 					
