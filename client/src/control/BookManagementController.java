@@ -17,6 +17,7 @@ import img.*;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -80,6 +82,9 @@ public class BookManagementController {
 	
 	@FXML
     private ImageView imageView;
+	
+	@FXML
+    private TextField filterField;
 
 	
 	
@@ -88,7 +93,7 @@ public class BookManagementController {
 
     
 	private ObservableList<PropertyBook> data = FXCollections.observableArrayList();;
-
+	private ObservableList<PropertyBook> filteredData = FXCollections.observableArrayList();
 	
 	@FXML
 	private void initialize(){
@@ -111,13 +116,18 @@ public class BookManagementController {
 						authors=authors+BooksList.get(i+5)+",";
 					}
 					else{
-						if(authors.equals(""))
+						if(authors.equals("")){
 							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-						else
+							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+						}
+						else{
 							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+						}
 						authors = "";
 					}
 				}
+					
 				
 		BooksTableView.setEditable(true);
         
@@ -148,7 +158,7 @@ public class BookManagementController {
 
 
 
-		BooksTableView.setItems(data);
+		BooksTableView.setItems(filteredData);
 		
 		BooksTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 		    if (newSelection != null) {
@@ -177,11 +187,6 @@ public class BookManagementController {
 					e1.printStackTrace();
 				}
 		        //end show picture
-		        
-		     
-		     
-		     
-		     
 
 		    }
 		});
@@ -190,12 +195,63 @@ public class BookManagementController {
 		delBtn.setOnAction(e -> {
 		    PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
 		    BooksTableView.getItems().remove(selectedItem);
+		    data.remove(selectedItem);
 		});
+		
+		
+		
+		 filterField.textProperty().addListener(new ChangeListener<String>() {
+	            @Override
+	            public void changed(ObservableValue<? extends String> observable,
+	                    String oldValue, String newValue) {
+
+	                updateFilteredData();
+	            }
+	        });	
+		
+		
+		
 		
 			}
 		});
 	
 	}
+	
+	
+    private void updateFilteredData() {
+        filteredData.clear();
+
+        for (PropertyBook b : data) {
+            if (matchesFilter(b)) {
+                filteredData.add(b);
+            }
+        }
+
+        // Must re-sort table after items changed
+        reapplyTableSortOrder();
+    }
+    
+    private boolean matchesFilter(PropertyBook book) {
+        String filterString = filterField.getText();
+        if (filterString == null || filterString.isEmpty()) {
+            // No filter --> Add all.
+            return true;
+        }
+
+        String lowerCaseFilterString = filterString.toLowerCase();
+
+        if (book.getBookTitle().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        }
+
+        return false; // Does not match
+    }
+
+    private void reapplyTableSortOrder() {
+        ArrayList<TableColumn<PropertyBook, ?>> sortOrder = new ArrayList<>(BooksTableView.getSortOrder());
+        BooksTableView.getSortOrder().clear();
+        BooksTableView.getSortOrder().addAll(sortOrder);
+    }
 	
 	public Message prepareGetBooksList(ActionType type)
 	{
