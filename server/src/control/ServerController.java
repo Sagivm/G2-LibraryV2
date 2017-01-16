@@ -103,6 +103,8 @@ public class ServerController extends AbstractServer {
 	 * ArrayList for all of the connected users
 	 */
 	private static ArrayList<Login> connectedList = new ArrayList<Login>();
+	
+	
 
 	/**
 	 * Constructor to establish connection with server, and prepare log file.
@@ -638,14 +640,14 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		
-		case EDIT_USER: {
+		case EDIT_USER_LIBRARIAN: {
 			try
 			{
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + "and lastName=" + "'" + message.getElementsList().get(2) +"'" +  "WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				writeToLog(message.getElementsList().get(0) + " Changed name to"
 				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2));
-				replay = new Replay(ActionType.EDIT_USER, true);
+				replay = new Replay(ActionType.EDIT_USER_LIBRARIAN, true);
 				
 			} 
 			catch (Exception e) {
@@ -1065,10 +1067,11 @@ public class ServerController extends AbstractServer {
 
 			/* add sn, title, language, authors count for each book */
 			Statement stmt = DatabaseController.connection.createStatement();
-			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
+			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount, hide FROM books;");
 			while(rs_books.next())
 			{
-				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
+				if(rs_books.getString(8).equals("1"))
+					elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
 				book_sn.add(rs_books.getString(1));
 			}
 

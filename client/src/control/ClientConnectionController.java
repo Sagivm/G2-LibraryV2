@@ -278,7 +278,7 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
-		case EDIT_USER:{
+		case EDIT_USER_LIBRARIAN:{
 			if (success == true) {
 				Platform.runLater(new Runnable() {
 					@Override

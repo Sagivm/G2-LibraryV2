@@ -3,9 +3,11 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import boundry.ClientUI;
 import entity.GeneralMessages;
 import entity.Message;
 import entity.Register;
+import entity.ScreensInfo;
 import entity.User;
 import enums.ActionType;
 import interfaces.ScreensIF;
@@ -19,18 +21,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-/** EditUserController. Responsible to enable a librarian or a manager to edit user details.
+/** EditUserLibrarianController. Responsible to enable a librarian to edit user first name and last name.
  * @author itain
  */
 
 
-public class EditUserController implements ScreensIF{
+public class EditUserLibrarianController implements ScreensIF{
 	
-	/**
-	 * user information
-	 */
-	private String userInfo;
-	
+
 	@FXML private Label usernameLable;
 	@FXML private TextField fNameTextField;
 	@FXML private TextField lNameTextField;
@@ -38,8 +36,26 @@ public class EditUserController implements ScreensIF{
 	@FXML private Button submitButton;
 	@FXML private Button cancelButton;
 
+	
+	/**
+	 * user information
+	 */
 	public static User user;
 	
+	/**
+	 * static reference of user home page.
+	 */
+	private static HomepageUserController userMain;
+	
+	/**
+	 * static reference of librarian home page.
+	 */
+	private static HomepageLibrarianController librarianMain;
+	
+	/**
+	 * static reference of manager home page.
+	 */
+	private static HomepageManagerController managerMain;
 	
 	@FXML
 	public void initialize()
@@ -67,7 +83,7 @@ public class EditUserController implements ScreensIF{
 		user.setFirstname(fNameTextField.getText());
 		user.setLastname(lNameTextField.getText());
 		
-		Message message = prepareEditUser(ActionType.EDIT_USER,user);
+		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
 		
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -75,6 +91,42 @@ public class EditUserController implements ScreensIF{
 					
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
+	}
+	
+	
+	public void cancelButtonPressed(ActionEvent event)
+	{
+		if(ClientUI.getTypeOfUser()=="Librarian")
+    	{
+        	if (librarianMain == null)
+        		librarianMain = new HomepageLibrarianController();
+        	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+    	}
+    	else if(ClientUI.getTypeOfUser()=="Manager")
+    	{
+        	if (managerMain == null)
+        		managerMain = new HomepageManagerController();
+        	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+    	}
+    	else if(ClientUI.getTypeOfUser()=="User")
+    	{
+        	if (userMain == null)
+        		userMain = new HomepageUserController();
+        	userMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+    	}
+		
+		ScreenController screenController = new ScreenController();
+		try{
+			if(ClientUI.getTypeOfUser()=="Librarian")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+			else if(ClientUI.getTypeOfUser()=="Manager")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+			else if(ClientUI.getTypeOfUser()=="User")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}  
 	}
 	
 	@Override
