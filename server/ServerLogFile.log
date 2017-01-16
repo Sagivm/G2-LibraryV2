@@ -1,19 +1,31 @@
+<<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library.git
 <<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library
 ιπε 16, 2017 12:12:46 AM control.ServerController writeToLog
 =======
 ιπε 16, 2017 5:01:04 AM control.ServerController writeToLog
 >>>>>>> 8992366 Idan Baby touch me Idan
+=======
+ιπε 16, 2017 3:16:56 PM control.ServerController writeToLog
+>>>>>>> c8e1323 Test user report fail add list
 INFO: Connected to database
+<<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library.git
 <<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library
 ιπε 16, 2017 12:12:46 AM control.ServerController writeToLog
 =======
 ιπε 16, 2017 5:01:04 AM control.ServerController writeToLog
 >>>>>>> 8992366 Idan Baby touch me Idan
+=======
+ιπε 16, 2017 3:16:56 PM control.ServerController writeToLog
+>>>>>>> c8e1323 Test user report fail add list
 INFO: Server listening for connections
 on port: 1337
+<<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library.git
 <<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library
 ιπε 16, 2017 12:12:52 AM control.ServerController writeToLog
 =======
 ιπε 16, 2017 5:01:11 AM control.ServerController writeToLog
 >>>>>>> 8992366 Idan Baby touch me Idan
+=======
+ιπε 16, 2017 3:17:04 PM control.ServerController writeToLog
+>>>>>>> c8e1323 Test user report fail add list
 INFO: Login attempt

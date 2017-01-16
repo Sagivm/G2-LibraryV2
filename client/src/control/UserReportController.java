@@ -46,28 +46,28 @@ public class UserReportController implements Initializable {
 	/**
 	 * Book id column in the table
 	 */
-	@FXML private TableColumn<Purchase,String> bookIdColumn;
+	@FXML private TableColumn<Purchase, SimpleStringProperty> bookIdColumn;
 	/**
 	 * Title column in the table 
 	 */
-	@FXML private TableColumn<Purchase,String> titleColumn;
+	@FXML private TableColumn<Purchase, SimpleStringProperty> titleColumn;
 	/**
 	 * Author column in the table 
 	 */
-	@FXML private TableColumn<Purchase,String> authorColumn;
+	@FXML private TableColumn<Purchase, SimpleStringProperty> authorColumn;
 	
 	/**
 	 * Language column in the table 
 	 */
-	@FXML private TableColumn<Purchase,String> languageColumn;
+	@FXML private TableColumn<Purchase, SimpleStringProperty> languageColumn;
 	/**
 	 * Date column in the table 
 	 */
-	@FXML private TableColumn<Purchase,String> dateColumn;
+	@FXML private TableColumn<Purchase, SimpleStringProperty> dateColumn;
 	/**
 	 * Price column in the table 
 	 */
-	@FXML private TableColumn<Purchase,String> priceColumn;
+	@FXML private TableColumn<Purchase, SimpleStringProperty> priceColumn;
 
 	/**
 	 * Displays user name
@@ -77,11 +77,16 @@ public class UserReportController implements Initializable {
 	 * ArrayList containing the data in Purchase form
 	 */
 	private ArrayList<Purchase> list;
+	private ObservableList<Purchase> items;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		initializeTable();
+		//check
+		this.selectedUser=HomepageUserController.getConnectedUser();
+		//
 		initializeLabel();
+		initializeTable();
+		
 
 	}
 
@@ -118,15 +123,31 @@ public class UserReportController implements Initializable {
 //					{
 						if(data!=null)
 						{
-							bookIdColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("id"));
-							titleColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("title"));
-							authorColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("author"));
-							languageColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("language"));
-							dateColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("date"));
-							priceColumn.setCellValueFactory(new PropertyValueFactory<Purchase, String>("price"));
+							table.setEditable(true);
 							arrangelist();
-							ObservableList<Purchase> items =FXCollections.observableArrayList(list);
+							items =FXCollections.observableArrayList(list);
+							
+							
+							bookIdColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("id"));
+							titleColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("title"));
+							authorColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("author"));
+							languageColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("language"));
+							dateColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("date"));
+							priceColumn.setCellValueFactory(new PropertyValueFactory<Purchase, SimpleStringProperty>("price"));
+							
+		
+							for(int i=0;i<list.size();i++)
+							{
+								System.out.println(list.get(i).toString());
+							}
+							
+							
 							table.setItems(items);
+							//items.add(new Purchase(list.get(0)));
+							
+							//table.getItems().addAll(items);
+							
+							
 							
 						}
 						else
@@ -170,10 +191,19 @@ public class UserReportController implements Initializable {
 		for(int i=0;i<data.size();i++)
 		{
 			datasplit=data.get(i).split("\\^");
-			list.add(new Purchase(datasplit));
+			Purchase p= new Purchase(datasplit);
+			list.add(p);
 		}
 		
 	}
+	public void addtest()
+	{
+		items.add(new Purchase("1", "title", "author", "language", "date", "price"));
+		table.setItems(items);
+	}
+	/**
+	 * Creates a label displaying the current user
+	 */
 	private void initializeLabel()
 	{
 		this.titleLabel.setText(selectedUser.getFirstname()+" "+selectedUser.getLastname()+" Report");
@@ -188,7 +218,9 @@ public class UserReportController implements Initializable {
 		/**
 		 * Book's id
 		 */
+		//public SimpleStringProperty id;
 		public SimpleStringProperty id;
+		
 		/**
 		 * Book's title
 		 */
@@ -222,6 +254,66 @@ public class UserReportController implements Initializable {
 			this.date = new SimpleStringProperty(split[4]);
 			this.price = new SimpleStringProperty(split[5]);
 		}
+		public String toString()
+		{
+			return id+" "+title+" "+author;
+		}
+		public Purchase(String id, String title, String author,
+				String language, String date, String price) {
+			super();
+			this.id = new SimpleStringProperty(id);
+			this.title = new SimpleStringProperty(title);
+			this.author = new SimpleStringProperty(author);
+			this.language = new SimpleStringProperty(language);
+			this.date = new SimpleStringProperty(date);
+			this.price = new SimpleStringProperty(price);
+		}
+		public Purchase(Purchase p)
+		{
+			this.id=p.id;
+			this.title=p.title;
+			this.author=p.author;
+			this.language=p.language;
+			this.date=p.date;
+			this.price=p.price;
+		}
+		private SimpleStringProperty getId() {
+			return id;
+		}
+		private void setId(SimpleStringProperty id) {
+			this.id = id;
+		}
+		private SimpleStringProperty getTitle() {
+			return title;
+		}
+		private void setTitle(SimpleStringProperty title) {
+			this.title = title;
+		}
+		private SimpleStringProperty getAuthor() {
+			return author;
+		}
+		private void setAuthor(SimpleStringProperty author) {
+			this.author = author;
+		}
+		private SimpleStringProperty getLanguage() {
+			return language;
+		}
+		private void setLanguage(SimpleStringProperty language) {
+			this.language = language;
+		}
+		private SimpleStringProperty getDate() {
+			return date;
+		}
+		private void setDate(SimpleStringProperty date) {
+			this.date = date;
+		}
+		private SimpleStringProperty getPrice() {
+			return price;
+		}
+		private void setPrice(SimpleStringProperty price) {
+			this.price = price;
+		}
+		
 	}
 
 }

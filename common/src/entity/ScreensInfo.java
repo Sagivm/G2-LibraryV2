@@ -178,6 +178,8 @@ public class ScreensInfo {
 	 *  Set Search User results screen title
 	 */
 	public static final String SEARCH_USER_RESULTS_TITLE = "Search User results";
+	
+	public static final String USER_REPORT="/boundry/UserReportUI.fxml";
 
 	/**
 	 *  Search book management screen path

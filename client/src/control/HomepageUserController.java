@@ -335,5 +335,15 @@ public class HomepageUserController implements ScreensIF {
 	{
 		return page;
 	}
+	//check
+	public void testreportbuttonpressed()
+	{
+		try {
+			loadPage(ScreensInfo.USER_REPORT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }
