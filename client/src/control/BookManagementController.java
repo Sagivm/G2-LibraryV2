@@ -1,7 +1,12 @@
 package control;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
+
+import javax.imageio.ImageIO;
 
 import control.PendingRegistrationController.pendingUser;
 import entity.GeneralMessages;
@@ -15,6 +20,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -71,6 +77,9 @@ public class BookManagementController {
 	
 	@FXML
     private Button delBtn;
+	
+	@FXML
+    private ImageView imageView;
 
 	
 	
@@ -96,16 +105,16 @@ public class BookManagementController {
 			String authors="";
 			@Override
 			public void run() {
-				for(int i=0;i<BooksList.size();i+=7){
-					if(i+7<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+7)))
+				for(int i=0;i<BooksList.size();i+=8){
+					if(i+8<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+8)))
 					{
 						authors=authors+BooksList.get(i+5)+",";
 					}
 					else{
 						if(authors.equals(""))
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6)));
+							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
 						else
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6)));
+							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), BooksList.get(i+3), BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
 						authors = "";
 					}
 				}
@@ -153,6 +162,26 @@ public class BookManagementController {
 		        BookSummary.setWrapText(true);
 		        BookSummary.setText(newSelection.getBookSummary());
 		        BookSummary.setEditable(false);
+		        
+		        //show picture
+		        String data = newSelection.getBookImage();
+		        String base64EncodedImage = data.split(",")[1];
+		        byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+		        BufferedImage imgbuf;
+				try {
+					imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+					Image image = SwingFXUtils.toFXImage(imgbuf, null);
+					imageView.setImage(image);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        //end show picture
+		        
+		     
+		     
+		     
+		     
 
 		    }
 		});
@@ -212,8 +241,9 @@ public class BookManagementController {
 	    private final SimpleStringProperty authorId;
 	    private final SimpleStringProperty authorName;
 	    private final SimpleStringProperty bookSummary;
+	    private final SimpleStringProperty bookImage;
 
-	    private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName, String bookSummary) {
+	    private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName, String bookSummary, String bookImage) {
 	        this.bookSn = new SimpleStringProperty(bookSn);
 	        this.bookTitle = new SimpleStringProperty(bookTitle);
 	        this.bookKeywords = new SimpleStringProperty(bookKeywords);
@@ -221,6 +251,7 @@ public class BookManagementController {
 	        this.authorId = new SimpleStringProperty(authorId);
 	        this.authorName = new SimpleStringProperty(authorName);
 	        this.bookSummary = new SimpleStringProperty(bookSummary);
+	        this.bookImage = new SimpleStringProperty(bookImage);
 	    }
 
 	    public String getBookSn() {
@@ -250,6 +281,10 @@ public class BookManagementController {
 	    public String getBookSummary() {
 	        return bookSummary.get();
 	    }
+	    
+	    public String getBookImage() {
+	        return bookImage.get();
+	    }
 
 
 	    public void setBookSn(String bookSn) {
@@ -278,6 +313,10 @@ public class BookManagementController {
 	    
 	    public void setBookSummary(String bookSummary) {
 	    	this.bookSummary.set(bookSummary);
+	    }
+	    
+	    public void setBookImage(String bookImage) {
+	    	this.bookImage.set(bookImage);
 	    }
 
 
