@@ -67,9 +67,14 @@ public enum ActionType {
 	SEARCH_USER,
 	
 	/**
-	 * edit user information in SQL.
+	 * edit user information in SQL (for librarian).
 	 */
-	EDIT_USER,
+	EDIT_USER_LIBRARIAN,
+	
+	/**
+	 * edit user information in SQL (for manager).
+	 */
+	EDIT_USER_MANAGER,
 	
 	/**
 	 * Get pending users from SQL.
@@ -147,11 +152,23 @@ public enum ActionType {
 	/**
 	 * Get data from DB for list of books
 	 */
-	GET_BOOK_LIST, 
+	GET_BOOK_LIST,
 	
 	
 	GET_MESSAGES,
 
+	
+	
+	/**
+	 * Delete Book from DB
+	 */
+	DELETE_BOOK,
+
+
+	/**
+	 * update Book from DB by set hide
+	 */
+	HIDE_BOOK,
 
 
 }
