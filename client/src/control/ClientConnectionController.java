@@ -444,6 +444,11 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
+		case GET_PENDING_ACCOUNTS: {
+			PendingAccountTypeController.pendingAccountList = replay.getElementsList();
+			break;
+		}
+		
 
 		}
 

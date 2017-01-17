@@ -175,6 +175,17 @@ public enum ActionType {
 	 * Get messages constant from
 	 */
 	GET_MESSAGES,
+	
+	
+	/**
+	 * Get messages constant from
+	 */
+	GET_PENDING_ACCOUNTS,
+	
+	/**
+	 * Get messages constant from
+	 */
+	UPDATE_PENDING_ACCOUNT,
 
 
 }

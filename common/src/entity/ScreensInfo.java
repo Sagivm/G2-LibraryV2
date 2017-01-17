@@ -201,4 +201,14 @@ public class ScreensInfo {
 	 *  Set book page screen title
 	 */
 	public static final String BOOK_PAGE_SCREEN_TITLE = "Book Page";
+	
+	/**
+	 *  pending account type screen path
+	 */
+	public static final String PENDING_ACCOUNT_SCREEN = "/boundry/PendingAccountTypeUI.fxml";
+	
+	/**
+	 *  Set pending account type title
+	 */
+	public static final String PENDING_ACCOUNT_TITLE = "Pending account list";
 }
