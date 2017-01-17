@@ -899,8 +899,6 @@ public class ServerController extends AbstractServer {
 		}
 		case POPULARITYREPORT: {
 			ArrayList<String> elementsList = new ArrayList<String>();
-			ArrayList<Integer> id =new ArrayList<Integer>();
-			ArrayList<Integer> purchase =new ArrayList<Integer>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
 						"SELECT DISTINCT (sn),title,authors.firstName,authors.lastName,language,domains.name "
@@ -912,7 +910,6 @@ public class ServerController extends AbstractServer {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
 								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + rs.getString(6));
-						id.add(rs.getInt(1));
 					}
 			
 					replay = new Replay(ActionType.POPULARITYREPORT, true, elementsList);
@@ -1161,6 +1158,30 @@ public class ServerController extends AbstractServer {
 				e.printStackTrace();
 			}
 			break;
+		}
+		case GET_TOTAL_PRICE:
+		{
+			ArrayList<String> elementsList = new ArrayList<String>();
+			try {
+				ResultSet rs = DatabaseController.searchInDatabase("SELECT bookId,SUM(purchaseCount) FROM book_by_date GROUP BY bookId ;");
+				if (!rs.isBeforeFirst())
+					replay = new Replay(ActionType.GET_TOTAL_PRICE, false);// no data
+				else {
+					while (rs.next()) {
+						elementsList.add(String.valueOf(rs.getInt(1)) + "^"+String.valueOf(rs.getInt(2)) );
+					}
+					for(int i=0;i<elementsList.size();i++)
+						System.out.println(elementsList.get(i));
+			
+					replay = new Replay(ActionType.GET_TOTAL_PRICE, true, elementsList);
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+			
 		}
 		
 		
