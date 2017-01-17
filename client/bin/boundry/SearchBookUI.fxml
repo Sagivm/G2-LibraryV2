@@ -22,8 +22,8 @@
     <Label layoutX="479.0" layoutY="99.0" text="Table of contents:" />
     <TextArea fx:id="tocTextArea" layoutX="583.0" layoutY="99.0" prefHeight="54.0" prefWidth="280.0" />
     <Label layoutX="479.0" layoutY="174.0" text="Domain:" />
-    <Label layoutX="480.0" layoutY="238.0" text="Key words:" />
-    <TextArea fx:id="keywTextArea" layoutX="583.0" layoutY="238.0" prefHeight="60.0" prefWidth="280.0" />
+    <Label layoutX="480.0" layoutY="258.0" text="Key words:" />
+    <TextArea fx:id="keywTextArea" layoutX="583.0" layoutY="258.0" prefHeight="60.0" prefWidth="280.0" />
     <Button fx:id="searchButton" layoutX="413.0" layoutY="419.0" mnemonicParsing="false" onAction="#searchButtonPressed" text="Search" />
     <Button fx:id="clearButton" layoutX="483.0" layoutY="419.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
     <RadioButton fx:id="andRadioButton" layoutX="411.0" layoutY="374.0" mnemonicParsing="false" selected="true" text="AND">
@@ -34,10 +34,10 @@
     <RadioButton fx:id="orRadioButton" layoutX="488.0" layoutY="374.0" mnemonicParsing="false" text="OR" toggleGroup="$searchGroup" />
     <ComboBox fx:id="languageComboBox" layoutX="130.0" layoutY="218.0" prefWidth="280.0" />
     <ListView fx:id="authorListView" layoutX="130.0" layoutY="143.0" prefHeight="60.0" prefWidth="280.0" />
-    <ListView fx:id="domainListView" layoutX="583.0" layoutY="173.0" prefHeight="54.0" prefWidth="280.0" />
+    <ListView fx:id="domainListView" layoutX="583.0" layoutY="174.0" prefHeight="60.0" prefWidth="280.0" />
       <TextArea fx:id="summaryTextArea" layoutX="131.0" layoutY="260.0" prefHeight="60.0" prefWidth="280.0" />
-      <ImageView fx:id="authorImage" fitHeight="16.0" fitWidth="16.0" layoutX="411.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="domainImage" fitHeight="16.0" fitWidth="16.0" layoutX="863.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="keyWordsImage" fitHeight="16.0" fitWidth="16.0" layoutX="863.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="authorImage" fitHeight="16.0" fitWidth="16.0" layoutX="411.0" layoutY="144.0" onMouseClicked="#msgMultipleChoice" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="domainImage" fitHeight="16.0" fitWidth="16.0" layoutX="863.0" layoutY="175.0" onMouseClicked="#msgMultipleChoice" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="keyWordsImage" fitHeight="16.0" fitWidth="16.0" layoutX="863.0" layoutY="257.0" onMouseClicked="#msgKeyWords" pickOnBounds="true" preserveRatio="true" />
   </children>
 </AnchorPane>
