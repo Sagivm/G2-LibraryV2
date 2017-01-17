@@ -349,7 +349,7 @@ public class HomepageUserController implements ScreensIF {
 		return page;
 	}
 	//check
-	public void testreportbuttonpressed()
+	public void myBooksButtonPressed()
 	{
 		try {
 			loadPage(ScreensInfo.USER_REPORT);
@@ -358,5 +358,6 @@ public class HomepageUserController implements ScreensIF {
 			e.printStackTrace();
 		}
 	}
+	
 
 }
