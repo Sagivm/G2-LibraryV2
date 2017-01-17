@@ -134,5 +134,11 @@ public class GeneralMessages {
 	public static final String MUST_INCLUDE_ONLY_CHARACTERS = "The name must include only characters.";
 
 
+	/**
+	 * Message for librarian that there is new pending reviews.
+	 */
+	public static final String YOU_GOT_NEW_REVIEWS = "You got new pending reviews for confirmation.";
+
+
 	
 }

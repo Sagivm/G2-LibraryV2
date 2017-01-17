@@ -177,7 +177,12 @@ public class ServerController extends AbstractServer {
 		// dateInitialize(); //Exception - sagiv
 		// newDay(); //Exception - sagiv
 		try {
-			client.sendToClient(actionToPerform(message));
+			Replay replay = actionToPerform(message);
+			if (replay.getTransmitType().equals(ActionType.BROADCAST))
+				sendToAllClients(replay);
+			else 
+				client.sendToClient(replay);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -244,7 +249,7 @@ public class ServerController extends AbstractServer {
 		}
 
 		case LOGIN: {
-			
+			System.out.println("1");
 			/*
 			int flag=0;
 			try {
@@ -260,6 +265,7 @@ public class ServerController extends AbstractServer {
 			}
 			*/
 			try {
+				System.out.println("2");
 				boolean isConnected = false;
 				ArrayList<String> elementsList = new ArrayList<String>();
 				for (int i = 0; i < connectedList.size(); i++) {
@@ -269,11 +275,13 @@ public class ServerController extends AbstractServer {
 					}
 				}
 				if (!isConnected) {
+					System.out.println("3");
 					Login login = new Login(data.get(0).toString(), data.get(1).toString());
 					Statement stmt = DatabaseController.connection.createStatement();
 					ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
 
 					while (rs.next()) {
+						System.out.println("4");
 						if (rs.getString(4).equals(data.get(1).toString())) {
 							System.out.println("login succssefully");
 							sqlResult = true;
@@ -290,6 +298,7 @@ public class ServerController extends AbstractServer {
 						}
 					}
 					if (!sqlResult) {
+						System.out.println("5");
 						rs = stmt.executeQuery(login.PrepareSelectStatement(2));
 						while (rs.next()) {
 							if (rs.getString(4).equals(data.get(1).toString())) {
@@ -314,15 +323,17 @@ public class ServerController extends AbstractServer {
 						}
 					}
 					if (sqlResult == true) {
+						System.out.println("6");
 						replay = new Replay(ActionType.LOGIN, true, action, elementsList);
 						connectedList.add(login);
 					} else {
-						
+						System.out.println("7");
 						replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_LOGGED_IN_FAILED);
 						System.out.println(replay.getSucess());
 						
 					}
 				} else {
+					System.out.println("8");
 					replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_ALREADY_LOGGED_IN);
 					System.out.println(replay.getSucess());
 				}
@@ -941,17 +952,17 @@ public class ServerController extends AbstractServer {
 				String currTime = currentTime.format(date);
 				String currDate = currentDate.format(date);
 				String msg;
+				
 				//
+				
 				if (data.get(2).equals("approved"))
 				msg = "Review num " + data.get(0) + " has been approved";
 				else msg = "Review num " + data.get(0) + " has been declined";
 				String username = data.get(3);
 				
 				DatabaseController.addToDatabase("INSERT INTO messages (`username`, `date`, `time`, `msg`) VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
-				
-				
-				
-				
+					
+			
 				replay = new Replay(ActionType.UPDATE_REVIEW_STATUS, true);
 				
 			} catch (SQLException e) {
@@ -1006,7 +1017,11 @@ public class ServerController extends AbstractServer {
 				}
 			}
 			if (sqlResult == true)
-				replay = new Replay(ActionType.WRITE_REVIEW, true);
+			{
+				ArrayList<String> elementsList = new ArrayList<String>();
+				elementsList.add(data.get(0));
+				replay = new Replay(ActionType.WRITE_REVIEW,true,ActionType.BROADCAST,elementsList);
+			}
 			else {
 				replay = new Replay(ActionType.WRITE_REVIEW, false);
 				System.out.println(replay.getSucess());

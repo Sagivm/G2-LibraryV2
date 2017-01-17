@@ -185,7 +185,22 @@ public enum ActionType {
 	/**
 	 * Get messages constant from
 	 */
-	UPDATE_PENDING_ACCOUNT,
+
+	UPDATE_PENDING_ACCOUNT, 
+	
+	
+	/**
+	 * This method sends the message to all clients.
+	 */
+	BROADCAST, 
+	
+	/**
+	 * This method sends the message to specific client.
+	 */
+	UNICAST,
+
+
+
 	
 	/**
 	 * Return if the user eligible to write a review.
