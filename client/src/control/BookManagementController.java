@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
@@ -20,12 +21,16 @@ import entity.Register;
 import enums.ActionType;
 import img.*;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,6 +48,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -153,9 +159,6 @@ public class BookManagementController {
     private ListView<String> addBookLanguageList;
 	
 	@FXML
-    private ListView<String> addBookDomainsList;
-	
-	@FXML
     private ListView<String> addBookSubjectsList;
 	
 	@FXML
@@ -168,9 +171,7 @@ public class BookManagementController {
 
 	public static ArrayList<String> BooksList;
 	public static ArrayList<Author> authorList;
-	public static ArrayList<String> domainList;
 	public static ArrayList<String> subjectList;
-	public String choosenDomain = "";
     
 	private ObservableList<PropertyBook> data = FXCollections.observableArrayList();;
 	private ObservableList<PropertyBook> filteredData = FXCollections.observableArrayList();
@@ -194,330 +195,378 @@ public class BookManagementController {
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
 		
-		Platform.runLater(new Runnable() {
-			String authors="";
-			@Override
-			public void run() {
-				for(int i=0;i<BooksList.size();i+=8){
-					if(i+8<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+8)))
-					{
-						authors=authors+BooksList.get(i+5)+",";
-					}
-					else{
-						if(authors.equals("")){
-							String hide;
-							if(BooksList.get(i+3).equals("000")) hide="no";
-							else hide="yes";
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-						}
-						else{
-							String hide;
-							if(BooksList.get(i+3).equals("000")) hide="no";
-							else hide="yes";
-							data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-							filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-						}
-						authors = "";
-					}
-				}
-					
-				
-		BooksTableView.setEditable(true);
-        
 
-		BookSn.setCellValueFactory(
-                new PropertyValueFactory<pendingUser, String>("bookSn"));
-
-		BookTitle.setCellValueFactory(
-                new PropertyValueFactory<pendingUser, String>("bookTitle"));
-
-		BookKeywords.setCellValueFactory(
-                new PropertyValueFactory<pendingUser, String>("bookKeywords"));
-		
-		BookHide.setCellValueFactory(
-                new PropertyValueFactory<pendingUser, String>("bookHide"));
-
-		BookAuthors.setCellValueFactory(
-                new PropertyValueFactory<pendingUser, String>("authorName"));
-		
-
-
-		BookSn.setStyle( "-fx-alignment: CENTER;");
-		BookTitle.setStyle( "-fx-alignment: CENTER;");
-		BookKeywords.setStyle( "-fx-alignment: CENTER;");
-		BookHide.setStyle( "-fx-alignment: CENTER;");
-		BookAuthors.setStyle( "-fx-alignment: CENTER;");
-
-
-
-
-		BooksTableView.setItems(filteredData);
-		
-		BooksTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-		    if (newSelection != null) {
-		    	TitleLabel.setVisible(true);
-		        AuthorsLabel.setVisible(true);
-		        KeywordsLabel.setVisible(true);
-		        SummaryLabel.setVisible(true);
-		        BookSummary.setVisible(true);
-		        delBtn.setVisible(true);
-		        editBtn.setVisible(true);
-		        hideBtn.setVisible(true);
-		        
-		        if(newSelection.getBookHide().equals("yes"))
-		        	hideBtn.setText("Unhide Book");
-		        else
-		        	hideBtn.setText("Hide Book");
-		        
-		        InfoTitle.setText(newSelection.getBookTitle());
-		        InfoAuthors.setText(newSelection.getAuthorName());
-		        InfoKeywords.setMaxWidth(170);
-		        InfoKeywords.setWrapText(true);
-		        InfoKeywords.setText(newSelection.getBookKeywords());
-		        BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
-		        BookSummary.setMaxWidth(280);
-		        BookSummary.setWrapText(true);
-		        BookSummary.setText(newSelection.getBookSummary());
-		        BookSummary.setEditable(false);
-		        
-		        //show picture
-		        String data = newSelection.getBookImage();
-		        String base64EncodedImage = data.split(",")[1];
-		        byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
-		        BufferedImage imgbuf;
-				try {
-					imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
-					Image image = SwingFXUtils.toFXImage(imgbuf, null);
-					imageView.setImage(image);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-		        //end show picture
-
-		    }
-		});
-
-
-		delBtn.setOnAction(e -> {
-		    PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
-		    //BooksTableView.getItems().remove(selectedItem);
-			//Message message = prepareDeleteBook(ActionType.DELETE_BOOK ,selectedItem.getBookSn());
-			/*try {
-				ClientController.clientConnectionController.sendToServer(message);
-			} catch (IOException e1) {	
-				actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-			}
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-						data.remove(selectedItem);
-				}
-			});*/
-			//delete book
-		});
-		
-		hideBtn.setOnAction(e -> {
-		    PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
-		    if(selectedItem.getBookHide().equals("yes")){
-		    	
-		    	Message message = prepareHideBook(ActionType.HIDE_BOOK , selectedItem.getBookSn(), "000");
-				try {
-					ClientController.clientConnectionController.sendToServer(message);
-				} catch (IOException e1) {	
-					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-				}
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-							selectedItem.setBookHide("no");
-							hideBtn.setText("Hide Book");
-					}
-				});
-		    }
-		    else{
-		    	Message message = prepareHideBook(ActionType.HIDE_BOOK , selectedItem.getBookSn(), "001");
-				try {
-					ClientController.clientConnectionController.sendToServer(message);
-				} catch (IOException e1) {	
-					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-				}
-				Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-							selectedItem.setBookHide("yes");
-							hideBtn.setText("Unhide Book");
-					}
-				});
-		    }
-		    BookHide.setVisible(false);
-		    BookHide.setVisible(true);
-		});
-		
-		
-		
-		 filterField.textProperty().addListener(new ChangeListener<String>() {
-	            @Override
-	            public void changed(ObservableValue<? extends String> observable,
-	                    String oldValue, String newValue) {
-
-	                updateFilteredData();
-	            }
-	        });	
-		 
-		 
-		 addBookBtn.setOnAction(e -> {
-			 	mainPane.setVisible(false);
-			 	addBookPane.setVisible(true);	
-			 	Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-					ObservableList<String> languages =FXCollections.observableArrayList (
-			 	    "English", "Hebrew", "Russian", "Arabic");
-					addBookLanguageList.setItems(languages);
+		Service<Void> service = new Service<Void>() {
+	        @Override
+	        protected Task<Void> createTask() {
+	            return new Task<Void>() {           
+	                @Override
+	                protected Void call() throws Exception {
+	                    //Background work                       
+	                    final CountDownLatch latch = new CountDownLatch(1);
+	                    Platform.runLater(new Runnable() {                          
+	                        @Override
+	                        public void run() {
 							
-	}
-});
-					
-					
-					
-				 	Message message = prepareGetAuthors(ActionType.GET_AUTHORS);
-				 	try {
-				 		ClientController.clientConnectionController.sendToServer(message);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-				 	Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-					ArrayList<String> names=new ArrayList<String>();
-					addBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-					//System.out.println(statush.get(1).getFirstname());
-					for(int i=0 ; i< authorList.size();i++)
-					{
-						names.add(i, "("+authorList.get(i).getId()+")"+"\t"+authorList.get(i).getFirstname()+" "+authorList.get(i).getLastname());
-					}
-					//System.out.println(names.get(0));
-					ObservableList<String> authors = FXCollections.observableArrayList(names);
-					addBookAuthorsList.setItems(authors);	
-					
-						}
-				});
-					
-					
-				 	Message message2 = prepareGetDomains(ActionType.GET_DOMAINS);
-				 	try {
-				 		ClientController.clientConnectionController.sendToServer(message2);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-				 	Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-					addBookDomainsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-					ObservableList<String> domains = FXCollections.observableArrayList(domainList);
-					addBookDomainsList.setItems(domains);
-						}
-				 });
-					
-					
-					addBookDomainsList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {		
-						if(newSelection!=null)
-						{
-							choosenDomain=newSelection.toString();
-							Message message3 = prepareGetSubjects(ActionType.GET_SUBJECTS, choosenDomain);
-						 	try {
-						 		ClientController.clientConnectionController.sendToServer(message3);
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-							Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-							addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-							ObservableList<String> subjects = FXCollections.observableArrayList(subjectList);
-							addBookSubjectsList.setItems(subjects);
-							}
-							});
-						}
-				 	});
-					
-		
-					
-				
-
-			 	
-});//endbtn
-		 
-		 
-		
-		//---------------------------------book add pane---------------------
-		 
-		 final FileChooser fileChooser = new FileChooser();
-		 
-		 choosePicBtn.setOnAction(e -> {
-			 configureFileChooser(fileChooser);
-             File file = fileChooser.showOpenDialog(ScreenController.getStage());
-             if (file != null) {
-                 //System.out.println(file.getAbsolutePath());
-                 ByteArrayOutputStream output = new ByteArrayOutputStream();
-                 BufferedImage image;
-                 byte[] imageInBytes;
-				try {
-					image = ImageIO.read(file);
-					//System.out.println(file.getAbsolutePath().substring(file.getAbsolutePath().indexOf(".")+1));
-					ImageIO.write(image, "png", output);
-	                String base64EncodedImage = DatatypeConverter.printBase64Binary(output.toByteArray());
-	                imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
-	 		        System.out.println(base64EncodedImage);
-	                BufferedImage imgbuf;
-	 				imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
-	 				Image image1 = SwingFXUtils.toFXImage(imgbuf, null);
-	 				picBook.setImage(image1);
-				} catch (Exception e2) {
-					actionOnError(ActionType.CONTINUE, "Your Picture format not suppoerted!");
-					imageInBytes=null;
-				}
-        	
-             }
-			});
-		 
-		 
-		 backAddBook.setOnAction(e -> {
-			 	addBookTitle.setText("");
-			 	addBookAuthorsList.getSelectionModel().clearSelection();
-			 	addBookKeywordsText.setText("");
-			 	addBookLanguageList.getSelectionModel().clearSelection();
-			 	addBookDomainsList.getSelectionModel().clearSelection();
-			 	addBookSubjectsList.getSelectionModel().clearSelection();
-			 	addBookTableOfContent.setText("");
-			 	addBookSummary.setText("");
-			 	picBook.setImage(null);
-			 	addBookPane.setVisible(false);	
-			 	mainPane.setVisible(true);
-			});
-		 
-		 clearAddBook.setOnAction(e -> {
-			 addBookTitle.setText("");
-			 addBookAuthorsList.getSelectionModel().clearSelection();
-			 addBookKeywordsText.setText("");
-			 addBookLanguageList.getSelectionModel().clearSelection();
-			 addBookDomainsList.getSelectionModel().clearSelection();
-			 addBookSubjectsList.getSelectionModel().clearSelection();
-			 addBookTableOfContent.setText("");
-			 addBookSummary.setText("");
-			 picBook.setImage(null);
-			});
-		 
-		 submitAddBook.setOnAction(e -> {
-			 System.out.println("ssss");
-			});
-		 
-		
-		
+					String authors="";		
+							
+							
+						
+							
+					for(int i=0;i<BooksList.size();i+=8){
+		if(i+8<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+8)))
+		{
+			authors=authors+BooksList.get(i+5)+",";
+		}
+		else{
+			if(authors.equals("")){
+				String hide;
+				if(BooksList.get(i+3).equals("000")) hide="no";
+				else hide="yes";
+				data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+				filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
 			}
-		});
+			else{
+				String hide;
+				if(BooksList.get(i+3).equals("000")) hide="no";
+				else hide="yes";
+				data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+				filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
+			}
+			authors = "";
+		}
+	}
+		
+	
+BooksTableView.setEditable(true);
+
+
+BookSn.setCellValueFactory(
+    new PropertyValueFactory<pendingUser, String>("bookSn"));
+
+BookTitle.setCellValueFactory(
+    new PropertyValueFactory<pendingUser, String>("bookTitle"));
+
+BookKeywords.setCellValueFactory(
+    new PropertyValueFactory<pendingUser, String>("bookKeywords"));
+
+BookHide.setCellValueFactory(
+    new PropertyValueFactory<pendingUser, String>("bookHide"));
+
+BookAuthors.setCellValueFactory(
+    new PropertyValueFactory<pendingUser, String>("authorName"));
+
+
+
+BookSn.setStyle( "-fx-alignment: CENTER;");
+BookTitle.setStyle( "-fx-alignment: CENTER;");
+BookKeywords.setStyle( "-fx-alignment: CENTER;");
+BookHide.setStyle( "-fx-alignment: CENTER;");
+BookAuthors.setStyle( "-fx-alignment: CENTER;");
+
+
+
+
+BooksTableView.setItems(filteredData);
+
+BooksTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+if (newSelection != null) {
+	TitleLabel.setVisible(true);
+    AuthorsLabel.setVisible(true);
+    KeywordsLabel.setVisible(true);
+    SummaryLabel.setVisible(true);
+    BookSummary.setVisible(true);
+    delBtn.setVisible(true);
+    editBtn.setVisible(true);
+    hideBtn.setVisible(true);
+    
+    if(newSelection.getBookHide().equals("yes"))
+    	hideBtn.setText("Unhide Book");
+    else
+    	hideBtn.setText("Hide Book");
+    
+    InfoTitle.setText(newSelection.getBookTitle());
+    InfoAuthors.setText(newSelection.getAuthorName());
+    InfoKeywords.setMaxWidth(170);
+    InfoKeywords.setWrapText(true);
+    InfoKeywords.setText(newSelection.getBookKeywords());
+    BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+    BookSummary.setMaxWidth(280);
+    BookSummary.setWrapText(true);
+    BookSummary.setText(newSelection.getBookSummary());
+    BookSummary.setEditable(false);
+    
+    //show picture
+    String data = newSelection.getBookImage();
+    String base64EncodedImage = data.split(",")[1];
+    byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+    BufferedImage imgbuf;
+	try {
+		imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+		Image image = SwingFXUtils.toFXImage(imgbuf, null);
+		imageView.setImage(image);
+	} catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+    //end show picture
+
+}
+});
+
+
+delBtn.setOnAction(e -> {
+PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
+//BooksTableView.getItems().remove(selectedItem);
+//Message message = prepareDeleteBook(ActionType.DELETE_BOOK ,selectedItem.getBookSn());
+/*try {
+	ClientController.clientConnectionController.sendToServer(message);
+} catch (IOException e1) {	
+	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+}
+Platform.runLater(new Runnable() {
+	@Override
+	public void run() {
+			data.remove(selectedItem);
+	}
+});*/
+//delete book
+});
+
+hideBtn.setOnAction(e -> {
+PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
+if(selectedItem.getBookHide().equals("yes")){
+	
+	Message message = prepareHideBook(ActionType.HIDE_BOOK , selectedItem.getBookSn(), "000");
+	try {
+		ClientController.clientConnectionController.sendToServer(message);
+	} catch (IOException e1) {	
+		actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+	}
+	Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+				selectedItem.setBookHide("no");
+				hideBtn.setText("Hide Book");
+		}
+	});
+}
+else{
+	Message message = prepareHideBook(ActionType.HIDE_BOOK , selectedItem.getBookSn(), "001");
+	try {
+		ClientController.clientConnectionController.sendToServer(message);
+	} catch (IOException e1) {	
+		actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+	}
+	Platform.runLater(new Runnable() {
+	@Override
+	public void run() {
+				selectedItem.setBookHide("yes");
+				hideBtn.setText("Unhide Book");
+		}
+	});
+}
+BookHide.setVisible(false);
+BookHide.setVisible(true);
+});
+
+
+
+filterField.textProperty().addListener(new ChangeListener<String>() {
+    @Override
+    public void changed(ObservableValue<? extends String> observable,
+            String oldValue, String newValue) {
+
+        updateFilteredData();
+    }
+});	
+
+
+addBookBtn.setOnAction(e -> {
+ 	mainPane.setVisible(false);
+ 	addBookPane.setVisible(true);	
+
+ 	Service<Void> service = new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {           
+                @Override
+                protected Void call() throws Exception {
+                    //Background work                       
+                    final CountDownLatch latch = new CountDownLatch(1);
+                    Platform.runLater(new Runnable() {                          
+                        @Override
+                        public void run() {
+						ObservableList<String> languages =FXCollections.observableArrayList (
+						"English", "Hebrew", "Russian", "Arabic");
+						addBookLanguageList.setItems(languages);
+						}
+                        });
+                     latch.await();                      
+                     //Keep with the background work
+                     return null;
+                   }
+                };
+            }
+        };
+        service.start();
+		
+
+ 	
+		
+	 	Message message = prepareGetAuthors(ActionType.GET_AUTHORS);
+	 	try {
+	 		ClientController.clientConnectionController.sendToServer(message);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	 	Service<Void> service1 = new Service<Void>() {
+	        @Override
+	        protected Task<Void> createTask() {
+	            return new Task<Void>() {           
+	                @Override
+	                protected Void call() throws Exception {
+	                    //Background work                       
+	                    final CountDownLatch latch = new CountDownLatch(1);
+	                    Platform.runLater(new Runnable() {                          
+	                        @Override
+	                        public void run() {
+	                        		ArrayList<String> names=new ArrayList<String>();
+	                        		addBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	                        		//System.out.println(statush.get(1).getFirstname());
+	                        		for(int i=0 ; i< authorList.size();i++)
+	                        		{
+	                        			names.add(i, "("+authorList.get(i).getId()+")"+"\t"+authorList.get(i).getFirstname()+" "+authorList.get(i).getLastname());
+	                        		}
+	                        		//System.out.println(names.get(0));
+	                        		ObservableList<String> authors = FXCollections.observableArrayList(names);
+	                        		addBookAuthorsList.setItems(authors);		
+	                        }
+	                        });
+	                     latch.await();                      
+	                     //Keep with the background work
+	                     return null;
+	                   }
+	                };
+	            }
+	        };
+	        service1.start();
+		
+		
+	 	Message message2 = prepareGetSubjects(ActionType.GET_SUBJECTS);
+	 	try {
+	 		ClientController.clientConnectionController.sendToServer(message2);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	 	Service<Void> service2 = new Service<Void>() {
+	        @Override
+	        protected Task<Void> createTask() {
+	            return new Task<Void>() {           
+	                @Override
+	                protected Void call() throws Exception {
+	                    //Background work                       
+	                    final CountDownLatch latch = new CountDownLatch(1);
+	                    Platform.runLater(new Runnable() {                          
+	                        @Override
+	                        public void run() {				
+	                        addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+							ObservableList<String> subjects = FXCollections.observableArrayList(subjectList);
+							addBookSubjectsList.setItems(subjects);	
+							}
+	                        });
+	                     latch.await();                      
+	                     //Keep with the background work
+	                     return null;
+	                   }
+	                };
+	            }
+	        };
+	        service2.start();
+		
+	        
+
+});//endbtn
+
+
+
+//---------------------------------book add pane---------------------
+
+final FileChooser fileChooser = new FileChooser();
+
+choosePicBtn.setOnAction(e -> {
+ configureFileChooser(fileChooser);
+ File file = fileChooser.showOpenDialog(ScreenController.getStage());
+ if (file != null) {
+     //System.out.println(file.getAbsolutePath());
+     ByteArrayOutputStream output = new ByteArrayOutputStream();
+     BufferedImage image;
+     byte[] imageInBytes;
+	try {
+		image = ImageIO.read(file);
+		//System.out.println(file.getAbsolutePath().substring(file.getAbsolutePath().indexOf(".")+1));
+		ImageIO.write(image, "png", output);
+        String base64EncodedImage = DatatypeConverter.printBase64Binary(output.toByteArray());
+        imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+	        System.out.println(base64EncodedImage);
+        BufferedImage imgbuf;
+			imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+			Image image1 = SwingFXUtils.toFXImage(imgbuf, null);
+			picBook.setImage(image1);
+	} catch (Exception e2) {
+		actionOnError(ActionType.CONTINUE, "Your Picture format not suppoerted!");
+		imageInBytes=null;
+	}
+
+ }
+});
+
+
+backAddBook.setOnAction(e -> {
+ 	addBookTitle.setText("");
+ 	addBookAuthorsList.getSelectionModel().clearSelection();
+ 	addBookKeywordsText.setText("");
+ 	addBookLanguageList.getSelectionModel().clearSelection();
+ 	addBookSubjectsList.getSelectionModel().clearSelection();
+ 	addBookTableOfContent.setText("");
+ 	addBookSummary.setText("");
+ 	picBook.setImage(null);
+ 	addBookPane.setVisible(false);	
+ 	mainPane.setVisible(true);
+});
+
+clearAddBook.setOnAction(e -> {
+ addBookTitle.setText("");
+ addBookAuthorsList.getSelectionModel().clearSelection();
+ addBookKeywordsText.setText("");
+ addBookLanguageList.getSelectionModel().clearSelection();
+ addBookSubjectsList.getSelectionModel().clearSelection();
+ addBookTableOfContent.setText("");
+ addBookSummary.setText("");
+ picBook.setImage(null);
+});
+
+submitAddBook.setOnAction(e -> {
+ System.out.println("ssss");
+});
+
+
+
+
+		
+							
+							
+							
+							}
+	                        });
+	                     latch.await();                      
+	                     //Keep with the background work
+	                     return null;
+	                   }
+	                };
+	            }
+	        };
+	        service.start();
 	
 	}
 	
@@ -588,22 +637,13 @@ public class BookManagementController {
 		return message;
 	}
 	
-	public Message prepareGetDomains(ActionType type)
+	public Message prepareGetSubjects(ActionType type)
 	{
 		Message message = new Message();
 		message.setType(type);
 		return message;
 	}
 	
-	public Message prepareGetSubjects(ActionType type,String domain)
-	{
-		Message message = new Message();
-		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(domain);
-		message.setType(type);
-		message.setElementsList(elementsList);
-		return message;
-	}
 	
 	public Message prepareUpdatePropertyBooks(ActionType type,String username)
 	{

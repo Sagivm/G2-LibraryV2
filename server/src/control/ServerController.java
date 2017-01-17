@@ -760,13 +760,10 @@ public class ServerController extends AbstractServer {
 		case GET_SUBJECTS: {
 			ArrayList<String> subjectList = new ArrayList<String>();
 			try {
-				String domain = data.get(0);
 				Statement stmt = DatabaseController.connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT subjects.name,subjects.domain,domains.id,domains.name FROM subjects,domains "
-						+ "WHERE domains.name='"+domain+"' AND subjects.domain=domains.id");
+				ResultSet rs = stmt.executeQuery("SELECT name FROM subjects");
 				while (rs.next()) {
 					subjectList.add(rs.getString(1));
-					System.out.println(rs.getString(1));
 				}
 				replay = new Replay(ActionType.GET_SUBJECTS, true, subjectList);
 			} catch (SQLException e) {
@@ -1064,6 +1061,59 @@ public class ServerController extends AbstractServer {
 				String hide = data.get(1);
 				stmt.executeUpdate("UPDATE books SET hide="+hide+" WHERE sn="+sn);
 				replay = new Replay(ActionType.HIDE_BOOK, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		case GET_PENDING_ACCOUNTS: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT username,firstName,lastName,accountType,accountStatus FROM project.clients WHERE accountStatus<>'Standard' AND isBlocked=0");
+				while (rs.next()) {
+					elementsList.add(rs.getString(1)); // username
+					elementsList.add(rs.getString(2)); // first name
+					elementsList.add(rs.getString(3)); // last name
+					elementsList.add(rs.getString(4)); // account type
+					elementsList.add(rs.getString(5)); // account status (requested account type)
+				}
+				replay = new Replay(ActionType.GET_PENDING_ACCOUNTS, true, elementsList);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case UPDATE_PENDING_ACCOUNT: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String username = data.get(0);
+				String operation = data.get(1);
+				
+				if(operation.equals("approve"))
+				{
+					stmt.executeUpdate("UPDATE clients SET accountType='" + data.get(2) + "' , accountStatus='Standard' WHERE username=" + data.get(0));
+				}
+				else
+				{
+					stmt.executeUpdate("UPDATE clients SET accountType='" + data.get(2) + "' , accountStatus='Standard' WHERE username=" + data.get(0));
+				}
+				
+				/*DateFormat currentTime = new SimpleDateFormat("HH:mm");
+				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+				Date date = new Date();
+				
+				String currTime = currentTime.format(date);
+				String currDate = currentDate.format(date);
+				String msg = "Your account has been approved";
+				DatabaseController.addToDatabase("INSERT INTO messages VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");*/
+				
+		
+				replay = new Replay(ActionType.UPDATE_PENDING_ACCOUNT, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

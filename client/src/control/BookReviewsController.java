@@ -2,7 +2,6 @@ package control;
 
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +26,23 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+
+
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 
 /**
  * BookReviewsController is the controller that responsible
@@ -190,7 +206,7 @@ public class BookReviewsController implements ScreensIF {
 				}
 
 				imgBookImg.setImage(bookImage);	
-				
+							
 				scrollPaneReviews.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 				scrollPaneReviews.setStyle("-fx-background-color:transparent;");
 				
@@ -340,6 +356,4 @@ public class BookReviewsController implements ScreensIF {
 		message.setElementsList(elementsList);
 		return message;
 	}
-	
-
 }

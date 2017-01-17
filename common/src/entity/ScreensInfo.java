@@ -201,6 +201,7 @@ public class ScreensInfo {
 	 *  Set book page screen title
 	 */
 	public static final String BOOK_PAGE_SCREEN_TITLE = "Book Page";
+<<<<<<< HEAD
 
 
 	
@@ -223,4 +224,16 @@ public class ScreensInfo {
 	 *  Set user page screen title (for manager)
 	 */
 	public static final String USER_PAGE_MANAGER_TITLE = "User Page";
+=======
+	
+	/**
+	 *  pending account type screen path
+	 */
+	public static final String PENDING_ACCOUNT_SCREEN = "/boundry/PendingAccountTypeUI.fxml";
+	
+	/**
+	 *  Set pending account type title
+	 */
+	public static final String PENDING_ACCOUNT_TITLE = "Pending account list";
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
 }

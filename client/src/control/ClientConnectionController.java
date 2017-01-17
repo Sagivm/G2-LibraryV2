@@ -366,7 +366,6 @@ public class ClientConnectionController extends AbstractClient {
 
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
-			BookManagementController.domainList = replay.getElementsList();
 			break;
 		}
 		
@@ -467,6 +466,11 @@ public class ClientConnectionController extends AbstractClient {
 		
 		case GET_BOOK_LIST: {
 			BookManagementController.BooksList = replay.getElementsList();
+			break;
+		}
+		
+		case GET_PENDING_ACCOUNTS: {
+			PendingAccountTypeController.pendingAccountList = replay.getElementsList();
 			break;
 		}
 		
