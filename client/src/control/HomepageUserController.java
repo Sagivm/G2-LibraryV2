@@ -162,7 +162,7 @@ public class HomepageUserController implements ScreensIF {
 		//authors.add(author);
 		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord","52.5",authors);
 		BookReviewsController bookReview = new BookReviewsController();
-		bookReview.book = book;
+		//bookReview.book = book;
 		loadPage(ScreensInfo.BOOK_REVIEWS_SCREEN);
 	}
 	
@@ -187,7 +187,7 @@ public class HomepageUserController implements ScreensIF {
 		//authors.add(author);
 		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord","52.5",authors);
 		WriteReviewController bookReview = new WriteReviewController();
-		bookReview.book = book;
+		//bookReview.book = book;
 		loadPage(ScreensInfo.WRITE_REVIEW_SCREEN);
 	}
 	/*----------------------------------------------------------------------------*/

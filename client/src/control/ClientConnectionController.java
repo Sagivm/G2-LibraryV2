@@ -494,6 +494,11 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
+		case CHECK_WRITE_REVIEW: {
+			BookPageController.canWrite = replay.getSucess();
+			break;
+		}
+		
 
 		}
 

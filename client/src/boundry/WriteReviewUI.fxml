@@ -8,38 +8,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.WriteReviewController">
+<AnchorPane prefHeight="472.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.WriteReviewController">
    <children>
-      <Label fx:id="lblSummary" alignment="TOP_LEFT" layoutX="83.0" layoutY="126.0" prefHeight="165.0" prefWidth="572.0" text="Summary" />
-      <Label layoutX="24.0" layoutY="126.0" prefHeight="17.0" prefWidth="59.0" text="Summary:" />
-      <Label fx:id="lblLanguage" layoutX="83.0" layoutY="102.0" prefHeight="17.0" prefWidth="102.0" text="Language" />
-      <Label fx:id="lblAuthor" layoutX="71.0" layoutY="77.0" prefHeight="17.0" prefWidth="242.0" text="Authors name" />
-      <Label layoutX="24.0" layoutY="102.0" prefHeight="17.0" prefWidth="59.0" text="Language:" />
-      <Label layoutX="24.0" layoutY="77.0" prefHeight="17.0" prefWidth="47.0" text="Author:" />
-      <Label fx:id="lblBookTitle" layoutX="24.0" layoutY="31.0" prefHeight="30.0" prefWidth="428.0" text="Book Title">
+      <TextArea fx:id="txtAreaReview" layoutX="107.0" layoutY="110.0" prefHeight="151.0" prefWidth="752.0" />
+      <Label layoutX="31.0" layoutY="39.0" text="Write a Review">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <Line endX="100.0" layoutX="-100.0" layoutY="307.0" startX="990.0" stroke="#9a9595" strokeWidth="0.2" />
-      <BorderPane layoutX="678.0" layoutY="34.0" prefHeight="260.0" prefWidth="173.0" style="-fx-border-style: solid; -fx-border-color: lightgrey; -fx-border-width: 3;">
-         <top>
-            <ImageView fx:id="imgBookImg" fitHeight="260.0" fitWidth="173.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-         </top>
-      </BorderPane>
-      <TextArea fx:id="txtAreaReview" layoutX="100.0" layoutY="390.0" prefHeight="151.0" prefWidth="752.0" />
-      <Label layoutX="24.0" layoutY="319.0" text="Write a Review">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Label>
-      <Label layoutX="39.0" layoutY="367.0" prefHeight="17.0" prefWidth="123.0" text="Write your review here:" />
-      <Button fx:id="btnSubmit" layoutX="100.0" layoutY="550.0" mnemonicParsing="false" onAction="#submitButtonPressed" prefHeight="46.0" prefWidth="198.0" text="Submit your review">
+      <Label layoutX="46.0" layoutY="87.0" prefHeight="17.0" prefWidth="123.0" text="Write your review here:" />
+      <Button fx:id="btnSubmit" layoutX="107.0" layoutY="270.0" mnemonicParsing="false" onAction="#submitButtonPressed" prefHeight="46.0" prefWidth="198.0" text="Submit your review">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="btnBack" layoutX="725.0" layoutY="550.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="46.0" prefWidth="127.0" text="&lt; Back">
+      <Button fx:id="btnBack" layoutX="732.0" layoutY="270.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="46.0" prefWidth="127.0" text="&lt; Back">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

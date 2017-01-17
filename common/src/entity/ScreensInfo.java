@@ -201,8 +201,6 @@ public class ScreensInfo {
 	 *  Set book page screen title
 	 */
 	public static final String BOOK_PAGE_SCREEN_TITLE = "Book Page";
-
-
 	
 	/**
 	 *  user page screen path (for librarian)

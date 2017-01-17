@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import entity.Book;
 import entity.GeneralMessages;
 import entity.Message;
+import entity.SearchBookResult;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -26,29 +27,29 @@ import javafx.scene.image.ImageView;
  */
 public class WriteReviewController implements ScreensIF {
 	
-	/**
+/*	*//**
 	 * Shows the book title.
-	 */
+	 *//*
 	@FXML
 	private Label lblBookTitle;
 	
-	/**
+	*//**
 	 * Shows the authors names.
-	 */
+	 *//*
 	@FXML
 	private Label lblAuthor;
 	
-	/**
+	*//**
 	 * Shows the language of the book.
-	 */
+	 *//*
 	@FXML
 	private Label lblLanguage;
 	
-	/**
+	*//**
 	 * Shows the book summary.
-	 */
+	 *//*
 	@FXML
-	private Label lblSummary;
+	private Label lblSummary;*/
 	
 	/**
 	 * A Text Area for writing a reviews.
@@ -56,16 +57,17 @@ public class WriteReviewController implements ScreensIF {
 	@FXML
 	private TextArea txtAreaReview;
 	
-	/**
+/*	*//**
 	 * Shows the image of the book.
-	 */
+	 *//*
 	@FXML
-	private ImageView imgBookImg;
+	private ImageView imgBookImg;*/
 	
 	/**
 	 * Gets the specific book entity.
 	 */
-	public static Book book; 
+	//public static Book book; 
+	public static SearchBookResult book;
 	
 	/**
 	 * Load the image from the path.
@@ -134,14 +136,15 @@ public class WriteReviewController implements ScreensIF {
 				String reviewContent,bookSummary,authors="";
 				int textLength,rows,h=10,y=50,posY=50;
 				
-				System.out.print(book.getTitle());
-				lblBookTitle.setText(book.getTitle());
+	/*			//System.out.print(book.getBookTitle());
+				lblBookTitle.setText(book.getBookTitle());
+				authors = book.getBookAuthors();
 				authors = book.getAuthorsList().get(0).getFirstname() + " " + book.getAuthorsList().get(0).getLastname();
 				for(int i=1;i<book.getAuthorsList().size();i++)
 					authors +=", " + book.getAuthorsList().get(i).getFirstname() + " " + book.getAuthorsList().get(i).getLastname();
 				lblAuthor.setText(authors);
-				lblLanguage.setText(book.getLanguage());
-				bookSummary = book.getSummary();
+				lblLanguage.setText(book.getBookLanguage());
+				bookSummary = book.getBookSummary();
 				
 				textLength = bookSummary.length();
 				for(int i=90;i<textLength;i++)
@@ -165,7 +168,7 @@ public class WriteReviewController implements ScreensIF {
 					//e.printStackTrace();
 				}
 
-				imgBookImg.setImage(bookImage);	
+				imgBookImg.setImage(bookImage);	*/
 			}
 		});
 	}
@@ -185,7 +188,8 @@ public class WriteReviewController implements ScreensIF {
 			}
 			ArrayList<String> review = new ArrayList<>();
 			review.add(HomepageUserController.getConnectedUser().getId());	//user id
-			review.add(Integer.toString((book.getSn())));	//book sn
+			//review.add(Integer.toString((book.getSn())));	//book sn
+			review.add(book.getBookSn());	//book sn
 			review.add(txtAreaReview.getText());	//review content
 	
 			Message message = addReview(ActionType.WRITE_REVIEW,review);

@@ -69,12 +69,15 @@
           </Tab>
           <Tab fx:id="readReviewsTab" text="Read reviews">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane fx:id="readReviewContent" layoutX="-2.0" prefHeight="472.0" prefWidth="889.0" />
+                     </children></AnchorPane>
             </content>
           </Tab>
           <Tab fx:id="writeReviewTab" text="Write a review">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="790.0" />
+              <AnchorPane fx:id="writeReviewContent" minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="790.0" />
             </content>
           </Tab>
           <Tab fx:id="bookReportTab" text="Book Report">
