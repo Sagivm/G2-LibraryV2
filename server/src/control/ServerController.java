@@ -411,7 +411,6 @@ public class ServerController extends AbstractServer {
 			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
 			int i,j, continue_index;
 			ArrayList<String> newSearch=message.getElementsList();
-
 			//initiate filterResults
 			for(i=0;i<filterResults.length;i++)
 				filterResults[i]=1;
@@ -448,7 +447,7 @@ public class ServerController extends AbstractServer {
 							filterResults[i]=0;
 					}
 				}
-				
+
 				continue_index=6; //in case there are no authors on search
 				
 				//authors
@@ -474,13 +473,13 @@ public class ServerController extends AbstractServer {
 							filterResults[i]=0;
 
 				}
-					
+
 				//domains
 				int domainsCount=Integer.parseInt(newSearch.get(continue_index));
 				int domainsInRow=Integer.parseInt(bookRow[7+authorsInRow]);
 				int[] domainsFound=new int[domainsCount];
 				
-				
+
 				if(domainsCount!=0) 
 				{
 					for(j=0;j<domainsCount;j++)
@@ -491,13 +490,13 @@ public class ServerController extends AbstractServer {
 								domainsFound[j]++;
 						}
 					}
-					
 					for(j=0;j<domainsFound.length;j++)
 						if(domainsFound[j]==0)
 							filterResults[i]=0;
 				}
 			}
-
+			
+			
 			j=0;
 			for(i=0;i<elementsList.size();i=i+2)
 			{
@@ -505,7 +504,14 @@ public class ServerController extends AbstractServer {
 				j++;
 			}
 			
-			ArrayList<String> res = new ArrayList<>();
+			/*
+			 for(i=0;i<elementsList.size();i++)
+				 System.out.println(elementsList.get(i));
+			 */
+			 
+			
+			ArrayList<String> res = new ArrayList<String>();
+			
 			for(i=0;i<elementsList.size();i=i+2)
 			{
 				if(Integer.parseInt(elementsList.get(i))==1)
@@ -513,9 +519,16 @@ public class ServerController extends AbstractServer {
 			}
 			
 			/*
+			for(i=0;i<elementsList.size();i++)
+			{
+				if(filterResults[i]==1)
+					res.add(elementsList.get(i));
+			}
+			*/
+			
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				*/  
+				 
 
 			replay = new Replay(ActionType.SEARCH_BOOK_AND, true, res);
 			break;
@@ -610,10 +623,10 @@ public class ServerController extends AbstractServer {
 			}
 			//res = res.stream().distinct().collect(Collectors.toList());
 
-			/*
+			
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				  */
+				  
 			 
 			replay = new Replay(ActionType.SEARCH_BOOK_OR, true, res);
 			break;
@@ -1196,10 +1209,11 @@ public class ServerController extends AbstractServer {
 
 			/* add sn, title, language, authors count for each book */
 			Statement stmt = DatabaseController.connection.createStatement();
-			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount, hide FROM books;");
+			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
 			while(rs_books.next())
 			{
-				if(rs_books.getString(8).equals("1"))
+				//System.out.println(rs_books.getString(8));
+				//if(Integer.parseInt(rs_books.getString(8))==1)
 					elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
 				book_sn.add(rs_books.getString(1));
 			}
@@ -1336,7 +1350,7 @@ public class ServerController extends AbstractServer {
 					}
 				}
 			}
-
+			
 			for (int i = 0; i < elementsList.size(); i++)
 			{
 				String tmp = elementsList.get(i);
@@ -1359,11 +1373,11 @@ public class ServerController extends AbstractServer {
 				k++;
 			}
 			
-			/*
+			
 			 for(int i=0;i<elementsList.size();i++)
 				 System.out.println(elementsList.get(i)); 
 			 System.out.println(" ");
-			 */
+			 
 			
 		}
 		catch (SQLException e) {

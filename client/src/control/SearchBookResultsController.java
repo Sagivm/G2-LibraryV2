@@ -81,6 +81,7 @@ public class SearchBookResultsController implements ScreensIF{
 	{
 		try{
 			int j;
+			//System.out.println(resultList.size());
 			for(int i=0;i<resultList.size();i++)
 			{
 				int size=countItems(resultList.get(i),"^");

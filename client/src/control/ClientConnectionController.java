@@ -276,6 +276,7 @@ public class ClientConnectionController extends AbstractClient {
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
 			SearchBookResultsController.resultList = list;
+			System.out.println(SearchBookResultsController.resultList.size());
 			break;
 		}
 		
@@ -283,6 +284,7 @@ public class ClientConnectionController extends AbstractClient {
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
 			SearchBookResultsController.resultList = list;
+			System.out.println(SearchBookResultsController.resultList.size());
 			break;
 		}
 		
