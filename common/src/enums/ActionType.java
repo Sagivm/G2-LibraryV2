@@ -203,11 +203,18 @@ public enum ActionType {
 	 * Return if the user eligible to write a review.
 	 */
 	CHECK_WRITE_REVIEW,
+<<<<<<< HEAD
 	
 	/**
 	 * Get the image of a specific book.
 	 */
 	GET_BOOK_IMG,
+=======
+	/**
+	 * Gets the total amount of money that was paid for each book
+	 */
+	GET_TOTAL_PRICE,
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 
 
 }

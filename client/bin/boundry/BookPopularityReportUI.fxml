@@ -26,8 +26,12 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <RadioButton fx:id="allBooksRadio" layoutX="193.0" layoutY="492.0" mnemonicParsing="false" text="All books" />
-      <RadioButton fx:id="domainRadio" layoutX="193.0" layoutY="519.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="71.0" text="Domain:" />
+      <RadioButton fx:id="allBooksRadio" layoutX="193.0" layoutY="492.0" mnemonicParsing="false"  text="All books">
+         <toggleGroup>
+            <ToggleGroup fx:id="settings" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="domainRadio" layoutX="193.0" layoutY="519.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="71.0" text="Domain:" toggleGroup="$settings" />
       <ListView fx:id="domains" layoutX="275.0" layoutY="519.0" prefHeight="85.0" prefWidth="86.0" />
+      <Button layoutX="445.0" layoutY="498.0" mnemonicParsing="false" onAction="#displaySettings" text="Execute" />
    </children>
 </AnchorPane>

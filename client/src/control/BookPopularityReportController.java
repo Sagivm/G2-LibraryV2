@@ -26,6 +26,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * @author sagivm
+ *
+ */
 public class BookPopularityReportController implements Initializable {
 
 	/**
@@ -101,26 +105,28 @@ public class BookPopularityReportController implements Initializable {
 	/**
 	 * group of the radio buttons
 	 */
-	@FXML private final ToggleGroup group= new ToggleGroup();
+	@FXML
+	private final ToggleGroup group = new ToggleGroup();
 	/**
 	 * ArrayList containing the data in Popularity form
 	 */
 	private ArrayList<Popularity> list;
 	/**
-	 * ArrayList containing the data in Popularity form acording to the selection
+	 * ArrayList containing the data in Popularity form acording to the
+	 * selection
 	 */
 	private ArrayList<Popularity> specificList;
+	public static ArrayList<String> priceList;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//test
+		// test
 		String bookSummary = "The film begins with a summary of the prehistory of the ring of power."
 				+ " Long ago, twenty rings existed: three for elves, seven for dwarves, nine for"
 				+ " men, and one made by the Dark Lord Sauron, in Mordor, which would rule all the"
 				+ " others. Sauron poured all his evil and his will to dominate into this ring. An"
 				+ " alliance of elves and humans resisted Sauron’s ring and fought against Mordor."
-				+ " They won the battle and the ring fell to Isildur, the son of the king of Gondor,"
-				;
+				+ " They won the battle and the ring fell to Isildur, the son of the king of Gondor,";
 		Author author = new Author();
 		ArrayList<Author> authors = new ArrayList<Author>();
 		author.setId("3");
@@ -131,33 +137,46 @@ public class BookPopularityReportController implements Initializable {
 		// authors.add(author);
 		Book book = new Book(5, "Lord of the rings", "English", bookSummary, "Lets Begin, Dragons, Dark lord",
 				"Hobbit, Gandalf, Dark Lord", "52.5", authors);
-		this.SelectedBook=book;
+		this.SelectedBook = book;
 		//
 		initializeLabel();
-		initializeRadio();
 		initializeDomains();
 		initializeTable();
+		initializeprice();
 		// TODO Auto-generated method stub
 
 	}
 
-	
+	private void initializeprice() {
+		ArrayList<String> elementsList = new ArrayList<String>();
+		elementsList.add(String.valueOf(SelectedBook.getSn()));
+		Message message = new Message(ActionType.GET_TOTAL_PRICE, elementsList);
+		try {
+
+			ClientController.clientConnectionController.sendToServer(message);
+
+		} catch (IOException e) {
+
+			// actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+		}
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+
+				try {
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+	}
+
 	private void initializeLabel() {
-		titleLabel.setText(SelectedBook.getSn()+") "+SelectedBook.getTitle()+" Popularity Report");
-		
+		titleLabel.setText(SelectedBook.getSn() + ") " + SelectedBook.getTitle() + " Popularity Report");
+
 	}
-
-
-	/**
-	 * Connect the radio buttons and set all books as selected
-	 */
-	private void initializeRadio()
-	{
-		allBooksRadio.setToggleGroup(group);
-		allBooksRadio.setSelected(true);
-		domainRadio.setToggleGroup(group);
-	}
-
 
 	/**
 	 * Fill Domain list with the domains of the book
@@ -167,7 +186,7 @@ public class BookPopularityReportController implements Initializable {
 		elementsList.add(String.valueOf(SelectedBook.getSn()));
 		Message message = new Message(ActionType.GETDOMAINSSPECIFIC, elementsList);
 		try {
-			
+
 			ClientController.clientConnectionController.sendToServer(message);
 
 		} catch (IOException e) {
@@ -188,10 +207,10 @@ public class BookPopularityReportController implements Initializable {
 			}
 		});
 
-
 	}
+
 	/**
-	 * Fill Table with the data that 
+	 * Fill Table with the data that
 	 */
 	private void initializeTable() {
 		ArrayList<String> elementsList = new ArrayList<String>();
@@ -209,139 +228,161 @@ public class BookPopularityReportController implements Initializable {
 
 				try {
 					arrangelist();
-					mergeDuplicatesAuthors();	
-					
-					//displaysettings();
+					mergeDuplicatesAuthors();
+
+					// displaysettings();
 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 
-			
-
-			
 		});
-		
+
 	}
+
 	private void mergeDuplicatesDomain() {
 		boolean dup[] = new boolean[specificList.size()];
 		for (int i = 0; i < dup.length; i++)
 			dup[i] = false;
-		ArrayList<Purchase> temp=new ArrayList<Purchase>();
-		for(int i=0;i<specificList.size();i++)
-		{
-			for(int j=i+1;j<specificList.size();j++)
-			{
-				if(!specificList.get(i).getDomain().equals(specificList.get(j).getDomain())&&i!=j)
-				{
-					specificList.get(i).setAuthor(specificList.get(i).getAuthor()+" & "+specificList.get(j).getAuthor());
-					specificList.remove(j);				
+		ArrayList<Purchase> temp = new ArrayList<Purchase>();
+		for (int i = 0; i < specificList.size(); i++) {
+			for (int j = i + 1; j < specificList.size(); j++) {
+				if (specificList.get(i).getId().equals(specificList.get(j).getId())
+						&& !specificList.get(i).getDomain().equals(specificList.get(j).getDomain()) && i != j) {
+					specificList.get(i)
+							.setDomain(specificList.get(i).getDomain() + " & " + specificList.get(j).getDomain());
+					specificList.remove(j);
 				}
 			}
 		}
-		
+
 	}
+
 	private void mergeDuplicatesAuthors() {
 		boolean dup[] = new boolean[list.size()];
 		for (int i = 0; i < dup.length; i++)
 			dup[i] = false;
-		ArrayList<Purchase> temp=new ArrayList<Purchase>();
-		for(int i=0;i<list.size();i++)
-		{
-			for(int j=i+1;j<list.size();j++)
-			{
-				if(list.get(i).getId().equals(list.get(j).getId())&&list.get(i).getDomain().equals(list.get(j).getDomain())&&i!=j)
-				{
-					list.get(i).setAuthor(list.get(i).getAuthor()+" & "+list.get(j).getAuthor());
-					list.remove(j);				
+		ArrayList<Purchase> temp = new ArrayList<Purchase>();
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = i + 1; j < list.size(); j++) {
+				if (list.get(i).getId().equals(list.get(j).getId())
+						&& list.get(i).getDomain().equals(list.get(j).getDomain())
+						&& !list.get(i).getAuthor().equals(list.get(j).getAuthor()) && i != j) {
+					list.get(i).setAuthor(list.get(i).getAuthor() + " & " + list.get(j).getAuthor());
+					list.remove(j);
 				}
 			}
 		}
 	}
+
 	/**
 	 * Fill up the tables depending on the selected preferences
 	 */
-	private void displaySettings()
-	{
-		ObservableList<String> selectedDomains =  domains.getSelectionModel().getSelectedItems();
+	@FXML
+	private void displaySettings(ActionEvent event) {
+		System.out.println("ssa{");
+		ObservableList<String> selectedDomains = domains.getSelectionModel().getSelectedItems();
+		System.out.println(selectedDomains.get(0));
 		removeAllRows();
-		if(selectedDomains!=null)
-		{
-			domainRadio.setSelected(true);
+		if (domainRadio.isSelected()) {
 			displaydomains(selectedDomains);
 		}
-		if(allBooksRadio.isSelected())
+		if (allBooksRadio.isSelected())
 			displayallbooks();
-			
-		
+
 	}
+
 	/**
 	 * Clear table for change settings
 	 */
-	public void removeAllRows(){
-	    for ( int i = 0; i<table.getItems().size(); i++) {
-	        table.getItems().clear(); 
-	    } 
+	public void removeAllRows() {
+		for (int i = 0; i < table.getItems().size(); i++) {
+			table.getItems().clear();
+		}
 	}
+
 	/**
 	 * Calling displaybooks() declaring that we will display all of the books
 	 */
 	private void displayallbooks() {
-		specificList=list;
+		specificList = list;
 		displaybooks();
 	}
-
 
 	/**
 	 * 
-	 * Calling displaybooks() declaring that we will display all the 
-	 * books that have the selected domain
+	 * Calling displaybooks() declaring that we will display all the books that
+	 * have the selected domain
 	 */
-	private void displaydomains(ObservableList<String> selectedDomains)
-	{
-		for(int i=0;i<list.size();i++)
-			if(selectedDomains.contains(list.get(i).domain))
+	private void displaydomains(ObservableList<String> selectedDomains) {
+		ArrayList<String> dom = new ArrayList<String>(selectedDomains);
+		System.out.println(list.size());
+		for (int i = 0; i < list.size(); i++) {
+			if (dom.get(0).equals((list.get(i).domain))) {
 				specificList.add(list.get(i));
+			}
+		}
+		// for(int j=0;j<dom.size();j++)
+		// if (dom.get(j).equals((list.get(i).domain)))
+		// {
+		// System.out.println("mix");
+		// specificList.add(list.get(i));
+		// }
 		displaybooks();
-			
+
 	}
-	
+
 	/**
 	 * Fills up the table with the related fields according to the preferences
 	 */
-	private void displaybooks()
-	{
+	private void displaybooks() {
 		mergeDuplicatesDomain();
+		setPrice();
 		bookIdColumn.setCellValueFactory(new PropertyValueFactory<Popularity, String>("id"));
 		titleColumn.setCellValueFactory(new PropertyValueFactory<Popularity, String>("title"));
 		authorColumn.setCellValueFactory(new PropertyValueFactory<Popularity, String>("author"));
 		languageColumn.setCellValueFactory(new PropertyValueFactory<Popularity, String>("language"));
 		purchaseColumn.setCellValueFactory(new PropertyValueFactory<Popularity, String>("purchase"));
-		ObservableList<Popularity> items =FXCollections.observableArrayList(specificList);
+		ObservableList<Popularity> items = FXCollections.observableArrayList(specificList);
 		table.setItems(items);
 	}
+
+	private void setPrice() {
+		String split[];
+
+		for (int i = 0; i < priceList.size(); i++) {
+			split = priceList.get(i).split("\\^");
+			for (int j = 0; j < specificList.size(); j++) {
+				if (split[0].equals(specificList.get(j).getId())) {
+					specificList.get(j).setPurchase(split[1]);
+
+				}
+			}
+		}
+
+	}
+
 	/**
-	 * Transfer the list from the DB to ArrayList<Purchase> 
+	 * Transfer the list from the DB to ArrayList<Purchase>
 	 */
-	private void arrangelist()
-	{
-		list=new ArrayList<Popularity>();
-		String datasplit[]=new String[5];
-		for(int i=0;i<data.size();i++)
-		{
-			datasplit=data.get(i).split("\\^");
+	private void arrangelist() {
+		list = new ArrayList<Popularity>();
+		String datasplit[] = new String[5];
+		for (int i = 0; i < data.size(); i++) {
+			datasplit = data.get(i).split("\\^");
 			list.add(new Popularity(datasplit));
 		}
-		
+
 	}
+
 	/**
 	 * Containg all the relevant data for the table
+	 * 
 	 * @author sagivm
 	 *
 	 */
-	public class Popularity
-	{
+	public class Popularity {
 		/**
 		 * Book's id
 		 */
@@ -366,62 +407,75 @@ public class BookPopularityReportController implements Initializable {
 		 * Book's domain
 		 */
 		public String domain;
+
 		/**
 		 * constructor
-		 * @param split String array containing the 6 attributes of Purchase in the order
-		 * id,title,author,language,#purchase and domain
+		 * 
+		 * @param split
+		 *            String array containing the 6 attributes of Purchase in
+		 *            the order id,title,author,language,#purchase and domain
 		 */
-		public Popularity(String split[])
-		{
+		public Popularity(String split[]) {
 			this.id = new String(split[0]);
 			this.title = new String(split[1]);
 			this.author = new String(split[2]);
 			this.language = new String(split[3]);
-			//this.purchase = new String(split[4]);
-			this.domain=split[4];
+			// this.purchase = new String(split[4]);
+			this.domain = split[4];
 		}
+
 		public String getId() {
 			return id;
 		}
+
 		public void setId(String id) {
 			this.id = id;
 		}
+
 		public String getTitle() {
 			return title;
 		}
+
 		public void setTitle(String title) {
 			this.title = title;
 		}
+
 		public String getAuthor() {
 			return author;
 		}
+
 		public void setAuthor(String author) {
 			this.author = author;
 		}
+
 		public String getLanguage() {
 			return language;
 		}
+
 		public void setLanguage(String language) {
 			this.language = language;
 		}
+
 		public String getPurchase() {
 			return purchase;
 		}
+
 		public void setPurchase(String purchase) {
 			this.purchase = purchase;
 		}
+
 		public String getDomain() {
 			return domain;
 		}
+
 		public void setDomain(String domain) {
 			this.domain = domain;
 		}
-		public String toString()
-		{
-			return this.id+" "+this.title+" "+this.author;
-		}
-		
-	}
 
+		public String toString() {
+			return this.id + " " + this.title + " " + this.author;
+		}
+
+	}
 
 }

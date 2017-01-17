@@ -92,5 +92,28 @@ public class CurrentDate   {
 		String date=(String)dateFormat.format(Currentdate);
 		DatabaseController.addToDatabase("INSERT INTO book_by_date VALUES ("+rs.getInt(1)+",'"+date+"',"+search+","+purchase+");");
 	}
-
+	/**\
+	 * Inc a single search row of book by date with the current date
+	 * @param rs- ResultSet of book by date  table with sn in the first index of rs
+	 * @throws SQLException
+	 */
+	public static void IncSearchBookDateRow(ResultSet rs) throws SQLException
+	{
+		Date Currentdate=new Date();
+		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		String date=(String)dateFormat.format(Currentdate);
+		DatabaseController.updateDatabase("UPDATE book_by_date SET searchCount=searchCount+1 WHERE bookId=+"+rs.getInt(1)+"and date='"+date+"';");
+	}
+	/**\
+	 * Inc a single search row of book by date with the current date
+	 * @param rs- ResultSet of book by date  table with sn in the first index of rs
+	 * @throws SQLException
+	 */
+	public static void IncPurcahseBookDateRow(ResultSet rs) throws SQLException
+	{
+		Date Currentdate=new Date();
+		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		String date=(String)dateFormat.format(Currentdate);
+		DatabaseController.updateDatabase("UPDATE book_by_date SET purchaseCount=purchaseCount+1 WHERE bookId=+"+rs.getInt(1)+"and date='"+date+"';");
+	}
 }
