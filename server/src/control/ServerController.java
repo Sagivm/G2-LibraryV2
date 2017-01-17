@@ -243,6 +243,7 @@ public class ServerController extends AbstractServer {
 		}
 
 		case LOGIN: {
+			
 			/*
 			int flag=0;
 			try {
@@ -361,7 +362,7 @@ public class ServerController extends AbstractServer {
 								+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				writeToLog(message.getElementsList().get(0) + " Changed accountStatus to"
 						+ message.getElementsList().get(1));
-				
+				/*
 				DateFormat currentTime = new SimpleDateFormat("HH:mm");
 				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
 				Date date = new Date();
@@ -371,7 +372,7 @@ public class ServerController extends AbstractServer {
 				String username = message.getElementsList().get(0);
 				String msg = "Account status has been changed to: " + message.getElementsList().get(1);
 				DatabaseController.addToDatabase("INSERT INTO messages VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
-				
+				*/
 				replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
