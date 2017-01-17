@@ -59,7 +59,7 @@ public class Validate {
 	public static boolean nameValidateCharactersOnly(String text) {
 	if(text.isEmpty())
 		return true;
-	if (text.matches("[a-zA-Z]+")) 
+	if (text.matches("[A-Za-z]+")) 
 		return true;
 	
 	return false;
