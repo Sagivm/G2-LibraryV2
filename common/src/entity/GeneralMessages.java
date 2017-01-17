@@ -129,6 +129,4 @@ public class GeneralMessages {
 
 
 	
-	public static final String USER_ALREADY_PENDING = "You already pending user.";
-	
 }

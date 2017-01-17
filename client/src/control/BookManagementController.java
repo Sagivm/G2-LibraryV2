@@ -144,7 +144,7 @@ public class BookManagementController {
     private TextField addBookTitle;
 	
 	@FXML
-    private ListView addBookAuthorsList;
+    private ListView<String> addBookAuthorsList;
 	
 	@FXML
     private TextArea addBookKeywordsText;
@@ -153,10 +153,10 @@ public class BookManagementController {
     private ListView<String> addBookLanguageList;
 	
 	@FXML
-    private ListView addBookDomainsList;
+    private ListView<String> addBookDomainsList;
 	
 	@FXML
-    private ListView addBookSubjectsList;
+    private ListView<String> addBookSubjectsList;
 	
 	@FXML
     private TextArea addBookTableOfContent;
@@ -370,20 +370,17 @@ public class BookManagementController {
 		 addBookBtn.setOnAction(e -> {
 			 	mainPane.setVisible(false);
 			 	addBookPane.setVisible(true);	
-			 	Message message = prepareGetAuthors(ActionType.GET_AUTHORS);
-			 	Message message2 = prepareGetAuthors(ActionType.GET_DOMAINS);
-			 	try {
-			 		ClientController.clientConnectionController.sendToServer(message);
-			 		ClientController.clientConnectionController.sendToServer(message2);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
 			 	Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
 					ObservableList<String> languages =FXCollections.observableArrayList (
 			 	    "English", "Hebrew", "Russian", "Arabic");
 					addBookLanguageList.setItems(languages);
+							
+	}
+});
+					
+					
 					
 				 	Message message = prepareGetAuthors(ActionType.GET_AUTHORS);
 				 	try {
@@ -405,6 +402,9 @@ public class BookManagementController {
 					ObservableList<String> authors = FXCollections.observableArrayList(names);
 					addBookAuthorsList.setItems(authors);	
 					
+						}
+				});
+					
 					
 				 	Message message2 = prepareGetDomains(ActionType.GET_DOMAINS);
 				 	try {
@@ -418,34 +418,35 @@ public class BookManagementController {
 					addBookDomainsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 					ObservableList<String> domains = FXCollections.observableArrayList(domainList);
 					addBookDomainsList.setItems(domains);
+						}
+				 });
 					
 					
 					addBookDomainsList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {		
-						choosenDomain=newSelection.toString();
-						Message message3 = prepareGetSubjects(ActionType.GET_SUBJECTS, choosenDomain);
-					 	try {
-					 		ClientController.clientConnectionController.sendToServer(message3);
-						} catch (Exception e1) {
-							e1.printStackTrace();
+						if(newSelection!=null)
+						{
+							choosenDomain=newSelection.toString();
+							Message message3 = prepareGetSubjects(ActionType.GET_SUBJECTS, choosenDomain);
+						 	try {
+						 		ClientController.clientConnectionController.sendToServer(message3);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+							addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+							ObservableList<String> subjects = FXCollections.observableArrayList(subjectList);
+							addBookSubjectsList.setItems(subjects);
+							}
+							});
 						}
-						Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-						addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-						ObservableList<String> subjects = FXCollections.observableArrayList(subjectList);
-						addBookSubjectsList.setItems(subjects);
-						}
-						});
 				 	});
 					
 		
 					
-				}
-				 });
-			}
-		});
-	}
-});
+				
+
 			 	
 });//endbtn
 		 
@@ -507,6 +508,10 @@ public class BookManagementController {
 			 addBookTableOfContent.setText("");
 			 addBookSummary.setText("");
 			 picBook.setImage(null);
+			});
+		 
+		 submitAddBook.setOnAction(e -> {
+			 System.out.println("ssss");
 			});
 		 
 		
