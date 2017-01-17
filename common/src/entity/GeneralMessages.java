@@ -126,6 +126,12 @@ public class GeneralMessages {
 	 * Operation failed
 	 */
 	public static final String OPERATION_FAILED = "Operation failed!";
+	
+	
+	/**
+	 * Validation of the name
+	 */
+	public static final String MUST_INCLUDE_ONLY_CHARACTERS = "The name must include only characters.";
 
 
 	

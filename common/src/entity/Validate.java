@@ -49,4 +49,19 @@ public class Validate {
 	
 	return false;
 	}
+	
+	
+	/** 
+	 * This static function validates name for characters only.
+	 * @param text - Gets string
+	 * @return true when the string contains only characters, and else false.
+	 */
+	public static boolean nameValidateCharactersOnly(String text) {
+	if(text.isEmpty())
+		return true;
+	if (text.matches("[a-zA-Z]+")) 
+		return true;
+	
+	return false;
+	}
 }

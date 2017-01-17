@@ -11,6 +11,7 @@ import entity.ScreensInfo;
 import entity.SearchBookResult;
 import entity.SearchUserResult;
 import entity.User;
+import entity.Validate;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -76,6 +77,12 @@ public class EditUserLibrarianController implements ScreensIF{
 		if (fNameTextField.equals("") || lNameTextField.equals(""))
 		{
 			actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_FIELDS);
+			return;
+		}
+		
+		if (Validate.nameValidateCharactersOnly(fNameTextField.getText()) == false || Validate.nameValidateCharactersOnly(lNameTextField.getText()))
+		{
+			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_CHARACTERS);
 			return;
 		}
 		
