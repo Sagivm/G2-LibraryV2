@@ -2,13 +2,18 @@ package control;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
 
 import control.PendingRegistrationController.pendingUser;
+import entity.Author;
 import entity.GeneralMessages;
 import entity.Message;
 import entity.Register;
@@ -28,7 +33,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,6 +46,8 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
 /**
@@ -47,6 +56,7 @@ import javafx.util.Callback;
  */
 public class BookManagementController {
 	
+	// Books Tab - main pane
 	@FXML
     private TableView<PropertyBook> BooksTableView;
 	
@@ -103,18 +113,71 @@ public class BookManagementController {
 	
 	@FXML
     private TextField filterField;
+	
+	@FXML
+    private AnchorPane mainPane;
+	
+	@FXML
+    private Button addBookBtn;
+	
+	@FXML
+    private AnchorPane addBookPane;
+	// end mainpane
+	
+	// books tab - addbookpane
+	@FXML
+    private Button choosePicBtn;
+	
+	@FXML
+    private ImageView picBook;
+	
+	@FXML
+    private Button submitAddBook;
+	
+	@FXML
+    private Button backAddBook;
+	
+	@FXML
+    private Button clearAddBook;
+	
+	@FXML
+    private TextField addBookTitle;
+	
+	@FXML
+    private ListView addBookAuthorsList;
+	
+	@FXML
+    private TextArea addBookKeywordsText;
+	
+	@FXML
+    private ListView<String> addBookLanguageList;
+	
+	@FXML
+    private ListView addBookDomainsList;
+	
+	@FXML
+    private ListView addBookSubjectsList;
+	
+	@FXML
+    private TextArea addBookTableOfContent;
+	
+	@FXML
+    private TextArea addBookSummary;
+	
+	
 
-	
-	
-	
-	public static ArrayList <String> BooksList;
-
+	public static ArrayList<String> BooksList;
+	public static ArrayList<Author> authorList;
+	public static ArrayList<String> domainList;
+	public static ArrayList<String> subjectList;
+	public String choosenDomain = "";
     
 	private ObservableList<PropertyBook> data = FXCollections.observableArrayList();;
 	private ObservableList<PropertyBook> filteredData = FXCollections.observableArrayList();
 	
 	@FXML
 	private void initialize(){
+		addBookPane.setVisible(false);
         BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
         TitleLabel.setVisible(false);
         AuthorsLabel.setVisible(false);
@@ -302,14 +365,164 @@ public class BookManagementController {
 	                updateFilteredData();
 	            }
 	        });	
+		 
+		 
+		 addBookBtn.setOnAction(e -> {
+			 	mainPane.setVisible(false);
+			 	addBookPane.setVisible(true);	
+			 	Message message = prepareGetAuthors(ActionType.GET_AUTHORS);
+			 	Message message2 = prepareGetAuthors(ActionType.GET_DOMAINS);
+			 	try {
+			 		ClientController.clientConnectionController.sendToServer(message);
+			 		ClientController.clientConnectionController.sendToServer(message2);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			 	Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+					ObservableList<String> languages =FXCollections.observableArrayList (
+			 	    "English", "Hebrew", "Russian", "Arabic");
+					addBookLanguageList.setItems(languages);
+					
+				 	Message message = prepareGetAuthors(ActionType.GET_AUTHORS);
+				 	try {
+				 		ClientController.clientConnectionController.sendToServer(message);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				 	Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+					ArrayList<String> names=new ArrayList<String>();
+					addBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+					//System.out.println(statush.get(1).getFirstname());
+					for(int i=0 ; i< authorList.size();i++)
+					{
+						names.add(i, "("+authorList.get(i).getId()+")"+"\t"+authorList.get(i).getFirstname()+" "+authorList.get(i).getLastname());
+					}
+					//System.out.println(names.get(0));
+					ObservableList<String> authors = FXCollections.observableArrayList(names);
+					addBookAuthorsList.setItems(authors);	
+					
+					
+				 	Message message2 = prepareGetDomains(ActionType.GET_DOMAINS);
+				 	try {
+				 		ClientController.clientConnectionController.sendToServer(message2);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				 	Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+					addBookDomainsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+					ObservableList<String> domains = FXCollections.observableArrayList(domainList);
+					addBookDomainsList.setItems(domains);
+					
+					
+					addBookDomainsList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {		
+						choosenDomain=newSelection.toString();
+						Message message3 = prepareGetSubjects(ActionType.GET_SUBJECTS, choosenDomain);
+					 	try {
+					 		ClientController.clientConnectionController.sendToServer(message3);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+						addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+						ObservableList<String> subjects = FXCollections.observableArrayList(subjectList);
+						addBookSubjectsList.setItems(subjects);
+						}
+						});
+				 	});
+					
 		
+					
+				}
+				 });
+			}
+		});
+	}
+});
+			 	
+});//endbtn
+		 
+		 
 		
+		//---------------------------------book add pane---------------------
+		 
+		 final FileChooser fileChooser = new FileChooser();
+		 
+		 choosePicBtn.setOnAction(e -> {
+			 configureFileChooser(fileChooser);
+             File file = fileChooser.showOpenDialog(ScreenController.getStage());
+             if (file != null) {
+                 //System.out.println(file.getAbsolutePath());
+                 ByteArrayOutputStream output = new ByteArrayOutputStream();
+                 BufferedImage image;
+                 byte[] imageInBytes;
+				try {
+					image = ImageIO.read(file);
+					//System.out.println(file.getAbsolutePath().substring(file.getAbsolutePath().indexOf(".")+1));
+					ImageIO.write(image, "png", output);
+	                String base64EncodedImage = DatatypeConverter.printBase64Binary(output.toByteArray());
+	                imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+	 		        System.out.println(base64EncodedImage);
+	                BufferedImage imgbuf;
+	 				imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+	 				Image image1 = SwingFXUtils.toFXImage(imgbuf, null);
+	 				picBook.setImage(image1);
+				} catch (Exception e2) {
+					actionOnError(ActionType.CONTINUE, "Your Picture format not suppoerted!");
+					imageInBytes=null;
+				}
+        	
+             }
+			});
+		 
+		 
+		 backAddBook.setOnAction(e -> {
+			 	addBookTitle.setText("");
+			 	addBookAuthorsList.getSelectionModel().clearSelection();
+			 	addBookKeywordsText.setText("");
+			 	addBookLanguageList.getSelectionModel().clearSelection();
+			 	addBookDomainsList.getSelectionModel().clearSelection();
+			 	addBookSubjectsList.getSelectionModel().clearSelection();
+			 	addBookTableOfContent.setText("");
+			 	addBookSummary.setText("");
+			 	picBook.setImage(null);
+			 	addBookPane.setVisible(false);	
+			 	mainPane.setVisible(true);
+			});
+		 
+		 clearAddBook.setOnAction(e -> {
+			 addBookTitle.setText("");
+			 addBookAuthorsList.getSelectionModel().clearSelection();
+			 addBookKeywordsText.setText("");
+			 addBookLanguageList.getSelectionModel().clearSelection();
+			 addBookDomainsList.getSelectionModel().clearSelection();
+			 addBookSubjectsList.getSelectionModel().clearSelection();
+			 addBookTableOfContent.setText("");
+			 addBookSummary.setText("");
+			 picBook.setImage(null);
+			});
+		 
 		
 		
 			}
 		});
 	
 	}
+	
+    private static void configureFileChooser(final FileChooser fileChooser){                           
+    fileChooser.setTitle("View Pictures");
+    fileChooser.setInitialDirectory(
+        new File(System.getProperty("user.home"))
+    ); 
+}
+    
 	
 	
     private void updateFilteredData() {
@@ -363,6 +576,29 @@ public class BookManagementController {
 		return message;
 	}
 	
+	public Message prepareGetAuthors(ActionType type)
+	{
+		Message message = new Message();
+		message.setType(type);
+		return message;
+	}
+	
+	public Message prepareGetDomains(ActionType type)
+	{
+		Message message = new Message();
+		message.setType(type);
+		return message;
+	}
+	
+	public Message prepareGetSubjects(ActionType type,String domain)
+	{
+		Message message = new Message();
+		ArrayList<String> elementsList = new ArrayList<String>();
+		elementsList.add(domain);
+		message.setType(type);
+		message.setElementsList(elementsList);
+		return message;
+	}
 	
 	public Message prepareUpdatePropertyBooks(ActionType type,String username)
 	{

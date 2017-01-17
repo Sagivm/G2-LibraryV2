@@ -115,6 +115,11 @@ public enum ActionType {
 	GET_DOMAINS,
 	
 	/**
+	 * Get subjects from server
+	 */
+	GET_SUBJECTS,
+	
+	/**
 	 * Make a User Report from the server
 	 */
 	USEREPORT,
