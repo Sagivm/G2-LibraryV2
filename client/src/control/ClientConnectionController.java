@@ -37,6 +37,22 @@ public class ClientConnectionController extends AbstractClient {
 	 * The main
 	 */
 	private static ClientUI clientMain = null;
+	
+	
+	/**
+	 * static reference of user home page.
+	 */
+	private static HomepageUserController userMain;
+	
+	/**
+	 * static reference of librarian home page.
+	 */
+	private static HomepageLibrarianController librarianMain;
+	
+	/**
+	 * static reference of manager home page.
+	 */
+	private static HomepageManagerController managerMain;
 
 	/**
 	 * ClientConnectionController constructor initialize the hostname, and then
@@ -276,7 +292,6 @@ public class ClientConnectionController extends AbstractClient {
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
 			SearchBookResultsController.resultList = list;
-			System.out.println(SearchBookResultsController.resultList.size());
 			break;
 		}
 		
@@ -284,7 +299,6 @@ public class ClientConnectionController extends AbstractClient {
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
 			SearchBookResultsController.resultList = list;
-			System.out.println(SearchBookResultsController.resultList.size());
 			break;
 		}
 		
@@ -293,33 +307,45 @@ public class ClientConnectionController extends AbstractClient {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-
-						ScreenController screenController  = new ScreenController();
-						try {
+						if (success == true)
 							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_SUCCEEDED);
-							screenController.replaceSceneContent(ScreensInfo.SEARCH_USER_SCREEN, ScreensInfo.SEARCH_USER_TITLE);
-						} catch (Exception e) {
-							// COMPELETE
-							e.printStackTrace();
-						}
-					}
-				});
-			} else {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-
-						ScreenController screenController = new ScreenController();
-						try {
+						else
 							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_FAILED);
-							screenController.replaceSceneContent(ScreensInfo.SEARCH_USER_SCREEN, ScreensInfo.SEARCH_USER_TITLE);
-						} catch (Exception e) {
-							// COMPELETE
-							e.printStackTrace();
-						}
+							
+						if(ClientUI.getTypeOfUser()=="Librarian")
+                    	{
+                        	if (librarianMain == null)
+                        		librarianMain = new HomepageLibrarianController();
+                        	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+                        	//System.out.println("test1");
+                    	}
+                    	else if(ClientUI.getTypeOfUser()=="Manager")
+                    	{
+                        	if (managerMain == null)
+                        		managerMain = new HomepageManagerController();
+                        	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+                    	}
+						
+						
+						ScreenController screenController  = new ScreenController();
+						try{
+							
+                			if(ClientUI.getTypeOfUser()=="Librarian")
+                			{
+                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+                				//System.out.println("test2");
+                			}
+                			else if(ClientUI.getTypeOfUser()=="Manager")
+                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+                			
+                		} 
+                		catch (Exception e) {
+        					e.printStackTrace();
+        				}  
 					}
 				});
-			}
+			} 
+
 			break;
 		}
 

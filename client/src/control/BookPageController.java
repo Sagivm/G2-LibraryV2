@@ -48,7 +48,7 @@ public class BookPageController implements ScreensIF
 	public void initialize() 
 	{
 		int i;
-		System.out.println("test3");
+		//bookTabPane.getTabs().remove(3);
 		bookLable.setText(searchedBookPage.getBookTitle());
 		languageLable.setText(searchedBookPage.getBookLanguage());
 		summaryLable.setText(searchedBookPage.getBookSummary());

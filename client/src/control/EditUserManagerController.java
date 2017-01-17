@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 
+import entity.SearchUserResult;
 import entity.User;
 import enums.ActionType;
 import interfaces.ScreensIF;
@@ -29,7 +30,7 @@ public class EditUserManagerController implements ScreensIF{
 	/**
 	 * user information
 	 */
-	public static User user;
+	public static SearchUserResult searchedUserPageManager;
 	
 	/**
 	 * static reference of user home page.

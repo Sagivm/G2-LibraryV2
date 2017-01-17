@@ -706,10 +706,16 @@ public class ServerController extends AbstractServer {
 		case EDIT_USER_LIBRARIAN: {
 			try
 			{
+				/*
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + "and lastName=" + "'" + message.getElementsList().get(2) +"'" +  "WHERE username=" + "'" + message.getElementsList().get(0) + "'");
-				writeToLog(message.getElementsList().get(0) + " Changed name to"
-				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				*/
+				System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
+						+ "'" + " ,lastName=" + "'" + message.getElementsList().get(2) +"'" +  " WHERE username=" + "'" + message.getElementsList().get(0) + "'");
+				
+				writeToLog(message.getElementsList().get(0) + " Changed name of username" + "'" + message.getElementsList().get(0) + "' to '"
+				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2)+"'");
 				replay = new Replay(ActionType.EDIT_USER_LIBRARIAN, true);
 				
 			} 
@@ -1194,7 +1200,8 @@ public class ServerController extends AbstractServer {
 	{
 
 		ArrayList<String> elementsList = new ArrayList<String>();
-
+		ArrayList<String> res = new ArrayList<String>();
+		
 		try {
 
 			ArrayList<String> book_sn = new ArrayList<String>();
@@ -1206,18 +1213,26 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> domains = new ArrayList<String>();
 			ArrayList<String> subjects = new ArrayList<String>();
 			ArrayList<String> book_subjects_domains = new ArrayList<String>();
+			
+			
 
 			/* add sn, title, language, authors count for each book */
 			Statement stmt = DatabaseController.connection.createStatement();
 			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
 			while(rs_books.next())
 			{
-				//System.out.println(rs_books.getString(8));
-				//if(Integer.parseInt(rs_books.getString(8))==1)
-					elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
+
+				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
+				
 				book_sn.add(rs_books.getString(1));
 			}
-
+			
+			/*
+			 System.out.println(" ");
+			 for(int i=0;i<elementsList.size();i++)
+				 System.out.println(elementsList.get(i)); 
+			 System.out.println(" ");
+			 */
 			
 			/* add authors names for each book */
 			ResultSet rs_book_authors = stmt.executeQuery("SELECT * FROM book_authors;");
@@ -1267,7 +1282,8 @@ public class ServerController extends AbstractServer {
 
 			}
 			
-		 
+
+			
 			/* add subjects count for each book */ 
 			ResultSet rs_books2 = stmt.executeQuery("SELECT subjectsCount FROM books;");
 			int k = 0;
@@ -1279,19 +1295,20 @@ public class ServerController extends AbstractServer {
 				k++;
 			}
 			
+
 		
 			//download book_subjects table from DB
-			ResultSet rs_bookSubjects= stmt.executeQuery("SELECT * from book_subjects");
+			ResultSet rs_bookSubjects= stmt.executeQuery("SELECT * from book_subjects;");
 			while(rs_bookSubjects.next())
 			{
 				book_subjects.add(rs_bookSubjects.getString(1)); //book id
 				book_subjects.add(rs_bookSubjects.getString(2)); //subject id
 			}
 
-		
+
 
 			// download subjects table from DB
-			ResultSet rs_subjects = stmt.executeQuery("SELECT * from subjects");
+			ResultSet rs_subjects = stmt.executeQuery("SELECT * from subjects;");
 			while (rs_subjects.next()) 
 			{
 				subjects.add(rs_subjects.getString(1)); // subject id
@@ -1302,7 +1319,7 @@ public class ServerController extends AbstractServer {
 	
 
 			// download domains table from DB
-			ResultSet rs_domains = stmt.executeQuery("SELECT * from domains");
+			ResultSet rs_domains = stmt.executeQuery("SELECT * from domains;");
 			while (rs_domains.next())
 			{
 				domains.add(rs_domains.getString(1)); // domain id
@@ -1373,17 +1390,27 @@ public class ServerController extends AbstractServer {
 				k++;
 			}
 			
+			ArrayList<String> filter = new ArrayList<String>();
+			ResultSet rs_books4 = stmt.executeQuery("SELECT hide FROM books;");
+			while(rs_books4.next())
+				filter.add(rs_books4.getString(1));
 			
-			 for(int i=0;i<elementsList.size();i++)
-				 System.out.println(elementsList.get(i)); 
+			//return only not hidden books
+			for(int i=0;i<filter.size();i++)
+				if(Integer.parseInt(filter.get(i))==0)
+					res.add(elementsList.get(i));
+		
+			/*
+			 for(int i=0;i<res.size();i++)
+				 System.out.println(res.get(i)); 
 			 System.out.println(" ");
-			 
+			 */
 			
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return elementsList;
+		return res;
 	}
 
 	

@@ -201,4 +201,26 @@ public class ScreensInfo {
 	 *  Set book page screen title
 	 */
 	public static final String BOOK_PAGE_SCREEN_TITLE = "Book Page";
+
+
+	
+	/**
+	 *  user page screen path (for librarian)
+	 */
+	public static final String USER_PAGE_LIBRARIAN_SCREEN = "/boundry/EditUserLibrarianUI.fxml";
+	
+	/**
+	 *  Set user page screen title (for librarian)
+	 */
+	public static final String USER_PAGE_LIBRARIAN_TITLE = "User Page";
+	
+	/**
+	 *  user page screen path (for manager)
+	 */
+	public static final String USER_PAGE_MANAGER_SCREEN = "/boundry/EditUserManagerUI.fxml";
+	
+	/**
+	 *  Set user page screen title (for manager)
+	 */
+	public static final String USER_PAGE_MANAGER_TITLE = "User Page";
 }

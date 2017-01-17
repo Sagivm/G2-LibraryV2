@@ -8,6 +8,8 @@ import entity.GeneralMessages;
 import entity.Message;
 import entity.Register;
 import entity.ScreensInfo;
+import entity.SearchBookResult;
+import entity.SearchUserResult;
 import entity.User;
 import enums.ActionType;
 import interfaces.ScreensIF;
@@ -40,7 +42,7 @@ public class EditUserLibrarianController implements ScreensIF{
 	/**
 	 * user information
 	 */
-	public static User user;
+	public static SearchUserResult searchedUserPageLibrarian;
 	
 	/**
 	 * static reference of user home page.
@@ -59,11 +61,10 @@ public class EditUserLibrarianController implements ScreensIF{
 	
 	@FXML
 	public void initialize()
-	{
-		String [] tmp = new String[3]; 
-		usernameLable.setText(tmp[0]);
-		fNameTextField.setText(tmp[1]);
-		lNameTextField.setText(tmp[2]);
+	{ 
+		usernameLable.setText(searchedUserPageLibrarian.getUsername());
+		fNameTextField.setText(searchedUserPageLibrarian.getFirstName());
+		lNameTextField.setText(searchedUserPageLibrarian.getLastName());
 		
 		fNameTextField.setEditable(true);
 		lNameTextField.setEditable(true);
@@ -78,11 +79,9 @@ public class EditUserLibrarianController implements ScreensIF{
 			return;
 		}
 		
-		User user = new User();
-		user.setId(usernameLable.getText());
-		user.setFirstname(fNameTextField.getText());
-		user.setLastname(lNameTextField.getText());
+		//System.out.println("change to:" + usernameLable.getText() + " " + fNameTextField.getText() + " " + lNameTextField.getText());
 		
+		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameTextField.getText(), lNameTextField.getText(), "", "");
 		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
 		
 		try {
@@ -166,14 +165,14 @@ public class EditUserLibrarianController implements ScreensIF{
 	 * @param user - Gets the class with the user information.
 	 * @return - message that will send to server.
 	 */
-	public Message prepareEditUser(ActionType type, User user)
+	public Message prepareEditUser(ActionType type, SearchUserResult user)
 	{
 		Message message = new Message();
 		message.setType(type);
 		ArrayList <String> elementsList = new ArrayList<String>();
-		elementsList.add(user.getId());
-		elementsList.add(user.getFirstname());
-		elementsList.add(user.getLastname());
+		elementsList.add(user.getUsername());
+		elementsList.add(user.getFirstName());
+		elementsList.add(user.getLastName());
 		message.setElementsList(elementsList);
 		return message;
 	}

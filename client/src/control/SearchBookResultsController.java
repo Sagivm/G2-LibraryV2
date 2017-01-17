@@ -112,7 +112,7 @@ public class SearchBookResultsController implements ScreensIF{
 				domains.clear();
 				domains.addAll(hs);
 							
-				continue_index=continue_index+1+subjectsCount;
+				continue_index=continue_index+2+subjectsCount;
 				
 				String author=authors.toString();
 				author=author.substring(1, author.length()-1);
@@ -121,7 +121,8 @@ public class SearchBookResultsController implements ScreensIF{
 				String domain=domains.toString();
 				domain=domain.substring(1, domain.length()-1);
 				
-				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, tmp[continue_index]);
+				float price =  Float.parseFloat(tmp[continue_index]);
+				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price));
 				
 				data.add(book);
 			}
@@ -174,7 +175,7 @@ public class SearchBookResultsController implements ScreensIF{
 	                        	if (librarianMain == null)
 	                        		librarianMain = new HomepageLibrarianController();
 	                        	librarianMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
-	                        	System.out.println("test1");
+	                        	//System.out.println("test1");
 	                    	}
 	                    	else if(ClientUI.getTypeOfUser()=="Manager")
 	                    	{
@@ -194,7 +195,7 @@ public class SearchBookResultsController implements ScreensIF{
 	                			if(ClientUI.getTypeOfUser()=="Librarian")
 	                			{
 	                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
-	                				System.out.println("test2");
+	                				//System.out.println("test2");
 	                			}
 	                			else if(ClientUI.getTypeOfUser()=="Manager")
 	                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
