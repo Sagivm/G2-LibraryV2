@@ -348,11 +348,19 @@ public class HomepageUserController implements ScreensIF {
 	{
 		return page;
 	}
-	//check
+//check
 	public void myBooksButtonPressed()
 	{
 		try {
 			loadPage(ScreensInfo.USER_REPORT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void testbookreport() {
+		try {
+			loadPage(ScreensInfo.BOOK_POPULARITY_REPORT);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
