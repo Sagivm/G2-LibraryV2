@@ -125,8 +125,6 @@ public class PendingAccountTypeController {
         btnConfirm.setStyle( "-fx-alignment: CENTER;");
         btnDecline.setStyle( "-fx-alignment: CENTER;");
 
-        
-
         btnConfirm.setCellValueFactory(new Callback<CellDataFeatures<pendingAccount, pendingAccount>, ObservableValue<pendingAccount>>() {
           @Override public ObservableValue<pendingAccount> call(CellDataFeatures<pendingAccount, pendingAccount> features) {
               return new ReadOnlyObjectWrapper(features.getValue());

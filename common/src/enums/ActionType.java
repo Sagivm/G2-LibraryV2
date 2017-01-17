@@ -186,6 +186,11 @@ public enum ActionType {
 	 * Get messages constant from
 	 */
 	UPDATE_PENDING_ACCOUNT,
+	
+	/**
+	 * Return if the user eligible to write a review.
+	 */
+	CHECK_WRITE_REVIEW,
 
 
 }

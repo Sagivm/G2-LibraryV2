@@ -1121,6 +1121,24 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		
+		case CHECK_WRITE_REVIEW: {
+			try {
+				boolean allowed = false;
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT bought_book.userId,bought_book.bookId FROM project.bought_book WHERE NOT EXISTS (SELECT reviews.userId,reviews.bookId FROM project.reviews WHERE bought_book.userId = reviews.userId AND bought_book.bookId = reviews.bookId) AND bought_book.userId = '" + data.get(0) + "' AND bought_book.bookId = '" + data.get(1) + "';");
+				while (rs.next()) {
+					allowed = true;
+				}
+				replay = new Replay(ActionType.CHECK_WRITE_REVIEW, allowed);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
 		
 
 		}

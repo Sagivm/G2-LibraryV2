@@ -9,6 +9,7 @@ import java.util.Date;
 import entity.Book;
 import entity.GeneralMessages;
 import entity.Message;
+import entity.SearchBookResult;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -52,46 +53,47 @@ import java.nio.channels.ReadableByteChannel;
  */
 public class BookReviewsController implements ScreensIF {
 	
-	
-	/**
+/*	
+	*//**
 	 * Shows the book title.
-	 */
+	 *//*
 	@FXML
 	private Label lblBookTitle;
 	
-	/**
+	*//**
 	 * Shows the authors names.
-	 */
+	 *//*
 	@FXML
 	private Label lblAuthor;
 	
-	/**
+	*//**
 	 * Shows the language of the book.
-	 */
+	 *//*
 	@FXML
 	private Label lblLanguage;
 	
-	/**
+	*//**
 	 * Shows the book summary.
-	 */
+	 *//*
 	@FXML
 	private Label lblSummary;
 	
-	/**
+	*//**
 	 * Shows the image of the book.
-	 */
+	 *//*
 	@FXML
-	private ImageView imgBookImg;
+	private ImageView imgBookImg;*/
 	
 	/**
 	 * Gets the specific book entity.
 	 */
-	public static Book book; 
+	//public static Book book; 
+	public static SearchBookResult book; 
 	
-	/**
+/*	*//**
 	 * Load the image from the path.
-	 */
-	private Image bookImage;
+	 *//*
+	private Image bookImage;*/
 	
 	/**
 	 * Shows the reviews in a loop.
@@ -160,7 +162,7 @@ public class BookReviewsController implements ScreensIF {
 	@FXML
     public void initialize() {
 		try{
-			Message message = prepareGetBookReviews(ActionType.BOOK_REVIEWS,book.getSn());
+			Message message = prepareGetBookReviews(ActionType.BOOK_REVIEWS,book.getBookSn());
 			ClientController.clientConnectionController.sendToServer(message);
 		}
 		catch (Exception e) {
@@ -175,15 +177,16 @@ public class BookReviewsController implements ScreensIF {
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				Date purchaseDate,reviewDate;
 				
-				lblBookTitle.setText(book.getTitle());
-				authors = book.getAuthorsList().get(0).getFirstname() + " " + book.getAuthorsList().get(0).getLastname();
+/*				lblBookTitle.setText(book.getBookTitle());
+				//authors = book.getAuthorsList().get(0).getFirstname() + " " + book.getAuthorsList().get(0).getLastname();
+				authors = book.getBookAuthors();
 				for(int i=1;i<book.getAuthorsList().size();i++)
 					authors +=", " + book.getAuthorsList().get(i).getFirstname() + " " + book.getAuthorsList().get(i).getLastname();
 				lblAuthor.setText(authors);
-				lblLanguage.setText(book.getLanguage());
-				bookSummary = book.getSummary();
+				lblLanguage.setText(book.getBookLanguage());
+				bookSummary = book.getBookSummary();*/
 				
-				textLength = bookSummary.length();
+/*				textLength = bookSummary.length();
 				for(int i=90;i<textLength;i++)
 				{
 					 if (bookSummary.charAt(i) == ' ')
@@ -191,9 +194,9 @@ public class BookReviewsController implements ScreensIF {
 						 bookSummary = bookSummary.substring(0, i) + "\n" + bookSummary.substring(i+1, bookSummary.length());
 						 i+=90;
 					 }
-				}
+				}*/
 				
-				lblSummary.setText(bookSummary);
+/*				lblSummary.setText(bookSummary);
 				
 				String imageName = "Lord of the rings1.png";///add to book entity
 				try{
@@ -206,7 +209,7 @@ public class BookReviewsController implements ScreensIF {
 				}
 
 				imgBookImg.setImage(bookImage);	
-							
+							*/
 				scrollPaneReviews.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 				scrollPaneReviews.setStyle("-fx-background-color:transparent;");
 				
@@ -347,12 +350,13 @@ public class BookReviewsController implements ScreensIF {
 	 * @param bookSN
 	 * @return
 	 */
-	public Message prepareGetBookReviews(ActionType type, int bookSN)
+	public Message prepareGetBookReviews(ActionType type, String bookSN)
 	{
 		Message message = new Message();
 		message.setType(type);
 		ArrayList <String> elementsList = new ArrayList<String>();
-		elementsList.add(0,Integer.toString(bookSN));
+		//elementsList.add(0,Integer.toString(bookSN));
+		elementsList.add(0,bookSN);
 		message.setElementsList(elementsList);
 		return message;
 	}
