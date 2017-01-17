@@ -122,8 +122,8 @@ public void setLastName(String lastName) {
 @Override
 public String PrepareAddStatement() 
 {
-	return "INSERT INTO clients (`username`, `firstName`, `lastName`, `password`, `accountType`, `accountStatus`) "
-			+ "VALUES ('"+Username+"','"+FirstName+"','"+LastName+"','"+Password+"',"+"'RegisterPending','Standard')";
+	return "INSERT INTO clients (`username`, `firstName`, `lastName`, `password`, `accountType`, `accountStatus`, `credits`,`isBlocked`,`endSubscription`) "
+			+ "VALUES ('"+Username+"','"+FirstName+"','"+LastName+"','"+Password+"',"+"'RegisterPending','Standard','0','0','01/01/2000')";
 }
 
 @Override

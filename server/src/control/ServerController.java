@@ -228,6 +228,7 @@ public class ServerController extends AbstractServer {
 				DatabaseController.addToDatabase(registration.PrepareAddStatement());
 				sqlResult = true;
 			} catch (SQLException e) {
+				e.printStackTrace();
 				if (e.getErrorCode() == 1062) { //// duplicate primary key
 					System.out.println("username already exist");
 				}
