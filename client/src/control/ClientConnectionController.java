@@ -332,13 +332,19 @@ public class ClientConnectionController extends AbstractClient {
 			}
 
 			SearchBookController.authorList = list;
+			BookManagementController.authorList = list;
 
 			break;
 		}
 
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
-
+			BookManagementController.domainList = replay.getElementsList();
+			break;
+		}
+		
+		case GET_SUBJECTS: {
+			BookManagementController.subjectList = replay.getElementsList();
 			break;
 		}
 

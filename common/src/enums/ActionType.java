@@ -115,6 +115,11 @@ public enum ActionType {
 	GET_DOMAINS,
 	
 	/**
+	 * Get subjects from server
+	 */
+	GET_SUBJECTS,
+	
+	/**
 	 * Make a User Report from the server
 	 */
 	USEREPORT,
@@ -154,21 +159,19 @@ public enum ActionType {
 	 */
 	GET_BOOK_LIST,
 	
-	
-	GET_MESSAGES,
 
-	
-	
 	/**
 	 * Delete Book from DB
 	 */
 	DELETE_BOOK,
-
-
+	
 	/**
 	 * update Book from DB by set hide
 	 */
-	HIDE_BOOK,
+	HIDE_BOOK, 
+	
+	
+	GET_MESSAGES,
 
 
 }
