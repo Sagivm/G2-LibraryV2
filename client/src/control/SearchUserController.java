@@ -65,6 +65,13 @@ public class SearchUserController implements ScreensIF{
 			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_DIGITS_VER2);
 			return;
 		}
+		
+		if (Validate.nameValidateCharactersOnly(firstName) == false || Validate.nameValidateCharactersOnly(lastName) == false)
+		{
+			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_CHARACTERS);
+			return;
+		}
+		
 
 		
 		User user = new User();

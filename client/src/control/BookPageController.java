@@ -26,6 +26,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.Initializable;
 
@@ -57,6 +58,8 @@ public class BookPageController implements ScreensIF
 	
 	@FXML private AnchorPane readReviewContent;
 	@FXML private AnchorPane writeReviewContent;
+	
+	@FXML private ImageView picBook;
 	
 	public static boolean canWrite = false;
 	

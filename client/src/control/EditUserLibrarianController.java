@@ -64,8 +64,8 @@ public class EditUserLibrarianController implements ScreensIF{
 	public void initialize()
 	{ 
 		usernameLable.setText(searchedUserPageLibrarian.getUsername());
-		fNameTextField.setText(searchedUserPageLibrarian.getFirstName());
-		lNameTextField.setText(searchedUserPageLibrarian.getLastName());
+		fNameTextField.setText(searchedUserPageLibrarian.getFirstName().trim());
+		lNameTextField.setText(searchedUserPageLibrarian.getLastName().trim());
 		
 		fNameTextField.setEditable(true);
 		lNameTextField.setEditable(true);
@@ -80,7 +80,13 @@ public class EditUserLibrarianController implements ScreensIF{
 			return;
 		}
 		
-		if (Validate.nameValidateCharactersOnly(fNameTextField.getText()) == false || Validate.nameValidateCharactersOnly(lNameTextField.getText()))
+		if (Validate.nameValidateCharactersOnly(fNameTextField.getText()) == false)
+		{
+			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_CHARACTERS);
+			return;
+		}
+		
+		if (Validate.nameValidateCharactersOnly(lNameTextField.getText()) == false)
 		{
 			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_CHARACTERS);
 			return;

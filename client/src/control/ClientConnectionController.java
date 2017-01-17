@@ -317,7 +317,6 @@ public class ClientConnectionController extends AbstractClient {
                         	if (librarianMain == null)
                         		librarianMain = new HomepageLibrarianController();
                         	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
-                        	//System.out.println("test1");
                     	}
                     	else if(ClientUI.getTypeOfUser()=="Manager")
                     	{
@@ -333,7 +332,6 @@ public class ClientConnectionController extends AbstractClient {
                 			if(ClientUI.getTypeOfUser()=="Librarian")
                 			{
                 				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
-                				//System.out.println("test2");
                 			}
                 			else if(ClientUI.getTypeOfUser()=="Manager")
                 				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
