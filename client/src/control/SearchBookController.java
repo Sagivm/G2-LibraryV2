@@ -64,7 +64,6 @@ public class SearchBookController implements ScreensIF{
 	@FXML private RadioButton orRadioButton;
 	@FXML private ToggleGroup searchGroup;
 	@FXML private ImageView authorImage;
-	//@FXML private VBox authorVbox;
 	@FXML private ImageView domainImage;
 	@FXML private ImageView keyWordsImage;
 	
