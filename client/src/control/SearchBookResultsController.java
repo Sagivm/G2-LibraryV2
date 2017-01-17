@@ -122,7 +122,7 @@ public class SearchBookResultsController implements ScreensIF{
 				domain=domain.substring(1, domain.length()-1);
 				
 				float price =  Float.parseFloat(tmp[continue_index]);
-				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price));
+				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price)+"$");
 				
 				data.add(book);
 			}
