@@ -144,7 +144,7 @@ public class BookManagementController {
     private TextField addBookTitle;
 	
 	@FXML
-    private ListView addBookAuthorsList;
+    private ListView<String> addBookAuthorsList;
 	
 	@FXML
     private TextArea addBookKeywordsText;
@@ -153,10 +153,10 @@ public class BookManagementController {
     private ListView<String> addBookLanguageList;
 	
 	@FXML
-    private ListView addBookDomainsList;
+    private ListView<String> addBookDomainsList;
 	
 	@FXML
-    private ListView addBookSubjectsList;
+    private ListView<String> addBookSubjectsList;
 	
 	@FXML
     private TextArea addBookTableOfContent;
@@ -440,7 +440,7 @@ public class BookManagementController {
 					
 		
 					
-				}
+					}
 				 });
 			}
 		});
