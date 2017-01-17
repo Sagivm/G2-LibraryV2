@@ -497,6 +497,14 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
+		case GET_BOOK_IMG: {
+			if(success)
+				BookPageController.img = replay.getElementsList();
+			else
+				BookPageController.img = null;
+			break;
+		}
+		
 
 		}
 

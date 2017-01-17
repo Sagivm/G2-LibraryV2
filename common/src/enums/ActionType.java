@@ -199,13 +199,15 @@ public enum ActionType {
 	 */
 	UNICAST,
 
-
-
-	
 	/**
 	 * Return if the user eligible to write a review.
 	 */
 	CHECK_WRITE_REVIEW,
+	
+	/**
+	 * Get the image of a specific book.
+	 */
+	GET_BOOK_IMG,
 
 
 }

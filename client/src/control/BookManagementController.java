@@ -514,7 +514,7 @@ choosePicBtn.setOnAction(e -> {
 			Image image1 = SwingFXUtils.toFXImage(imgbuf, null);
 			picBook.setImage(image1);
 	} catch (Exception e2) {
-		actionOnError(ActionType.CONTINUE, "Your Picture format not suppoerted!");
+		actionOnError(ActionType.CONTINUE, "Your Picture format not supported!");
 		imageInBytes=null;
 	}
 

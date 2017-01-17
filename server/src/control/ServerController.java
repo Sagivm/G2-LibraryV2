@@ -249,23 +249,7 @@ public class ServerController extends AbstractServer {
 		}
 
 		case LOGIN: {
-			System.out.println("1");
-			/*
-			int flag=0;
 			try {
-			ResultSet rs1 = DatabaseController.searchInDatabase(
-					"SELECT username FROM clients WHERE accountType='RegisterPending'");
-			while (rs1.next()) {
-				if (rs1.getString(1).equals(data.get(0).toString())) flag=1;
-			}
-			
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			*/
-			try {
-				System.out.println("2");
 				boolean isConnected = false;
 				ArrayList<String> elementsList = new ArrayList<String>();
 				for (int i = 0; i < connectedList.size(); i++) {
@@ -275,13 +259,11 @@ public class ServerController extends AbstractServer {
 					}
 				}
 				if (!isConnected) {
-					System.out.println("3");
 					Login login = new Login(data.get(0).toString(), data.get(1).toString());
 					Statement stmt = DatabaseController.connection.createStatement();
 					ResultSet rs = stmt.executeQuery(login.PrepareSelectStatement(1));
 
 					while (rs.next()) {
-						System.out.println("4");
 						if (rs.getString(4).equals(data.get(1).toString())) {
 							System.out.println("login succssefully");
 							sqlResult = true;
@@ -298,7 +280,6 @@ public class ServerController extends AbstractServer {
 						}
 					}
 					if (!sqlResult) {
-						System.out.println("5");
 						rs = stmt.executeQuery(login.PrepareSelectStatement(2));
 						while (rs.next()) {
 							if (rs.getString(4).equals(data.get(1).toString())) {
@@ -323,17 +304,14 @@ public class ServerController extends AbstractServer {
 						}
 					}
 					if (sqlResult == true) {
-						System.out.println("6");
 						replay = new Replay(ActionType.LOGIN, true, action, elementsList);
 						connectedList.add(login);
 					} else {
-						System.out.println("7");
 						replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_LOGGED_IN_FAILED);
 						System.out.println(replay.getSucess());
 						
 					}
 				} else {
-					System.out.println("8");
 					replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_ALREADY_LOGGED_IN);
 					System.out.println(replay.getSucess());
 				}
@@ -1106,7 +1084,6 @@ public class ServerController extends AbstractServer {
 				}
 				replay = new Replay(ActionType.GET_PENDING_ACCOUNTS, true, elementsList);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1126,20 +1103,9 @@ public class ServerController extends AbstractServer {
 				{
 					stmt.executeUpdate("UPDATE clients SET accountType='" + data.get(2) + "' , accountStatus='Standard' WHERE username=" + data.get(0));
 				}
-				
-				/*DateFormat currentTime = new SimpleDateFormat("HH:mm");
-				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
-				Date date = new Date();
-				
-				String currTime = currentTime.format(date);
-				String currDate = currentDate.format(date);
-				String msg = "Your account has been approved";
-				DatabaseController.addToDatabase("INSERT INTO messages VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");*/
-				
 		
 				replay = new Replay(ActionType.UPDATE_PENDING_ACCOUNT, true);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1158,6 +1124,26 @@ public class ServerController extends AbstractServer {
 				replay = new Replay(ActionType.CHECK_WRITE_REVIEW, allowed);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case GET_BOOK_IMG: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT books.image FROM project.books WHERE books.sn ='" + data.get(0) + "';");
+				while (rs.next()) {
+					sqlResult = true;
+					elementsList.add(rs.getString(1)); // image
+				}
+				if(sqlResult == true)
+					replay = new Replay(ActionType.GET_BOOK_IMG, true,elementsList);
+				else
+					replay = new Replay(ActionType.GET_BOOK_IMG, false);
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			break;
