@@ -754,13 +754,10 @@ public class ServerController extends AbstractServer {
 		case GET_SUBJECTS: {
 			ArrayList<String> subjectList = new ArrayList<String>();
 			try {
-				String domain = data.get(0);
 				Statement stmt = DatabaseController.connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT subjects.name,subjects.domain,domains.id,domains.name FROM subjects,domains "
-						+ "WHERE domains.name='"+domain+"' AND subjects.domain=domains.id");
+				ResultSet rs = stmt.executeQuery("SELECT name FROM subjects");
 				while (rs.next()) {
 					subjectList.add(rs.getString(1));
-					System.out.println(rs.getString(1));
 				}
 				replay = new Replay(ActionType.GET_SUBJECTS, true, subjectList);
 			} catch (SQLException e) {

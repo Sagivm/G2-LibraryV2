@@ -86,10 +86,8 @@
                               <TextArea fx:id="addBookTableOfContent" layoutX="533.0" layoutY="41.0" prefHeight="105.0" prefWidth="351.0" />
                               <Label layoutX="434.0" layoutY="165.0" text="Summary:" />
                               <TextArea fx:id="addBookSummary" layoutX="533.0" layoutY="165.0" prefHeight="115.0" prefWidth="351.0" />
-                              <Label layoutX="31.0" layoutY="303.0" text="Domain:" />
-                              <ListView fx:id="addBookDomainsList" layoutX="109.0" layoutY="307.0" prefHeight="69.0" prefWidth="238.0" />
-                              <Label layoutX="31.0" layoutY="386.0" text="Subject:" />
-                              <ListView fx:id="addBookSubjectsList" layoutX="108.0" layoutY="391.0" prefHeight="69.0" prefWidth="238.0" />
+                              <Label layoutX="31.0" layoutY="306.0" text="Subject:" />
+                              <ListView fx:id="addBookSubjectsList" layoutX="109.0" layoutY="311.0" prefHeight="69.0" prefWidth="238.0" />
                               <Label layoutX="434.0" layoutY="295.0" text="Picture:" />
                               <Button fx:id="choosePicBtn" layoutX="533.0" layoutY="295.0" mnemonicParsing="false" text="Choose a Picture..." />
                               <ImageView fx:id="picBook" fitHeight="178.0" fitWidth="142.0" layoutX="675.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true" />

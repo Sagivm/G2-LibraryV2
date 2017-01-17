@@ -340,7 +340,6 @@ public class ClientConnectionController extends AbstractClient {
 
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
-			BookManagementController.domainList = replay.getElementsList();
 			break;
 		}
 		
