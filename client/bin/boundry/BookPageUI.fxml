@@ -12,7 +12,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.BookPageController">
    <children>
       <AnchorPane layoutX="445.0" layoutY="511.0" />
-      <Label fx:id="bookLable" layoutX="9.0" layoutY="28.0" prefHeight="73.0" prefWidth="869.0" textAlignment="CENTER">
+      <Label fx:id="bookLable" alignment="CENTER" layoutX="9.0" layoutY="28.0" prefHeight="73.0" prefWidth="869.0" textAlignment="CENTER">
          <font>
             <Font size="50.0" />
          </font>
@@ -27,44 +27,44 @@
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="authorsLable" layoutX="145.0" layoutY="28.0" prefHeight="0.0" prefWidth="501.0" />
+                        <Label fx:id="authorsLable" layoutX="153.0" layoutY="28.0" prefHeight="17.0" prefWidth="530.0" />
                         <Label layoutX="37.0" layoutY="68.0" prefHeight="0.0" text="Language:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="languageLable" layoutX="145.0" layoutY="68.0" prefHeight="0.0" prefWidth="501.0" />
+                        <Label fx:id="languageLable" layoutX="153.0" layoutY="68.0" prefHeight="17.0" prefWidth="530.0" />
                         <Label layoutX="35.0" layoutY="108.0" prefHeight="0.0" text="Domains:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="domainsLable" layoutX="145.0" layoutY="108.0" prefHeight="0.0" prefWidth="501.0" />
+                        <Label fx:id="domainsLable" layoutX="153.0" layoutY="108.0" prefHeight="17.0" prefWidth="530.0" />
                         <Label layoutX="36.0" layoutY="143.0" prefHeight="0.0" text="Subjects:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="subjectsLable" layoutX="145.0" layoutY="143.0" prefHeight="0.0" prefWidth="501.0" />
+                        <Label fx:id="subjectsLable" layoutX="153.0" layoutY="143.0" prefHeight="17.0" prefWidth="530.0" />
                         <Label layoutX="36.0" layoutY="186.0" prefHeight="0.0" text="Key words:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="keyWordsLable" alignment="TOP_LEFT" layoutX="145.0" layoutY="185.0" prefHeight="37.0" prefWidth="501.0" />
                         <Label layoutX="36.0" layoutY="242.0" prefHeight="0.0" text="Table of contents:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="tocLable" alignment="TOP_LEFT" layoutX="145.0" layoutY="242.0" prefHeight="37.0" prefWidth="501.0" />
-                        <Label layoutX="38.0" layoutY="294.0" text="Summary:">
+                        <Label layoutX="38.0" layoutY="303.0" text="Summary:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="summaryLable" alignment="TOP_LEFT" layoutX="145.0" layoutY="294.0" prefHeight="37.0" prefWidth="501.0" />
-                        <Label layoutX="38.0" layoutY="339.0" text="Price:">
+                        <Label layoutX="38.0" layoutY="384.0" text="Price:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="priceLable" layoutX="145.0" layoutY="339.0" prefWidth="501.0" />
-                        <Button fx:id="purchaseButton" layoutX="372.0" layoutY="408.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="126.0" text="PURCHASE NOW!" />
-                        <ImageView fx:id="picBook" fitHeight="200.0" fitWidth="150.0" layoutX="698.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="priceLable" layoutX="145.0" layoutY="384.0" prefWidth="501.0" />
+                        <Button fx:id="purchaseButton" layoutX="372.0" layoutY="416.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="126.0" text="PURCHASE NOW!" />
+                        <ImageView fx:id="picBook" fitHeight="200.0" fitWidth="150.0" layoutX="699.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true" />
+                        <TextArea fx:id="keyWordsTextArea" layoutX="144.0" layoutY="183.0" prefHeight="40.0" prefWidth="541.0" />
+                        <TextArea fx:id="tocTextArea" layoutX="144.0" layoutY="244.0" prefHeight="44.0" prefWidth="541.0" />
+                        <TextArea fx:id="summaryTextArea" layoutX="144.0" layoutY="301.0" prefHeight="66.0" prefWidth="541.0" />
                      </children>
                   </AnchorPane>
             </content>

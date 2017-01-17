@@ -45,9 +45,9 @@ public class BookPageController implements ScreensIF
 	@FXML private Label languageLable;
 	@FXML private Label domainsLable;
 	@FXML private Label subjectsLable;
-	@FXML private Label keyWordsLable;
-	@FXML private Label tocLable;
-	@FXML private Label summaryLable;
+	@FXML private TextArea keyWordsTextArea;
+	@FXML private TextArea tocTextArea;
+	@FXML private TextArea summaryTextArea;
 	@FXML private Label priceLable;
 	
 	@FXML private TabPane bookTabPane;
@@ -145,9 +145,23 @@ public class BookPageController implements ScreensIF
 		//bookTabPane.getTabs().remove(3);
 		bookLable.setText(searchedBookPage.getBookTitle());
 		languageLable.setText(searchedBookPage.getBookLanguage());
-		summaryLable.setText(searchedBookPage.getBookSummary());
-		tocLable.setText(searchedBookPage.getBookToc());
-		keyWordsLable.setText(searchedBookPage.getBookKeywords());
+		summaryTextArea.setText(searchedBookPage.getBookSummary());
+		summaryTextArea.setEditable(false);
+		summaryTextArea.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+		summaryTextArea.setMaxWidth(500);
+		summaryTextArea.setWrapText(true);
+		tocTextArea.setText(searchedBookPage.getBookToc());
+		tocTextArea.setEditable(false);
+		tocTextArea.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+		tocTextArea.setMaxWidth(500);
+		tocTextArea.setWrapText(true);
+		keyWordsTextArea.setText(searchedBookPage.getBookKeywords());
+		keyWordsTextArea.setEditable(false);
+		keyWordsTextArea.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+		keyWordsTextArea.setMaxWidth(500);
+		keyWordsTextArea.setWrapText(true);
+
+		
 		/*
 		int authorsCount=Integer.parseInt(bookData[6]);
 		String authors=bookData[7]; //first author
