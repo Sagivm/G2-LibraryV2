@@ -924,12 +924,15 @@ public class ServerController extends AbstractServer {
 				String currTime = currentTime.format(date);
 				String currDate = currentDate.format(date);
 				String msg;
+				
 				if (data.get(2).equals("approved"))
 				msg = "Review num " + data.get(0) + " has been approved";
 				else msg = "Review num " + data.get(0) + " has been declined";
 				String username = data.get(3);
 				
 				DatabaseController.addToDatabase("INSERT INTO messages (`username`, `date`, `time`, `msg`) VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
+				
+				
 				
 				
 				replay = new Replay(ActionType.UPDATE_REVIEW_STATUS, true);
