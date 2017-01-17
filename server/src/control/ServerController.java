@@ -924,7 +924,7 @@ public class ServerController extends AbstractServer {
 				String currTime = currentTime.format(date);
 				String currDate = currentDate.format(date);
 				String msg;
-				
+				//
 				if (data.get(2).equals("approved"))
 				msg = "Review num " + data.get(0) + " has been approved";
 				else msg = "Review num " + data.get(0) + " has been declined";
