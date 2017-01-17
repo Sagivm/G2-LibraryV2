@@ -231,4 +231,5 @@ public class ScreensInfo {
 	 *  Set pending account type title
 	 */
 	public static final String PENDING_ACCOUNT_TITLE = "Pending account list";
+
 }

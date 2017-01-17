@@ -101,7 +101,7 @@ public class BookPageController implements ScreensIF
 			                        	if(canWrite)
 			                        	{
 			                        		WriteReviewController bookReview = new WriteReviewController();
-			                    			bookReview.book = searchedBookPage;
+			                        		bookReview.book = searchedBookPage;
 			                    			try{
 			                    				loadWriteReview();
 			                    			} 
