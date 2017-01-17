@@ -49,7 +49,7 @@ import ocsf.server.ConnectionToClient;
  *
  */
 /**
- * @author givi
+ * @author sagivm
  *
  */
 public class ServerController extends AbstractServer {
@@ -882,7 +882,9 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
-						"SELECT domains.name FROM book,subject,book_subject,domain WHERE subject.domain=domain.id and subject.id=book_subject.subjectId and book_subject.bookId="
+						"SELECT DISTINCT domains.name "
+						+ "FROM books,subjects,book_subjects,domains "
+						+ "WHERE subjects.domain=domains.id and subjects.id=book_subjects.subjectId and book_subjects.bookId="
 								+ data.get(0) + ";");
 				while (rs.next()) {
 					elementsList.add(rs.getString(1));
@@ -897,19 +899,25 @@ public class ServerController extends AbstractServer {
 		}
 		case POPULARITYREPORT: {
 			ArrayList<String> elementsList = new ArrayList<String>();
+			ArrayList<Integer> id =new ArrayList<Integer>();
+			ArrayList<Integer> purchase =new ArrayList<Integer>();
 			try {
 				ResultSet rs = DatabaseController.searchInDatabase(
-						"SELECT sn,title,authors.firstName,authors.lastName,language,purchase,domains.name FROM books,authors,book_authors_book_by_date,subject,book_subject,domain WHERE books.sn=book_authos.bookId and authors.authorId=authors.id and book.sn=book_by_date.bookId and subject.domain=domain.id and subject.id=book_subject.subjectId and book_subject.bookId=books.sn;");
+						"SELECT DISTINCT (sn),title,authors.firstName,authors.lastName,language,domains.name "
+						+ "FROM books,authors,book_authors,subjects,book_subjects,domains "
+						+ "WHERE books.sn=book_authors.bookId and authors.Id=book_authors.authorId and  subjects.domain=domains.id and subjects.id=book_subjects.subjectId and book_subjects.bookId=books.sn;");
 				if (!rs.isBeforeFirst())
-					replay = new Replay(ActionType.USEREPORT, false);// no data
+					replay = new Replay(ActionType.POPULARITYREPORT, false);// no data
 				else {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
-								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + String.valueOf(rs.getInt(6))
-								+ "^" + rs.getString(7));
+								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" + rs.getString(6));
+						id.add(rs.getInt(1));
 					}
-					replay = new Replay(ActionType.USEREPORT, true, elementsList);
+			
+					replay = new Replay(ActionType.POPULARITYREPORT, true, elementsList);
 				}
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

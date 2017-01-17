@@ -232,4 +232,7 @@ public class ScreensInfo {
 	 */
 	public static final String PENDING_ACCOUNT_TITLE = "Pending account list";
 
+
+	public static final String BOOK_POPULARITY_REPORT = "/boundry/BookPopularityReportUI.fxml";
+
 }
