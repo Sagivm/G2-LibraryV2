@@ -99,7 +99,7 @@ public class ClientConnectionController extends AbstractClient {
 	 *            - Gets the replay with the data.
 	 */
 	public void actionToPerform(Replay replay) {
-
+		ActionType transmitType = replay.getTransmitType();
 		ActionType type = replay.getType();
 		boolean success = replay.getSucess();
 
@@ -441,7 +441,22 @@ public class ClientConnectionController extends AbstractClient {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					//HomepageUserController.setPage(ScreensInfo.HOMEPAGE_USER_SCREEN);
+					
+					String currUsername;
+					int flag=0;
+					if (clientMain.getTypeOfUser().equals("User")) {
+						currUsername = HomepageUserController.getConnectedUser().getId();
+						flag=1;
+					} else if (clientMain.getTypeOfUser().equals("Librarian")) {
+						currUsername = HomepageLibrarianController.getConnectedlibrarian().getId();
+						flag=2;
+					} else {
+						currUsername = HomepageManagerController.getConnectedManager().getId();
+						flag=3;
+					}
+					
+					if (currUsername.equals(replay.getElementsList().get(0)))
+					{
 					HomepageUserController.setPage(null);
 					ScreenController screenController = new ScreenController();
 					try{
@@ -457,7 +472,12 @@ public class ClientConnectionController extends AbstractClient {
 					}
 		    		catch (Exception e) {
 						e.printStackTrace();
-					} 
+					}
+					} else
+					{
+						if (flag == 2)
+						actionToDisplay(ActionType.CONTINUE,GeneralMessages.YOU_GOT_NEW_REVIEWS);
+					}
 				}
 			});
 			break;

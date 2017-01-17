@@ -44,6 +44,14 @@ private String GnrlMsg;
 private ArrayList<String> elementsList;
 
 
+
+/**
+ * Type of receive message.
+ */
+private ActionType transmitType;
+
+
+
 /** Replay constructor that initialize the attributes.
  * @param type - Gets the type of action.
  * @param sucess - Gets the kind of response from SQL.
@@ -52,14 +60,25 @@ public Replay(ActionType type, boolean sucess)
 {
 	setType(type);
 	setSucess(sucess);
+	setTransmitType(ActionType.UNICAST);
 }
 
 public Replay(ActionType type, int action)
 {
 	this.action=action;
 	this.type=type;
+	setTransmitType(ActionType.UNICAST);
 }
 
+
+
+public Replay(ActionType type, boolean sucess,ActionType transmitType, ArrayList<String> elementsList)
+{
+	setType(type);
+	setSucess(sucess);
+	setElementsList(elementsList);
+	setTransmitType(transmitType);
+}
 
 
 /** Replay constructor that initialize the attributes.
@@ -73,6 +92,7 @@ public Replay(ActionType type, boolean sucess,ArrayList<String> elementsList)
 	setType(type);
 	setSucess(sucess);
 	setElementsList(elementsList);
+	setTransmitType(ActionType.UNICAST);
 }
 
 /** Replay constructor that initialize the attributes.
@@ -87,6 +107,7 @@ public Replay(ActionType type, boolean sucess,int action,ArrayList<String> eleme
 	setSucess(sucess);
 	setAction(action);
 	setElementsList(elementsList);
+	setTransmitType(ActionType.UNICAST);
 }
 
 /** Replay constructor that initialize the attributes.
@@ -99,6 +120,7 @@ public Replay(ActionType type, boolean sucess,String msg)
 	setType(type);
 	setSucess(sucess);
 	setGnrlMsg(msg);
+	setTransmitType(ActionType.UNICAST);
 }
 
 /** Getter for action type.
@@ -170,6 +192,21 @@ public void setGnrlMsg(String msg) {
  */
 public void setElementsList(ArrayList<String> elementsList) {
 	this.elementsList = elementsList;
+}
+
+
+/** Getter for transmit type.
+ * @return the transmit type.
+ */
+public ActionType getTransmitType() {
+	return transmitType;
+}
+
+/** Setter for transmit type.
+ * @param Gets the transmit type.
+ */
+public void setTransmitType(ActionType transmitType) {
+	this.transmitType = transmitType;
 }
 	
 }

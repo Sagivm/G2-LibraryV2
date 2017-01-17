@@ -128,5 +128,11 @@ public class GeneralMessages {
 	public static final String OPERATION_FAILED = "Operation failed!";
 
 
+	/**
+	 * Message for librarian that there is new pending reviews.
+	 */
+	public static final String YOU_GOT_NEW_REVIEWS = "You got new pending reviews for confirmation.";
+
+
 	
 }
