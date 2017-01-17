@@ -204,8 +204,7 @@ public class ClientConnectionController extends AbstractClient {
 						try {
 							// actionToDisplay(ActionType.CONTINUE,"The password
 							// and Username not match!");
-							if (replay.getAction() == 0) actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_ALREADY_PENDING);
-								else actionToDisplay(ActionType.CONTINUE, replay.getGnrlMsg().toString());
+								actionToDisplay(ActionType.CONTINUE, replay.getGnrlMsg().toString());
 
 						} catch (Exception e) {
 							// COMPELETE

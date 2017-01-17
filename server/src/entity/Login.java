@@ -48,7 +48,7 @@ public class Login implements Serializable, StatementsIF {
 
 	public String PrepareSelectStatement(int action) {
 		if(action==1)
-			return "SELECT * FROM clients WHERE username="+Username;
+			return "SELECT * FROM clients WHERE username="+Username + " AND accountType<>'RegisterPending'";
 		else
 			return "SELECT * FROM workers WHERE username="+Username;
 	}

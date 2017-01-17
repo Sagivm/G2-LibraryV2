@@ -23,7 +23,7 @@
         <Font name="System Bold" size="16.0" fx:id="x1" />
       </font>
     </Button>
-    <Button id="myBooksButton" font="$x1" layoutX="0.0" layoutY="234.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="My Books" />
+    <Button id="myBooksButton" font="$x1" layoutX="0.0" layoutY="234.0" mnemonicParsing="false" onAction="#myBooksButtonPressed" prefHeight="42.0" prefWidth="235.0" text="My Books" />
     <Button font="$x1" layoutX="1.0" layoutY="276.0" mnemonicParsing="false" onAction="#settingsButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Set Account Type" />
     <Button id="payButton" font="$x1" layoutX="1.0" layoutY="319.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Pay for Subscription" />
     <Button id="userMsgsButton" font="$x1" layoutX="1.0" layoutY="361.0" mnemonicParsing="false" onAction="#messageButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Messages" />
@@ -39,6 +39,5 @@
     </Label>
       <Button layoutX="11.0" layoutY="413.0" mnemonicParsing="false" onAction="#btnTestReadReviewsPressed" text="Test Read Reviews" />
       <Button layoutX="11.0" layoutY="445.0" mnemonicParsing="false" onAction="#btnTestWriteReviewPressed" text="Test Write a Review" />
-      <Button layoutX="14.0" layoutY="484.0" mnemonicParsing="false" onAction="#testreportbuttonpressed" text="test report" />
   </children>
 </AnchorPane>

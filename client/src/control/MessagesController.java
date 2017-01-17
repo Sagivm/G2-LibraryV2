@@ -18,35 +18,57 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * This class handles the messages that recived from the system to the user.
+ * @author nire
+ * 
+ */
 public class MessagesController implements ScreensIF
 {
+	/**
+	 * attribute for the table view.
+	 */
 	@FXML
     private TableView<Messages> table;
     
 	/**
-	 * Column in the table that shows the review id.
+	 * attribute for the date colmun.
 	 */
 	@FXML
     private TableColumn dateCol;
 	
-	
+	/**
+	 * attribute for the time colmun.
+	 */
 	@FXML 
 	private TableColumn timeCol;
 	
+	/**
+	 * attribute for the msg colmun.
+	 */
 	@FXML
 	private TableColumn msgCol;
 	
-	
+	/**
+	 * attribute for data that will connect rows to this.
+	 */
 	private ObservableList<Messages> data = FXCollections.observableArrayList();
 
-	
+	/**
+	 * static array to update data.
+	 */
 	public static ArrayList<String> messagesResult;
 	
 	
+	/**
+	 * initialize function that initialize the class (run first).
+	 */
 	@FXML
 	private void initialize(){
 		ArrayList<String> elementsList = new ArrayList<String>();
@@ -91,28 +113,90 @@ public class MessagesController implements ScreensIF
 	}
 	
 
-
-
-
+	/* (non-Javadoc)
+	 * @see interfaces.ScreensIF#backButtonPressed(javafx.event.ActionEvent)
+	 */
 	@Override
 	public void backButtonPressed(ActionEvent event) {
-		// TODO Auto-generated method stub
 		
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see interfaces.ScreensIF#pressedCloseMenu(javafx.event.ActionEvent)
+	 */
 	@Override
 	public void pressedCloseMenu(ActionEvent event) throws IOException {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
+	
+/* (non-Javadoc)
+ * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)
+ */
+@Override
 	public void actionOnError(ActionType type, String errorCode) {
-		// TODO Auto-generated method stub
 		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Error");
+		alert.setHeaderText(null);
+		alert.setContentText(errorCode);
+		alert.showAndWait();
+		if (type == ActionType.TERMINATE)
+		{
+			Platform.exit();
+			System.exit(1);
+		}
+		if (type == ActionType.CONTINUE)
+			return;
 	}
 	
 	
+	/**
+	 * Inner class for messsages that will be added as a row.
+	 * @author nire
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
+	/**
+	 * @author nirzo
+	 *
+	 */
 	public static class Messages {
 
 	    private final SimpleStringProperty date;
@@ -121,6 +205,12 @@ public class MessagesController implements ScreensIF
 
 	    
 
+	    /**
+	     * Constructor for create messages that will be added to the message screen rows.
+	     * @param date - Get date.
+	     * @param time - Get time.
+	     * @param msg - Get msg.
+	     */
 	    private Messages(String date, String time, String msg) {
 	    	this.date = new SimpleStringProperty(date);
 	        this.time = new SimpleStringProperty(time);
@@ -130,24 +220,52 @@ public class MessagesController implements ScreensIF
 
 
 
+		/**
+		 * Getter for date.
+		 * @return the username
+		 */
 		public String getDate() {
 	        return date.get();
 	    }
+		
+		/**
+		 * Getter for time.
+		 * @return the time.
+		 */
 	    public String getTime() {
 	        return time.get();
 	    }
+	    
+		/**
+		 * Getter for msg.
+		 * @return the the msg.
+		 */
 	    public String getMsg() {
 	        return msg.get();
 	    }
 	    
 	    
 
+	    /** Setter for date.
+	     * @param date - Gets the date.
+	     */
 	    public void setDate(String date) {
 	    	this.date.set(date);
 	    }
+	    
+	    
+	    /**
+	     * Setter for time.
+	     * @param time - Gets the time.
+	     */
 	    public void setTime(String time) {
 	    	this.time.set(time);
 	    }
+	    
+	    /**
+	     * Setter for msg.
+	     * @param time - Gets the msg.
+	     */
 	    public void setMsg(String msg) {
 	    	this.msg.set(msg);
 	    }

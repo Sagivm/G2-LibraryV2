@@ -171,6 +171,9 @@ public enum ActionType {
 	HIDE_BOOK, 
 	
 	
+	/**
+	 * Get messages constant from
+	 */
 	GET_MESSAGES,
 
 
