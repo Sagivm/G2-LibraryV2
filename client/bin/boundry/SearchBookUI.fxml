@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SearchBookController">
   <children>
-    <Label layoutX="332.0" layoutY="-9.0" text="Book Search">
+    <Label layoutX="332.0" layoutY="-22.0" text="Book Search">
       <font>
         <Font size="50.0" />
       </font>
@@ -22,8 +22,8 @@
     <Label layoutX="269.0" layoutY="317.0" text="Table of contents:" />
     <TextArea fx:id="tocTextArea" layoutX="373.0" layoutY="317.0" prefHeight="54.0" prefWidth="280.0" />
     <Label layoutX="269.0" layoutY="392.0" text="Domain:" />
-    <Label layoutX="270.0" layoutY="468.0" text="Key words:" />
-    <TextArea fx:id="keywTextArea" layoutX="373.0" layoutY="466.0" prefHeight="60.0" prefWidth="280.0" />
+    <Label layoutX="270.0" layoutY="456.0" text="Key words:" />
+    <TextArea fx:id="keywTextArea" layoutX="373.0" layoutY="456.0" prefHeight="60.0" prefWidth="280.0" />
     <Button fx:id="searchButton" layoutX="458.0" layoutY="578.0" mnemonicParsing="false" onAction="#searchButtonPressed" text="Search" />
     <Button fx:id="clearButton" layoutX="528.0" layoutY="578.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
     <RadioButton fx:id="andRadioButton" layoutX="456.0" layoutY="533.0" mnemonicParsing="false" selected="true" text="AND">
@@ -34,14 +34,8 @@
     <RadioButton fx:id="orRadioButton" layoutX="533.0" layoutY="533.0" mnemonicParsing="false" text="OR" toggleGroup="$searchGroup" />
     <ComboBox fx:id="languageComboBox" layoutX="373.0" layoutY="192.0" prefWidth="280.0" />
     <ListView fx:id="authorListView" layoutX="373.0" layoutY="117.0" prefHeight="60.0" prefWidth="280.0" />
-    <ListView fx:id="domainListView" layoutX="373.0" layoutY="391.0" prefHeight="60.0" prefWidth="280.0" />
+    <ListView fx:id="domainListView" layoutX="373.0" layoutY="391.0" prefHeight="54.0" prefWidth="280.0" />
       <TextArea fx:id="summaryTextArea" layoutX="374.0" layoutY="234.0" prefHeight="60.0" prefWidth="280.0" />
-<<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library.git
-      <ImageView fx:id="authorImage" fitHeight="16.0" fitWidth="16.0" layoutX="665.0" layoutY="118.0" onMouseClicked="#msgMultipleChoice" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="domainImage" fitHeight="16.0" fitWidth="16.0" layoutX="662.0" layoutY="392.0" onMouseClicked="#msgMultipleChoice" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="keyWordsImage" fitHeight="16.0" fitWidth="16.0" layoutX="662.0" layoutY="465.0" onMouseClicked="#msgKeyWords" pickOnBounds="true" preserveRatio="true" />
-=======
       <ImageView fx:id="authorImage" fitHeight="25.0" fitWidth="26.0" layoutX="675.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" />
->>>>>>> 974c010 dsa
   </children>
 </AnchorPane>

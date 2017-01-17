@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.ArrayList;
+
 import enums.ActionType;
 
 /**
@@ -124,5 +126,9 @@ public class GeneralMessages {
 	 * Operation failed
 	 */
 	public static final String OPERATION_FAILED = "Operation failed!";
+
+
+	
+	public static final String USER_ALREADY_PENDING = "You already pending user.";
 	
 }

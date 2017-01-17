@@ -160,6 +160,8 @@ public class EditReviewController implements ScreensIF {
 			reviewStatus.add(editReview.getReviewID());
 			reviewStatus.add(content);
 			reviewStatus.add(status);
+			reviewStatus.add(HomepageUserController.getConnectedUser().getId()); 
+			
 			Message message = updateReviewStatus(ActionType.UPDATE_REVIEW_STATUS,reviewStatus);
 			
 			ClientController clientCtrl = new ClientController();

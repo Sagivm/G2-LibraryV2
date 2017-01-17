@@ -54,6 +54,14 @@ public Replay(ActionType type, boolean sucess)
 	setSucess(sucess);
 }
 
+public Replay(ActionType type, int action)
+{
+	this.action=action;
+	this.type=type;
+}
+
+
+
 /** Replay constructor that initialize the attributes.
  * @param type - Gets the type of action.
  * @param sucess - Gets the kind of response from SQL.

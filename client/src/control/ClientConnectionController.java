@@ -88,6 +88,14 @@ public class ClientConnectionController extends AbstractClient {
 		boolean success = replay.getSucess();
 
 		switch (type) {
+		case GET_MESSAGES: {
+			
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			MessagesController.messagesResult = list;
+		}
+		break;
+		
 		case REGISTER: {
 			if (success == true) {
 				Platform.runLater(new Runnable() {
@@ -196,7 +204,8 @@ public class ClientConnectionController extends AbstractClient {
 						try {
 							// actionToDisplay(ActionType.CONTINUE,"The password
 							// and Username not match!");
-							actionToDisplay(ActionType.CONTINUE, replay.getGnrlMsg().toString());
+							if (replay.getAction() == 0) actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_ALREADY_PENDING);
+								else actionToDisplay(ActionType.CONTINUE, replay.getGnrlMsg().toString());
 
 						} catch (Exception e) {
 							// COMPELETE

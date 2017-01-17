@@ -52,6 +52,11 @@ public Message() {
 }
 
 
+public Message(ActionType type) {
+	setType(type);
+}
+
+
 /** Getter for attribute type.
  * @return - The type.
  */

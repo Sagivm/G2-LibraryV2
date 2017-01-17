@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -195,6 +196,27 @@ public class ServerController extends AbstractServer {
 		Replay replay = null;
 		int action = 0;
 		switch (type) {
+		
+		case GET_MESSAGES: {
+			
+			String username = data.get(0);
+			
+			ArrayList<String> elementsList = new ArrayList<String>();
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT date,time,msg FROM messages WHERE username =" + "'"+username+"'");
+				while (rs.next())
+				{
+					elementsList.add(rs.getString(1) + "^" + rs.getString(2) + "^" + rs.getString(3));
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}	
+			replay = new Replay(ActionType.GET_MESSAGES, true, elementsList);
+		}
+		break;
 		case REGISTER: {
 
 			Registration registration = new Registration(Integer.parseInt(data.get(0)), data.get(1).toString(),
@@ -219,6 +241,20 @@ public class ServerController extends AbstractServer {
 		}
 
 		case LOGIN: {
+			/*
+			int flag=0;
+			try {
+			ResultSet rs1 = DatabaseController.searchInDatabase(
+					"SELECT username FROM clients WHERE accountType='RegisterPending'");
+			while (rs1.next()) {
+				if (rs1.getString(1).equals(data.get(0).toString())) flag=1;
+			}
+			
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			*/
 			try {
 				boolean isConnected = false;
 				ArrayList<String> elementsList = new ArrayList<String>();
@@ -277,8 +313,10 @@ public class ServerController extends AbstractServer {
 						replay = new Replay(ActionType.LOGIN, true, action, elementsList);
 						connectedList.add(login);
 					} else {
+						
 						replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_LOGGED_IN_FAILED);
 						System.out.println(replay.getSucess());
+						
 					}
 				} else {
 					replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_ALREADY_LOGGED_IN);
@@ -321,6 +359,17 @@ public class ServerController extends AbstractServer {
 								+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				writeToLog(message.getElementsList().get(0) + " Changed accountStatus to"
 						+ message.getElementsList().get(1));
+				
+				DateFormat currentTime = new SimpleDateFormat("HH:mm");
+				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+				Date date = new Date();
+				
+				String currTime = currentTime.format(date);
+				String currDate = currentDate.format(date);
+				String username = message.getElementsList().get(0);
+				String msg = "Account status has been changed to: " + message.getElementsList().get(1);
+				DatabaseController.addToDatabase("INSERT INTO messages VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
+				
 				replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -691,6 +740,17 @@ public class ServerController extends AbstractServer {
 				Statement stmt = DatabaseController.connection.createStatement();
 				String username = data.get(0);
 				stmt.executeUpdate("UPDATE clients SET accountType='Intrested' WHERE username=" + username);
+				
+				DateFormat currentTime = new SimpleDateFormat("HH:mm");
+				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+				Date date = new Date();
+				
+				String currTime = currentTime.format(date);
+				String currDate = currentDate.format(date);
+				String msg = "Your account has been approved";
+				DatabaseController.addToDatabase("INSERT INTO messages VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
+				
+		
 				replay = new Replay(ActionType.ACCEPT_PENDING_USERS, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -833,6 +893,22 @@ public class ServerController extends AbstractServer {
 				Statement stmt = DatabaseController.connection.createStatement();
 				//System.out.println("UPDATE project.reviews SET reviews.status = '" + data.get(2) + "' , reviews.content = " + quotationMarks + data.get(1) + quotationMarks + "  WHERE reviews.id =" + data.get(0));
 				stmt.executeUpdate("UPDATE project.reviews SET reviews.status = '" + data.get(2) + "' , reviews.content = " + quotationMarks + data.get(1) + quotationMarks + " WHERE reviews.id =" + data.get(0));
+				
+				DateFormat currentTime = new SimpleDateFormat("HH:mm");
+				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+				Date date = new Date();
+				
+				String currTime = currentTime.format(date);
+				String currDate = currentDate.format(date);
+				String msg;
+				if (data.get(2).equals("approved"))
+				msg = "Review num " + data.get(0) + " has been approved";
+				else msg = "Review num " + data.get(0) + " has been declined";
+				String username = data.get(3);
+				
+				DatabaseController.addToDatabase("INSERT INTO messages VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
+				
+				
 				replay = new Replay(ActionType.UPDATE_REVIEW_STATUS, true);
 				
 			} catch (SQLException e) {

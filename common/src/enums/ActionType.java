@@ -147,7 +147,10 @@ public enum ActionType {
 	/**
 	 * Get data from DB for list of books
 	 */
-	GET_BOOK_LIST,
+	GET_BOOK_LIST, 
+	
+	
+	GET_MESSAGES,
 
 
 

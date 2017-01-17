@@ -207,6 +207,19 @@ public class HomepageUserController implements ScreensIF {
 		}
 	}
 	
+	
+	
+	@FXML
+	public void messageButtonPressed(ActionEvent event) {    
+		try {
+			loadPage("/boundry/MessagesUI.fxml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/** This function log out the current user from the server.
 	 * @throws IOException
 	 */

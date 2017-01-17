@@ -26,7 +26,7 @@
     <Button id="myBooksButton" font="$x1" layoutX="0.0" layoutY="234.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="My Books" />
     <Button font="$x1" layoutX="1.0" layoutY="276.0" mnemonicParsing="false" onAction="#settingsButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Set Account Type" />
     <Button id="payButton" font="$x1" layoutX="1.0" layoutY="319.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Pay for Subscription" />
-    <Button id="userMsgsButton" font="$x1" layoutX="1.0" layoutY="361.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="235.0" text="Messages" />
+    <Button id="userMsgsButton" font="$x1" layoutX="1.0" layoutY="361.0" mnemonicParsing="false" onAction="#messageButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Messages" />
     <Button id="logoutButton" font="$x1" layoutX="1.0" layoutY="527.0" mnemonicParsing="false" onAction="#logoutButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Logout" />
     <Line endX="-102.0" endY="349.0" layoutX="341.0" layoutY="306.0" startX="-108.0" startY="-307.0" stroke="#9f9f9f" strokeLineJoin="MITER" visible="false" />
     <Button fx:id="exitButton" font="$x1" layoutX="2.0" layoutY="611.0" mnemonicParsing="false" onAction="#pressedCloseMenu" prefHeight="42.0" prefWidth="235.0" text="Exit" />
