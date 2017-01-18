@@ -241,9 +241,9 @@ public class ServerController extends AbstractServer {
 				}
 			}
 			if (sqlResult == true)
-				replay = new Replay(ActionType.REGISTER, true);
+				replay = new Replay(ActionType.REGISTER,true);
 			else {
-				replay = new Replay(ActionType.REGISTER, false);
+				replay = new Replay(ActionType.REGISTER,false);
 				System.out.println(replay.getSucess());
 			}
 			writeToLog("Registration attempt");
@@ -306,6 +306,7 @@ public class ServerController extends AbstractServer {
 						}
 					}
 					if (sqlResult == true) {
+						
 						replay = new Replay(ActionType.LOGIN, true, action, elementsList);
 						connectedList.add(login);
 					} else {
@@ -354,17 +355,9 @@ public class ServerController extends AbstractServer {
 								+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				writeToLog(message.getElementsList().get(0) + " Changed accountStatus to"
 						+ message.getElementsList().get(1));
-				/*
-				DateFormat currentTime = new SimpleDateFormat("HH:mm");
-				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
-				Date date = new Date();
+
 				
-				String currTime = currentTime.format(date);
-				String currDate = currentDate.format(date);
-				String username = message.getElementsList().get(0);
-				String msg = "Account status has been changed to: " + message.getElementsList().get(1);
-				DatabaseController.addToDatabase("INSERT INTO messages VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
-				*/
+				
 				replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -811,6 +804,7 @@ public class ServerController extends AbstractServer {
 				Statement stmt = DatabaseController.connection.createStatement();
 				String username = data.get(0);
 				stmt.executeUpdate("UPDATE clients SET accountType='Intrested' WHERE username=" + username);
+		
 				
 				DateFormat currentTime = new SimpleDateFormat("HH:mm");
 				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -818,8 +812,7 @@ public class ServerController extends AbstractServer {
 				
 				String currTime = currentTime.format(date);
 				String currDate = currentDate.format(date);
-				String msg = "Your account has been approved";
-				
+				String msg="Account type updated to " + message.getElementsList().get(1);
 				
 				DatabaseController.addToDatabase("INSERT INTO messages (`username`, `date`, `time`, `msg`) VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
 		
