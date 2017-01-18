@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import javax.swing.text.AbstractDocument.ElementEdit;
 
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 
 import entity.CurrentDate;
 import entity.GeneralMessages;
@@ -1121,6 +1122,91 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
+		
+		case ADD_BOOK: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String TitleBook = data.get(0);
+				String keywords = data.get(2);
+				String language = data.get(3);
+				String tableOfContent = data.get(5);
+				String summary = data.get(6);
+				String picture = data.get(7);
+				Float price = Float.parseFloat(data.get(8));
+				String authorsId = data.get(1);
+				String SubjectsList = data.get(4);
+				//System.out.println("asasassas");
+				
+				String subjectsId[];
+				subjectsId = SubjectsList.split("\\^");
+				String query = "SELECT COUNT(distinct domain) FROM subjects WHERE id="+subjectsId[0];
+				for(int i=1;i<subjectsId.length;i++){
+					query+=" OR id="+subjectsId[i];		
+				}
+				System.out.println(query);				
+				ResultSet rs = stmt.executeQuery(query);
+				
+				String authorsArr[];
+				authorsArr = authorsId.split("\\^");
+				
+				rs.next();
+				int DomainsCount=Integer.parseInt(rs.getString(1));
+				int SubjectsCount=subjectsId.length;
+				int authorsCount=authorsArr.length;
+				int bookSn;
+				
+				//add book
+				if(picture.equals("noPicture"))
+					query="INSERT INTO books (`title`, `language`, `authorsCount`, `summary`, `tableOfContent`, `keywords`, `price`, `hide`, `domainsCount`, `subjectsCount`) "
+							+ "VALUES('"+TitleBook+"', '"+language+"' , '"+authorsCount+"', '"+summary+"', '"+tableOfContent+"', '"+keywords+"', '"+price+"', '0', '"+DomainsCount+"', '"+SubjectsCount+"')";		
+				else{
+					query="INSERT INTO books (`title`, `language`, `authorsCount`, `summary`, `tableOfContent`, `keywords`, `price`, `hide`, `domainsCount`, `subjectsCount`, `image`) "
+							+ "VALUES('"+TitleBook+"', '"+language+"' , '"+authorsCount+"', '"+summary+"', '"+tableOfContent+"', '"+keywords+"', '"+price+"', '0', '"+DomainsCount+"', '"+SubjectsCount+"', '"+picture+"')";	
+				System.out.println("sfdsasafsafsaf");
+				}
+				PreparedStatement statement = (PreparedStatement) DatabaseController.connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);			
+				int affectedRows = statement.executeUpdate();
+				if (affectedRows == 0) {
+		            throw new SQLException("Creating user failed, no rows affected.");
+		        }
+		        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		            	bookSn=(int) generatedKeys.getLong(1);
+		            }
+		            else {
+		                throw new SQLException("Creating book failed, no ID obtained.");
+		            }
+		        }//end add book
+		        
+		        //update book_authors
+		        for(int i=0;i<authorsArr.length;i++){
+		        	stmt.executeUpdate("INSERT INTO book_authors (`bookId`, `authorId`) VALUES('"+bookSn+"', '"+authorsArr[i]+"')");
+		        }
+		        
+		        //update book_subjects
+		        for(int i=0;i<subjectsId.length;i++){
+		        	stmt.executeUpdate("INSERT INTO book_subjects (`bookId`,`subjectId`) VALUES('"+bookSn+"', '"+subjectsId[i]+"')");
+		        }
+				
+		        //update booksCount at subjects
+		        for(int i=0;i<subjectsId.length;i++){
+		        	stmt.executeUpdate("UPDATE subjects SET booksCount = booksCount + 1 WHERE id="+subjectsId[i]);
+		        }
+		        
+		        //update bookscount at authors
+		        for(int i=0;i<authorsArr.length;i++){
+		        	stmt.executeUpdate("UPDATE authors SET booksCount = booksCount + 1 WHERE id="+authorsArr[i]);
+		        }
+
+				//stmt.executeUpdate("UPDATE books SET hide="+hide+" WHERE sn="+sn);
+				replay = new Replay(ActionType.HIDE_BOOK, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
 		case GET_PENDING_ACCOUNTS: {
 			try {
 				ArrayList<String> elementsList = new ArrayList<String>();

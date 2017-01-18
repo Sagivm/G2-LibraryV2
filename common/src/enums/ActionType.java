@@ -159,6 +159,10 @@ public enum ActionType {
 	 */
 	GET_BOOK_LIST,
 	
+	/**
+	 * Add Book to DB
+	 */
+	ADD_BOOK,
 
 	/**
 	 * Delete Book from DB

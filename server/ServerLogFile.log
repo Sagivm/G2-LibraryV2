@@ -1,9 +1,7 @@
-ιπε 18, 2017 8:52:15 PM control.ServerController writeToLog
+ιπε 18, 2017 8:56:07 PM control.ServerController writeToLog
 INFO: Connected to database
-ιπε 18, 2017 8:52:15 PM control.ServerController writeToLog
+ιπε 18, 2017 8:56:07 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-ιπε 18, 2017 8:52:29 PM control.ServerController writeToLog
+ιπε 18, 2017 8:56:08 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 18, 2017 8:52:46 PM control.ServerController writeToLog
-INFO: 444333222 Changed name of username'444333222' to 'Adi Granit'
