@@ -52,6 +52,7 @@ public class SearchUserResultsController implements ScreensIF{
 	@FXML private TableColumn accountTypeCol;
 	@FXML private TableColumn accountStatusCol;
 	@FXML private TableColumn userPageCol;
+	@FXML private TableColumn isBlockedCol;
 	
 	private final Image enterImage = new Image("/img/enter.png");
 	
@@ -94,7 +95,10 @@ public class SearchUserResultsController implements ScreensIF{
 					{
 						String[] tmp=new String[6];
 						tmp = userResult.get(i).split("\\^");
-						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4], tmp[5]));
+						String isBlocked="NO";
+						if(Integer.parseInt(tmp[5])==1)
+							isBlocked="YES";
+						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4], isBlocked));
 					}
 					
 										
@@ -117,6 +121,11 @@ public class SearchUserResultsController implements ScreensIF{
 					
 					accountStatusCol.setCellValueFactory(
 			                new PropertyValueFactory<SearchUserResult, String>("accountStatus"));
+					
+					isBlockedCol.setCellValueFactory(
+			                new PropertyValueFactory<SearchUserResult, String>("isBlocked"));
+					
+					
 					
 					userPageCol.setCellValueFactory(new Callback<CellDataFeatures<SearchUserResult, SearchUserResult>, ObservableValue<SearchUserResult>>() {
 				          @Override public ObservableValue<SearchUserResult> call(CellDataFeatures<SearchUserResult, SearchUserResult> features) {
@@ -187,6 +196,7 @@ public class SearchUserResultsController implements ScreensIF{
 					lNameCol.setStyle( "-fx-alignment: CENTER;");
 					accountTypeCol.setStyle( "-fx-alignment: CENTER;");
 					accountStatusCol.setStyle( "-fx-alignment: CENTER;");
+					isBlockedCol.setStyle( "-fx-alignment: CENTER;");
 					
 					resultsTable.setItems(data);
 					resultsTable.getSortOrder().add(fNameCol);

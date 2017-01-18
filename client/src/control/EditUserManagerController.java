@@ -64,8 +64,8 @@ public class EditUserManagerController implements ScreensIF{
 		usernameLable.setText(searchedUserPageManager.getUsername());
 		fNameLable.setText(searchedUserPageManager.getFirstName().trim());
 		lNameLable.setText(searchedUserPageManager.getLastName().trim());
-		if(Integer.parseInt(searchedUserPageManager.getIsBlocked())==1)
-				blockedCheckBox.isSelected();
+		if(searchedUserPageManager.getIsBlocked()=="YES")
+				blockedCheckBox.setSelected(true);
 	}
 	
 	public void cancelButtonPressed(ActionEvent event)
@@ -131,8 +131,11 @@ public class EditUserManagerController implements ScreensIF{
 	
 	public void submitButtonPressed(ActionEvent event) 
 	{		
-		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameLable.getText(), lNameLable.getText(), "", "", blockedCheckBox.getText());
-		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
+		String isBlocked="0";
+		if(blockedCheckBox.isSelected())
+			isBlocked="1";
+		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameLable.getText(), lNameLable.getText(), "", "", isBlocked);
+		Message message = prepareEditUser(ActionType.EDIT_USER_MANAGER,user);
 		
 		try {
 			ClientController.clientConnectionController.sendToServer(message);

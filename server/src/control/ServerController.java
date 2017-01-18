@@ -743,7 +743,7 @@ public class ServerController extends AbstractServer {
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + " ,lastName=" + "'" + message.getElementsList().get(2) +"'" +  " WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				
-				writeToLog(message.getElementsList().get(0) + " Changed name of username" + "'" + message.getElementsList().get(0) + "' to '"
+				writeToLog("Name of username" + "'" + message.getElementsList().get(0) + "'was changed to '"
 				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2)+"'");
 				replay = new Replay(ActionType.EDIT_USER_LIBRARIAN, true);
 				
