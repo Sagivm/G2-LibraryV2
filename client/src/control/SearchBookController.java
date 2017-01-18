@@ -97,7 +97,9 @@ public class SearchBookController implements ScreensIF{
 
 		ArrayList<String> elementList = new ArrayList<String>();
 		Message message = new Message(ActionType.GET_AUTHORS,elementList);
+
 		Message message2 = new Message(ActionType.GET_DOMAINS,domainList);
+
 		try {
 			if(goToServer_flag==1)
 			{
@@ -109,8 +111,9 @@ public class SearchBookController implements ScreensIF{
 			e.printStackTrace();
 		}
 		
+		//Platform.runLater(new Runnable() {
 		Platform.runLater(new Runnable() {
-			@Override
+			//@Override
 			public void run() {
 
 				try{

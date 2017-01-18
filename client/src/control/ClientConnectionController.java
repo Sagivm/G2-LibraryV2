@@ -31,7 +31,7 @@ import ocsf.client.AbstractClient;
  * 
  * @author nire
  */
-public class ClientConnectionController extends AbstractClient {
+public class ClientConnectionController extends AbstractClient{
 
 	/**
 	 * The main
@@ -53,6 +53,10 @@ public class ClientConnectionController extends AbstractClient {
 	 * static reference of manager home page.
 	 */
 	private static HomepageManagerController managerMain;
+	
+	
+	//public static int gotAnswer;
+	
 
 	/**
 	 * ClientConnectionController constructor initialize the hostname, and then
@@ -98,11 +102,11 @@ public class ClientConnectionController extends AbstractClient {
 	 * @param replay
 	 *            - Gets the replay with the data.
 	 */
-	public void actionToPerform(Replay replay) {
+	public void actionToPerform(Replay replay)  {
 		ActionType transmitType = replay.getTransmitType();
 		ActionType type = replay.getType();
 		boolean success = replay.getSucess();
-
+		
 		switch (type) {
 		case GET_MESSAGES: {
 			
@@ -355,15 +359,16 @@ public class ClientConnectionController extends AbstractClient {
 				Author author = new Author(tmp[1], tmp[2], tmp[0]);
 				list.add(author);
 			}
-
+			
 			SearchBookController.authorList = list;
 			BookManagementController.authorList = list;
-
+			//gotAnswer=1;
 			break;
 		}
 
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
+			//gotAnswer=1;
 			break;
 		}
 		
