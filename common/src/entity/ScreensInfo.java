@@ -232,7 +232,17 @@ public class ScreensInfo {
 	 */
 	public static final String PENDING_ACCOUNT_TITLE = "Pending account list";
 
-
+	/**
+	 *  external payment screen path
+	 */
+	public static final String EXTERNAL_PAYMENT_SCREEN = "/boundry/ExternalPaymentUI.fxml";
+	
+	/**
+	 *  Set external payment screen title
+	 */
+	public static final String EXTERNAL_PAYMENT_TITLE = "Pay Secure with ExtPayment";
+	
+	
 	public static final String BOOK_POPULARITY_REPORT = "/boundry/BookPopularityReportUI.fxml";
 
 }

@@ -370,7 +370,13 @@ public class BookPageController implements ScreensIF
 			{
 				ScreenController screenController = new ScreenController();
 		        try {
-					screenController.replaceSceneContent(ScreensInfo.REGISTRATION_SCREEN,ScreensInfo.REGISTRATION_TITLE);
+		        	ExternalPaymentController extPayment = new ExternalPaymentController();
+		        	extPayment.setProduct("Book - " + searchedBookPage.getBookTitle());
+		        	extPayment.setPrice(searchedBookPage.getBookPrice());
+		        	extPayment.setAction(1);
+		        	extPayment.searchedBookPage = searchedBookPage;
+		        	        			        	
+					screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.REGISTRATION_TITLE);
 					Stage primaryStage = screenController.getStage();
 					ScreenController.setStage(primaryStage);
 					Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
