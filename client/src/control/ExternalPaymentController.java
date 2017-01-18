@@ -284,7 +284,7 @@ public class ExternalPaymentController {
 		ScreenController screenController = new ScreenController();
     	
 		try{
-			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);	
+			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);	
 			
 			Stage primaryStage = screenController.getStage();
 			ScreenController.setStage(primaryStage);
