@@ -13,14 +13,15 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <TableView fx:id="resultsTable" layoutX="40.0" layoutY="109.0" prefHeight="487.0" prefWidth="820.0">
+      <TableView fx:id="resultsTable" layoutX="40.0" layoutY="109.0" prefHeight="487.0" prefWidth="828.0">
         <columns>
-          <TableColumn fx:id="usernameCol" prefWidth="144.0" text="Username" />
-          <TableColumn fx:id="fNameCol" prefWidth="139.0" text="First Name" />
-            <TableColumn fx:id="lNameCol" prefWidth="172.0" text="Last Name" />
-            <TableColumn fx:id="accountTypeCol" prefWidth="143.0" text="Account Type" />
-            <TableColumn fx:id="accountStatusCol" prefWidth="131.0" text="Account Status" />
-            <TableColumn fx:id="userPageCol" prefWidth="66.0" />
+          <TableColumn fx:id="usernameCol" prefWidth="122.0" text="Username" />
+          <TableColumn fx:id="fNameCol" prefWidth="130.0" text="First Name" />
+            <TableColumn fx:id="lNameCol" prefWidth="130.0" text="Last Name" />
+            <TableColumn fx:id="accountTypeCol" prefWidth="138.0" text="Account Type" />
+            <TableColumn fx:id="accountStatusCol" prefWidth="125.0" text="Account Status" />
+            <TableColumn fx:id="isBlockedCol" prefWidth="89.0" text="Blocked" />
+            <TableColumn fx:id="userPageCol" prefWidth="70.0" />
         </columns>
       </TableView>
    </children>

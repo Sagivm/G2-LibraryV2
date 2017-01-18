@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 
@@ -51,6 +52,7 @@ public class SearchUserResultsController implements ScreensIF{
 	@FXML private TableColumn accountTypeCol;
 	@FXML private TableColumn accountStatusCol;
 	@FXML private TableColumn userPageCol;
+	@FXML private TableColumn isBlockedCol;
 	
 	private final Image enterImage = new Image("/img/enter.png");
 	
@@ -77,17 +79,26 @@ public class SearchUserResultsController implements ScreensIF{
 	 */
 	@FXML
 	private void initialize(){
+	
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 
 				try {
-		
+					try {
+						TimeUnit.SECONDS.sleep(1);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					for(int i=0;i<userResult.size();i++)
 					{
-						String[] tmp=new String[5];
+						String[] tmp=new String[6];
 						tmp = userResult.get(i).split("\\^");
-						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4]));
+						String isBlocked="NO";
+						if(Integer.parseInt(tmp[5])==1)
+							isBlocked="YES";
+						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4], isBlocked));
 					}
 					
 										
@@ -110,6 +121,11 @@ public class SearchUserResultsController implements ScreensIF{
 					
 					accountStatusCol.setCellValueFactory(
 			                new PropertyValueFactory<SearchUserResult, String>("accountStatus"));
+					
+					isBlockedCol.setCellValueFactory(
+			                new PropertyValueFactory<SearchUserResult, String>("isBlocked"));
+					
+					
 					
 					userPageCol.setCellValueFactory(new Callback<CellDataFeatures<SearchUserResult, SearchUserResult>, ObservableValue<SearchUserResult>>() {
 				          @Override public ObservableValue<SearchUserResult> call(CellDataFeatures<SearchUserResult, SearchUserResult> features) {
@@ -147,7 +163,7 @@ public class SearchUserResultsController implements ScreensIF{
 				                    		   
 				                        	if (managerMain == null)
 				                        		managerMain = new HomepageManagerController();
-				                        	managerMain.setPage(ScreensInfo.USER_PAGE_LIBRARIAN_SCREEN); //need to change to USER_PAGE_MANGER_SCREEN
+				                        	managerMain.setPage(ScreensInfo.USER_PAGE_MANAGER_SCREEN); //need to change to USER_PAGE_MANGER_SCREEN
 				                    	}
 
 				                		
@@ -180,6 +196,7 @@ public class SearchUserResultsController implements ScreensIF{
 					lNameCol.setStyle( "-fx-alignment: CENTER;");
 					accountTypeCol.setStyle( "-fx-alignment: CENTER;");
 					accountStatusCol.setStyle( "-fx-alignment: CENTER;");
+					isBlockedCol.setStyle( "-fx-alignment: CENTER;");
 					
 					resultsTable.setItems(data);
 					resultsTable.getSortOrder().add(fNameCol);

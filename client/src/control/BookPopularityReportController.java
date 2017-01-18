@@ -227,8 +227,7 @@ public class BookPopularityReportController implements Initializable {
 			public void run() {
 
 				try {
-					arrangelist();
-					mergeDuplicatesAuthors();
+					
 
 					// displaysettings();
 
@@ -245,7 +244,6 @@ public class BookPopularityReportController implements Initializable {
 		boolean dup[] = new boolean[specificList.size()];
 		for (int i = 0; i < dup.length; i++)
 			dup[i] = false;
-		ArrayList<Purchase> temp = new ArrayList<Purchase>();
 		for (int i = 0; i < specificList.size(); i++) {
 			for (int j = i + 1; j < specificList.size(); j++) {
 				if (specificList.get(i).getId().equals(specificList.get(j).getId())
@@ -281,7 +279,13 @@ public class BookPopularityReportController implements Initializable {
 	 */
 	@FXML
 	private void displaySettings(ActionEvent event) {
-		System.out.println("ssa{");
+		if(list!=null)
+			list.clear();
+		removeAllRows();
+		arrangelist();
+		mergeDuplicatesAuthors();
+		for(int i=0;i<list.size();i++)
+			System.out.println(list.get(i).getTitle()+" "+list.get(i).getDomain());
 		ObservableList<String> selectedDomains = domains.getSelectionModel().getSelectedItems();
 		System.out.println(selectedDomains.get(0));
 		removeAllRows();
@@ -306,7 +310,7 @@ public class BookPopularityReportController implements Initializable {
 	 * Calling displaybooks() declaring that we will display all of the books
 	 */
 	private void displayallbooks() {
-		specificList = list;
+		specificList=new ArrayList<Popularity>(list);
 		displaybooks();
 	}
 
@@ -319,7 +323,7 @@ public class BookPopularityReportController implements Initializable {
 		ArrayList<String> dom = new ArrayList<String>(selectedDomains);
 		System.out.println(list.size());
 		for (int i = 0; i < list.size(); i++) {
-			if (dom.get(0).equals((list.get(i).domain))) {
+			if (selectedDomains.contains(list.get(i).domain)) {
 				specificList.add(list.get(i));
 			}
 		}
@@ -346,6 +350,7 @@ public class BookPopularityReportController implements Initializable {
 		purchaseColumn.setCellValueFactory(new PropertyValueFactory<Popularity, String>("purchase"));
 		ObservableList<Popularity> items = FXCollections.observableArrayList(specificList);
 		table.setItems(items);
+		specificList.clear();
 	}
 
 	private void setPrice() {
@@ -420,7 +425,7 @@ public class BookPopularityReportController implements Initializable {
 			this.title = new String(split[1]);
 			this.author = new String(split[2]);
 			this.language = new String(split[3]);
-			// this.purchase = new String(split[4]);
+			this.purchase = "";
 			this.domain = split[4];
 		}
 

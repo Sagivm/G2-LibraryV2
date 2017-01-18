@@ -61,229 +61,301 @@ import javafx.util.Callback;
  * @author Idan
  */
 public class BookManagementController {
-	
-	// Books Tab - main pane
-	@FXML
-    private TableView<PropertyBook> BooksTableView;
-	
-	@FXML
-    private TableColumn BookSn;
-    
-	@FXML
-    private TableColumn BookTitle;
-	
-	@FXML
-    private TableColumn BookAuthors;
-	
-	@FXML
-    private TableColumn BookKeywords;
-	
-	@FXML
-    private TableColumn BookHide;
-	
-	@FXML
-    private Label InfoTitle;
-	
-	@FXML
-    private Label InfoAuthors;
-	
-	@FXML
-    private Label InfoKeywords;
-	
-	@FXML
-    private TextArea BookSummary;
-	
-	@FXML
-    private Label TitleLabel;
-	
-	@FXML
-    private Label AuthorsLabel;
-	
-	@FXML
-    private Label KeywordsLabel;
-	
-	@FXML
-    private Label SummaryLabel;
-	
-	@FXML
-    private Button delBtn;
-	
-	@FXML
-    private Button editBtn;
-	
-	@FXML
-    private Button hideBtn;
-	
-	@FXML
-    private ImageView imageView;
-	
-	@FXML
-    private TextField filterField;
-	
-	@FXML
-    private AnchorPane mainPane;
-	
-	@FXML
-    private Button addBookBtn;
-	
-	@FXML
-    private AnchorPane addBookPane;
-	// end mainpane
-	
-	// books tab - addbookpane
-	@FXML
-    private Button choosePicBtn;
-	
-	@FXML
-    private ImageView picBook;
-	
-	@FXML
-    private Button submitAddBook;
-	
-	@FXML
-    private Button backAddBook;
-	
-	@FXML
-    private Button clearAddBook;
-	
-	@FXML
-    private TextField addBookTitle;
-	
-	@FXML
-    private ListView<String> addBookAuthorsList;
-	
-	@FXML
-    private TextArea addBookKeywordsText;
-	
-	@FXML
-    private ListView<String> addBookLanguageList;
-	
-	@FXML
-    private ListView<String> addBookSubjectsList;
-	
-	@FXML
-    private TextArea addBookTableOfContent;
-	
-	@FXML
-    private TextArea addBookSummary;
-	
-	
 
-	public static ArrayList<String> BooksList;
-	public static ArrayList<Author> authorList;
-	public static ArrayList<String> subjectList;
-    
-	private ObservableList<PropertyBook> data = FXCollections.observableArrayList();;
-	private ObservableList<PropertyBook> filteredData = FXCollections.observableArrayList();
-	
-	@FXML
-	private void initialize(){
-		addBookPane.setVisible(false);
-        BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
-        TitleLabel.setVisible(false);
-        AuthorsLabel.setVisible(false);
-        KeywordsLabel.setVisible(false);
-        SummaryLabel.setVisible(false);
-        BookSummary.setVisible(false);
-        delBtn.setVisible(false);
-        editBtn.setVisible(false);
-        hideBtn.setVisible(false);
-		Message message = prepareGetBooksList(ActionType.GET_BOOK_LIST);
-		try {
-			ClientController.clientConnectionController.sendToServer(message);
-		} catch (IOException e) {	
-			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-		}
-		
+ // Books Tab - main pane
+ @FXML
+ private TableView < PropertyBook > BooksTableView;
 
-		Service<Void> service = new Service<Void>() {
-	        @Override
-	        protected Task<Void> createTask() {
-	            return new Task<Void>() {           
-	                @Override
-	                protected Void call() throws Exception {
-	                    //Background work                       
-	                    final CountDownLatch latch = new CountDownLatch(1);
-	                    Platform.runLater(new Runnable() {                          
-	                        @Override
-	                        public void run() {
-							
-					String authors="";		
-							
-							
-						
-							
-					for(int i=0;i<BooksList.size();i+=8){
-		if(i+8<BooksList.size() && BooksList.get(i).equals(BooksList.get(i+8)))
-		{
-			authors=authors+BooksList.get(i+5)+",";
-		}
-		else{
-			if(authors.equals("")){
-				String hide;
-				if(BooksList.get(i+3).equals("000")) hide="no";
-				else hide="yes";
-				data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-				filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-			}
-			else{
-				String hide;
-				if(BooksList.get(i+3).equals("000")) hide="no";
-				else hide="yes";
-				data.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-				filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i+1), BooksList.get(i+2), hide, BooksList.get(i+4), authors+BooksList.get(i+5), BooksList.get(i+6), BooksList.get(i+7)));
-			}
-			authors = "";
-		}
-	}
-		
-	
-BooksTableView.setEditable(true);
+ @FXML
+ private TableColumn BookSn;
 
+ @FXML
+ private TableColumn BookTitle;
 
-BookSn.setCellValueFactory(
-    new PropertyValueFactory<pendingUser, String>("bookSn"));
+ @FXML
+ private TableColumn BookAuthors;
 
-BookTitle.setCellValueFactory(
-    new PropertyValueFactory<pendingUser, String>("bookTitle"));
+ @FXML
+ private TableColumn BookKeywords;
 
-BookKeywords.setCellValueFactory(
-    new PropertyValueFactory<pendingUser, String>("bookKeywords"));
+ @FXML
+ private TableColumn BookHide;
 
-BookHide.setCellValueFactory(
-    new PropertyValueFactory<pendingUser, String>("bookHide"));
+ @FXML
+ private Label InfoTitle;
 
-BookAuthors.setCellValueFactory(
-    new PropertyValueFactory<pendingUser, String>("authorName"));
+ @FXML
+ private Label InfoAuthors;
+
+ @FXML
+ private Label InfoKeywords;
+
+ @FXML
+ private TextArea BookSummary;
+
+ @FXML
+ private Label TitleLabel;
+
+ @FXML
+ private Label AuthorsLabel;
+
+ @FXML
+ private Label KeywordsLabel;
+
+ @FXML
+ private Label SummaryLabel;
+ 
+ @FXML
+ private Label infoPrice;
+ 
+ @FXML
+ private Label PriceLabel;
+
+ @FXML
+ private Button delBtn;
+
+ @FXML
+ private Button editBtn;
+
+ @FXML
+ private Button hideBtn;
+
+ @FXML
+ private ImageView imageView;
+
+ @FXML
+ private TextField filterField;
+
+ @FXML
+ private AnchorPane mainPane;
+
+ @FXML
+ private Button addBookBtn;
+
+ @FXML
+ private AnchorPane addBookPane;
+ 
+ @FXML
+ private AnchorPane editBookPane;
+ // end mainpane
+
+ // books tab - addbookpane
+ @FXML
+ private Button choosePicBtn;
+
+ @FXML
+ private ImageView picBook;
+
+ @FXML
+ private Button submitAddBook;
+
+ @FXML
+ private Button backAddBook;
+
+ @FXML
+ private Button clearAddBook;
+
+ @FXML
+ private TextField addBookTitle;
+
+ @FXML
+ private ListView < String > addBookAuthorsList;
+
+ @FXML
+ private TextArea addBookKeywordsText;
+
+ @FXML
+ private ListView < String > addBookLanguageList;
+
+ @FXML
+ private ListView < String > addBookSubjectsList;
+
+ @FXML
+ private TextArea addBookTableOfContent;
+
+ @FXML
+ private TextArea addBookSummary;
+ 
+ @FXML
+ private TextField priceTextField;
+ 
+ 
+//books tab - editbookpane
+@FXML
+private Button editBookChoosePicBtn;
+
+@FXML
+private ImageView editBookpicBook;
+
+@FXML
+private Button submitEditBook;
+
+@FXML
+private Button backEditBook;
+
+@FXML
+private TextField editBookTitle;
+
+@FXML
+private ListView < String > editBookAuthorsList;
+
+@FXML
+private TextArea editBookKeywordsText;
+
+@FXML
+private ListView < String > editBookLanguageList;
+
+@FXML
+private ListView < String > editBookSubjectsList;
+
+@FXML
+private TextArea editBookTableOfContent;
+
+@FXML
+private TextArea editBookSummary;
+
+@FXML
+private TextField editBookPriceTextField;
 
 
 
-BookSn.setStyle( "-fx-alignment: CENTER;");
-BookTitle.setStyle( "-fx-alignment: CENTER;");
-BookKeywords.setStyle( "-fx-alignment: CENTER;");
-BookHide.setStyle( "-fx-alignment: CENTER;");
-BookAuthors.setStyle( "-fx-alignment: CENTER;");
+ public static ArrayList < String > BooksList;
+ public static ArrayList < Author > authorList;
+ public static ArrayList < String > subjectList;
+ public ArrayList < String > authorsId = null;
+ public ArrayList < String > SubjectsList = null;
+ public String picStr="noPicture";
+
+ private ObservableList < PropertyBook > data = FXCollections.observableArrayList();;
+ private ObservableList < PropertyBook > filteredData = FXCollections.observableArrayList();
+
+ @FXML
+ private void initialize() {
+  addBookPane.setVisible(false);
+  editBookPane.setVisible(false);
+  BookSummary.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ; -fx-background-insets: 0;-fx-background-color: transparent, white, transparent, white;");
+  TitleLabel.setVisible(false);
+  AuthorsLabel.setVisible(false);
+  KeywordsLabel.setVisible(false);
+  SummaryLabel.setVisible(false);
+  PriceLabel.setVisible(false);
+  BookSummary.setVisible(false);
+  delBtn.setVisible(false);
+  editBtn.setVisible(false);
+  hideBtn.setVisible(false);
+  
+  
+  Message message = prepareGetBooksList(ActionType.GET_BOOK_LIST);
+  try {
+   ClientController.clientConnectionController.sendToServer(message);
+  } catch (IOException e) {
+   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  }
+  Platform.runLater(() -> {
+   String authors = "";
+   for (int i = 0; i < BooksList.size(); i += 9) {
+    if (i + 9 < BooksList.size() && BooksList.get(i).equals(BooksList.get(i + 9))) {
+     authors = authors + BooksList.get(i + 5) + ",";
+    } else {
+     if (authors.equals("")) {
+      String hide;
+      if (BooksList.get(i + 3).equals("0")) hide = "no";
+      else hide = "yes";
+      data.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+      filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+     } else {
+      String hide;
+      if (BooksList.get(i + 3).equals("0")) hide = "no";
+      else hide = "yes";
+      data.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), authors + BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+      filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), authors + BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+     }
+     authors = "";
+    }
+   }
+  });
+  
+
+  Message message2 = prepareGetAuthors(ActionType.GET_AUTHORS);
+  try {
+   ClientController.clientConnectionController.sendToServer(message2);
+  } catch (Exception e1) {
+   e1.printStackTrace();
+  }
+  Platform.runLater(() -> {
+   ArrayList < String > names = new ArrayList < String > ();
+   addBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+   //System.out.println(statush.get(1).getFirstname());
+   for (int i = 0; i < authorList.size(); i++) {
+    names.add(i, "(" + authorList.get(i).getId() + ")" + "\t" + authorList.get(i).getFirstname() + " " + authorList.get(i).getLastname());
+   }
+   //System.out.println(names.get(0));
+   ObservableList < String > authors = FXCollections.observableArrayList(names);
+   addBookAuthorsList.setItems(authors);
+
+  });
+
+
+
+  Message message3 = prepareGetSubjects(ActionType.GET_SUBJECTS);
+  try {
+   ClientController.clientConnectionController.sendToServer(message3);
+  } catch (Exception e1) {
+   e1.printStackTrace();
+  }
+  Platform.runLater(() -> {
+   addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+   ObservableList < String > subjects = FXCollections.observableArrayList(subjectList);
+   addBookSubjectsList.setItems(subjects);
+
+  });
+
+  BooksTableView.setEditable(true);
+
+  BookSn.setCellValueFactory(
+   new PropertyValueFactory < pendingUser, String > ("bookSn"));
+
+  BookTitle.setCellValueFactory(
+   new PropertyValueFactory < pendingUser, String > ("bookTitle"));
+
+  BookKeywords.setCellValueFactory(
+   new PropertyValueFactory < pendingUser, String > ("bookKeywords"));
+
+  BookHide.setCellValueFactory(
+   new PropertyValueFactory < pendingUser, String > ("bookHide"));
+
+  BookAuthors.setCellValueFactory(
+   new PropertyValueFactory < pendingUser, String > ("authorName"));
+
+
+
+  BookSn.setStyle("-fx-alignment: CENTER;");
+  BookTitle.setStyle("-fx-alignment: CENTER;");
+  BookKeywords.setStyle("-fx-alignment: CENTER;");
+  BookHide.setStyle("-fx-alignment: CENTER;");
+  BookAuthors.setStyle("-fx-alignment: CENTER;");
 
 
 
 
-BooksTableView.setItems(filteredData);
+  BooksTableView.setItems(filteredData);
 
-BooksTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-if (newSelection != null) {
-	TitleLabel.setVisible(true);
+  BooksTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+   if (newSelection != null) {
+    TitleLabel.setVisible(true);
     AuthorsLabel.setVisible(true);
     KeywordsLabel.setVisible(true);
     SummaryLabel.setVisible(true);
+    PriceLabel.setVisible(true);
     BookSummary.setVisible(true);
     delBtn.setVisible(true);
     editBtn.setVisible(true);
     hideBtn.setVisible(true);
-    
-    if(newSelection.getBookHide().equals("yes"))
-    	hideBtn.setText("Unhide Book");
+
+    if (newSelection.getBookHide().equals("yes"))
+     hideBtn.setText("Unhide Book");
     else
-    	hideBtn.setText("Hide Book");
+     hideBtn.setText("Hide Book");
     
     InfoTitle.setText(newSelection.getBookTitle());
     InfoAuthors.setText(newSelection.getAuthorName());
@@ -295,493 +367,513 @@ if (newSelection != null) {
     BookSummary.setWrapText(true);
     BookSummary.setText(newSelection.getBookSummary());
     BookSummary.setEditable(false);
-    
+    infoPrice.setText(newSelection.getBookPrice());
+
     //show picture
-    String data = newSelection.getBookImage();
-    String base64EncodedImage = data.split(",")[1];
+    if(newSelection.getBookImage()!=null){
+    String base64EncodedImage = newSelection.getBookImage();
     byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
     BufferedImage imgbuf;
-	try {
-		imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
-		Image image = SwingFXUtils.toFXImage(imgbuf, null);
-		imageView.setImage(image);
-	} catch (Exception e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
+    try {
+     imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+     Image image = SwingFXUtils.toFXImage(imgbuf, null);
+     imageView.setImage(image);
+    } catch (Exception e1) {
+     // TODO Auto-generated catch block
+     e1.printStackTrace();
+    }
+  }
+    else imageView.setImage(null);
     //end show picture
 
-}
-});
+   }
+  });
+  
+  editBtn.setOnAction(e -> {
+	  
+	  });
 
 
-delBtn.setOnAction(e -> {
-PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
-//BooksTableView.getItems().remove(selectedItem);
-//Message message = prepareDeleteBook(ActionType.DELETE_BOOK ,selectedItem.getBookSn());
-/*try {
-	ClientController.clientConnectionController.sendToServer(message);
-} catch (IOException e1) {	
-	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-}
-Platform.runLater(new Runnable() {
-	@Override
-	public void run() {
-			data.remove(selectedItem);
-	}
-});*/
-//delete book
-});
+  delBtn.setOnAction(e -> {
+   PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
+   //BooksTableView.getItems().remove(selectedItem);
+   //Message message = prepareDeleteBook(ActionType.DELETE_BOOK ,selectedItem.getBookSn());
+   /*try {
+   	ClientController.clientConnectionController.sendToServer(message);
+   } catch (IOException e1) {	
+   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+   }
+   Platform.runLater(new Runnable() {
+   	@Override
+   	public void run() {
+   			data.remove(selectedItem);
+   	}
+   });*/
+   //delete book
+  });
 
-hideBtn.setOnAction(e -> {
-PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
-if(selectedItem.getBookHide().equals("yes")){
-	
-	Message message = prepareHideBook(ActionType.HIDE_BOOK , selectedItem.getBookSn(), "000");
-	try {
-		ClientController.clientConnectionController.sendToServer(message);
-	} catch (IOException e1) {	
-		actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-	}
-	Platform.runLater(new Runnable() {
-		@Override
-		public void run() {
-				selectedItem.setBookHide("no");
-				hideBtn.setText("Hide Book");
-		}
-	});
-}
-else{
-	Message message = prepareHideBook(ActionType.HIDE_BOOK , selectedItem.getBookSn(), "001");
-	try {
-		ClientController.clientConnectionController.sendToServer(message);
-	} catch (IOException e1) {	
-		actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-	}
-	Platform.runLater(new Runnable() {
-	@Override
-	public void run() {
-				selectedItem.setBookHide("yes");
-				hideBtn.setText("Unhide Book");
-		}
-	});
-}
-BookHide.setVisible(false);
-BookHide.setVisible(true);
-});
+  hideBtn.setOnAction(e -> {
+   PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
+   if (selectedItem.getBookHide().equals("yes")) {
 
-
-
-filterField.textProperty().addListener(new ChangeListener<String>() {
-    @Override
-    public void changed(ObservableValue<? extends String> observable,
-            String oldValue, String newValue) {
-
-        updateFilteredData();
+    Message message4 = prepareHideBook(ActionType.HIDE_BOOK, selectedItem.getBookSn(), "0");
+    try {
+     ClientController.clientConnectionController.sendToServer(message4);
+    } catch (IOException e1) {
+     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
     }
-});	
-
-
-addBookBtn.setOnAction(e -> {
- 	mainPane.setVisible(false);
- 	addBookPane.setVisible(true);	
-
- 	Service<Void> service = new Service<Void>() {
-        @Override
-        protected Task<Void> createTask() {
-            return new Task<Void>() {           
-                @Override
-                protected Void call() throws Exception {
-                    //Background work                       
-                    final CountDownLatch latch = new CountDownLatch(1);
-                    Platform.runLater(new Runnable() {                          
-                        @Override
-                        public void run() {
-						ObservableList<String> languages =FXCollections.observableArrayList (
-						"English", "Hebrew", "Russian", "Arabic");
-						addBookLanguageList.setItems(languages);
-						}
-                        });
-                     latch.await();                      
-                     //Keep with the background work
-                     return null;
-                   }
-                };
-            }
-        };
-        service.start();
-		
-
- 	
-		
-	 	Message message = prepareGetAuthors(ActionType.GET_AUTHORS);
-	 	try {
-	 		ClientController.clientConnectionController.sendToServer(message);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	 	Service<Void> service1 = new Service<Void>() {
-	        @Override
-	        protected Task<Void> createTask() {
-	            return new Task<Void>() {           
-	                @Override
-	                protected Void call() throws Exception {
-	                    //Background work                       
-	                    final CountDownLatch latch = new CountDownLatch(1);
-	                    Platform.runLater(new Runnable() {                          
-	                        @Override
-	                        public void run() {
-	                        		ArrayList<String> names=new ArrayList<String>();
-	                        		addBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-	                        		//System.out.println(statush.get(1).getFirstname());
-	                        		for(int i=0 ; i< authorList.size();i++)
-	                        		{
-	                        			names.add(i, "("+authorList.get(i).getId()+")"+"\t"+authorList.get(i).getFirstname()+" "+authorList.get(i).getLastname());
-	                        		}
-	                        		//System.out.println(names.get(0));
-	                        		ObservableList<String> authors = FXCollections.observableArrayList(names);
-	                        		addBookAuthorsList.setItems(authors);		
-	                        }
-	                        });
-	                     latch.await();                      
-	                     //Keep with the background work
-	                     return null;
-	                   }
-	                };
-	            }
-	        };
-	        service1.start();
-		
-		
-	 	Message message2 = prepareGetSubjects(ActionType.GET_SUBJECTS);
-	 	try {
-	 		ClientController.clientConnectionController.sendToServer(message2);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	 	Service<Void> service2 = new Service<Void>() {
-	        @Override
-	        protected Task<Void> createTask() {
-	            return new Task<Void>() {           
-	                @Override
-	                protected Void call() throws Exception {
-	                    //Background work                       
-	                    final CountDownLatch latch = new CountDownLatch(1);
-	                    Platform.runLater(new Runnable() {                          
-	                        @Override
-	                        public void run() {				
-	                        addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-							ObservableList<String> subjects = FXCollections.observableArrayList(subjectList);
-							addBookSubjectsList.setItems(subjects);	
-							}
-	                        });
-	                     latch.await();                      
-	                     //Keep with the background work
-	                     return null;
-	                   }
-	                };
-	            }
-	        };
-	        service2.start();
-		
-	        
-
-});//endbtn
+    Platform.runLater(() -> {
+     selectedItem.setBookHide("no");
+     hideBtn.setText("Hide Book");
+    });
+   } else {
+    Message message5 = prepareHideBook(ActionType.HIDE_BOOK, selectedItem.getBookSn(), "1");
+    try {
+     ClientController.clientConnectionController.sendToServer(message5);
+    } catch (IOException e1) {
+     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+    }
+    Platform.runLater(() -> {
+     selectedItem.setBookHide("yes");
+     hideBtn.setText("Unhide Book");
+    });
+   }
+   BookHide.setVisible(false);
+   BookHide.setVisible(true);
+  });
 
 
 
-//---------------------------------book add pane---------------------
+  filterField.textProperty().addListener(new ChangeListener < String > () {
+   @Override
+   public void changed(ObservableValue < ? extends String > observable,
+    String oldValue, String newValue) {
 
-final FileChooser fileChooser = new FileChooser();
+    updateFilteredData();
+   }
+  });
 
-choosePicBtn.setOnAction(e -> {
- configureFileChooser(fileChooser);
- File file = fileChooser.showOpenDialog(ScreenController.getStage());
- if (file != null) {
-     //System.out.println(file.getAbsolutePath());
-     ByteArrayOutputStream output = new ByteArrayOutputStream();
-     BufferedImage image;
-     byte[] imageInBytes;
-	try {
-		image = ImageIO.read(file);
-		//System.out.println(file.getAbsolutePath().substring(file.getAbsolutePath().indexOf(".")+1));
-		ImageIO.write(image, "png", output);
-        String base64EncodedImage = DatatypeConverter.printBase64Binary(output.toByteArray());
-        imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
-	        System.out.println(base64EncodedImage);
-        BufferedImage imgbuf;
-			imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
-			Image image1 = SwingFXUtils.toFXImage(imgbuf, null);
-			picBook.setImage(image1);
-	} catch (Exception e2) {
-		actionOnError(ActionType.CONTINUE, "Your Picture format not supported!");
-		imageInBytes=null;
+
+
+
+   addBookBtn.setOnAction(e -> {
+   mainPane.setVisible(false);
+   addBookPane.setVisible(true);
+   editBookPane.setVisible(false);
+    ObservableList < String > languages = FXCollections.observableArrayList(
+     "English", "Hebrew", "Russian", "Arabic");
+   addBookLanguageList.setItems(languages);
+
+
+
+
+
+
+  }); //endbtn
+
+
+
+
+
+
+
+  //---------------------------------book add pane---------------------
+
+  final FileChooser fileChooser = new FileChooser();
+
+  choosePicBtn.setOnAction(e -> {
+   configureFileChooser(fileChooser);
+   File file = fileChooser.showOpenDialog(ScreenController.getStage());
+   if (file != null) {
+    //System.out.println(file.getAbsolutePath());
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    BufferedImage image;
+    byte[] imageInBytes;
+    try {
+     image = ImageIO.read(file);
+     //System.out.println(file.getAbsolutePath().substring(file.getAbsolutePath().indexOf(".")+1));
+     ImageIO.write(image, "png", output);
+     String base64EncodedImage = DatatypeConverter.printBase64Binary(output.toByteArray());
+     imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+     picStr = base64EncodedImage;
+     System.out.println(base64EncodedImage);
+     BufferedImage imgbuf;
+     imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+     Image image1 = SwingFXUtils.toFXImage(imgbuf, null);
+     picBook.setImage(image1);
+    } catch (Exception e2) {
+     actionOnError(ActionType.CONTINUE, "Your Picture format not suppoerted!");
+     imageInBytes = null;
+    }
+
+   }
+  });
+
+
+  backAddBook.setOnAction(e -> {
+   addBookTitle.setText("");
+   addBookAuthorsList.getSelectionModel().clearSelection();
+   addBookKeywordsText.setText("");
+   addBookLanguageList.getSelectionModel().clearSelection();
+   addBookSubjectsList.getSelectionModel().clearSelection();
+   addBookTableOfContent.setText("");
+   addBookSummary.setText("");
+   priceTextField.setText("");
+   picStr="noPicture";
+   picBook.setImage(null);
+   addBookPane.setVisible(false);
+   editBookPane.setVisible(false);
+   mainPane.setVisible(true);
+  });
+
+  clearAddBook.setOnAction(e -> {
+   addBookTitle.setText("");
+   addBookAuthorsList.getSelectionModel().clearSelection();
+   addBookKeywordsText.setText("");
+   addBookLanguageList.getSelectionModel().clearSelection();
+   addBookSubjectsList.getSelectionModel().clearSelection();
+   addBookTableOfContent.setText("");
+   addBookSummary.setText("");
+   priceTextField.setText("");
+   picBook.setImage(null);
+   picStr="noPicture";
+  });
+
+  submitAddBook.setOnAction(e -> {
+   String TitleBook = null;
+   TitleBook = addBookTitle.getText();
+
+   ObservableList < String > Authors = addBookAuthorsList.getSelectionModel().getSelectedItems();
+   String authorsId = "";
+   for (int i = 0; i < Authors.size(); i++)
+    authorsId = Authors.get(i).substring(Authors.get(i).indexOf("(") + 1, Authors.get(i).indexOf(")")) + "^";
+
+   String keywords = null;
+   keywords = addBookKeywordsText.getText();
+
+   String language = null;
+   language = addBookLanguageList.getSelectionModel().getSelectedItem();
+
+   ObservableList < String > Subjects = addBookSubjectsList.getSelectionModel().getSelectedItems();
+   String SubjectsList = "";
+   for (int i = 0; i < Subjects.size(); i++)
+    SubjectsList += Subjects.get(i).substring(Subjects.get(i).indexOf("(") + 1, Subjects.get(i).indexOf(")")) + "^";
+
+   String tableOfContent = null;
+   tableOfContent = addBookTableOfContent.getText();
+
+   String summary = null;
+   summary = addBookSummary.getText();
+   
+   String price = null;
+   price = priceTextField.getText();
+
+   String picture=picStr;
+   
+   if(price.matches("[-+]?[0-9]*\\.?[0-9]+")==false)
+	   actionOnError(ActionType.CONTINUE, "The price must be number!");
+
+   else if (language == null || authorsId.length() == 0 || SubjectsList.length() == 0 || TitleBook == null || keywords == null || tableOfContent == null || summary == null)
+    actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
+
+   else {
+    Message message6 = prepareAddBook(ActionType.ADD_BOOK, TitleBook, authorsId, keywords, language, SubjectsList, tableOfContent, summary, picture, price);
+    try {
+     ClientController.clientConnectionController.sendToServer(message6);
+    } catch (Exception e1) {
+     e1.printStackTrace();
+    }
+    Platform.runLater(() -> {
+    actionOnError(ActionType.CONTINUE, "The book added successfully!");
+    addBookTitle.setText("");
+    addBookAuthorsList.getSelectionModel().clearSelection();
+    addBookKeywordsText.setText("");
+    addBookLanguageList.getSelectionModel().clearSelection();
+    addBookSubjectsList.getSelectionModel().clearSelection();
+    addBookTableOfContent.setText("");
+    addBookSummary.setText("");
+    picBook.setImage(null);
+    picStr="noPicture";
+    
+    
+    Message message7 = prepareGetBooksList(ActionType.GET_BOOK_LIST);
+    try {
+     ClientController.clientConnectionController.sendToServer(message7);
+    } catch (IOException e2) {
+     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+    }
+    Platform.runLater(() -> {
+     String authors = "";
+     for (int i = 0; i < BooksList.size(); i += 9) {
+      if (i + 9 < BooksList.size() && BooksList.get(i).equals(BooksList.get(i + 9))) {
+       authors = authors + BooksList.get(i + 5) + ",";
+      } else {
+       if (authors.equals("")) {
+        String hide;
+        if (BooksList.get(i + 3).equals("0")) hide = "no";
+        else hide = "yes";
+        data.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+        filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+       } else {
+        String hide;
+        if (BooksList.get(i + 3).equals("0")) hide = "no";
+        else hide = "yes";
+        data.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), authors + BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+        filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), authors + BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+       }
+       authors = "";
+      }
+     }
+    });
+    try {
+		Thread.sleep(1000);
+	} catch (Exception e1) {
+		e1.printStackTrace();
 	}
+    
+    addBookPane.setVisible(false);
+    editBookPane.setVisible(false);
+    mainPane.setVisible(true);
+    });
+   }
+  }); //end submit button
+
+
 
  }
-});
 
-
-backAddBook.setOnAction(e -> {
- 	addBookTitle.setText("");
- 	addBookAuthorsList.getSelectionModel().clearSelection();
- 	addBookKeywordsText.setText("");
- 	addBookLanguageList.getSelectionModel().clearSelection();
- 	addBookSubjectsList.getSelectionModel().clearSelection();
- 	addBookTableOfContent.setText("");
- 	addBookSummary.setText("");
- 	picBook.setImage(null);
- 	addBookPane.setVisible(false);	
- 	mainPane.setVisible(true);
-});
-
-clearAddBook.setOnAction(e -> {
- addBookTitle.setText("");
- addBookAuthorsList.getSelectionModel().clearSelection();
- addBookKeywordsText.setText("");
- addBookLanguageList.getSelectionModel().clearSelection();
- addBookSubjectsList.getSelectionModel().clearSelection();
- addBookTableOfContent.setText("");
- addBookSummary.setText("");
- picBook.setImage(null);
-});
-
-submitAddBook.setOnAction(e -> {
- System.out.println("ssss");
-});
+ private static void configureFileChooser(final FileChooser fileChooser) {
+  fileChooser.setTitle("View Pictures");
+  fileChooser.setInitialDirectory(
+   new File(System.getProperty("user.home"))
+  );
+ }
 
 
 
+ private void updateFilteredData() {
+  filteredData.clear();
 
-		
-							
-							
-							
-							}
-	                        });
-	                     latch.await();                      
-	                     //Keep with the background work
-	                     return null;
-	                   }
-	                };
-	            }
-	        };
-	        service.start();
-	
-	}
-	
-    private static void configureFileChooser(final FileChooser fileChooser){                           
-    fileChooser.setTitle("View Pictures");
-    fileChooser.setInitialDirectory(
-        new File(System.getProperty("user.home"))
-    ); 
-}
-    
-	
-	
-    private void updateFilteredData() {
-        filteredData.clear();
+  for (PropertyBook b: data) {
+   if (matchesFilter(b)) {
+    filteredData.add(b);
+   }
+  }
 
-        for (PropertyBook b : data) {
-            if (matchesFilter(b)) {
-                filteredData.add(b);
-            }
-        }
+  // Must re-sort table after items changed
+  reapplyTableSortOrder();
+ }
 
-        // Must re-sort table after items changed
-        reapplyTableSortOrder();
-    }
-    
-    private boolean matchesFilter(PropertyBook book) {
-        String filterString = filterField.getText();
-        if (filterString == null || filterString.isEmpty()) {
-            // No filter --> Add all.
-            return true;
-        }
+ private boolean matchesFilter(PropertyBook book) {
+  String filterString = filterField.getText();
+  if (filterString == null || filterString.isEmpty()) {
+   // No filter --> Add all.
+   return true;
+  }
 
-        String lowerCaseFilterString = filterString.toLowerCase();
+  String lowerCaseFilterString = filterString.toLowerCase();
 
-        if (book.getBookSn().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-            return true;
-        }
-        if (book.getBookTitle().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-            return true;
-        }
-        if (book.getAuthorName().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-            return true;
-        }
-        if (book.getBookKeywords().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-            return true;
-        }
+  if (book.getBookSn().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+   return true;
+  }
+  if (book.getBookTitle().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+   return true;
+  }
+  if (book.getAuthorName().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+   return true;
+  }
+  if (book.getBookKeywords().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+   return true;
+  }
 
-        return false; // Does not match
-    }
+  return false; // Does not match
+ }
 
-    private void reapplyTableSortOrder() {
-        ArrayList<TableColumn<PropertyBook, ?>> sortOrder = new ArrayList<>(BooksTableView.getSortOrder());
-        BooksTableView.getSortOrder().clear();
-        BooksTableView.getSortOrder().addAll(sortOrder);
-    }
-	
-	public Message prepareGetBooksList(ActionType type)
-	{
-		Message message = new Message();
-		message.setType(type);
-		return message;
-	}
-	
-	public Message prepareGetAuthors(ActionType type)
-	{
-		Message message = new Message();
-		message.setType(type);
-		return message;
-	}
-	
-	public Message prepareGetSubjects(ActionType type)
-	{
-		Message message = new Message();
-		message.setType(type);
-		return message;
-	}
-	
-	
-	public Message prepareUpdatePropertyBooks(ActionType type,String username)
-	{
-		Message message = new Message();
-		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(username);
-		message.setType(type);
-		message.setElementsList(elementsList);
-		return message;
-	}
-	
-	public Message prepareDeleteBook(ActionType type,String sn)
-	{
-		Message message = new Message();
-		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(sn);
-		message.setType(type);
-		message.setElementsList(elementsList);
-		return message;
-	}
-	
-	public Message prepareHideBook(ActionType type, String sn, String hide)
-	{
-		Message message = new Message();
-		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(sn);
-		elementsList.add(hide);
-		message.setType(type);
-		message.setElementsList(elementsList);
-		return message;
-	}
-	
-	public void actionOnError(ActionType type, String errorCode) {
-		
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Error");
-		alert.setHeaderText(null);
-		alert.setContentText(errorCode);
-		alert.showAndWait();
-		if (type == ActionType.TERMINATE)
-		{
-			Platform.exit();
-			System.exit(1);
-		}
-		if (type == ActionType.CONTINUE)
-			return;
-	}
-	
-	
-	public static class PropertyBook {
+ private void reapplyTableSortOrder() {
+  ArrayList < TableColumn < PropertyBook, ? >> sortOrder = new ArrayList < > (BooksTableView.getSortOrder());
+  BooksTableView.getSortOrder().clear();
+  BooksTableView.getSortOrder().addAll(sortOrder);
+ }
 
-	    private final SimpleStringProperty bookSn;
-	    private final SimpleStringProperty bookTitle;
-	    private final SimpleStringProperty bookKeywords;
-	    private final SimpleStringProperty bookHide;
-	    private final SimpleStringProperty authorId;
-	    private final SimpleStringProperty authorName;
-	    private final SimpleStringProperty bookSummary;
-	    private final SimpleStringProperty bookImage;
+ public Message prepareGetBooksList(ActionType type) {
+  Message message = new Message();
+  message.setType(type);
+  return message;
+ }
 
-	    private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName, String bookSummary, String bookImage) {
-	        this.bookSn = new SimpleStringProperty(bookSn);
-	        this.bookTitle = new SimpleStringProperty(bookTitle);
-	        this.bookKeywords = new SimpleStringProperty(bookKeywords);
-	        this.bookHide = new SimpleStringProperty(bookHide);
-	        this.authorId = new SimpleStringProperty(authorId);
-	        this.authorName = new SimpleStringProperty(authorName);
-	        this.bookSummary = new SimpleStringProperty(bookSummary);
-	        this.bookImage = new SimpleStringProperty(bookImage);
-	    }
+ public Message prepareAddBook(ActionType type, String titleBook, String authorsId2, String keywords, String language, String subjectsList2, String tableOfContent, String summary, String picture, String price) {
+  Message message = new Message();
+  ArrayList < String > elementsList = new ArrayList < String > ();
+  elementsList.add(titleBook);
+  elementsList.add(authorsId2);
+  elementsList.add(keywords);
+  elementsList.add(language);
+  elementsList.add(subjectsList2);
+  elementsList.add(tableOfContent);
+  elementsList.add(summary);
+  elementsList.add(picture);
+  elementsList.add(price);
+  message.setType(type);
+  message.setElementsList(elementsList);
+  return message;
+ }
 
-	    public String getBookSn() {
-	        return bookSn.get();
-	    }
-	    
-	    public String getBookTitle() {
-	        return bookTitle.get();
-	    }
-	    
-	    public String getBookKeywords() {
-	        return bookKeywords.get();
-	    }
+ public Message prepareGetAuthors(ActionType type) {
+  Message message = new Message();
+  message.setType(type);
+  return message;
+ }
 
-	    public String getBookHide() {
-	        return bookHide.get();
-	    }
-	    
-	    public String getAuthorId() {
-	        return authorId.get();
-	    }
-	    
-	    public String getAuthorName() {
-	        return authorName.get();
-	    }
-	    
-	    public String getBookSummary() {
-	        return bookSummary.get();
-	    }
-	    
-	    public String getBookImage() {
-	        return bookImage.get();
-	    }
+ public Message prepareGetSubjects(ActionType type) {
+  Message message = new Message();
+  message.setType(type);
+  return message;
+ }
 
 
-	    public void setBookSn(String bookSn) {
-	    	this.bookSn.set(bookSn);
-	    }
-	    
-	    public void setBookTitle(String bookTitle) {
-	    	this.bookTitle.set(bookTitle);
-	    }
-	    
-	    public void setBookKeywords(String bookKeywords) {
-	    	this.bookKeywords.set(bookKeywords);
-	    }
-	    
-	    public void setBookHide(String bookHide) {
-	    	this.bookHide.set(bookHide);
-	    }
-	    
-	    public void setAuthorId(String authorId) {
-	    	this.authorId.set(authorId);
-	    }
-	    
-	    public void setAuthorName(String authorName) {
-	    	this.authorName.set(authorName);
-	    }
-	    
-	    public void setBookSummary(String bookSummary) {
-	    	this.bookSummary.set(bookSummary);
-	    }
-	    
-	    public void setBookImage(String bookImage) {
-	    	this.bookImage.set(bookImage);
-	    }
+ public Message prepareUpdatePropertyBooks(ActionType type, String username) {
+  Message message = new Message();
+  ArrayList < String > elementsList = new ArrayList < String > ();
+  elementsList.add(username);
+  message.setType(type);
+  message.setElementsList(elementsList);
+  return message;
+ }
+
+ public Message prepareDeleteBook(ActionType type, String sn) {
+  Message message = new Message();
+  ArrayList < String > elementsList = new ArrayList < String > ();
+  elementsList.add(sn);
+  message.setType(type);
+  message.setElementsList(elementsList);
+  return message;
+ }
+
+ public Message prepareHideBook(ActionType type, String sn, String hide) {
+  Message message = new Message();
+  ArrayList < String > elementsList = new ArrayList < String > ();
+  elementsList.add(sn);
+  elementsList.add(hide);
+  message.setType(type);
+  message.setElementsList(elementsList);
+  return message;
+ }
+
+ public void actionOnError(ActionType type, String errorCode) {
+
+  Alert alert = new Alert(AlertType.INFORMATION);
+  alert.setTitle("Error");
+  alert.setHeaderText(null);
+  alert.setContentText(errorCode);
+  alert.showAndWait();
+  if (type == ActionType.TERMINATE) {
+   Platform.exit();
+   System.exit(1);
+  }
+  if (type == ActionType.CONTINUE)
+   return;
+ }
 
 
-	}
+ public static class PropertyBook {
 
-	
+  private final SimpleStringProperty bookSn;
+  private final SimpleStringProperty bookTitle;
+  private final SimpleStringProperty bookKeywords;
+  private final SimpleStringProperty bookHide;
+  private final SimpleStringProperty authorId;
+  private final SimpleStringProperty authorName;
+  private final SimpleStringProperty bookSummary;
+  private final SimpleStringProperty bookImage;
+  private final SimpleStringProperty bookPrice;
+
+  private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName, String bookSummary, String bookImage, String bookPrice) {
+   this.bookSn = new SimpleStringProperty(bookSn);
+   this.bookTitle = new SimpleStringProperty(bookTitle);
+   this.bookKeywords = new SimpleStringProperty(bookKeywords);
+   this.bookHide = new SimpleStringProperty(bookHide);
+   this.authorId = new SimpleStringProperty(authorId);
+   this.authorName = new SimpleStringProperty(authorName);
+   this.bookSummary = new SimpleStringProperty(bookSummary);
+   this.bookImage = new SimpleStringProperty(bookImage);
+   this.bookPrice = new SimpleStringProperty(bookPrice);
+  }
+
+  public String getBookSn() {
+   return bookSn.get();
+  }
+
+  public String getBookTitle() {
+   return bookTitle.get();
+  }
+
+  public String getBookKeywords() {
+   return bookKeywords.get();
+  }
+
+  public String getBookHide() {
+   return bookHide.get();
+  }
+
+  public String getAuthorId() {
+   return authorId.get();
+  }
+
+  public String getAuthorName() {
+   return authorName.get();
+  }
+
+  public String getBookSummary() {
+   return bookSummary.get();
+  }
+
+  public String getBookImage() {
+   return bookImage.get();
+  }
+  
+  public String getBookPrice() {
+	   return bookPrice.get();
+	  }
+
+
+  public void setBookSn(String bookSn) {
+   this.bookSn.set(bookSn);
+  }
+
+  public void setBookTitle(String bookTitle) {
+   this.bookTitle.set(bookTitle);
+  }
+
+  public void setBookKeywords(String bookKeywords) {
+   this.bookKeywords.set(bookKeywords);
+  }
+
+  public void setBookHide(String bookHide) {
+   this.bookHide.set(bookHide);
+  }
+
+  public void setAuthorId(String authorId) {
+   this.authorId.set(authorId);
+  }
+
+  public void setAuthorName(String authorName) {
+   this.authorName.set(authorName);
+  }
+
+  public void setBookSummary(String bookSummary) {
+   this.bookSummary.set(bookSummary);
+  }
+
+  public void setBookImage(String bookImage) {
+   this.bookImage.set(bookImage);
+  }
+  
+  public void setBookPrice(String bookPrice) {
+   this.bookPrice.set(bookPrice);
+  }
+
+
+ }
+
+
 }

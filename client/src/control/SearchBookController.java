@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import boundry.ClientUI;
 import entity.Author;
@@ -23,6 +24,7 @@ import interfaces.ScreensIF;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,6 +39,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
@@ -93,24 +96,35 @@ public class SearchBookController implements ScreensIF{
 	
 	@FXML
 	public void initialize() {
-		
-
 		ArrayList<String> elementList = new ArrayList<String>();
-		Message message = new Message(ActionType.GET_AUTHORS,elementList);
-		Message message2 = new Message(ActionType.GET_DOMAINS,domainList);
-		try {
-			if(goToServer_flag==1)
-			{
-			ClientController.clientConnectionController.sendToServer(message);
-			ClientController.clientConnectionController.sendToServer(message2);
-			goToServer_flag=0;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Message message = new Message(ActionType.GET_AUTHORS, elementList);
+		Message message2= new Message(ActionType.GET_DOMAINS, domainList);
 		
+		if(goToServer_flag==1)
+		{
+    		
+    		try {
+    			ClientController.clientConnectionController.sendToServer(message);
+				ClientController.clientConnectionController.sendToServer(message2);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+		goToServer_flag=0;
+
+		
+		//Platform.runLater(new Runnable() {
 		Platform.runLater(new Runnable() {
-			@Override
+			//@Override
 			public void run() {
 
 				try{

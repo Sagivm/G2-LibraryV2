@@ -15,6 +15,7 @@ import enums.ActionType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
@@ -31,7 +32,7 @@ import ocsf.client.AbstractClient;
  * 
  * @author nire
  */
-public class ClientConnectionController extends AbstractClient {
+public class ClientConnectionController extends AbstractClient{
 
 	/**
 	 * The main
@@ -53,6 +54,10 @@ public class ClientConnectionController extends AbstractClient {
 	 * static reference of manager home page.
 	 */
 	private static HomepageManagerController managerMain;
+	
+	
+	//public static int gotAnswer;
+	
 
 	/**
 	 * ClientConnectionController constructor initialize the hostname, and then
@@ -98,11 +103,11 @@ public class ClientConnectionController extends AbstractClient {
 	 * @param replay
 	 *            - Gets the replay with the data.
 	 */
-	public void actionToPerform(Replay replay) {
+	public void actionToPerform(Replay replay)  {
 		ActionType transmitType = replay.getTransmitType();
 		ActionType type = replay.getType();
 		boolean success = replay.getSucess();
-
+		
 		switch (type) {
 		case GET_MESSAGES: {
 			
@@ -289,16 +294,53 @@ public class ClientConnectionController extends AbstractClient {
 		}
 		
 		case SEARCH_BOOK_AND:{
-			ArrayList<String> list = new ArrayList<String>();
-			list=replay.getElementsList();
-			SearchBookResultsController.resultList = list;
+			Task<Void> task = new Task<Void>() {
+			    @Override
+			    protected Void call() throws Exception {
+					ArrayList<String> list = new ArrayList<String>();
+					list=replay.getElementsList();
+					SearchBookResultsController.resultList = list;
+					
+			         return null;
+			    }
+			};
+			 
+			 
+			Thread thread = new Thread(task);
+			thread.setDaemon(true);
+			thread.start();
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			break;
 		}
 		
 		case SEARCH_BOOK_OR:{
-			ArrayList<String> list = new ArrayList<String>();
-			list=replay.getElementsList();
-			SearchBookResultsController.resultList = list;
+			Task<Void> task = new Task<Void>() {
+			    @Override
+			    protected Void call() throws Exception {
+					ArrayList<String> list = new ArrayList<String>();
+					list=replay.getElementsList();
+					SearchBookResultsController.resultList = list;
+			         return null;
+			    }
+			};
+			 
+			Thread thread = new Thread(task);
+			thread.setDaemon(true);
+			thread.start();
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
 			break;
 		}
 		
@@ -346,6 +388,52 @@ public class ClientConnectionController extends AbstractClient {
 
 			break;
 		}
+		
+		case EDIT_USER_MANAGER:{
+			if (success == true) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						if (success == true)
+							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_SUCCEEDED);
+						else
+							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_FAILED);
+							
+						if(ClientUI.getTypeOfUser()=="Librarian")
+                    	{
+                        	if (librarianMain == null)
+                        		librarianMain = new HomepageLibrarianController();
+                        	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+                    	}
+                    	else if(ClientUI.getTypeOfUser()=="Manager")
+                    	{
+                        	if (managerMain == null)
+                        		managerMain = new HomepageManagerController();
+                        	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+                    	}
+						
+						
+						ScreenController screenController  = new ScreenController();
+						try{
+							
+                			if(ClientUI.getTypeOfUser()=="Librarian")
+                			{
+                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+                			}
+                			else if(ClientUI.getTypeOfUser()=="Manager")
+                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+                			
+                		} 
+                		catch (Exception e) {
+        					e.printStackTrace();
+        				}  
+					}
+				});
+			} 
+
+			break;
+		}
+		
 
 		case GET_AUTHORS: {
 			ArrayList<Author> list = new ArrayList<Author>();
@@ -355,15 +443,16 @@ public class ClientConnectionController extends AbstractClient {
 				Author author = new Author(tmp[1], tmp[2], tmp[0]);
 				list.add(author);
 			}
-
+			
 			SearchBookController.authorList = list;
 			BookManagementController.authorList = list;
-
+			//gotAnswer=1;
 			break;
 		}
 
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
+			//gotAnswer=1;
 			break;
 		}
 		
@@ -504,6 +593,15 @@ public class ClientConnectionController extends AbstractClient {
 				BookPageController.img = null;
 			break;
 		}
+		case GET_TOTAL_PRICE: {
+			if(success)
+				BookPopularityReportController.priceList=replay.getElementsList();
+			else
+				BookPopularityReportController.priceList = null;
+			break;
+		}
+		
+		
 		
 		case GET_BUY_STATUS: {
 				BookPageController.buyStatus = replay.getGnrlMsg();

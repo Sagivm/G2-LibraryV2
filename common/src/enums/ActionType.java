@@ -159,6 +159,10 @@ public enum ActionType {
 	 */
 	GET_BOOK_LIST,
 	
+	/**
+	 * Add Book to DB
+	 */
+	ADD_BOOK,
 
 	/**
 	 * Delete Book from DB
@@ -209,6 +213,7 @@ public enum ActionType {
 	 */
 	GET_BOOK_IMG,
 	
+
 	/**
 	 * Gets the total amount of money that was paid for each book
 	 */
@@ -223,5 +228,6 @@ public enum ActionType {
 	 * Add bought book to DB.
 	 */
 	BUY_BOOK,
+
 
 }

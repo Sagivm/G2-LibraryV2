@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import boundry.ClientUI;
 import control.PendingRegistrationController.pendingUser;
@@ -79,6 +80,12 @@ public class SearchBookResultsController implements ScreensIF{
 	@FXML
 	private void initialize()
 	{
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try{
 			int j;
 			//System.out.println(resultList.size());
@@ -112,7 +119,7 @@ public class SearchBookResultsController implements ScreensIF{
 				domains.clear();
 				domains.addAll(hs);
 							
-				continue_index=continue_index+2+subjectsCount;
+				
 				
 				String author=authors.toString();
 				author=author.substring(1, author.length()-1);
@@ -120,8 +127,10 @@ public class SearchBookResultsController implements ScreensIF{
 				subject=subject.substring(1, subject.length()-1);
 				String domain=domains.toString();
 				domain=domain.substring(1, domain.length()-1);
+				
+				//continue_index=continue_index+2+subjectsCount;
 
-				float price =  Float.parseFloat(tmp[continue_index]);
+				float price =  Float.parseFloat(tmp[size-1]);
 				//SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price)+"$");
 				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price));
 				data.add(book);

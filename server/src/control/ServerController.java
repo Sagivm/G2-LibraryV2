@@ -11,8 +11,10 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 import javax.swing.text.AbstractDocument.ElementEdit;
 
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+
 
 import entity.CurrentDate;
 import entity.GeneralMessages;
@@ -70,6 +74,7 @@ public class ServerController extends AbstractServer {
 	@FXML
 	private TextArea logField;
 
+	
 	/**
 	 * Text field for user.
 	 */
@@ -113,6 +118,7 @@ public class ServerController extends AbstractServer {
 	public ServerController() {
 		super(dPort);
 
+		
 		logger = Logger.getLogger("ServerLog.log");
 		FileHandler fh;
 		try {
@@ -126,6 +132,8 @@ public class ServerController extends AbstractServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} //
+		
+
 	}
 
 	/**
@@ -239,9 +247,9 @@ public class ServerController extends AbstractServer {
 				}
 			}
 			if (sqlResult == true)
-				replay = new Replay(ActionType.REGISTER, true);
+				replay = new Replay(ActionType.REGISTER,true);
 			else {
-				replay = new Replay(ActionType.REGISTER, false);
+				replay = new Replay(ActionType.REGISTER,false);
 				System.out.println(replay.getSucess());
 			}
 			writeToLog("Registration attempt");
@@ -304,6 +312,7 @@ public class ServerController extends AbstractServer {
 						}
 					}
 					if (sqlResult == true) {
+						
 						replay = new Replay(ActionType.LOGIN, true, action, elementsList);
 						connectedList.add(login);
 					} else {
@@ -352,17 +361,9 @@ public class ServerController extends AbstractServer {
 								+ "'" + "  WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				writeToLog(message.getElementsList().get(0) + " Changed accountStatus to"
 						+ message.getElementsList().get(1));
-				/*
-				DateFormat currentTime = new SimpleDateFormat("HH:mm");
-				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
-				Date date = new Date();
+
 				
-				String currTime = currentTime.format(date);
-				String currDate = currentDate.format(date);
-				String username = message.getElementsList().get(0);
-				String msg = "Account status has been changed to: " + message.getElementsList().get(1);
-				DatabaseController.addToDatabase("INSERT INTO messages VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
-				*/
+				
 				replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -506,16 +507,27 @@ public class ServerController extends AbstractServer {
 			{
 				if(Integer.parseInt(elementsList.get(i))==1)
 					res.add(elementsList.get(i+1)); 
-/*                    String bookId = elementsList.get(i+1).substring(0, (elementsList.get(i+1).indexOf("^")));
-                    int searchCount=0;
-                    try {
-                        searchCount = CurrentDate.IncSearchBookDateRow(bookId);
-                    } catch (SQLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
-                         + searchCount + "' to '" + (searchCount+1) +"'");*/
+                   
+			}
+			
+			//remove duplicates
+			Set<String> hs = new HashSet<>();
+			hs.addAll(res);
+			res.clear();
+			res.addAll(hs);
+			
+			for(i=0;i<res.size();i++)
+			{
+				 String bookId = res.get(i).substring(0, (res.get(i).indexOf("^")));
+                 int searchCount=0;
+                 try {
+                     searchCount = CurrentDate.IncSearchBookDateRow(bookId);
+                 } catch (SQLException e) {
+                     // TODO Auto-generated catch block
+                     e.printStackTrace();
+                 }
+                 writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
+                      + searchCount + "' to '" + (searchCount+1) +"'");
 			}
 			
 			/*
@@ -525,10 +537,12 @@ public class ServerController extends AbstractServer {
 					res.add(elementsList.get(i));
 			}
 			*/
-			
+			/*
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				 
+				 */
+			
+			
 
 			replay = new Replay(ActionType.SEARCH_BOOK_AND, true, res);
 			break;
@@ -621,12 +635,30 @@ public class ServerController extends AbstractServer {
 				
 				
 			}
-			//res = res.stream().distinct().collect(Collectors.toList());
 
-			
+			/*
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				  
+				  */
+			
+			Set<String> hs = new HashSet<>();
+			hs.addAll(res);
+			res.clear();
+			res.addAll(hs);
+			
+			for(i=0;i<res.size();i++)
+			{
+				 String bookId = res.get(i).substring(0, (res.get(i).indexOf("^")));
+                 int searchCount=0;
+                 try {
+                     searchCount = CurrentDate.IncSearchBookDateRow(bookId);
+                 } catch (SQLException e) {
+                     // TODO Auto-generated catch block
+                     e.printStackTrace();
+                 }
+                 writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
+                      + searchCount + "' to '" + (searchCount+1) +"'");
+			}
 			 
 			replay = new Replay(ActionType.SEARCH_BOOK_OR, true, res);
 			break;
@@ -639,7 +671,7 @@ public class ServerController extends AbstractServer {
 				ArrayList<String> res = new ArrayList<String>();
 				
 				Statement stmt = DatabaseController.connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName, accountType, accountStatus FROM clients");
+				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName, accountType, accountStatus, isBlocked FROM clients");
 				while (rs.next())
 				{
 					elementsList.add(rs.getString(1)); // username
@@ -647,30 +679,31 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(3)); // last name
 					elementsList.add(rs.getString(4)); // accountType
 					elementsList.add(rs.getString(5)); // accountStatus
+					elementsList.add(rs.getString(6)); // isBlocked
 				}
 				
 				
-				int[] filterResult = new int[elementsList.size()/5];
+				int[] filterResult = new int[elementsList.size()/6];
 				
 				for(int i=0;i<filterResult.length;i++)
 					filterResult[i]=1;
 
 
-				for(int i=0;i<elementsList.size();i+=5)
+				for(int i=0;i<elementsList.size();i+=6)
 				{
 					if(!message.getElementsList().get(0).isEmpty())
 						if(!elementsList.get(i).contains(message.getElementsList().get(0).trim()))
-							filterResult[i/5]=0;
+							filterResult[i/6]=0;
 						
 
 					if(!message.getElementsList().get(1).isEmpty())
 						if(!elementsList.get(i+1).toLowerCase().trim().contains(message.getElementsList().get(1).toLowerCase().trim()))
-							filterResult[i/5]=0;
+							filterResult[i/6]=0;
 
 
 					if(!message.getElementsList().get(2).isEmpty())
 						if(!elementsList.get(i+2).toLowerCase().trim().contains(message.getElementsList().get(2).toLowerCase().trim()))
-							filterResult[i/5]=0;
+							filterResult[i/6]=0;
 
 					
 				}
@@ -681,10 +714,10 @@ public class ServerController extends AbstractServer {
 				System.out.println(" ");
 				*/
 				
-				for(int j=0;j<elementsList.size();j+=5)
+				for(int j=0;j<elementsList.size();j+=6)
 				{
-					if(filterResult[j/5]==1)
-						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4));
+					if(filterResult[j/6]==1)
+						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4)+"^"+elementsList.get(j+5));
 				}
 				
 				
@@ -706,17 +739,31 @@ public class ServerController extends AbstractServer {
 		case EDIT_USER_LIBRARIAN: {
 			try
 			{
-				/*
-				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
-						+ "'" + "and lastName=" + "'" + message.getElementsList().get(2) +"'" +  "WHERE username=" + "'" + message.getElementsList().get(0) + "'");
-				*/
-				System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				//System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + " ,lastName=" + "'" + message.getElementsList().get(2) +"'" +  " WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				
-				writeToLog(message.getElementsList().get(0) + " Changed name of username" + "'" + message.getElementsList().get(0) + "' to '"
+				writeToLog("Name of username" + "'" + message.getElementsList().get(0) + "'was changed to '"
 				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2)+"'");
 				replay = new Replay(ActionType.EDIT_USER_LIBRARIAN, true);
+				
+			} 
+			catch (Exception e) {
+				e.printStackTrace();		
+			}
+			break;
+		}
+		
+		case EDIT_USER_MANAGER: {
+			try
+			{
+				//System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				DatabaseController.updateDatabase("UPDATE clients SET isBlocked='" + message.getElementsList().get(3) + "' WHERE username=" + "'" + message.getElementsList().get(0) + "'");
+				if(Integer.parseInt(message.getElementsList().get(3))==1)
+					writeToLog("Username" + "'" + message.getElementsList().get(0) + "' is now blocked");
+				else
+					writeToLog("Username" + "'" + message.getElementsList().get(0) + "' block has been cancelled");
+				replay = new Replay(ActionType.EDIT_USER_MANAGER, true);
 				
 			} 
 			catch (Exception e) {
@@ -761,9 +808,9 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> subjectList = new ArrayList<String>();
 			try {
 				Statement stmt = DatabaseController.connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT name FROM subjects");
+				ResultSet rs = stmt.executeQuery("SELECT subjects.name,subjects.id,subjects.domain,domains.id,domains.name FROM subjects,domains WHERE subjects.domain=domains.id");
 				while (rs.next()) {
-					subjectList.add(rs.getString(1));
+					subjectList.add("("+rs.getString(2)+") "+rs.getString(1)+" ("+rs.getString(5)+")");
 				}
 				replay = new Replay(ActionType.GET_SUBJECTS, true, subjectList);
 			} catch (SQLException e) {
@@ -773,11 +820,13 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 
+
 		case ACCEPT_PENDING_USERS: {
 			try {
 				Statement stmt = DatabaseController.connection.createStatement();
 				String username = data.get(0);
 				stmt.executeUpdate("UPDATE clients SET accountType='Intrested' WHERE username=" + username);
+		
 				
 				DateFormat currentTime = new SimpleDateFormat("HH:mm");
 				DateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -785,8 +834,7 @@ public class ServerController extends AbstractServer {
 				
 				String currTime = currentTime.format(date);
 				String currDate = currentDate.format(date);
-				String msg = "Your account has been approved";
-				
+				String msg="Account type updated to " + message.getElementsList().get(1);
 				
 				DatabaseController.addToDatabase("INSERT INTO messages (`username`, `date`, `time`, `msg`) VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
 		
@@ -1028,7 +1076,7 @@ public class ServerController extends AbstractServer {
 				ArrayList<String> elementsList = new ArrayList<String>();
 				Statement stmt = DatabaseController.connection.createStatement();
 				ResultSet rs = stmt.executeQuery(
-						"SELECT books.sn,books.title,books.keywords,books.hide,authors.id,CONCAT(authors.firstName,' ',authors.lastName) as authorName, books.summary, books.image FROM books,book_authors,authors "
+						"SELECT books.sn,books.title,books.keywords,books.hide,authors.id,CONCAT(authors.firstName,' ',authors.lastName) as authorName, books.summary, books.image, books.price FROM books,book_authors,authors "
 						+ "WHERE books.sn=book_authors.bookId AND book_authors.authorId=authors.id "
 						+ "ORDER BY sn");
 				while (rs.next()) {
@@ -1040,6 +1088,7 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(6)); // author name
 					elementsList.add(rs.getString(7)); // book summary
 					elementsList.add(rs.getString(8)); // book image
+					elementsList.add(rs.getString(9)); // book price
 				}
 				replay = new Replay(ActionType.GET_BOOK_LIST, true, elementsList);
 			} catch (SQLException e) {
@@ -1076,6 +1125,94 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
+		
+		
+		case ADD_BOOK: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String TitleBook = data.get(0);
+				String keywords = data.get(2);
+				String language = data.get(3);
+				String tableOfContent = data.get(5);
+				String summary = data.get(6);
+				String picture = data.get(7);
+				Float price = Float.parseFloat(data.get(8));
+				String authorsId = data.get(1);
+				String SubjectsList = data.get(4);
+				//System.out.println("asasassas");
+				
+				String subjectsId[];
+				subjectsId = SubjectsList.split("\\^");
+				String query = "SELECT COUNT(distinct domain) FROM subjects WHERE id="+subjectsId[0];
+				for(int i=1;i<subjectsId.length;i++){
+					query+=" OR id="+subjectsId[i];		
+				}
+				System.out.println(query);				
+				ResultSet rs = stmt.executeQuery(query);
+				
+				String authorsArr[];
+				authorsArr = authorsId.split("\\^");
+				
+				rs.next();
+				int DomainsCount=Integer.parseInt(rs.getString(1));
+				int SubjectsCount=subjectsId.length;
+				int authorsCount=authorsArr.length;
+				int bookSn;
+				
+				//add book
+				if(picture.equals("noPicture"))
+					query="INSERT INTO books (`title`, `language`, `authorsCount`, `summary`, `tableOfContent`, `keywords`, `price`, `hide`, `domainsCount`, `subjectsCount`) "
+							+ "VALUES('"+TitleBook+"', '"+language+"' , '"+authorsCount+"', '"+summary+"', '"+tableOfContent+"', '"+keywords+"', '"+price+"', '0', '"+DomainsCount+"', '"+SubjectsCount+"')";		
+				else{
+					query="INSERT INTO books (`title`, `language`, `authorsCount`, `summary`, `tableOfContent`, `keywords`, `price`, `hide`, `domainsCount`, `subjectsCount`, `image`) "
+							+ "VALUES('"+TitleBook+"', '"+language+"' , '"+authorsCount+"', '"+summary+"', '"+tableOfContent+"', '"+keywords+"', '"+price+"', '0', '"+DomainsCount+"', '"+SubjectsCount+"', '"+picture+"')";	
+				System.out.println("sfdsasafsafsaf");
+				}
+				PreparedStatement statement = (PreparedStatement) DatabaseController.connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);			
+				int affectedRows = statement.executeUpdate();
+				if (affectedRows == 0) {
+		            throw new SQLException("Creating user failed, no rows affected.");
+		        }
+		        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		            	bookSn=(int) generatedKeys.getLong(1);
+		            }
+		            else {
+		                throw new SQLException("Creating book failed, no ID obtained.");
+		            }
+		        }//end add book
+		        
+		        //update book_authors
+		        for(int i=0;i<authorsArr.length;i++){
+		        	stmt.executeUpdate("INSERT INTO book_authors (`bookId`, `authorId`) VALUES('"+bookSn+"', '"+authorsArr[i]+"')");
+		        }
+		        
+		        //update book_subjects
+		        for(int i=0;i<subjectsId.length;i++){
+		        	stmt.executeUpdate("INSERT INTO book_subjects (`bookId`,`subjectId`) VALUES('"+bookSn+"', '"+subjectsId[i]+"')");
+		        }
+				
+		        //update booksCount at subjects
+		        for(int i=0;i<subjectsId.length;i++){
+		        	stmt.executeUpdate("UPDATE subjects SET booksCount = booksCount + 1 WHERE id="+subjectsId[i]);
+		        }
+		        
+		        //update bookscount at authors
+		        for(int i=0;i<authorsArr.length;i++){
+		        	stmt.executeUpdate("UPDATE authors SET booksCount = booksCount + 1 WHERE id="+authorsArr[i]);
+		        }
+
+				//stmt.executeUpdate("UPDATE books SET hide="+hide+" WHERE sn="+sn);
+				replay = new Replay(ActionType.HIDE_BOOK, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		
+		
 		case GET_PENDING_ACCOUNTS: {
 			try {
 				ArrayList<String> elementsList = new ArrayList<String>();
