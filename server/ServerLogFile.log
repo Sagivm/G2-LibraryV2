@@ -1,31 +1,9 @@
-ιπε 18, 2017 7:56:28 PM control.ServerController writeToLog
+ιπε 18, 2017 8:52:15 PM control.ServerController writeToLog
 INFO: Connected to database
-ιπε 18, 2017 7:56:28 PM control.ServerController writeToLog
+ιπε 18, 2017 8:52:15 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-ιπε 18, 2017 7:56:32 PM control.ServerController writeToLog
+ιπε 18, 2017 8:52:29 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 18, 2017 7:56:36 PM control.ServerController writeToLog
-INFO: Search counter of book ID '3' was increased from '29' to '30'
-ιπε 18, 2017 7:56:36 PM control.ServerController writeToLog
-INFO: Search counter of book ID '2' was increased from '25' to '26'
-ιπε 18, 2017 7:56:36 PM control.ServerController writeToLog
-INFO: Search counter of book ID '1' was increased from '33' to '34'
-ιπε 18, 2017 7:56:42 PM control.ServerController writeToLog
-INFO: Search counter of book ID '6' was increased from '0' to '1'
-ιπε 18, 2017 7:56:47 PM control.ServerController writeToLog
-INFO: Search counter of book ID '4' was increased from '0' to '1'
-ιπε 18, 2017 7:57:14 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 18, 2017 7:57:21 PM control.ServerController writeToLog
-INFO: Search counter of book ID '4' was increased from '0' to '1'
-ιπε 18, 2017 7:57:21 PM control.ServerController writeToLog
-INFO: Search counter of book ID '6' was increased from '0' to '1'
-ιπε 18, 2017 7:57:21 PM control.ServerController writeToLog
-INFO: Search counter of book ID '5' was increased from '0' to '1'
-ιπε 18, 2017 7:57:21 PM control.ServerController writeToLog
-INFO: Search counter of book ID '3' was increased from '30' to '31'
-ιπε 18, 2017 7:57:21 PM control.ServerController writeToLog
-INFO: Search counter of book ID '2' was increased from '26' to '27'
-ιπε 18, 2017 7:57:21 PM control.ServerController writeToLog
-INFO: Search counter of book ID '1' was increased from '34' to '35'
+ιπε 18, 2017 8:52:46 PM control.ServerController writeToLog
+INFO: 444333222 Changed name of username'444333222' to 'Adi Granit'

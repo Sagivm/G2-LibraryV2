@@ -78,23 +78,23 @@ public class SearchUserResultsController implements ScreensIF{
 	 */
 	@FXML
 	private void initialize(){
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 
 				try {
-		
+					try {
+						TimeUnit.SECONDS.sleep(1);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					for(int i=0;i<userResult.size();i++)
 					{
-						String[] tmp=new String[5];
+						String[] tmp=new String[6];
 						tmp = userResult.get(i).split("\\^");
-						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4]));
+						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4], tmp[5]));
 					}
 					
 										
@@ -154,7 +154,7 @@ public class SearchUserResultsController implements ScreensIF{
 				                    		   
 				                        	if (managerMain == null)
 				                        		managerMain = new HomepageManagerController();
-				                        	managerMain.setPage(ScreensInfo.USER_PAGE_LIBRARIAN_SCREEN); //need to change to USER_PAGE_MANGER_SCREEN
+				                        	managerMain.setPage(ScreensInfo.USER_PAGE_MANAGER_SCREEN); //need to change to USER_PAGE_MANGER_SCREEN
 				                    	}
 
 				                		

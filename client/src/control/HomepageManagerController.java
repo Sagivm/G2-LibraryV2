@@ -207,6 +207,13 @@ public class HomepageManagerController implements ScreensIF {
 		}
 	}
 	
+
+	
+	@FXML
+	public void blockUserButtonPressed(ActionEvent event) throws IOException {
+		loadPage(ScreensInfo.SEARCH_USER_SCREEN);
+	}
+	
 	/** Setter for page.
 	 * @param page
 	 */

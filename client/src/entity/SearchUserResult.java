@@ -13,13 +13,15 @@ public class SearchUserResult {
     private final SimpleStringProperty lastName;
     private final SimpleStringProperty accountType;
     private final SimpleStringProperty accountStatus;
+    private final SimpleStringProperty isBlocked;
 
-    public SearchUserResult(String username, String firstName, String lastName, String accountType, String accountStatus) {
+    public SearchUserResult(String username, String firstName, String lastName, String accountType, String accountStatus, String isBlocked) {
         this.username = new SimpleStringProperty(username);
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.accountType = new SimpleStringProperty(accountType);
         this.accountStatus = new SimpleStringProperty(accountStatus);
+        this.isBlocked = new SimpleStringProperty(isBlocked);
     }
 
     public String getUsername() {
@@ -42,6 +44,9 @@ public class SearchUserResult {
         return accountStatus.get();
     }
     
+    public String getIsBlocked() {
+        return isBlocked.get();
+    }
     
     public void setFirstName(String fName) {
     	firstName.set(fName);
@@ -57,6 +62,10 @@ public class SearchUserResult {
     
     public void setAccountStatus(String aStatus) {
     	accountStatus.set(aStatus);
+    }
+    
+    public void setIsBlocked(String blocked) {
+    	isBlocked.set(blocked);
     }
     
     

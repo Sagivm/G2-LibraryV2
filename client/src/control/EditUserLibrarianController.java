@@ -94,7 +94,7 @@ public class EditUserLibrarianController implements ScreensIF{
 		
 		//System.out.println("change to:" + usernameLable.getText() + " " + fNameTextField.getText() + " " + lNameTextField.getText());
 		
-		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameTextField.getText(), lNameTextField.getText(), "", "");
+		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameTextField.getText(), lNameTextField.getText(), "", "", "");
 		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
 		
 		try {
@@ -120,12 +120,6 @@ public class EditUserLibrarianController implements ScreensIF{
         		managerMain = new HomepageManagerController();
         	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
     	}
-    	else if(ClientUI.getTypeOfUser()=="User")
-    	{
-        	if (userMain == null)
-        		userMain = new HomepageUserController();
-        	userMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
-    	}
 		
 		ScreenController screenController = new ScreenController();
 		try{
@@ -133,8 +127,7 @@ public class EditUserLibrarianController implements ScreensIF{
 				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
 			else if(ClientUI.getTypeOfUser()=="Manager")
 				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
-			else if(ClientUI.getTypeOfUser()=="User")
-				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

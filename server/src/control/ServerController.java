@@ -676,7 +676,7 @@ public class ServerController extends AbstractServer {
 				ArrayList<String> res = new ArrayList<String>();
 				
 				Statement stmt = DatabaseController.connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName, accountType, accountStatus FROM clients");
+				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName, accountType, accountStatus, isBlocked FROM clients");
 				while (rs.next())
 				{
 					elementsList.add(rs.getString(1)); // username
@@ -684,16 +684,17 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(3)); // last name
 					elementsList.add(rs.getString(4)); // accountType
 					elementsList.add(rs.getString(5)); // accountStatus
+					elementsList.add(rs.getString(6)); // isBlocked
 				}
 				
 				
-				int[] filterResult = new int[elementsList.size()/5];
+				int[] filterResult = new int[elementsList.size()/6];
 				
 				for(int i=0;i<filterResult.length;i++)
 					filterResult[i]=1;
 
 
-				for(int i=0;i<elementsList.size();i+=5)
+				for(int i=0;i<elementsList.size();i+=6)
 				{
 					if(!message.getElementsList().get(0).isEmpty())
 						if(!elementsList.get(i).contains(message.getElementsList().get(0).trim()))
@@ -718,10 +719,10 @@ public class ServerController extends AbstractServer {
 				System.out.println(" ");
 				*/
 				
-				for(int j=0;j<elementsList.size();j+=5)
+				for(int j=0;j<elementsList.size();j+=6)
 				{
-					if(filterResult[j/5]==1)
-						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4));
+					if(filterResult[j/6]==1)
+						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4)+"^"+elementsList.get(j+5));
 				}
 				
 				
@@ -743,17 +744,31 @@ public class ServerController extends AbstractServer {
 		case EDIT_USER_LIBRARIAN: {
 			try
 			{
-				/*
-				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
-						+ "'" + "and lastName=" + "'" + message.getElementsList().get(2) +"'" +  "WHERE username=" + "'" + message.getElementsList().get(0) + "'");
-				*/
-				System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				//System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + " ,lastName=" + "'" + message.getElementsList().get(2) +"'" +  " WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				
 				writeToLog(message.getElementsList().get(0) + " Changed name of username" + "'" + message.getElementsList().get(0) + "' to '"
 				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2)+"'");
 				replay = new Replay(ActionType.EDIT_USER_LIBRARIAN, true);
+				
+			} 
+			catch (Exception e) {
+				e.printStackTrace();		
+			}
+			break;
+		}
+		
+		case EDIT_USER_MANAGER: {
+			try
+			{
+				//System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				DatabaseController.updateDatabase("UPDATE clients SET isBlocked='" + message.getElementsList().get(3) + "' WHERE username=" + "'" + message.getElementsList().get(0) + "'");
+				if(Integer.parseInt(message.getElementsList().get(3))==1)
+					writeToLog("Username" + "'" + message.getElementsList().get(0) + "' is now blocked");
+				else
+					writeToLog("Username" + "'" + message.getElementsList().get(0) + "' block has been cancelled");
+				replay = new Replay(ActionType.EDIT_USER_MANAGER, true);
 				
 			} 
 			catch (Exception e) {

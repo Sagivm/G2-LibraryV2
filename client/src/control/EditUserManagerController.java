@@ -1,18 +1,27 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import boundry.ClientUI;
+import entity.GeneralMessages;
+import entity.Message;
+import entity.ScreensInfo;
 import entity.SearchUserResult;
 import entity.User;
+import entity.Validate;
 import enums.ActionType;
 import interfaces.ScreensIF;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 /** EditUserManagerController. Responsible to enable a manager to edit user account type and freeze account.
  * @author itain
@@ -21,8 +30,10 @@ public class EditUserManagerController implements ScreensIF{
 
 
 	@FXML private Label usernameLable;
-	@FXML private ComboBox accountTypeComboBox;
-	@FXML private CheckBox freezedCheckBox;
+	@FXML private Label fNameLable;
+	@FXML private Label lNameLable;
+	//@FXML private ComboBox accountTypeComboBox;
+	@FXML private CheckBox blockedCheckBox;
 	
 	@FXML private Button submitButton;
 	@FXML private Button cancelButton;
@@ -50,15 +61,39 @@ public class EditUserManagerController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{
-		/*
-		String [] tmp = new String[3]; 
-		usernameLable.setText(tmp[0]);
-		fNameTextField.setText(tmp[1]);
-		lNameTextField.setText(tmp[2]);
+		usernameLable.setText(searchedUserPageManager.getUsername());
+		fNameLable.setText(searchedUserPageManager.getFirstName().trim());
+		lNameLable.setText(searchedUserPageManager.getLastName().trim());
+		if(Integer.parseInt(searchedUserPageManager.getIsBlocked())==1)
+				blockedCheckBox.isSelected();
+	}
+	
+	public void cancelButtonPressed(ActionEvent event)
+	{
+		if(ClientUI.getTypeOfUser()=="Librarian")
+    	{
+        	if (librarianMain == null)
+        		librarianMain = new HomepageLibrarianController();
+        	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+    	}
+    	else if(ClientUI.getTypeOfUser()=="Manager")
+    	{
+        	if (managerMain == null)
+        		managerMain = new HomepageManagerController();
+        	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+    	}
 		
-		fNameTextField.setEditable(true);
-		lNameTextField.setEditable(true);
-		*/
+		ScreenController screenController = new ScreenController();
+		try{
+			if(ClientUI.getTypeOfUser()=="Librarian")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+			else if(ClientUI.getTypeOfUser()=="Manager")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}  
 	}
 
 	@Override
@@ -74,9 +109,56 @@ public class EditUserManagerController implements ScreensIF{
 	}
 
 	@Override
+	/* (non-Javadoc)
+	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)
+	 */
 	public void actionOnError(ActionType type, String errorCode) {
-		// TODO Auto-generated method stub
 		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Error");
+		alert.setHeaderText(null);
+		alert.setContentText(errorCode);
+		alert.showAndWait();
+		if (type == ActionType.TERMINATE)
+		{
+			Platform.exit();
+			System.exit(1);
+		}
+		if (type == ActionType.CONTINUE)
+			return;
+	}
+	
+	
+	public void submitButtonPressed(ActionEvent event) 
+	{		
+		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameLable.getText(), lNameLable.getText(), "", "", blockedCheckBox.getText());
+		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
+		
+		try {
+			ClientController.clientConnectionController.sendToServer(message);
+		} catch (IOException e) {
+					
+			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+		}
+	}
+	
+	/** This function prepare message that will be send to the server with arraylist,
+	 * and the action.
+	 * @param type - Gets the type of the action
+	 * @param user - Gets the class with the user information.
+	 * @return - message that will send to server.
+	 */
+	public Message prepareEditUser(ActionType type, SearchUserResult user)
+	{
+		Message message = new Message();
+		message.setType(type);
+		ArrayList <String> elementsList = new ArrayList<String>();
+		elementsList.add(user.getUsername());
+		elementsList.add(user.getFirstName());
+		elementsList.add(user.getLastName());
+		elementsList.add(user.getIsBlocked());
+		message.setElementsList(elementsList);
+		return message;
 	}
 	
 }
