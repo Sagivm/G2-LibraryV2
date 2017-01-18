@@ -11,8 +11,10 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -506,16 +508,27 @@ public class ServerController extends AbstractServer {
 			{
 				if(Integer.parseInt(elementsList.get(i))==1)
 					res.add(elementsList.get(i+1)); 
-/*                    String bookId = elementsList.get(i+1).substring(0, (elementsList.get(i+1).indexOf("^")));
-                    int searchCount=0;
-                    try {
-                        searchCount = CurrentDate.IncSearchBookDateRow(bookId);
-                    } catch (SQLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
-                         + searchCount + "' to '" + (searchCount+1) +"'");*/
+                   
+			}
+			
+			//remove duplicates
+			Set<String> hs = new HashSet<>();
+			hs.addAll(res);
+			res.clear();
+			res.addAll(hs);
+			
+			for(i=0;i<res.size();i++)
+			{
+				 String bookId = res.get(i).substring(0, (res.get(i).indexOf("^")));
+                 int searchCount=0;
+                 try {
+                     searchCount = CurrentDate.IncSearchBookDateRow(bookId);
+                 } catch (SQLException e) {
+                     // TODO Auto-generated catch block
+                     e.printStackTrace();
+                 }
+                 writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
+                      + searchCount + "' to '" + (searchCount+1) +"'");
 			}
 			
 			/*
@@ -525,10 +538,12 @@ public class ServerController extends AbstractServer {
 					res.add(elementsList.get(i));
 			}
 			*/
-			
+			/*
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				 
+				 */
+			
+			
 
 			replay = new Replay(ActionType.SEARCH_BOOK_AND, true, res);
 			break;
@@ -621,12 +636,30 @@ public class ServerController extends AbstractServer {
 				
 				
 			}
-			//res = res.stream().distinct().collect(Collectors.toList());
 
-			
+			/*
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				  
+				  */
+			
+			Set<String> hs = new HashSet<>();
+			hs.addAll(res);
+			res.clear();
+			res.addAll(hs);
+			
+			for(i=0;i<res.size();i++)
+			{
+				 String bookId = res.get(i).substring(0, (res.get(i).indexOf("^")));
+                 int searchCount=0;
+                 try {
+                     searchCount = CurrentDate.IncSearchBookDateRow(bookId);
+                 } catch (SQLException e) {
+                     // TODO Auto-generated catch block
+                     e.printStackTrace();
+                 }
+                 writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
+                      + searchCount + "' to '" + (searchCount+1) +"'");
+			}
 			 
 			replay = new Replay(ActionType.SEARCH_BOOK_OR, true, res);
 			break;

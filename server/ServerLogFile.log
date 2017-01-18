@@ -1,21 +1,23 @@
-<<<<<<< HEAD
-ιπε 18, 2017 6:20:31 PM control.ServerController writeToLog
-=======
-ιπε 18, 2017 5:35:46 PM control.ServerController writeToLog
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
+ιπε 18, 2017 6:58:34 PM control.ServerController writeToLog
 INFO: Connected to database
-<<<<<<< HEAD
-ιπε 18, 2017 6:20:31 PM control.ServerController writeToLog
-=======
-ιπε 18, 2017 5:35:46 PM control.ServerController writeToLog
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
+ιπε 18, 2017 6:58:34 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-<<<<<<< HEAD
-ιπε 18, 2017 6:20:35 PM control.ServerController writeToLog
-=======
-ιπε 18, 2017 5:36:09 PM control.ServerController writeToLog
+ιπε 18, 2017 6:58:38 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 18, 2017 5:36:16 PM control.ServerController writeToLog
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library
-INFO: Login attempt
+ιπε 18, 2017 6:58:50 PM control.ServerController writeToLog
+INFO: Search counter of book ID '3' was increased from '18' to '19'
+ιπε 18, 2017 6:58:50 PM control.ServerController writeToLog
+INFO: Search counter of book ID '2' was increased from '14' to '15'
+ιπε 18, 2017 6:58:50 PM control.ServerController writeToLog
+INFO: Search counter of book ID '1' was increased from '22' to '23'
+ιπε 18, 2017 6:59:06 PM control.ServerController writeToLog
+INFO: Search counter of book ID '3' was increased from '19' to '20'
+ιπε 18, 2017 6:59:06 PM control.ServerController writeToLog
+INFO: Search counter of book ID '2' was increased from '15' to '16'
+ιπε 18, 2017 6:59:06 PM control.ServerController writeToLog
+INFO: Search counter of book ID '1' was increased from '23' to '24'
+ιπε 18, 2017 6:59:15 PM control.ServerController writeToLog
+INFO: Search counter of book ID '6' was increased from '0' to '1'
+ιπε 18, 2017 6:59:15 PM control.ServerController writeToLog
+INFO: Search counter of book ID '5' was increased from '0' to '1'

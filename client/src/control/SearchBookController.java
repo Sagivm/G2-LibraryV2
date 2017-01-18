@@ -23,6 +23,7 @@ import interfaces.ScreensIF;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -93,23 +94,62 @@ public class SearchBookController implements ScreensIF{
 	
 	@FXML
 	public void initialize() {
-		
-
 		ArrayList<String> elementList = new ArrayList<String>();
-		Message message = new Message(ActionType.GET_AUTHORS,elementList);
-
-		Message message2 = new Message(ActionType.GET_DOMAINS,domainList);
-
+		Message message = new Message();
+		Message message2= new Message();
+		
+		Task<Void> task = new Task<Void>() {
+		    @Override
+		    protected Void call() throws Exception {
+		    	message.setType(ActionType.GET_AUTHORS);
+		    	message.setElementsList(elementList);
+		    	//message = new Message(ActionType.GET_AUTHORS,elementList);
+		    	if(goToServer_flag==1)
+		    		ClientController.clientConnectionController.sendToServer(message);
+		         return null;
+		    }
+		};
+		
+		 
+		Thread thread = new Thread(task);
+		thread.setDaemon(true);
+		thread.start();
 		try {
-			if(goToServer_flag==1)
-			{
-			ClientController.clientConnectionController.sendToServer(message);
-			ClientController.clientConnectionController.sendToServer(message2);
-			goToServer_flag=0;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			thread.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		
+		Task<Void> task2 = new Task<Void>() {
+		    @Override
+		    protected Void call() throws Exception {
+		    	message2.setType(ActionType.GET_DOMAINS);
+		    	message2.setElementsList(domainList);
+		    	//message2 = new Message(ActionType.GET_DOMAINS,domainList);
+				if(goToServer_flag==1)
+					ClientController.clientConnectionController.sendToServer(message2);
+		         return null;
+		    }
+		};
+
+		 
+		Thread thread2 = new Thread(task2);
+		thread2.setDaemon(true);
+		thread2.start();
+		try {
+			thread2.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		
+		//Message message = new Message(ActionType.GET_AUTHORS,elementList);
+
+		//Message message2 = new Message(ActionType.GET_DOMAINS,domainList);
+		goToServer_flag=0;
+
 		
 		//Platform.runLater(new Runnable() {
 		Platform.runLater(new Runnable() {

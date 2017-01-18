@@ -15,6 +15,7 @@ import enums.ActionType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
@@ -293,16 +294,53 @@ public class ClientConnectionController extends AbstractClient{
 		}
 		
 		case SEARCH_BOOK_AND:{
-			ArrayList<String> list = new ArrayList<String>();
-			list=replay.getElementsList();
-			SearchBookResultsController.resultList = list;
+			Task<Void> task = new Task<Void>() {
+			    @Override
+			    protected Void call() throws Exception {
+					ArrayList<String> list = new ArrayList<String>();
+					list=replay.getElementsList();
+					SearchBookResultsController.resultList = list;
+					
+			         return null;
+			    }
+			};
+			 
+			 
+			Thread thread = new Thread(task);
+			thread.setDaemon(true);
+			thread.start();
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			break;
 		}
 		
 		case SEARCH_BOOK_OR:{
-			ArrayList<String> list = new ArrayList<String>();
-			list=replay.getElementsList();
-			SearchBookResultsController.resultList = list;
+			Task<Void> task = new Task<Void>() {
+			    @Override
+			    protected Void call() throws Exception {
+					ArrayList<String> list = new ArrayList<String>();
+					list=replay.getElementsList();
+					SearchBookResultsController.resultList = list;
+			         return null;
+			    }
+			};
+			 
+			Thread thread = new Thread(task);
+			thread.setDaemon(true);
+			thread.start();
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
 			break;
 		}
 		
