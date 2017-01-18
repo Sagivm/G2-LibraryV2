@@ -139,6 +139,30 @@ public class GeneralMessages {
 	 */
 	public static final String YOU_GOT_NEW_REVIEWS = "You got new pending reviews for confirmation.";
 
-
+	/**
+	 * Message for user that the card number must include only numbers.
+	 */
+	public static final String MUST_INCLUDE_ONLY_DIGIT_CARD = "The card number must include only numbers.";
+	
+	/**
+	 * Message for user that the card number is too short or long.
+	 */
+	public static final String WRONG_COUNT_OF_DIGIT_CARD = "The card number is too short or too long.";
+	
+	
+	/**
+	 * Message for user that the date is wrong.
+	 */
+	public static final String INVALID_DATE = "The date must include only digit. Format MM for Month and YY for Year";
+	
+	/**
+	 * Message for user that the CVV is wrong.
+	 */
+	public static final String CVV_INVALID = "The CVV must include only 3 or 4 digit.";
+	
+	/**
+	 * Message for user that the ID in not 9 digits.
+	 */
+	public static final String MUST_INCLUDE_ONLY_DIGITS_ID = "The ID must include only 9 digits.";
 	
 }

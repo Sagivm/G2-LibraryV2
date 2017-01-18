@@ -607,7 +607,17 @@ public class ClientConnectionController extends AbstractClient{
 				BookPageController.buyStatus = replay.getGnrlMsg();
 			break;
 		}
+		
+		case BUY_BOOK: {
+			if(replay.getGnrlMsg().equals("2"))
+				ExternalPaymentController.success = success;
+			if(replay.getGnrlMsg().equals("3"))
+				BookPageController.success = success;
+		break;
+		}
 
+		
+		
 		}
 
 	}

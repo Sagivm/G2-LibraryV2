@@ -85,6 +85,11 @@ public class BookPageController implements ScreensIF
 	public static SearchBookResult searchedBookPage;
 	
 	/**
+	 * Get answer from DB if success.
+	 */
+	public static boolean success = false;
+	
+	/**
 	 * Load book image from the path.
 	 */
 	private Image bookImage;
@@ -311,7 +316,7 @@ public class BookPageController implements ScreensIF
 		subjectsLable.setText(searchedBookPage.getBookSubjects());
 		domainsLable.setText(searchedBookPage.getBookDomains());
 		//continue_index=continue_index+domainsCount;
-		priceLable.setText(searchedBookPage.getBookPrice());
+		priceLable.setText(searchedBookPage.getBookPrice()+ " \u20AA");
 	}
 	
 	public Message prepareGetFromSQL(ActionType type, ArrayList<String> elementList)
@@ -321,22 +326,6 @@ public class BookPageController implements ScreensIF
 		message.setElementsList(elementList);
 		return message;
 	}
-	
-/*	public Message checkWriteReview(ActionType type, ArrayList<String> elementList)
-	{
-		Message message = new Message();
-		message.setType(type);
-		message.setElementsList(elementList);
-		return message;
-	}
-	
-	public Message prepareGetImg(ActionType type, ArrayList<String> elementList)
-	{
-		Message message = new Message();
-		message.setType(type);
-		message.setElementsList(elementList);
-		return message;
-	}*/
 	
 	@FXML
 	public void loadReviews() throws IOException {
@@ -373,7 +362,7 @@ public class BookPageController implements ScreensIF
 		        	ExternalPaymentController extPayment = new ExternalPaymentController();
 		        	extPayment.setProduct("Book - " + searchedBookPage.getBookTitle());
 		        	extPayment.setPrice(searchedBookPage.getBookPrice());
-		        	extPayment.setAction(1);
+		        	extPayment.setAction(1);	//buy book PerBook
 		        	extPayment.searchedBookPage = searchedBookPage;
 		        	        			        	
 					screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.REGISTRATION_TITLE);
@@ -388,6 +377,44 @@ public class BookPageController implements ScreensIF
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			if(buyStatus.equals("3"))
+			{
+				ArrayList<String> buyBook = new ArrayList<>();
+				User user = HomepageUserController.getConnectedUser();
+				buyBook.add(user.getId());
+				buyBook.add(searchedBookPage.getBookSn());
+				buyBook.add(searchedBookPage.getBookPrice());
+				buyBook.add("3");	//buy book Subscribed
+				
+				Message message = prepareGetFromSQL(ActionType.BUY_BOOK,buyBook);
+				try {
+					ClientController.clientConnectionController.sendToServer(message);
+				} catch (IOException e) {	
+					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+				}
+				
+				Service<Void> service = new Service<Void>() {
+			        @Override
+			        protected Task<Void> createTask() {
+			            return new Task<Void>() {           
+			                @Override
+			                protected Void call() throws Exception {                
+			                    final CountDownLatch latch = new CountDownLatch(1);
+			                    Platform.runLater(new Runnable() {                          
+			                        @Override
+			                        public void run() { 	
+			                        	initialize();
+									}
+			                        });
+			                     latch.await();                      
+			                     return null;
+			                   }
+			                };
+			            }
+			        };
+			        service.start();
+				
 			}
 		}
 		catch(Exception e) {

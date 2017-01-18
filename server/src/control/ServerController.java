@@ -1356,7 +1356,69 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
-		
+		case BUY_BOOK: {
+			
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date date = new Date();
+			
+			//System.out.println(dateFormat.format(date).toString());
+			
+			String sqlStmt = "INSERT INTO bought_book (`userId`, `bookId`, `purchaseDate`, `price`)"
+					+ "VALUES ('"+data.get(0)+"','"+data.get(1)+"','"+dateFormat.format(date).toString()+"','"+data.get(2)+"')";
+	
+			try {
+				DatabaseController.addToDatabase(sqlStmt);
+				//sqlResult = true;
+				int count=0;
+				float credits=0;
+				
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT book_by_date.purchaseCount FROM project.book_by_date "
+						+ "WHERE book_by_date.bookId ='" + data.get(1) + "' AND book_by_date.date = '" + dateFormat.format(date).toString() + "';");
+				while (rs.next()) {
+					//sqlResult = true;
+					count = Integer.parseInt(rs.getString(1));
+				}
+				count++;
+				
+				stmt.executeUpdate("UPDATE book_by_date SET purchaseCount="+count+" WHERE "
+						+ "book_by_date.bookId ='" + data.get(1) + "' AND book_by_date.date = '" + dateFormat.format(date).toString() + "';");
+				
+				
+				if(data.get(3).equals("3"))
+				{
+					stmt = DatabaseController.connection.createStatement();
+					rs = stmt.executeQuery("SELECT clients.credits FROM project.clients "
+							+ "WHERE clients.username ='" + data.get(0) + "';");
+					while (rs.next()) {
+						//sqlResult = true;
+						credits = Integer.parseInt(rs.getString(1));
+					}
+					credits = credits - Float.parseFloat(data.get(2));
+					
+					stmt.executeUpdate("UPDATE clients SET credits="+credits+" WHERE "
+							+ "clients.username ='" + data.get(0) + "';");				
+				}
+				
+				sqlResult = true;
+			} catch (SQLException e) {
+				System.out.println("");
+				System.out.println(e);
+				if (e.getErrorCode() == 1062) { //// duplicate primary key
+					//System.out.println("duplicate primary key - bought book");
+				}
+			}
+
+			if (sqlResult == true)
+			{
+				replay = new Replay(ActionType.BUY_BOOK,true,data.get(3));
+			}
+			else {
+				replay = new Replay(ActionType.BUY_BOOK, false,data.get(3));
+				//System.out.println(replay.getSucess());
+			}
+			break;
+		}
 		
 
 		}

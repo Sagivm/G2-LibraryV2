@@ -224,6 +224,10 @@ public enum ActionType {
 	 */
 	GET_BUY_STATUS,
 
+	/**
+	 * Add bought book to DB.
+	 */
+	BUY_BOOK,
 
 
 }
