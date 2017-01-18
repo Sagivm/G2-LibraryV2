@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import boundry.ClientUI;
 import entity.Author;
@@ -38,6 +39,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
@@ -95,59 +97,28 @@ public class SearchBookController implements ScreensIF{
 	@FXML
 	public void initialize() {
 		ArrayList<String> elementList = new ArrayList<String>();
-		Message message = new Message();
-		Message message2= new Message();
+		Message message = new Message(ActionType.GET_AUTHORS, elementList);
+		Message message2= new Message(ActionType.GET_DOMAINS, domainList);
 		
-		Task<Void> task = new Task<Void>() {
-		    @Override
-		    protected Void call() throws Exception {
-		    	message.setType(ActionType.GET_AUTHORS);
-		    	message.setElementsList(elementList);
-		    	//message = new Message(ActionType.GET_AUTHORS,elementList);
-		    	if(goToServer_flag==1)
-		    		ClientController.clientConnectionController.sendToServer(message);
-		         return null;
-		    }
-		};
-		
-		 
-		Thread thread = new Thread(task);
-		thread.setDaemon(true);
-		thread.start();
-		try {
-			thread.join();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		Task<Void> task2 = new Task<Void>() {
-		    @Override
-		    protected Void call() throws Exception {
-		    	message2.setType(ActionType.GET_DOMAINS);
-		    	message2.setElementsList(domainList);
-		    	//message2 = new Message(ActionType.GET_DOMAINS,domainList);
-				if(goToServer_flag==1)
-					ClientController.clientConnectionController.sendToServer(message2);
-		         return null;
-		    }
-		};
-
-		 
-		Thread thread2 = new Thread(task2);
-		thread2.setDaemon(true);
-		thread2.start();
-		try {
-			thread2.join();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(goToServer_flag==1)
+		{
+    		
+    		try {
+    			ClientController.clientConnectionController.sendToServer(message);
+				ClientController.clientConnectionController.sendToServer(message2);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
-		
-		//Message message = new Message(ActionType.GET_AUTHORS,elementList);
-
-		//Message message2 = new Message(ActionType.GET_DOMAINS,domainList);
 		goToServer_flag=0;
 
 		

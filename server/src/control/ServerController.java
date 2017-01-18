@@ -72,6 +72,7 @@ public class ServerController extends AbstractServer {
 	@FXML
 	private TextArea logField;
 
+	
 	/**
 	 * Text field for user.
 	 */
@@ -115,6 +116,7 @@ public class ServerController extends AbstractServer {
 	public ServerController() {
 		super(dPort);
 
+		
 		logger = Logger.getLogger("ServerLog.log");
 		FileHandler fh;
 		try {
@@ -128,6 +130,8 @@ public class ServerController extends AbstractServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} //
+		
+
 	}
 
 	/**
