@@ -26,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -36,7 +37,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 
 
 
@@ -69,7 +73,12 @@ public class BookPageController implements ScreensIF
 	
 	@FXML private ImageView imgBookImg;
 	
+	@FXML private Label lblBought;
+	@FXML private Button btnPurchase;
+	@FXML private Button btnDownload;
+	
 	public static ArrayList<String> img;
+	public static String buyStatus="0";
 	
 	public static boolean canWrite = false;
 	
@@ -85,9 +94,15 @@ public class BookPageController implements ScreensIF
 	{
 		int i;
 		try{
+			lblBought.setVisible(false);
+			btnPurchase.setVisible(false);
+			btnDownload.setVisible(false);
+			btnPurchase.setDisable(true);
+			btnDownload.setDisable(true);
+			
 			ArrayList<String> bookSn = new ArrayList<>();
 			bookSn.add(searchedBookPage.getBookSn());
-			Message message = prepareGetImg(ActionType.GET_BOOK_IMG,bookSn);
+			Message message = prepareGetFromSQL(ActionType.GET_BOOK_IMG,bookSn);
 			try {
 				ClientController.clientConnectionController.sendToServer(message);
 			} catch (IOException e) {	
@@ -148,11 +163,54 @@ public class BookPageController implements ScreensIF
 				bookTabPane.getTabs().remove(3); //remove Book report tab
 				
 				User user = HomepageUserController.getConnectedUser();
-				ArrayList<String> bookUserReview = new ArrayList<>();
-				bookUserReview.add(user.getId());
-				bookUserReview.add(searchedBookPage.getBookSn());
+				ArrayList<String> bookUser = new ArrayList<>();
+				bookUser.add(user.getId());
+				bookUser.add(searchedBookPage.getBookSn());
 				
-				message = checkWriteReview(ActionType.CHECK_WRITE_REVIEW,bookUserReview);
+				message = prepareGetFromSQL(ActionType.GET_BUY_STATUS,bookUser);
+				try {
+					ClientController.clientConnectionController.sendToServer(message);
+				} catch (IOException e) {	
+					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+				}
+				service = new Service<Void>() {
+			        @Override
+			        protected Task<Void> createTask() {
+			            return new Task<Void>() {           
+			                @Override
+			                protected Void call() throws Exception {                
+			                    final CountDownLatch latch = new CountDownLatch(1);
+			                    Platform.runLater(new Runnable() {                          
+			                        @Override
+			                        public void run() {
+			                        	
+			                        		if(buyStatus.equals("1"))
+			                        		{
+			                        			lblBought.setVisible(true);
+			                        			btnPurchase.setVisible(false);
+			                        			btnPurchase.setDisable(true);
+			                        			btnDownload.setVisible(true);
+			                        			btnDownload.setDisable(false);
+			                        		}
+			                        		else if(buyStatus.equals("2") || buyStatus.equals("3"))
+			                        		{
+			                        			lblBought.setVisible(false);
+			                        			btnPurchase.setVisible(true);
+			                        			btnPurchase.setDisable(false);
+			                        			btnDownload.setVisible(false);
+			                        			btnDownload.setDisable(true);
+			                        		}
+									}
+			                        });
+			                     latch.await();                      
+			                     return null;
+			                   }
+			                };
+			            }
+			        };
+			        service.start();
+				
+				message = prepareGetFromSQL(ActionType.CHECK_WRITE_REVIEW,bookUser);
 				try {
 					ClientController.clientConnectionController.sendToServer(message);
 				} catch (IOException e) {	
@@ -256,7 +314,15 @@ public class BookPageController implements ScreensIF
 		priceLable.setText(searchedBookPage.getBookPrice());
 	}
 	
-	public Message checkWriteReview(ActionType type, ArrayList<String> elementList)
+	public Message prepareGetFromSQL(ActionType type, ArrayList<String> elementList)
+	{
+		Message message = new Message();
+		message.setType(type);
+		message.setElementsList(elementList);
+		return message;
+	}
+	
+/*	public Message checkWriteReview(ActionType type, ArrayList<String> elementList)
 	{
 		Message message = new Message();
 		message.setType(type);
@@ -270,7 +336,7 @@ public class BookPageController implements ScreensIF
 		message.setType(type);
 		message.setElementsList(elementList);
 		return message;
-	}
+	}*/
 	
 	@FXML
 	public void loadReviews() throws IOException {
@@ -296,11 +362,44 @@ public class BookPageController implements ScreensIF
 				}
 	}
 	
-	@FXML
-	public void purchaseButtonPressed(ActionEvent event){
 	
-		
+	@FXML
+	public void btnPurchasePressed(ActionEvent event) throws IOException{    
+		try{
+			if(buyStatus.equals("2"))
+			{
+				ScreenController screenController = new ScreenController();
+		        try {
+					screenController.replaceSceneContent(ScreensInfo.REGISTRATION_SCREEN,ScreensInfo.REGISTRATION_TITLE);
+					Stage primaryStage = screenController.getStage();
+					ScreenController.setStage(primaryStage);
+					Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+					primaryStage.show();
+					primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
+					primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
+	@FXML
+	public void btnDownloadPressed(ActionEvent event) throws IOException{    
+		try{
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 	@Override
 	public void backButtonPressed(ActionEvent event) {

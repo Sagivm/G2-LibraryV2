@@ -203,18 +203,21 @@ public enum ActionType {
 	 * Return if the user eligible to write a review.
 	 */
 	CHECK_WRITE_REVIEW,
-
 	
 	/**
 	 * Get the image of a specific book.
 	 */
 	GET_BOOK_IMG,
-
+	
 	/**
 	 * Gets the total amount of money that was paid for each book
 	 */
 	GET_TOTAL_PRICE,
-
+	
+	/**
+	 * Gets if the user bought this book or if the user allowed to buy it now.
+	 */
+	GET_BUY_STATUS,
 
 
 }

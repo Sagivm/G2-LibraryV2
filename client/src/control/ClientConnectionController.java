@@ -505,6 +505,10 @@ public class ClientConnectionController extends AbstractClient {
 			break;
 		}
 		
+		case GET_BUY_STATUS: {
+				BookPageController.buyStatus = replay.getGnrlMsg();
+			break;
+		}
 
 		}
 

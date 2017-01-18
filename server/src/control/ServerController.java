@@ -395,13 +395,12 @@ public class ServerController extends AbstractServer {
 		
 		
 		
-		case SEARCH_BOOK_AND: { 
+		case SEARCH_BOOK_AND: { // itai
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
 			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
 			int i,j, continue_index;
 			ArrayList<String> newSearch=message.getElementsList();
-			
 			//initiate filterResults
 			for(i=0;i<filterResults.length;i++)
 				filterResults[i]=1;
@@ -506,22 +505,17 @@ public class ServerController extends AbstractServer {
 			for(i=0;i<elementsList.size();i=i+2)
 			{
 				if(Integer.parseInt(elementsList.get(i))==1)
-				{
-					res.add(elementsList.get(i+1));
-					
-					String bookId = elementsList.get(i+1).substring(0, (elementsList.get(i+1).indexOf("^")));
-					int searchCount=0;
-					try {
-						searchCount = CurrentDate.IncSearchBookDateRow(bookId);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
-							+ searchCount + "' to '" + (searchCount+1) +"'");
-
-					
-				}
+					res.add(elementsList.get(i+1)); 
+/*                    String bookId = elementsList.get(i+1).substring(0, (elementsList.get(i+1).indexOf("^")));
+                    int searchCount=0;
+                    try {
+                        searchCount = CurrentDate.IncSearchBookDateRow(bookId);
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
+                         + searchCount + "' to '" + (searchCount+1) +"'");*/
 			}
 			
 			/*
@@ -531,16 +525,16 @@ public class ServerController extends AbstractServer {
 					res.add(elementsList.get(i));
 			}
 			*/
-			/*
+			
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				 */
+				 
 
 			replay = new Replay(ActionType.SEARCH_BOOK_AND, true, res);
 			break;
 		}
 
-		case SEARCH_BOOK_OR: { 
+		case SEARCH_BOOK_OR: { // itai -need to fix
 			
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
@@ -627,12 +621,12 @@ public class ServerController extends AbstractServer {
 				
 				
 			}
+			//res = res.stream().distinct().collect(Collectors.toList());
 
-
-			/*
+			
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				  */
+				  
 			 
 			replay = new Replay(ActionType.SEARCH_BOOK_OR, true, res);
 			break;
@@ -716,11 +710,11 @@ public class ServerController extends AbstractServer {
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + "and lastName=" + "'" + message.getElementsList().get(2) +"'" +  "WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				*/
-				//System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + " ,lastName=" + "'" + message.getElementsList().get(2) +"'" +  " WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				
-				writeToLog("Changed name of username" + "'" + message.getElementsList().get(0) + "' to '"
+				writeToLog(message.getElementsList().get(0) + " Changed name of username" + "'" + message.getElementsList().get(0) + "' to '"
 				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2)+"'");
 				replay = new Replay(ActionType.EDIT_USER_LIBRARIAN, true);
 				
@@ -1186,6 +1180,46 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		
+		case GET_BUY_STATUS: {
+			try {
+				String operation = "0"; // user not allowed to buy this book
+				sqlResult = false;
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT clients.username FROM project.clients, project.bought_book WHERE clients.username = '" + data.get(0) + "' AND"
+						+ " clients.username = bought_book.userId AND bought_book.bookId = '" + data.get(1) + "';");
+				while (rs.next()) {
+					sqlResult = true;
+					operation = "1"; //already bought this book
+				}
+				if(sqlResult == false)
+				{
+					rs = stmt.executeQuery("SELECT clients.username FROM project.clients WHERE clients.username = '" + data.get(0) + "' AND "
+					+ "clients.isBlocked=0 AND clients.accountType = 'PerBook' AND "
+					+ "clients.username NOT IN (SELECT bought_book.userId FROM bought_book WHERE bought_book.bookId='" + data.get(1) + "');");
+					while (rs.next()) {
+						sqlResult = true;
+						operation = "2"; //user PerBook account type and allowed to buy this book
+					}
+				}
+				if(sqlResult == false)
+				{
+					rs = stmt.executeQuery("SELECT DISTINCT clients.username FROM project.clients,project.books WHERE clients.username = '" + data.get(0) + "' "
+					+ "AND clients.isBlocked=0 AND (clients.accountType = 'Monthly' OR clients.accountType = 'Yearly') AND books.sn = '" + data.get(1) + "' "
+					+ "AND clients.username NOT IN (SELECT bought_book.userId FROM bought_book WHERE bought_book.bookId='" + data.get(1) + "') "
+					+ "AND clients.credits>=books.price AND STR_TO_DATE(clients.endSubscription, '%d/%m/%Y')>=curdate();");
+					while (rs.next()) {
+						sqlResult = true;
+						operation = "3"; //user Subscribed account type and allowed to buy this book
+					}				
+				}
+				replay = new Replay(ActionType.GET_BUY_STATUS, true,operation);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+		
 		
 
 		}
@@ -1336,7 +1370,9 @@ public class ServerController extends AbstractServer {
 			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
 			while(rs_books.next())
 			{
+
 				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
+				
 				book_sn.add(rs_books.getString(1));
 			}
 			
