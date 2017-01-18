@@ -63,6 +63,9 @@ public Replay(ActionType type, boolean sucess)
 	setTransmitType(ActionType.UNICAST);
 }
 
+
+
+
 public Replay(ActionType type, int action)
 {
 	this.action=action;
@@ -109,6 +112,7 @@ public Replay(ActionType type, boolean sucess,int action,ArrayList<String> eleme
 	setElementsList(elementsList);
 	setTransmitType(ActionType.UNICAST);
 }
+
 
 /** Replay constructor that initialize the attributes.
  * @param type - Gets the type of action.
