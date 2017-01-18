@@ -123,7 +123,7 @@ public class SearchBookResultsController implements ScreensIF{
 
 				float price =  Float.parseFloat(tmp[continue_index]);
 				//SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price)+"$");
-				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price)+ " \u20AA");
+				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price)+ "$");
 				data.add(book);
 			}
 			
@@ -230,6 +230,9 @@ public class SearchBookResultsController implements ScreensIF{
 		} 
 	}
 	
+	
+
+	
 	@Override
 	public void backButtonPressed(ActionEvent event) {
 		// TODO Auto-generated method stub
@@ -276,5 +279,3 @@ public class SearchBookResultsController implements ScreensIF{
 
 
 }
-
-

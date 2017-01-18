@@ -395,12 +395,13 @@ public class ServerController extends AbstractServer {
 		
 		
 		
-		case SEARCH_BOOK_AND: { // itai
+		case SEARCH_BOOK_AND: { 
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
 			int[] filterResults=new int[elementsList.size()]; //books that will be shown in results
 			int i,j, continue_index;
 			ArrayList<String> newSearch=message.getElementsList();
+			
 			//initiate filterResults
 			for(i=0;i<filterResults.length;i++)
 				filterResults[i]=1;
@@ -505,7 +506,22 @@ public class ServerController extends AbstractServer {
 			for(i=0;i<elementsList.size();i=i+2)
 			{
 				if(Integer.parseInt(elementsList.get(i))==1)
+				{
 					res.add(elementsList.get(i+1));
+					
+					String bookId = elementsList.get(i+1).substring(0, (elementsList.get(i+1).indexOf("^")));
+					int searchCount=0;
+					try {
+						searchCount = CurrentDate.IncSearchBookDateRow(bookId);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
+							+ searchCount + "' to '" + (searchCount+1) +"'");
+
+					
+				}
 			}
 			
 			/*
@@ -515,16 +531,16 @@ public class ServerController extends AbstractServer {
 					res.add(elementsList.get(i));
 			}
 			*/
-			
+			/*
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				 
+				 */
 
 			replay = new Replay(ActionType.SEARCH_BOOK_AND, true, res);
 			break;
 		}
 
-		case SEARCH_BOOK_OR: { // itai -need to fix
+		case SEARCH_BOOK_OR: { 
 			
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
@@ -611,12 +627,12 @@ public class ServerController extends AbstractServer {
 				
 				
 			}
-			//res = res.stream().distinct().collect(Collectors.toList());
 
-			
+
+			/*
 			 for(i=0;i<res.size();i++)
 				 System.out.println(res.get(i));
-				  
+				  */
 			 
 			replay = new Replay(ActionType.SEARCH_BOOK_OR, true, res);
 			break;
@@ -700,11 +716,11 @@ public class ServerController extends AbstractServer {
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + "and lastName=" + "'" + message.getElementsList().get(2) +"'" +  "WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				*/
-				System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
+				//System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + " ,lastName=" + "'" + message.getElementsList().get(2) +"'" +  " WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				
-				writeToLog(message.getElementsList().get(0) + " Changed name of username" + "'" + message.getElementsList().get(0) + "' to '"
+				writeToLog("Changed name of username" + "'" + message.getElementsList().get(0) + "' to '"
 				+ message.getElementsList().get(1) + " " + message.getElementsList().get(2)+"'");
 				replay = new Replay(ActionType.EDIT_USER_LIBRARIAN, true);
 				
@@ -1320,9 +1336,7 @@ public class ServerController extends AbstractServer {
 			ResultSet rs_books = stmt.executeQuery("SELECT sn, title, language, summary, tableOfContent, keywords, authorsCount FROM books;");
 			while(rs_books.next())
 			{
-
 				elementsList.add(rs_books.getString(1) + "^" + rs_books.getString(2) + "^" + rs_books.getString(3) + "^" + rs_books.getString(4)+ "^" + rs_books.getString(5)+ "^" + rs_books.getString(6)+ "^" + rs_books.getString(7));
-				
 				book_sn.add(rs_books.getString(1));
 			}
 			

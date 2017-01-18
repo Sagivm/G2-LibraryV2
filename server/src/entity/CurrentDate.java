@@ -2,6 +2,7 @@ package entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import control.DatabaseController;
@@ -94,26 +95,41 @@ public class CurrentDate   {
 	}
 	/**\
 	 * Inc a single search row of book by date with the current date
-	 * @param rs- ResultSet of book by date  table with sn in the first index of rs
+	 * @param bookId- id of book
 	 * @throws SQLException
 	 */
-	public static void IncSearchBookDateRow(ResultSet rs) throws SQLException
+	public static int IncSearchBookDateRow(String bookId) throws SQLException
 	{
 		Date Currentdate=new Date();
 		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		String date=(String)dateFormat.format(Currentdate);
-		DatabaseController.updateDatabase("UPDATE book_by_date SET searchCount=searchCount+1 WHERE bookId=+"+rs.getInt(1)+"and date='"+date+"';");
+		Statement stmt = DatabaseController.connection.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT searchCount FROM book_by_date WHERE bookId='" + bookId + "' and date='"+date+"';");
+		int count=0;
+		while(rs.next()) //will do only once
+			 count = Integer.parseInt(rs.getString(1));
+		String serachCount=Integer.toString(count+1);
+		DatabaseController.updateDatabase("UPDATE book_by_date SET searchCount='" + serachCount + "' WHERE bookId=+'"+bookId+"' and date='"+date+"';");
+		return count;
 	}
 	/**\
-	 * Inc a single search row of book by date with the current date
-	 * @param rs- ResultSet of book by date  table with sn in the first index of rs
+	 * Inc a single purchase row of book by date with the current date
+	 * @param bookId- id of book
 	 * @throws SQLException
 	 */
-	public static void IncPurcahseBookDateRow(ResultSet rs) throws SQLException
+	public static int IncPurcahseBookDateRow(String bookId) throws SQLException
 	{
 		Date Currentdate=new Date();
 		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		String date=(String)dateFormat.format(Currentdate);
-		DatabaseController.updateDatabase("UPDATE book_by_date SET purchaseCount=purchaseCount+1 WHERE bookId=+"+rs.getInt(1)+"and date='"+date+"';");
+		
+		Statement stmt = DatabaseController.connection.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT purchaseCount FROM book_by_date WHERE bookId='" + bookId + "' and date='"+date+"';");
+		int count=0;
+		while(rs.next()) //will do only once
+			 count = Integer.parseInt(rs.getString(1));
+		String purchaseCount=Integer.toString(count+1);
+		DatabaseController.updateDatabase("UPDATE book_by_date SET purchaseCount='" + purchaseCount + "' WHERE bookId=+'"+bookId+"' and date='"+date+"';");
+		return count;
 	}
 }

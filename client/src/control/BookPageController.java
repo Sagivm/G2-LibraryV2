@@ -296,7 +296,11 @@ public class BookPageController implements ScreensIF
 				}
 	}
 	
+	@FXML
+	public void purchaseButtonPressed(ActionEvent event){
 	
+		
+	}
 	
 	@Override
 	public void backButtonPressed(ActionEvent event) {
