@@ -693,17 +693,17 @@ public class ServerController extends AbstractServer {
 				{
 					if(!message.getElementsList().get(0).isEmpty())
 						if(!elementsList.get(i).contains(message.getElementsList().get(0).trim()))
-							filterResult[i/5]=0;
+							filterResult[i/6]=0;
 						
 
 					if(!message.getElementsList().get(1).isEmpty())
 						if(!elementsList.get(i+1).toLowerCase().trim().contains(message.getElementsList().get(1).toLowerCase().trim()))
-							filterResult[i/5]=0;
+							filterResult[i/6]=0;
 
 
 					if(!message.getElementsList().get(2).isEmpty())
 						if(!elementsList.get(i+2).toLowerCase().trim().contains(message.getElementsList().get(2).toLowerCase().trim()))
-							filterResult[i/5]=0;
+							filterResult[i/6]=0;
 
 					
 				}
