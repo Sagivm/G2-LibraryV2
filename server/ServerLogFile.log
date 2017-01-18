@@ -1,7 +1,19 @@
+<<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library.git
 ιπε 18, 2017 4:27:34 PM control.ServerController writeToLog
+=======
+ιπε 18, 2017 3:43:29 PM control.ServerController writeToLog
+>>>>>>> 5a59c5e pop fix
 INFO: Connected to database
+<<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library.git
 ιπε 18, 2017 4:27:34 PM control.ServerController writeToLog
+=======
+ιπε 18, 2017 3:43:29 PM control.ServerController writeToLog
+>>>>>>> 5a59c5e pop fix
 INFO: Server listening for connections
 on port: 1337
+<<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library.git
 ιπε 18, 2017 4:27:59 PM control.ServerController writeToLog
+=======
+ιπε 18, 2017 3:43:36 PM control.ServerController writeToLog
+>>>>>>> 5a59c5e pop fix
 INFO: Login attempt

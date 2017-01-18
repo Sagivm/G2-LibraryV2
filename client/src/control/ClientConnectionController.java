@@ -504,6 +504,15 @@ public class ClientConnectionController extends AbstractClient {
 				BookPageController.img = null;
 			break;
 		}
+		case GET_TOTAL_PRICE: {
+			if(success)
+				BookPopularityReportController.priceList=replay.getElementsList();
+			else
+				BookPopularityReportController.priceList = null;
+			break;
+		}
+		
+		
 		
 		case GET_BUY_STATUS: {
 				BookPageController.buyStatus = replay.getGnrlMsg();

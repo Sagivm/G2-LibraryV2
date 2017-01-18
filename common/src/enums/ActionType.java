@@ -209,6 +209,7 @@ public enum ActionType {
 	 */
 	GET_BOOK_IMG,
 	
+
 	/**
 	 * Gets the total amount of money that was paid for each book
 	 */
@@ -218,6 +219,7 @@ public enum ActionType {
 	 * Gets if the user bought this book or if the user allowed to buy it now.
 	 */
 	GET_BUY_STATUS,
+
 
 
 }
