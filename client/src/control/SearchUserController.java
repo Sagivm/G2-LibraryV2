@@ -49,8 +49,8 @@ public class SearchUserController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{ 
-		Image userImagePath = new Image("/img/users_three.png");
-		usersImageView.setImage(userImagePath);
+		Image usersImagePath = new Image("/img/users_three.png");
+		usersImageView.setImage(usersImagePath);
 	}
 
 	
