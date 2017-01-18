@@ -22,13 +22,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /** EditUserManagerController. Responsible to enable a manager to edit user account type and freeze account.
  * @author itain
  */
 public class EditUserManagerController implements ScreensIF{
 
-
+	@FXML private ImageView userImageView;
 	@FXML private Label usernameLable;
 	@FXML private Label fNameLable;
 	@FXML private Label lNameLable;
@@ -61,6 +63,8 @@ public class EditUserManagerController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{
+		Image userImagePath = new Image("/img/user.png");
+		userImageView.setImage(userImagePath);
 		usernameLable.setText(searchedUserPageManager.getUsername());
 		fNameLable.setText(searchedUserPageManager.getFirstName().trim());
 		lNameLable.setText(searchedUserPageManager.getLastName().trim());

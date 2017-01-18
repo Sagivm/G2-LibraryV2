@@ -80,12 +80,6 @@ public class SearchBookResultsController implements ScreensIF{
 	@FXML
 	private void initialize()
 	{
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try{
 			int j;
 			//System.out.println(resultList.size());
@@ -231,7 +225,7 @@ public class SearchBookResultsController implements ScreensIF{
 		languageCol.setStyle( "-fx-alignment: CENTER;");
 		domainsCol.setStyle( "-fx-alignment: CENTER;");
 		subjectsCol.setStyle( "-fx-alignment: CENTER;");
-		
+		bookPageCol.setStyle( "-fx-alignment: CENTER;");
 		
 		}
 		catch (Exception e) {

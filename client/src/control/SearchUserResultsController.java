@@ -197,6 +197,7 @@ public class SearchUserResultsController implements ScreensIF{
 					accountTypeCol.setStyle( "-fx-alignment: CENTER;");
 					accountStatusCol.setStyle( "-fx-alignment: CENTER;");
 					isBlockedCol.setStyle( "-fx-alignment: CENTER;");
+					userPageCol.setStyle( "-fx-alignment: CENTER;");
 					
 					resultsTable.setItems(data);
 					resultsTable.getSortOrder().add(fNameCol);

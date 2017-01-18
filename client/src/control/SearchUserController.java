@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import boundry.ClientUI;
 import entity.GeneralMessages;
@@ -19,6 +20,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 /** SearchUserController. Responsible to enable a librarian or a manager to search users.
@@ -28,6 +31,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class SearchUserController implements ScreensIF{
 
+	@FXML private ImageView usersImageView;
 	@FXML private TextField idTextField;
 	@FXML private TextField fNameTextField;
 	@FXML private TextField lNameTextField;
@@ -42,6 +46,13 @@ public class SearchUserController implements ScreensIF{
 	 */
 	private static HomepageManagerController managerMain;
 	
+	@FXML
+	public void initialize()
+	{ 
+		Image usersImagePath = new Image("/img/users_three.png");
+		usersImageView.setImage(usersImagePath);
+	}
+
 	
 	/** This function called when the worker press on search. the function tests the
 	 * integrity of the fields, and send the message to the server.
@@ -50,6 +61,7 @@ public class SearchUserController implements ScreensIF{
 	@FXML
 	public void searchButtonPressed(ActionEvent event)
 	{
+		
 		String id = idTextField.getText();
 		String firstName = fNameTextField.getText();
 		String lastName = lNameTextField.getText();
@@ -86,6 +98,13 @@ public class SearchUserController implements ScreensIF{
 		} catch (IOException e) {
 					
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+		}
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
     	if(ClientUI.getTypeOfUser()=="Librarian")

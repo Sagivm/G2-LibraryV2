@@ -22,6 +22,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 
 /** EditUserLibrarianController. Responsible to enable a librarian to edit user first name and last name.
@@ -31,7 +33,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class EditUserLibrarianController implements ScreensIF{
 	
-
+	@FXML private ImageView userImageView;
 	@FXML private Label usernameLable;
 	@FXML private TextField fNameTextField;
 	@FXML private TextField lNameTextField;
@@ -63,6 +65,8 @@ public class EditUserLibrarianController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{ 
+		Image userImagePath = new Image("/img/user.png");
+		userImageView.setImage(userImagePath);
 		usernameLable.setText(searchedUserPageLibrarian.getUsername());
 		fNameTextField.setText(searchedUserPageLibrarian.getFirstName().trim());
 		lNameTextField.setText(searchedUserPageLibrarian.getLastName().trim());

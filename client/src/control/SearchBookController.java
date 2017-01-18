@@ -54,6 +54,7 @@ import javafx.scene.control.Tooltip;
 
 public class SearchBookController implements ScreensIF{
 
+	@FXML private ImageView booksImageView;
 	@FXML private TextField titleTextField;
 	@FXML private ListView<String> authorListView;
 	@FXML private ComboBox<String> languageComboBox;
@@ -96,6 +97,8 @@ public class SearchBookController implements ScreensIF{
 	
 	@FXML
 	public void initialize() {
+		Image booksImagePath = new Image("/img/books.png");
+		booksImageView.setImage(booksImagePath);
 		ArrayList<String> elementList = new ArrayList<String>();
 		Message message = new Message(ActionType.GET_AUTHORS, elementList);
 		Message message2= new Message(ActionType.GET_DOMAINS, domainList);
