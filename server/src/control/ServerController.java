@@ -25,6 +25,7 @@ import javax.swing.text.AbstractDocument.ElementEdit;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
+
 import entity.CurrentDate;
 import entity.GeneralMessages;
 import entity.Login;
@@ -807,9 +808,9 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> subjectList = new ArrayList<String>();
 			try {
 				Statement stmt = DatabaseController.connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT name FROM subjects");
+				ResultSet rs = stmt.executeQuery("SELECT subjects.name,subjects.id,subjects.domain,domains.id,domains.name FROM subjects,domains WHERE subjects.domain=domains.id");
 				while (rs.next()) {
-					subjectList.add(rs.getString(1));
+					subjectList.add("("+rs.getString(2)+") "+rs.getString(1)+" ("+rs.getString(5)+")");
 				}
 				replay = new Replay(ActionType.GET_SUBJECTS, true, subjectList);
 			} catch (SQLException e) {
@@ -818,6 +819,7 @@ public class ServerController extends AbstractServer {
 			
 			break;
 		}
+
 
 		case ACCEPT_PENDING_USERS: {
 			try {
@@ -1074,7 +1076,7 @@ public class ServerController extends AbstractServer {
 				ArrayList<String> elementsList = new ArrayList<String>();
 				Statement stmt = DatabaseController.connection.createStatement();
 				ResultSet rs = stmt.executeQuery(
-						"SELECT books.sn,books.title,books.keywords,books.hide,authors.id,CONCAT(authors.firstName,' ',authors.lastName) as authorName, books.summary, books.image FROM books,book_authors,authors "
+						"SELECT books.sn,books.title,books.keywords,books.hide,authors.id,CONCAT(authors.firstName,' ',authors.lastName) as authorName, books.summary, books.image, books.price FROM books,book_authors,authors "
 						+ "WHERE books.sn=book_authors.bookId AND book_authors.authorId=authors.id "
 						+ "ORDER BY sn");
 				while (rs.next()) {
@@ -1086,6 +1088,7 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(6)); // author name
 					elementsList.add(rs.getString(7)); // book summary
 					elementsList.add(rs.getString(8)); // book image
+					elementsList.add(rs.getString(9)); // book price
 				}
 				replay = new Replay(ActionType.GET_BOOK_LIST, true, elementsList);
 			} catch (SQLException e) {
@@ -1122,6 +1125,7 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
+		
 		
 		case ADD_BOOK: {
 			try {
@@ -1206,6 +1210,8 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
+		
+		
 		
 		case GET_PENDING_ACCOUNTS: {
 			try {

@@ -540,7 +540,6 @@ private TextField editBookPriceTextField;
   });
 
   submitAddBook.setOnAction(e -> {
-	  System.out.println("sdsdsds");
    String TitleBook = null;
    TitleBook = addBookTitle.getText();
 
