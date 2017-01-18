@@ -65,9 +65,9 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtMonth" layoutX="182.0" layoutY="300.0" prefHeight="25.0" prefWidth="58.0" />
-      <TextField fx:id="txtYear" layoutX="284.0" layoutY="300.0" prefHeight="25.0" prefWidth="58.0" />
-      <Label alignment="CENTER" layoutX="241.0" layoutY="303.0" prefHeight="20.0" prefWidth="40.0" text="/">
+      <TextField fx:id="txtMonth" layoutX="182.0" layoutY="300.0" prefHeight="25.0" prefWidth="35.0" />
+      <TextField fx:id="txtYear" layoutX="261.0" layoutY="300.0" prefHeight="25.0" prefWidth="35.0" />
+      <Label alignment="CENTER" layoutX="220.0" layoutY="302.0" prefHeight="20.0" prefWidth="35.0" text="/">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -77,7 +77,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCVV" layoutX="182.0" layoutY="344.0" prefHeight="25.0" prefWidth="58.0" />
+      <TextField fx:id="txtCVV" layoutX="182.0" layoutY="344.0" prefHeight="25.0" prefWidth="45.0" />
       <ImageView fitHeight="27.0" fitWidth="52.0" layoutX="123.0" layoutY="343.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../img/cvv.png" />

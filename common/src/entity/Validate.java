@@ -64,4 +64,40 @@ public class Validate {
 	
 	return false;
 	}
+	
+	/**
+	 * This static function validate the credit card number.
+	 * @param text
+	 * @return
+	 */
+	public static boolean cardNumberValidate(String text) {
+	if (text.matches("[0-9]+")) 
+		return true;
+	return false;
+	}
+	
+	/**
+	 * This static function validate if inserted 2 digits.
+	 * @param text
+	 * @return
+	 */
+	public static boolean twoDigitValidate(String text) {
+	if (text.matches("[0-9]+") && text.length() == 2) 
+		return true;
+	
+	return false;
+	}
+	
+	/**
+	 * This static function validate for CVV.
+	 * @param text
+	 * @return
+	 */
+	public static boolean cvvValidate(String text) {
+	if (text.matches("[0-9]+") && (text.length() == 3 || text.length() == 4 )) 
+		return true;
+	
+	return false;
+	}
+	
 }
