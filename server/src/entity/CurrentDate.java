@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import control.DatabaseController;
-
+//
 /**
  * @author sagivm
  *Generates each passing day and each time the Db is starting to run new tuple for each book in 
