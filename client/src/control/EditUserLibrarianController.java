@@ -116,13 +116,13 @@ public class EditUserLibrarianController implements ScreensIF{
     	{
         	if (librarianMain == null)
         		librarianMain = new HomepageLibrarianController();
-        	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+        	librarianMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
     	}
     	else if(ClientUI.getTypeOfUser()=="Manager")
     	{
         	if (managerMain == null)
         		managerMain = new HomepageManagerController();
-        	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+        	managerMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
     	}
 		
 		ScreenController screenController = new ScreenController();

@@ -13,7 +13,7 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <TableView fx:id="resultsTable" layoutX="40.0" layoutY="109.0" prefHeight="487.0" prefWidth="828.0">
+      <TableView fx:id="resultsTable" layoutX="6.0" layoutY="109.0" prefHeight="427.0" prefWidth="877.0">
         <columns>
           <TableColumn fx:id="usernameCol" prefWidth="122.0" text="Username" />
           <TableColumn fx:id="fNameCol" prefWidth="130.0" text="First Name" />
@@ -24,5 +24,10 @@
             <TableColumn fx:id="userPageCol" prefWidth="70.0" />
         </columns>
       </TableView>
+      <Button fx:id="backButton" layoutX="718.0" layoutY="551.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="46.0" prefWidth="127.0" text="&lt; Back">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -248,7 +248,7 @@ public class SearchBookController implements ScreensIF{
 					e.printStackTrace();		
 					}
 				
-				//WHY U DONT WORK?!!?
+				
 				if(ClientUI.getTypeOfUser()=="Librarian")
             	{
                 	if (librarianMain == null)

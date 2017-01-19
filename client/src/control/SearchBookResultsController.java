@@ -56,6 +56,7 @@ public class SearchBookResultsController implements ScreensIF{
 	@FXML private TableColumn domainsCol;
 	@FXML private TableColumn subjectsCol;
 	@FXML private TableColumn bookPageCol;
+	@FXML private Button backButton;
 	
 	public static ArrayList<String> resultList;
 	private final Image enterImage = new Image("/img/enter.png");
@@ -81,7 +82,16 @@ public class SearchBookResultsController implements ScreensIF{
 	private void initialize()
 	{
 		try{
+			
 			int j;
+			
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			//System.out.println(resultList.size());
 			for(int i=0;i<resultList.size();i++)
 			{
@@ -236,9 +246,39 @@ public class SearchBookResultsController implements ScreensIF{
 	
 
 	
-	@Override
+	
 	public void backButtonPressed(ActionEvent event) {
-		// TODO Auto-generated method stub
+		if(ClientUI.getTypeOfUser()=="Librarian")
+    	{
+        	if (librarianMain == null)
+        		librarianMain = new HomepageLibrarianController();
+        	librarianMain.setPage(ScreensInfo.SEARCH_BOOK_SCREEN);
+    	}
+    	else if(ClientUI.getTypeOfUser()=="Manager")
+    	{
+        	if (managerMain == null)
+        		managerMain = new HomepageManagerController();
+        	managerMain.setPage(ScreensInfo.SEARCH_BOOK_SCREEN);
+    	}
+    	else if(ClientUI.getTypeOfUser()=="User")
+    	{
+        	if (userMain == null)
+        		userMain = new HomepageUserController();
+        	userMain.setPage(ScreensInfo.SEARCH_BOOK_SCREEN);
+    	}
+		
+		ScreenController screenController = new ScreenController();
+		try{
+			if(ClientUI.getTypeOfUser()=="Librarian")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+			else if(ClientUI.getTypeOfUser()=="Manager")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+			else if(ClientUI.getTypeOfUser()=="User")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}  
 		
 	}
 

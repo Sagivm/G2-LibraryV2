@@ -53,6 +53,7 @@ public class SearchUserResultsController implements ScreensIF{
 	@FXML private TableColumn accountStatusCol;
 	@FXML private TableColumn userPageCol;
 	@FXML private TableColumn isBlockedCol;
+	@FXML private Button backButton;
 	
 	private final Image enterImage = new Image("/img/enter.png");
 	
@@ -213,9 +214,32 @@ public class SearchUserResultsController implements ScreensIF{
 	
 	public static ArrayList<String> resultList;
 	
-	@Override
+	
 	public void backButtonPressed(ActionEvent event) {
-		// TODO Auto-generated method stub
+		if(ClientUI.getTypeOfUser()=="Librarian")
+    	{
+        	if (librarianMain == null)
+        		librarianMain = new HomepageLibrarianController();
+        	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+    	}
+    	else if(ClientUI.getTypeOfUser()=="Manager")
+    	{
+        	if (managerMain == null)
+        		managerMain = new HomepageManagerController();
+        	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+    	}
+		
+		ScreenController screenController = new ScreenController();
+		try{
+			if(ClientUI.getTypeOfUser()=="Librarian")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+			else if(ClientUI.getTypeOfUser()=="Manager")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}  
 		
 	}
 
