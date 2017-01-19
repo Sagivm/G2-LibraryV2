@@ -52,6 +52,7 @@ public class ClientUI extends Application {
 	
 		     ScreenController screenController = new ScreenController();
 		     screenController.replaceSceneContent(ScreensInfo.CLIENT_SCREEN,ScreensInfo.CLIENT_TITLE);
+		     primaryStage.setResizable(false);
 		     primaryStage.show();
 			 primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
 			 primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);

@@ -50,12 +50,46 @@ public class HomepageUserController implements ScreensIF {
 	 * The user full name will shown in this label.
 	 */
 	@FXML private Label usernameLabel;
-	//@FXML private TextField testTextField;
+
+	/**
+	 * The user subscription.
+	 */
+	@FXML private Label lblSubscribed;
+	
+	/**
+	 * The subscription expiration date.
+	 */
+	@FXML private Label lblExpDate;
+	
+	/**
+	 * The subscription credits.
+	 */
+	@FXML private Label lblCredits;
 	
 	/**
 	 * save the connected user
 	 */
 	private static User connectedUser;
+	
+	/**
+	 * saves if the user is subscribed or not.
+	 */
+	public static boolean isSubscribed=false;
+	
+	/**
+	 * saves the subscription expiration date.
+	 */
+	public static String expDate = "";
+	
+	/**
+	 * saves the credits.
+	 */
+	public static boolean success = false;
+	
+	/**
+	 * saves the subscription info.
+	 */
+	private static ArrayList<String> subscription;
 	
 
 	/*
@@ -117,14 +151,6 @@ public class HomepageUserController implements ScreensIF {
 	 */
 	@FXML
 	public void searchBookButtonPressed(ActionEvent event) throws IOException {
-/*		try {
-			if(content.getChildren().size()>0)
-				content.getChildren().remove(0);
-			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.SEARCH_BOOK_SCREEN));
-			content.getChildren().add(root);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
 		loadPage(ScreensInfo.SEARCH_BOOK_SCREEN);
 	}
 
@@ -139,59 +165,7 @@ public class HomepageUserController implements ScreensIF {
 	@FXML
 	public void settingsButtonPressed(ActionEvent event) throws IOException {
 		loadPage(ScreensInfo.HOMEPAGE_SET_ACCOUNT_TYPE_SCREEN);
-	}
-	/*--------------------------------------------------------------------------*/
-	@FXML
-	public void btnTestReadReviewsPressed(ActionEvent event) throws IOException {
-		String bookSummary = "The film begins with a summary of the prehistory of the ring of power."
-				+ " Long ago, twenty rings existed: three for elves, seven for dwarves, nine for"
-				+ " men, and one made by the Dark Lord Sauron, in Mordor, which would rule all the"
-				+ " others. Sauron poured all his evil and his will to dominate into this ring. An"
-				+ " alliance of elves and humans resisted Sauron’s ring and fought against Mordor."
-				+ " They won the battle and the ring fell to Isildur, the son of the king of Gondor,"
-				+ " but just as he was about to destroy the ring in Mount Doom, he changed his mind"
-				+ " and held on to it for himself. Later he was killed, and the ring fell to the bottom"
-				+ " of the sea. The creature Gollum discovered it and brought it to his cave. Then he lost"
-				+ " it to the hobbit Bilbo Baggins.";
-		Author author = new Author();
-		ArrayList <Author> authors = new ArrayList<Author>();
-		author.setId("3");;
-		author.setFirstname("JRR");
-		author.setLastname("Tolkien");
-		authors.add(author);
-		//authors.add(author);
-		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord","52.5",authors);
-		BookReviewsController bookReview = new BookReviewsController();
-		//bookReview.book = book;
-		loadPage(ScreensInfo.BOOK_REVIEWS_SCREEN);
-	}
-	
-	@FXML
-	public void btnTestWriteReviewPressed(ActionEvent event) throws IOException {
-		String bookSummary = "The film begins with a summary of the prehistory of the ring of power."
-				+ " Long ago, twenty rings existed: three for elves, seven for dwarves, nine for"
-				+ " men, and one made by the Dark Lord Sauron, in Mordor, which would rule all the"
-				+ " others. Sauron poured all his evil and his will to dominate into this ring. An"
-				+ " alliance of elves and humans resisted Sauron’s ring and fought against Mordor."
-				+ " They won the battle and the ring fell to Isildur, the son of the king of Gondor,"
-				+ " but just as he was about to destroy the ring in Mount Doom, he changed his mind"
-				+ " and held on to it for himself. Later he was killed, and the ring fell to the bottom"
-				+ " of the sea. The creature Gollum discovered it and brought it to his cave. Then he lost"
-				+ " it to the hobbit Bilbo Baggins.";
-		Author author = new Author();
-		ArrayList <Author> authors = new ArrayList<Author>();
-		author.setId("3");;
-		author.setFirstname("JRR");
-		author.setLastname("Tolkien");
-		authors.add(author);
-		//authors.add(author);
-		Book book = new Book(5,"Lord of the rings","English",bookSummary,"Lets Begin, Dragons, Dark lord","Hobbit, Gandalf, Dark Lord","52.5",authors);
-		WriteReviewController bookReview = new WriteReviewController();
-		//bookReview.book = book;
-		loadPage(ScreensInfo.WRITE_REVIEW_SCREEN);
-	}
-	/*----------------------------------------------------------------------------*/
-	
+	}	
 
 	/** Handler when pressed "Logout". this function log out the current user.
 	 * @param event - gets the ActionEvent when the function called.
@@ -269,10 +243,42 @@ public class HomepageUserController implements ScreensIF {
 				e.printStackTrace();
 			} 
 		 }
+		ArrayList<String> userId = new ArrayList<>();
+		userId.add(connectedUser.getId());
+		Message message = prepareGetFromSQL(ActionType.CHECK_ACCOUNT_TYPE,userId);
+		try {
+			ClientController.clientConnectionController.sendToServer(message);
+		} catch (IOException e) {	
+			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+		}
+		
     	Platform.runLater(new Runnable() {
     		@Override
     		public void run() {
-    			usernameLabel.setText(connectedUser.getFirstname() + " " + connectedUser.getLastname());
+    			usernameLabel.setText("Logged As: " + connectedUser.getFirstname() + " " + connectedUser.getLastname());
+    		
+    			lblSubscribed.setVisible(false);
+    			lblExpDate.setVisible(false);
+    			lblCredits.setVisible(false);
+    			
+    			if(success == true)
+    			{
+    				if(subscription.get(0).equals("Monthly") || subscription.get(0).equals("Yearly"))
+    				{
+    					lblExpDate.setText("Exp.Date: " + subscription.get(2));
+    					lblCredits.setText("Credits: " + subscription.get(1) + " \u20AA");
+    					
+    	    			lblSubscribed.setVisible(true);
+    	    			lblExpDate.setVisible(true);
+    	    			lblCredits.setVisible(true);
+    				}
+    				else
+    				{
+    					lblSubscribed.setText("Not Subscribed account");
+    					lblSubscribed.setVisible(true);
+    				}
+    			}
+    			
     		}
     	});
     }
@@ -365,6 +371,30 @@ public class HomepageUserController implements ScreensIF {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * Gets type of account.
+	 * @param type
+	 * @param elementList
+	 * @return
+	 */
+	public Message prepareGetFromSQL(ActionType type,ArrayList<String> elementList)
+	{
+		Message message = new Message();
+		message.setType(type);
+		message.setElementsList(elementList);
+		return message;
+	}
+	
+	/**
+	 * Setter of subscription info.
+	 * @param subscription
+	 */
+	public static void setSubscription(ArrayList<String> subs)
+	{
+		subscription = subs;
 	}
 	
 

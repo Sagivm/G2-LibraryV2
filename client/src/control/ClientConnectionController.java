@@ -169,10 +169,11 @@ public class ClientConnectionController extends AbstractClient{
 										replay.getElementsList().get(3).toString(),
 										replay.getElementsList().get(4).toString(),
 										replay.getElementsList().get(5).toString());
-								screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,
-										ScreensInfo.HOMEPAGE_USER_TITLE);
 								HomepageUserController userPage = new HomepageUserController();
 								userPage.setConnectedUser(user);
+								screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,
+										ScreensInfo.HOMEPAGE_USER_TITLE);
+
 								// userPage.setUsernameLabel("fdf");
 
 							} else if (action == 2) {
@@ -613,6 +614,17 @@ public class ClientConnectionController extends AbstractClient{
 				ExternalPaymentController.success = success;
 			if(replay.getGnrlMsg().equals("3"))
 				BookPageController.success = success;
+		break;
+		}
+		
+		case CHECK_ACCOUNT_TYPE: {
+			if(success)
+			{
+				HomepageUserController.success = true;
+				HomepageUserController.setSubscription(replay.getElementsList());
+			}
+			else
+				HomepageUserController.success = false;
 		break;
 		}
 

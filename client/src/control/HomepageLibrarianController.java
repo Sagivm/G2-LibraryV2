@@ -93,7 +93,7 @@ public class HomepageLibrarianController implements ScreensIF {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				usernameLabel.setText(connectedLibrarian.getFirstname() + " " + connectedLibrarian.getLastname());
+				usernameLabel.setText("Logged As: " + connectedLibrarian.getFirstname() + " " + connectedLibrarian.getLastname());
 			}
 		});
 	}

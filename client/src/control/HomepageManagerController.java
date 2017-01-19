@@ -85,7 +85,7 @@ public class HomepageManagerController implements ScreensIF {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				usernameLabel.setText(connectedManager.getFirstname() + " " + connectedManager.getLastname());
+				usernameLabel.setText("Logged As: " + connectedManager.getFirstname() + " " + connectedManager.getLastname());
 			}
 		});
 	}

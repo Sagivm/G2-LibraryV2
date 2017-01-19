@@ -5,7 +5,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
@@ -26,7 +28,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -109,6 +114,7 @@ public class BookPageController implements ScreensIF
 			btnDownload.setVisible(false);
 			btnPurchase.setDisable(true);
 			btnDownload.setDisable(true);
+			
 			
 			ArrayList<String> bookSn = new ArrayList<>();
 			bookSn.add(searchedBookPage.getBookSn());
@@ -360,82 +366,99 @@ public class BookPageController implements ScreensIF
 	@FXML
 	public void btnPurchasePressed(ActionEvent event) throws IOException{    
 		try{
-			if(buyStatus.equals("2"))
+			boolean ans = yesNoDialog("Are you sure you want to buy this book?");
+			if(ans == true)
 			{
-				ScreenController screenController = new ScreenController();
-		        try {
-		        	ExternalPaymentController extPayment = new ExternalPaymentController();
-		        	extPayment.setProduct("Book - " + searchedBookPage.getBookTitle());
-		        	extPayment.setPrice(searchedBookPage.getBookPrice());
-		        	extPayment.setAction(1);	//buy book PerBook
-		        	extPayment.searchedBookPage = searchedBookPage;
-		        	        			        	
-					screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.REGISTRATION_TITLE);
-					Stage primaryStage = screenController.getStage();
-					ScreenController.setStage(primaryStage);
-					Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-					primaryStage.show();
-					primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
-					primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
+				if(buyStatus.equals("2"))
+				{
+					ScreenController screenController = new ScreenController();
+			        try {
+			        	ExternalPaymentController extPayment = new ExternalPaymentController();
+			        	extPayment.setProduct("Book - " + searchedBookPage.getBookTitle());
+			        	extPayment.setPrice(searchedBookPage.getBookPrice());
+			        	extPayment.setAction(1);	//buy book PerBook
+			        	extPayment.searchedBookPage = searchedBookPage;
+			        	        			        	
+						screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.REGISTRATION_TITLE);
+						Stage primaryStage = screenController.getStage();
+						ScreenController.setStage(primaryStage);
+						Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+						primaryStage.show();
+						primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
+						primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(buyStatus.equals("3"))
+				{
+					ArrayList<String> buyBook = new ArrayList<>();
+					User user = HomepageUserController.getConnectedUser();
+					buyBook.add(user.getId());
+					buyBook.add(searchedBookPage.getBookSn());
+					buyBook.add(searchedBookPage.getBookPrice());
+					buyBook.add("3");	//buy book Subscribed
 					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Message message = prepareGetFromSQL(ActionType.BUY_BOOK,buyBook);
+					try {
+						ClientController.clientConnectionController.sendToServer(message);
+					} catch (IOException e) {	
+						actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+					}
+					
+					Service<Void> service = new Service<Void>() {
+				        @Override
+				        protected Task<Void> createTask() {
+				            return new Task<Void>() {           
+				                @Override
+				                protected Void call() throws Exception {                
+				                    final CountDownLatch latch = new CountDownLatch(1);
+				                    Platform.runLater(new Runnable() {                          
+				                        @Override
+				                        public void run() { 	
+				                        	//initialize();
+				                        	
+				                        	if (userMain == null)
+				                        		userMain = new HomepageUserController();
+				                        	if(success == true)
+				                        	{
+				                        		userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+				                        	}
+				                        	else
+				                        	{
+				                    			try {
+				                    				TimeUnit.SECONDS.sleep(1);
+				                    			} catch (InterruptedException e1) {
+				                    				e1.printStackTrace();
+				                    			}
+				                    			userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+				                        	}
+				                        	BookPageController bookPage = new BookPageController();
+				                        	bookPage.searchedBookPage = searchedBookPage;
+				                    		ScreenController screenController = new ScreenController();
+				                        	
+				                    		try{
+				                    			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);	
+				                    		} 
+				                    		catch (Exception e) {
+				                    			System.out.println(e);
+				                    			e.printStackTrace();
+				                    		}
+				                    		
+				                        	
+										}
+				                        });
+				                     latch.await();                      
+				                     return null;
+				                   }
+				                };
+				            }
+				        };
+				        service.start();
+					
 				}
-			}
-			if(buyStatus.equals("3"))
-			{
-				ArrayList<String> buyBook = new ArrayList<>();
-				User user = HomepageUserController.getConnectedUser();
-				buyBook.add(user.getId());
-				buyBook.add(searchedBookPage.getBookSn());
-				buyBook.add(searchedBookPage.getBookPrice());
-				buyBook.add("3");	//buy book Subscribed
-				
-				Message message = prepareGetFromSQL(ActionType.BUY_BOOK,buyBook);
-				try {
-					ClientController.clientConnectionController.sendToServer(message);
-				} catch (IOException e) {	
-					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-				}
-				
-				Service<Void> service = new Service<Void>() {
-			        @Override
-			        protected Task<Void> createTask() {
-			            return new Task<Void>() {           
-			                @Override
-			                protected Void call() throws Exception {                
-			                    final CountDownLatch latch = new CountDownLatch(1);
-			                    Platform.runLater(new Runnable() {                          
-			                        @Override
-			                        public void run() { 	
-			                        	//initialize();
-			                        	
-			                        	if (userMain == null)
-			                        		userMain = new HomepageUserController();
-			                        	userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
-
-			                        	BookPageController bookPage = new BookPageController();
-			                        	bookPage.searchedBookPage = searchedBookPage;
-			                    		ScreenController screenController = new ScreenController();
-			                        	
-			                    		try{
-			                    			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);	
-			                    		} 
-			                    		catch (Exception e) {
-			                    			e.printStackTrace();
-			                    		}
-			                        	
-									}
-			                        });
-			                     latch.await();                      
-			                     return null;
-			                   }
-			                };
-			            }
-			        };
-			        service.start();
-				
 			}
 		}
 		catch(Exception e) {
@@ -453,6 +476,20 @@ public class BookPageController implements ScreensIF
 		}
 	}
 	
+	
+	public boolean yesNoDialog(String message)
+	{
+		Alert alert = new Alert(AlertType.CONFIRMATION, 
+		            message,ButtonType.OK, ButtonType.CANCEL);
+		alert.setTitle("Buy Book Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		Optional<ButtonType> result = alert.showAndWait();
+
+		if (result.get() == ButtonType.OK)
+			return true;
+		return false;
+	}
 	
 	
 	@Override

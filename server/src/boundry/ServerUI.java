@@ -41,6 +41,7 @@ public class ServerUI extends Application {
 	            }
 	        }); 
 		    stage.setScene(new Scene(root));
+		    stage.setResizable(false);
 		    stage.show();
 		    }
 		    catch(Exception e){

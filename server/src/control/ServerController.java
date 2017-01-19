@@ -1041,12 +1041,11 @@ public class ServerController extends AbstractServer {
 		}
 		case WRITE_REVIEW: {
 			
-			//DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date date = new Date();
 			
 			String sqlStmt = "INSERT INTO reviews (`userId`, `bookId`, `content`, `status`, `date`)"
-					+ "VALUES ('"+data.get(0)+"','"+data.get(1)+"','"+data.get(2)+"','pending','"+dateFormat.format(date)+"')";
+					+ "VALUES ('"+data.get(0)+"','"+data.get(1)+"','"+data.get(2)+"','pending','"+dateFormat.format(date).toString()+"')";
 	
 			try {
 				DatabaseController.addToDatabase(sqlStmt);
@@ -1419,7 +1418,28 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
-		
+		case CHECK_ACCOUNT_TYPE: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT clients.accountType,clients.credits,clients.endSubscription FROM project.clients"
+						+ " WHERE clients.username ='" + data.get(0) + "';");
+				while (rs.next()) {
+					sqlResult = true;
+					elementsList.add(rs.getString(1)); // account type
+					elementsList.add(rs.getString(2)); // credits
+					elementsList.add(rs.getString(3)); // expiration date
+				}
+				if(sqlResult == true)
+					replay = new Replay(ActionType.CHECK_ACCOUNT_TYPE, true,elementsList);
+				else
+					replay = new Replay(ActionType.CHECK_ACCOUNT_TYPE, false);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
 
 		}
 		return replay;

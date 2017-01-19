@@ -228,6 +228,11 @@ public enum ActionType {
 	 * Add bought book to DB.
 	 */
 	BUY_BOOK,
+	
+	/**
+	 * Gets account type, credits and Exp.date from DB.
+	 */
+	CHECK_ACCOUNT_TYPE,
 
 
 }
