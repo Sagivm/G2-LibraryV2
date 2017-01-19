@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.mysql.jdbc.util.ResultSetUtil;
@@ -74,15 +75,33 @@ private boolean checkLastCrash() {
 		date = (String) dateFormat.format(new Date());
 		// compare to return 0 if equal
 		if ((this.date.compareTo(date)) != 0 && date.compareTo("00") == 0) {
+			endSubscriptoin();
 			createNewDay();
 			this.date=date;
 		}
 
 	}
 
+	private void endSubscriptoin() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);    
+        String yesterday=dateFormat.format(cal.getTime());
+        try {
+			DatabaseController.updateDatabase(""
+					+ "UPDATE book_by_date "
+					+ "SET accountType=Intrested and accountStatus=Standard and credit=0 "
+					+ "WHERE endSubscription='"+yesterday+"';");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * Insert new rows in sql table book by date for each book 
 	 */
+	
 	private void createNewDay()
 	{
 		ResultSet rs = null;
