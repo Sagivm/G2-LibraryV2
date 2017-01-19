@@ -1426,7 +1426,7 @@ public class ServerController extends AbstractServer {
 				
 				if(operation.equals("approve"))
 				{
-					stmt.executeUpdate("UPDATE clients SET accountType='" + data.get(2) + "' , accountStatus='Standard' WHERE username=" + data.get(0));
+					stmt.executeUpdate("UPDATE clients SET accountType='" + data.get(2) + "' , accountStatus='PendingPayment' WHERE username=" + data.get(0));
 				}
 				else
 				{
@@ -1609,13 +1609,14 @@ public class ServerController extends AbstractServer {
 				ArrayList<String> elementsList = new ArrayList<String>();
 				Statement stmt = DatabaseController.connection.createStatement();
 				ResultSet rs = stmt.executeQuery(
-						"SELECT clients.accountType,clients.credits,clients.endSubscription FROM project.clients"
+						"SELECT clients.accountType,clients.accountStatus,clients.credits,clients.endSubscription FROM project.clients"
 						+ " WHERE clients.username ='" + data.get(0) + "';");
 				while (rs.next()) {
 					sqlResult = true;
 					elementsList.add(rs.getString(1)); // account type
-					elementsList.add(rs.getString(2)); // credits
-					elementsList.add(rs.getString(3)); // expiration date
+					elementsList.add(rs.getString(2)); // account status
+					elementsList.add(rs.getString(3)); // credits
+					elementsList.add(rs.getString(4)); // expiration date
 				}
 				if(sqlResult == true)
 					replay = new Replay(ActionType.CHECK_ACCOUNT_TYPE, true,elementsList);

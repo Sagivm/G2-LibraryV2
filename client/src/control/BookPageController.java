@@ -394,7 +394,7 @@ public class BookPageController implements ScreensIF
 			        	extPayment.setAction(1);	//buy book PerBook
 			        	extPayment.searchedBookPage = searchedBookPage;
 			        	        			        	
-						screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.REGISTRATION_TITLE);
+						screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.EXTERNAL_PAYMENT_TITLE);
 						Stage primaryStage = screenController.getStage();
 						ScreenController.setStage(primaryStage);
 						Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();

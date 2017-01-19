@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ιπε 19, 2017 8:20:26 PM control.ServerController writeToLog
 INFO: Connected to database
 ιπε 19, 2017 8:20:26 PM control.ServerController writeToLog
@@ -29,3 +30,14 @@ INFO: Search counter of book ID '2' was increased from '0' to '1'
 INFO: Search counter of book ID '1' was increased from '0' to '1'
 ιπε 19, 2017 8:21:54 PM control.ServerController writeToLog
 INFO: Search counter of book ID '5' was increased from '0' to '1'
+=======
+ιπε 19, 2017 7:36:59 PM control.ServerController writeToLog
+INFO: Connected to database
+ιπε 19, 2017 7:36:59 PM control.ServerController writeToLog
+INFO: Server listening for connections
+on port: 1337
+ιπε 19, 2017 7:37:09 PM control.ServerController writeToLog
+INFO: Login attempt
+ιπε 19, 2017 7:37:31 PM control.ServerController writeToLog
+INFO: Login attempt
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library

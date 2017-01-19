@@ -28,7 +28,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * @author sagivm
- *
+ *Displays book popularity report containing book's data and the number of 
+ *purchases for this book. The data is  displayed in Tableview form.
+ *The operator has a choice to display this book against all of the books 
+ *in the Db or against books with the same domains of his choosing.
  */
 public class BookPopularityReportController implements Initializable {
 
@@ -116,6 +119,9 @@ public class BookPopularityReportController implements Initializable {
 	 * selection
 	 */
 	private ArrayList<Popularity> specificList;
+	/**
+	 * Arraylist containing the prices for all the books 
+	 */
 	public static ArrayList<String> priceList;
 
 	@Override
@@ -147,6 +153,9 @@ public class BookPopularityReportController implements Initializable {
 
 	}
 
+	/**
+	 * Gets book's prices from the DB
+	 */
 	private void initializeprice() {
 		ArrayList<String> elementsList = new ArrayList<String>();
 		elementsList.add(String.valueOf(SelectedBook.getSn()));
@@ -172,7 +181,9 @@ public class BookPopularityReportController implements Initializable {
 		});
 
 	}
-
+	/**
+	 * Initialize the labels that are stored in the page
+	 */
 	private void initializeLabel() {
 		titleLabel.setText(SelectedBook.getSn() + ") " + SelectedBook.getTitle() + " Popularity Report");
 
@@ -227,9 +238,6 @@ public class BookPopularityReportController implements Initializable {
 			public void run() {
 
 				try {
-					
-
-					// displaysettings();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -240,6 +248,10 @@ public class BookPopularityReportController implements Initializable {
 
 	}
 
+	/**
+	 * After selecting the list that will be displayed ,books with 2 or more
+	 * domains are merged into one single row
+	 */
 	private void mergeDuplicatesDomain() {
 		boolean dup[] = new boolean[specificList.size()];
 		for (int i = 0; i < dup.length; i++)
@@ -256,7 +268,10 @@ public class BookPopularityReportController implements Initializable {
 		}
 
 	}
-
+	/**
+	 * After selecting the list that will be displayed ,books with 2 or more
+	 * authors are merged into one single row
+	 */
 	private void mergeDuplicatesAuthors() {
 		boolean dup[] = new boolean[list.size()];
 		for (int i = 0; i < dup.length; i++)
@@ -315,7 +330,6 @@ public class BookPopularityReportController implements Initializable {
 	}
 
 	/**
-	 * 
 	 * Calling displaybooks() declaring that we will display all the books that
 	 * have the selected domain
 	 */
@@ -327,18 +341,13 @@ public class BookPopularityReportController implements Initializable {
 				specificList.add(list.get(i));
 			}
 		}
-		// for(int j=0;j<dom.size();j++)
-		// if (dom.get(j).equals((list.get(i).domain)))
-		// {
-		// System.out.println("mix");
-		// specificList.add(list.get(i));
-		// }
 		displaybooks();
 
 	}
 
 	/**
-	 * Fills up the table with the related fields according to the preferences
+	 * Generates the list that will be displayed base on the settings
+	 * selected by the manager
 	 */
 	private void displaybooks() {
 		mergeDuplicatesDomain();
@@ -352,7 +361,9 @@ public class BookPopularityReportController implements Initializable {
 		table.setItems(items);
 		specificList.clear();
 	}
-
+	/**
+	 * Merges the list that will be displayed with the specific list that will be displayed 
+	 */
 	private void setPrice() {
 		String split[];
 
@@ -382,7 +393,7 @@ public class BookPopularityReportController implements Initializable {
 	}
 
 	/**
-	 * Containg all the relevant data for the table
+	 * Contains all the relevant data for the table
 	 * 
 	 * @author sagivm
 	 *
@@ -391,30 +402,30 @@ public class BookPopularityReportController implements Initializable {
 		/**
 		 * Book's id
 		 */
-		public String id;
+		private String id;
 		/**
 		 * Book's title
 		 */
-		public String title;
+		private String title;
 		/**
 		 * Book's author
 		 */
-		public String author;
+		private String author;
 		/**
 		 * Book's language
 		 */
-		public String language;
+		private String language;
 		/**
 		 * Book's #purchase
 		 */
-		public String purchase;
+		private String purchase;
 		/**
 		 * Book's domain
 		 */
-		public String domain;
+		private String domain;
 
 		/**
-		 * constructor
+		 * Constructor
 		 * 
 		 * @param split
 		 *            String array containing the 6 attributes of Purchase in
@@ -429,58 +440,102 @@ public class BookPopularityReportController implements Initializable {
 			this.domain = split[4];
 		}
 
+		/**
+		 * Getter
+		 * @return book's Id
+		 */
 		public String getId() {
 			return id;
 		}
 
+		/**
+		 * Setter
+		 * sets bookId
+		 * @param id of the book
+		 */
 		public void setId(String id) {
 			this.id = id;
 		}
 
+		/**
+		 * Getter
+		 * @return book's title
+		 */
 		public String getTitle() {
 			return title;
 		}
 
+		/**
+		 * Setter
+		 * sets book's title
+		 * @param book's title
+		 */
 		public void setTitle(String title) {
 			this.title = title;
 		}
-
+		/**
+		 * Getter
+		 * @return book's author
+		 */
 		public String getAuthor() {
 			return author;
 		}
-
+		/**
+		 * Setter
+		 * sets book's author
+		 * @param book's author
+		 */
 		public void setAuthor(String author) {
 			this.author = author;
 		}
 
+		/**
+		 * Getter
+		 * @return book's language
+		 */
 		public String getLanguage() {
 			return language;
 		}
-
+		/**
+		 * Setter
+		 * sets book's language
+		 * @param book's language
+		 */
 		public void setLanguage(String language) {
 			this.language = language;
 		}
 
+		/**
+		 * Getter
+		 * @return the number of purchases for each book
+		 */
 		public String getPurchase() {
 			return purchase;
 		}
-
+		/**
+		 * Setter
+		 * sets number of purchases of the book
+		 * @param number of purchases of the book
+		 */
 		public void setPurchase(String purchase) {
 			this.purchase = purchase;
 		}
 
+		/**
+		 * Getter
+		 * @return book's domain
+		 */
 		public String getDomain() {
 			return domain;
 		}
-
+		/**
+		 * Setter
+		 * sets book's domain
+		 * @param book's domain
+		 */
 		public void setDomain(String domain) {
 			this.domain = domain;
 		}
-
-		public String toString() {
-			return this.id + " " + this.title + " " + this.author;
-		}
-
 	}
 
 }

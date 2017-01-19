@@ -19,14 +19,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -46,6 +49,12 @@ public class HomepageUserController implements ScreensIF {
 	 * the main content frame
 	 */
 	@FXML private AnchorPane content;
+	
+	/**
+	 * Button for subscription payment.
+	 */
+	@FXML private Button btnPayForSubscription;
+	
 	/**
 	 * The user full name will shown in this label.
 	 */
@@ -243,6 +252,7 @@ public class HomepageUserController implements ScreensIF {
 				e.printStackTrace();
 			} 
 		 }
+		btnPayForSubscription.setDisable(true);
 		ArrayList<String> userId = new ArrayList<>();
 		userId.add(connectedUser.getId());
 		Message message = prepareGetFromSQL(ActionType.CHECK_ACCOUNT_TYPE,userId);
@@ -263,10 +273,12 @@ public class HomepageUserController implements ScreensIF {
     			
     			if(success == true)
     			{
-    				if(subscription.get(0).equals("Monthly") || subscription.get(0).equals("Yearly"))
+    				if( subscription.get(1).equals("PendingPayment") & (subscription.get(0).equals("Monthly") || subscription.get(0).equals("Yearly") ))
+    					btnPayForSubscription.setDisable(false);
+    				else if(subscription.get(0).equals("Monthly") || subscription.get(0).equals("Yearly"))
     				{
-    					lblExpDate.setText("Exp.Date: " + subscription.get(2));
-    					lblCredits.setText("Credits: " + subscription.get(1) + " \u20AA");
+    					lblExpDate.setText("Exp.Date: " + subscription.get(3));
+    					lblCredits.setText("Credits: " + subscription.get(2) + " \u20AA");
     					
     	    			lblSubscribed.setVisible(true);
     	    			lblExpDate.setVisible(true);
@@ -364,6 +376,31 @@ public class HomepageUserController implements ScreensIF {
 			e.printStackTrace();
 		}
 	}
+	
+	public void btnPayForSubscriptionPressed() throws IOException
+	{
+/*		try {
+			ScreenController screenController = new ScreenController();
+        	ExternalPaymentController extPayment = new ExternalPaymentController();
+        	extPayment.setProduct(subscription.get(0).toString() + " Subscription");
+        	extPayment.setPrice(searchedBookPage.getBookPrice());
+        	extPayment.setAction(1);	//buy book PerBook
+        	extPayment.searchedBookPage = searchedBookPage;
+        	        			        	
+			screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.EXTERNAL_PAYMENT_TITLE);
+			Stage primaryStage = screenController.getStage();
+			ScreenController.setStage(primaryStage);
+			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+			primaryStage.show();
+			primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
+			primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
+			
+			//loadPage(ScreensInfo.EXTERNAL_PAYMENT_SCREEN);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
+	}
+	
 	public void testbookreport() {
 		try {
 			loadPage(ScreensInfo.BOOK_POPULARITY_REPORT);
