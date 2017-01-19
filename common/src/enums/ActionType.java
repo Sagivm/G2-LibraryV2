@@ -163,6 +163,31 @@ public enum ActionType {
 	 * Add Book to DB
 	 */
 	ADD_BOOK,
+	
+	/**
+	 * Edit Book in DB
+	 */
+	EDIT_BOOK,
+	
+	/**
+	 * Get Book authors from DB
+	 */
+	GET_BOOK_AUTHORS,
+	
+	/**
+	 * Get Book subjects from DB
+	 */
+	GET_BOOK_SUBJETCS,
+	
+	/**
+	 * Get Book language from DB
+	 */
+	GET_BOOK_LANGUAGE,
+	
+	/**
+	 * Get Book TABLE OF CONTANT from DB
+	 */
+	GET_BOOK_TABLE_OF_CONTENT,
 
 	/**
 	 * Delete Book from DB

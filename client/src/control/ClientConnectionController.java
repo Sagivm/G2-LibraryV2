@@ -293,6 +293,20 @@ public class ClientConnectionController extends AbstractClient{
 			break;
 		}
 		
+		case GET_BOOK_AUTHORS:{
+			ArrayList<Author> list = new ArrayList<Author>();
+			for (int i = 0; i < replay.getElementsList().size(); i++) {
+				String tmp[] = new String[3];
+				tmp = replay.getElementsList().get(i).split("\\^");
+				Author author = new Author(tmp[1], tmp[2], tmp[0]);
+				list.add(author);
+			}
+
+			BookManagementController.selectedAuthorsString = list;
+			//gotAnswer=1;
+			break;
+		}
+		
 		case SEARCH_BOOK_AND:{
 			Task<Void> task = new Task<Void>() {
 			    @Override
@@ -458,6 +472,12 @@ public class ClientConnectionController extends AbstractClient{
 		
 		case GET_SUBJECTS: {
 			BookManagementController.subjectList = replay.getElementsList();
+			BookManagementController.subjectListOfBook = replay.getElementsList();
+			break;
+		}
+		
+		case GET_BOOK_SUBJETCS: {
+			BookManagementController.selectedSubjectString = replay.getElementsList();
 			break;
 		}
 
@@ -522,8 +542,20 @@ public class ClientConnectionController extends AbstractClient{
 		case BOOK_REVIEWS: {
 			BookReviewsController.data=replay.getElementsList();
 			break;
-
 		}
+		
+		case GET_BOOK_LANGUAGE: {
+			BookManagementController.editBookLanguage=replay.getElementsList().get(0);
+			System.out.println(replay.getElementsList().get(0));
+			break;	
+		}
+		
+		case GET_BOOK_TABLE_OF_CONTENT: {
+			BookManagementController.editBookTableOfContant=replay.getElementsList().get(0);
+			System.out.println(replay.getElementsList().get(0));
+			break;	
+		}
+		
 		case WRITE_REVIEW: {
 			Platform.runLater(new Runnable() {
 				@Override

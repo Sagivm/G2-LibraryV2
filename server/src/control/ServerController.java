@@ -819,6 +819,24 @@ public class ServerController extends AbstractServer {
 			
 			break;
 		}
+		
+		case GET_BOOK_SUBJETCS: {
+			ArrayList<String> subjectList = new ArrayList<String>();
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String bookSn = data.get(0);
+				ResultSet rs = stmt.executeQuery("SELECT DISTINCT subjects.name,subjects.id,subjects.domain,domains.id,domains.name FROM project.books,project.subjects,project.domains,project.book_subjects WHERE subjects.id=book_subjects.subjectId AND subjects.domain=domains.id AND book_subjects.bookId="+bookSn);
+				while (rs.next()) {
+					System.out.println(rs.getString(1));
+					subjectList.add("("+rs.getString(2)+") "+rs.getString(1)+" ("+rs.getString(5)+")");
+				}
+				replay = new Replay(ActionType.GET_BOOK_SUBJETCS, true, subjectList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			break;
+		}
 
 
 		case ACCEPT_PENDING_USERS: {
@@ -1211,6 +1229,171 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		
+		case EDIT_BOOK: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
+				String Sn = data.get(9);
+				String TitleBook = data.get(0);
+				String keywords = data.get(2);
+				String language = data.get(3);
+				String tableOfContent = data.get(5);
+				String summary = data.get(6);
+				String picture = data.get(7);
+				Float price = Float.parseFloat(data.get(8));
+				String authorsId = data.get(1);
+				String SubjectsList = data.get(4);
+				//System.out.println("asasassas");
+				
+				//get the subjects of the book before update
+				ResultSet rs = stmt.executeQuery(
+						"SELECT book_subjects.subjectId FROM project.book_subjects WHERE book_subjects.bookId="+Sn);
+				while (rs.next()) {
+					elementsList.add(rs.getString(1));
+					System.out.println("===="+rs.getString(1));
+				}
+				//update the book count of subject
+				for(int i=0;i<elementsList.size();i++){
+					stmt.executeUpdate("UPDATE subjects SET booksCount = booksCount - 1 WHERE id="+elementsList.get(i));
+				}
+				elementsList = new ArrayList<String>();
+				System.out.println("1");
+				
+				//get the authors of the book before update
+				ResultSet rs1 = stmt.executeQuery(
+						"SELECT book_authors.authorId FROM project.book_authors WHERE book_authors.bookId="+Sn);
+				while (rs1.next()) {
+					elementsList.add(rs1.getString(1));
+					System.out.println("===="+rs1.getString(1));
+				}
+				//update the book count of authors
+				for(int i=0;i<elementsList.size();i++){
+					stmt.executeUpdate("UPDATE authors SET booksCount = booksCount - 1 WHERE id="+elementsList.get(i));
+				}
+				elementsList = new ArrayList<String>();
+				System.out.println("2");
+				
+				//delete all the old authors
+				stmt.executeUpdate("DELETE FROM book_authors WHERE bookId="+Sn);
+				//delete all the old subjects
+				stmt.executeUpdate("DELETE FROM book_subjects WHERE bookId="+Sn);
+				System.out.println("3");
+				
+				
+				String subjectsId[];
+				subjectsId = SubjectsList.split("\\^");
+				String query = "SELECT COUNT(distinct domain) FROM subjects WHERE id="+subjectsId[0];
+				for(int i=1;i<subjectsId.length;i++){
+					query+=" OR id="+subjectsId[i];		
+				}
+				System.out.println(query);				
+				ResultSet rs11 = stmt.executeQuery(query);
+				
+				String authorsArr[];
+				authorsArr = authorsId.split("\\^");
+				
+				rs11.next();
+				int DomainsCount=Integer.parseInt(rs11.getString(1));
+				int SubjectsCount=subjectsId.length;
+				int authorsCount=authorsArr.length;
+				int bookSn;
+						
+				System.out.println("4");
+				//add book
+				if(picture.equals("noPicture"))
+					query="UPDATE books SET title='"+TitleBook+"', language='"+language+"', authorsCount='"+authorsCount+"', summary='"+summary+"', tableOfContent='"+tableOfContent+"', keywords='"+keywords+"', price='"+price+"', domainsCount='"+DomainsCount+"', subjectsCount='"+SubjectsCount+"' "
+							+ "WHERE sn="+Sn;		
+				else{
+					query="UPDATE books SET title='"+TitleBook+"', language='"+language+"', authorsCount='"+authorsCount+"', summary='"+summary+"', tableOfContent='"+tableOfContent+"', keywords='"+keywords+"', price='"+price+"', domainsCount='"+DomainsCount+"', subjectsCount='"+SubjectsCount+"', image='"+picture+"' "
+							+ "WHERE sn="+Sn;	
+				}
+				stmt.executeUpdate(query);
+				//end add book
+		        
+		        //update book_authors
+		        for(int i=0;i<authorsArr.length;i++){
+		        	stmt.executeUpdate("INSERT INTO book_authors (`bookId`, `authorId`) VALUES('"+Sn+"', '"+authorsArr[i]+"')");
+		        }
+		        
+		        //update book_subjects
+		        for(int i=0;i<subjectsId.length;i++){
+		        	stmt.executeUpdate("INSERT INTO book_subjects (`bookId`,`subjectId`) VALUES('"+Sn+"', '"+subjectsId[i]+"')");
+		        }
+				
+		        //update booksCount at subjects
+		        for(int i=0;i<subjectsId.length;i++){
+		        	stmt.executeUpdate("UPDATE subjects SET booksCount = booksCount + 1 WHERE id="+subjectsId[i]);
+		        }
+		        
+		        //update bookscount at authors
+		        for(int i=0;i<authorsArr.length;i++){
+		        	stmt.executeUpdate("UPDATE authors SET booksCount = booksCount + 1 WHERE id="+authorsArr[i]);
+		        }
+
+				//stmt.executeUpdate("UPDATE books SET hide="+hide+" WHERE sn="+sn);
+				replay = new Replay(ActionType.HIDE_BOOK, true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case GET_BOOK_LANGUAGE: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				String bookSn = data.get(0);
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT language FROM books WHERE sn="+bookSn);
+				while (rs.next()) {
+					elementsList.add(rs.getString(1));
+				}
+						
+				replay = new Replay(ActionType.GET_BOOK_LANGUAGE, true, elementsList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case GET_BOOK_TABLE_OF_CONTENT: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				String bookSn = data.get(0);
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT tableOfContent FROM books WHERE sn="+bookSn);
+				while (rs.next()) {
+					elementsList.add(rs.getString(1));
+				}
+						
+				replay = new Replay(ActionType.GET_BOOK_TABLE_OF_CONTENT, true, elementsList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case GET_BOOK_AUTHORS: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				String bookSn = data.get(0);
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT authors.id,authors.firstName,authors.lastName,book_authors.bookId,book_authors.authorId FROM project.authors,project.book_authors "
+						+ "WHERE book_authors.authorId=authors.id AND book_authors.bookId="+bookSn);
+				while (rs.next()) {
+					elementsList.add(rs.getString(1) + "^" + rs.getString(2) + "^" + rs.getString(3));
+				System.out.println(rs.getString(1));
+				}
+						
+				replay = new Replay(ActionType.GET_BOOK_AUTHORS, true, elementsList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
 		
 		
 		case GET_PENDING_ACCOUNTS: {
