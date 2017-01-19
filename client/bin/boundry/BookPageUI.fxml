@@ -12,12 +12,12 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.BookPageController">
    <children>
       <AnchorPane layoutX="445.0" layoutY="511.0" />
-      <Label fx:id="bookLable" alignment="CENTER" layoutX="9.0" layoutY="28.0" prefHeight="73.0" prefWidth="869.0" textAlignment="CENTER">
+      <Label fx:id="bookLable" alignment="CENTER" layoutX="10.0" layoutY="8.0" prefHeight="46.0" prefWidth="869.0" textAlignment="CENTER">
          <font>
-            <Font size="50.0" />
+            <Font size="40.0" />
          </font>
       </Label>
-      <TabPane fx:id="bookTabPane" layoutX="1.0" layoutY="109.0" prefHeight="500.0" prefWidth="885.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="bookTabPane" layoutX="1.0" layoutY="56.0" prefHeight="500.0" prefWidth="885.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="detailsTab" text="Book Details">
             <content>
@@ -101,11 +101,19 @@
           </Tab>
           <Tab fx:id="bookReportTab" text="Book Report">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="684.0" />
+              <AnchorPane fx:id="bookReportContent" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="684.0" />
             </content>
           </Tab>
-          <Tab fx:id="popularityReportTab" text="Popularity Report" />
+          <Tab fx:id="popularityReportTab" text="Popularity Report">
+               <content>
+                  <AnchorPane fx:id="popularityContent" prefHeight="200.0" prefWidth="200.0" />
+               </content></Tab>
         </tabs>
       </TabPane>
+      <Button fx:id="btnBack" layoutX="693.0" layoutY="565.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="46.0" prefWidth="127.0" text="&lt; Back">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
