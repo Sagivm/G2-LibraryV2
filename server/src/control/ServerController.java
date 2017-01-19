@@ -180,10 +180,7 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message) msg;
-		// CurrentDate date=new CurrentDate();
-
-		// dateInitialize(); //Exception - sagiv
-		// newDay(); //Exception - sagiv
+		CurrentDate date=new CurrentDate();
 		try {
 			Replay replay = actionToPerform(message);
 			if (replay.getTransmitType().equals(ActionType.BROADCAST))
