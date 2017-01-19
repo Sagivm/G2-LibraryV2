@@ -85,6 +85,11 @@ public class BookPageController implements ScreensIF
 	public static SearchBookResult searchedBookPage;
 	
 	/**
+	 * static reference of user home page.
+	 */
+	private static HomepageUserController userMain;
+	
+	/**
 	 * Get answer from DB if success.
 	 */
 	public static boolean success = false;
@@ -404,7 +409,23 @@ public class BookPageController implements ScreensIF
 			                    Platform.runLater(new Runnable() {                          
 			                        @Override
 			                        public void run() { 	
-			                        	initialize();
+			                        	//initialize();
+			                        	
+			                        	if (userMain == null)
+			                        		userMain = new HomepageUserController();
+			                        	userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+
+			                        	BookPageController bookPage = new BookPageController();
+			                        	bookPage.searchedBookPage = searchedBookPage;
+			                    		ScreenController screenController = new ScreenController();
+			                        	
+			                    		try{
+			                    			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);	
+			                    		} 
+			                    		catch (Exception e) {
+			                    			e.printStackTrace();
+			                    		}
+			                        	
 									}
 			                        });
 			                     latch.await();                      
