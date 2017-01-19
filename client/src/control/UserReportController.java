@@ -35,13 +35,10 @@ public class UserReportController implements Initializable {
 
 	@FXML
 	private TableView<Purchase> table;
-
 	/**
 	 * Data returned from Db will be inserted here comes in 6 strings divided by
-	 * ^
 	 */
 	public static ArrayList<String> data;
-
 	/**
 	 * Specific user that
 	 */
@@ -77,7 +74,6 @@ public class UserReportController implements Initializable {
 	 */
 	@FXML
 	private TableColumn<Purchase, String> priceColumn;
-
 	/**
 	 * Displays user name
 	 */
@@ -87,16 +83,22 @@ public class UserReportController implements Initializable {
 	 * ArrayList containing the data in Purchase form
 	 */
 	private ArrayList<Purchase> list;
-	private ObservableList<Purchase> items = FXCollections.observableArrayList();;
+	/**
+	 * List of items that will be displayed in the table
+	 */
+	private ObservableList<Purchase> items = FXCollections.observableArrayList();
 
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		// check
 		this.selectedUser = HomepageUserController.getConnectedUser();
 		//
-		initializeLabel();
+
 		initializeTable();
+		initializeLabel();
 
 	}
 
@@ -131,8 +133,6 @@ public class UserReportController implements Initializable {
 			public void run() {
 
 				try {
-					// for(int i=0;i<data.size()*5;i=i+5)
-					// {
 					if (data != null) {
 						table.setEditable(true);
 						arrangelist();
@@ -140,7 +140,6 @@ public class UserReportController implements Initializable {
 						mergeDuplicates();
 						items = FXCollections.observableArrayList();
 						for (int i = 0; i < list.size(); i++) {
-							// System.out.println(list.get(i).toString());
 							items.add(list.get(i));
 						}
 
@@ -153,15 +152,6 @@ public class UserReportController implements Initializable {
 
 						table.setVisible(true);
 						table.setItems(items);
-						// items.add(new Purchase(list.get(0)));
-
-						// table.getItems().addAll(items);
-						bookIdColumn.setStyle("-fx-alignment: CENTER;");
-						titleColumn.setStyle("-fx-alignment: CENTER;");
-						authorColumn.setStyle("-fx-alignment: CENTER;");
-						languageColumn.setStyle("-fx-alignment: CENTER;");
-						dateColumn.setStyle("-fx-alignment: CENTER;");
-						priceColumn.setStyle("-fx-alignment: CENTER;");
 						table.setVisible(true);
 
 					} else {
@@ -213,20 +203,19 @@ public class UserReportController implements Initializable {
 
 	}
 
+	/**
+	 * Merge books in the list that have more than one author
+	 */
 	private void mergeDuplicates() {
 		boolean dup[] = new boolean[list.size()];
 		for (int i = 0; i < dup.length; i++)
 			dup[i] = false;
-		ArrayList<Purchase> temp=new ArrayList<Purchase>();
-		for(int i=0;i<list.size();i++)
-		{
-			for(int j=i+1;j<list.size();j++)
-			{
-				if(list.get(i).getId().equals(list.get(j).getId())&&i!=j)
-				{
-					list.get(i).setAuthor(list.get(i).getAuthor()+" & "+list.get(j).getAuthor());
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = i + 1; j < list.size(); j++) {
+				if (list.get(i).getId().equals(list.get(j).getId()) && i != j) {
+					list.get(i).setAuthor(list.get(i).getAuthor() + " & " + list.get(j).getAuthor());
 					list.remove(j);
-					
+
 				}
 			}
 		}
@@ -237,41 +226,38 @@ public class UserReportController implements Initializable {
 	 */
 	private void initializeLabel() {
 		this.titleLabel.setText(selectedUser.getFirstname() + " " + selectedUser.getLastname() + " Report");
+
 	}
 
 	/**
 	 * Data class for analyzing DB data and displaying it
-	 * 
 	 * @author sagivm
-	 *
 	 */
 	public class Purchase {
 		/**
 		 * Book's id
 		 */
-		// public String id;
-		public String id;
-
+		private String id;
 		/**
 		 * Book's title
 		 */
-		public String title;
+		private String title;
 		/**
 		 * Book's author
 		 */
-		public String author;
+		private String author;
 		/**
 		 * Book's language
 		 */
-		public String language;
+		private String language;
 		/**
 		 * User date
 		 */
-		public String date;
+		private String date;
 		/**
 		 * Book's price at the acquisition date
 		 */
-		public String price;
+		private String price;
 
 		/**
 		 * constructor
@@ -289,73 +275,101 @@ public class UserReportController implements Initializable {
 			this.price = new String(split[5]);
 		}
 
-		public String toString() {
-			return id + " " + title + " " + author;
-		}
-
-		public Purchase(String id, String title, String author, String language, String date, String price) {
-			super();
-			this.id = new String(id);
-			this.title = new String(title);
-			this.author = new String(author);
-			this.language = new String(language);
-			this.date = new String(date);
-			this.price = new String(price);
-		}
-
-		public Purchase(Purchase p) {
-			this.id = p.id;
-			this.title = p.title;
-			this.author = p.author;
-			this.language = p.language;
-			this.date = p.date;
-			this.price = p.price;
-		}
-
+		/**
+		 * Getter
+		 * @return book's Id
+		 */
 		public String getId() {
 			return id;
 		}
 
+		/**
+		 * Setter
+		 * sets bookId
+		 * @param id of the book
+		 */
 		public void setId(String id) {
 			this.id = id;
 		}
+		/**
+		 * Getter
+		 * @return book's title
+		 */
 
 		public String getTitle() {
 			return title;
 		}
-
+		/**
+		 * Setter
+		 * sets book's title
+		 * @param book's title
+		 */
 		public void setTitle(String title) {
 			this.title = title;
 		}
+		/**
+		 * Getter
+		 * @return book's author
+		 */
 
 		public String getAuthor() {
 			return author;
 		}
 
+		/**
+		 * Setter
+		 * sets book's authors
+		 * @param book's authors
+		 */
 		public void setAuthor(String author) {
 			this.author = author;
 		}
+		/**
+		 * Getter
+		 * @return book's language
+		 */
 
 		public String getLanguage() {
 			return language;
 		}
-
+		/**
+		 * Setter
+		 * sets book's language
+		 * @param book's language
+		 */
 		public void setLanguage(String language) {
 			this.language = language;
 		}
+		/**
+		 * Getter
+		 * @return the date that the book was purchased
+		 */
 
 		public String getDate() {
 			return date;
 		}
+		/**
+		 * Setter
+		 * sets book's date of purchase
+		 * @param book's date of purchase
+		 */
 
 		public void setDate(String date) {
 			this.date = date;
 		}
+		/**
+		 * Getter
+		 * @return the price of the book at the acquisition date
+		 */
 
 		public String getPrice() {
 			return price;
 		}
-
+		/**
+		 * Setter
+		 * sets the price of the book at the acquisition date
+		 * @param book's price at the acquisition date
+		 */
 		public void setPrice(String price) {
 			this.price = price;
 		}
