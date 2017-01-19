@@ -75,6 +75,8 @@ public class BookPageController implements ScreensIF
 	
 	@FXML private AnchorPane readReviewContent;
 	@FXML private AnchorPane writeReviewContent;
+	@FXML private AnchorPane bookReportContent;
+	@FXML private AnchorPane popularityContent;
 	
 	@FXML private ImageView imgBookImg;
 	
