@@ -377,9 +377,9 @@ public class HomepageUserController implements ScreensIF {
 		}
 	}
 	
-/*	public void btnPayForSubscriptionPressed() throws IOException
+	public void btnPayForSubscriptionPressed() throws IOException
 	{
-		try {
+/*		try {
 			ScreenController screenController = new ScreenController();
         	ExternalPaymentController extPayment = new ExternalPaymentController();
         	extPayment.setProduct(subscription.get(0).toString() + " Subscription");
@@ -398,8 +398,8 @@ public class HomepageUserController implements ScreensIF {
 			//loadPage(ScreensInfo.EXTERNAL_PAYMENT_SCREEN);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}*/
+		}*/
+	}
 	
 	public void testbookreport() {
 		try {

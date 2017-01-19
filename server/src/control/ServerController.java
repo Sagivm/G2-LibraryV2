@@ -671,7 +671,7 @@ public class ServerController extends AbstractServer {
 				ArrayList<String> res = new ArrayList<String>();
 				
 				Statement stmt = DatabaseController.connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName, accountType, accountStatus, isBlocked FROM clients");
+				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName, accountType, accountStatus, isBlocked, password, credits, endSubscription FROM clients");
 				while (rs.next())
 				{
 					elementsList.add(rs.getString(1)); // username
@@ -680,30 +680,33 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(4)); // accountType
 					elementsList.add(rs.getString(5)); // accountStatus
 					elementsList.add(rs.getString(6)); // isBlocked
+					elementsList.add(rs.getString(7)); // password
+					elementsList.add(rs.getString(8)); // credits
+					elementsList.add(rs.getString(9)); // endSubscription
 				}
 				
 				
-				int[] filterResult = new int[elementsList.size()/6];
+				int[] filterResult = new int[elementsList.size()/9];
 				
 				for(int i=0;i<filterResult.length;i++)
 					filterResult[i]=1;
 
 
-				for(int i=0;i<elementsList.size();i+=6)
+				for(int i=0;i<elementsList.size();i+=9)
 				{
 					if(!message.getElementsList().get(0).isEmpty())
 						if(!elementsList.get(i).contains(message.getElementsList().get(0).trim()))
-							filterResult[i/6]=0;
+							filterResult[i/9]=0;
 						
 
 					if(!message.getElementsList().get(1).isEmpty())
 						if(!elementsList.get(i+1).toLowerCase().trim().contains(message.getElementsList().get(1).toLowerCase().trim()))
-							filterResult[i/6]=0;
+							filterResult[i/9]=0;
 
 
 					if(!message.getElementsList().get(2).isEmpty())
 						if(!elementsList.get(i+2).toLowerCase().trim().contains(message.getElementsList().get(2).toLowerCase().trim()))
-							filterResult[i/6]=0;
+							filterResult[i/9]=0;
 
 					
 				}
@@ -714,10 +717,10 @@ public class ServerController extends AbstractServer {
 				System.out.println(" ");
 				*/
 				
-				for(int j=0;j<elementsList.size();j+=6)
+				for(int j=0;j<elementsList.size();j+=9)
 				{
-					if(filterResult[j/6]==1)
-						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4)+"^"+elementsList.get(j+5));
+					if(filterResult[j/9]==1)
+						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4)+"^"+elementsList.get(j+5)+"^"+elementsList.get(j+6)+"^"+elementsList.get(j+7)+"^"+elementsList.get(j+8));
 				}
 				
 				

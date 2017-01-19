@@ -1,19 +1,9 @@
-ιπε 19, 2017 7:20:52 PM control.ServerController writeToLog
+ιπε 19, 2017 7:36:59 PM control.ServerController writeToLog
 INFO: Connected to database
-ιπε 19, 2017 7:20:52 PM control.ServerController writeToLog
+ιπε 19, 2017 7:36:59 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-ιπε 19, 2017 7:21:05 PM control.ServerController writeToLog
+ιπε 19, 2017 7:37:09 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 19, 2017 7:21:11 PM control.ServerController writeToLog
+ιπε 19, 2017 7:37:31 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 19, 2017 7:22:10 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 19, 2017 7:22:47 PM control.ServerController writeToLog
-INFO: 222222222 Changed accountStatus toPendingMonthly
-ιπε 19, 2017 7:22:56 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 19, 2017 7:23:23 PM control.ServerController writeToLog
-INFO: Login attempt
-ιπε 19, 2017 7:23:56 PM control.ServerController writeToLog
-INFO: Disconnected sucessfully

@@ -66,6 +66,7 @@ public enum ActionType {
 	 */
 	SEARCH_USER,
 	
+	
 	/**
 	 * edit user information in SQL (for librarian).
 	 */

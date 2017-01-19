@@ -98,7 +98,7 @@ public class EditUserLibrarianController implements ScreensIF{
 		
 		//System.out.println("change to:" + usernameLable.getText() + " " + fNameTextField.getText() + " " + lNameTextField.getText());
 		
-		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameTextField.getText(), lNameTextField.getText(), "", "", "");
+		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameTextField.getText(), lNameTextField.getText(), "", "", "", "", "", "");
 		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
 		
 		try {

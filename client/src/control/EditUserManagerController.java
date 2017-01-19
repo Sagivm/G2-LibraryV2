@@ -138,7 +138,7 @@ public class EditUserManagerController implements ScreensIF{
 		String isBlocked="0";
 		if(blockedCheckBox.isSelected())
 			isBlocked="1";
-		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameLable.getText(), lNameLable.getText(), "", "", isBlocked);
+		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameLable.getText(), lNameLable.getText(), "", "", isBlocked, "", "", "");
 		Message message = prepareEditUser(ActionType.EDIT_USER_MANAGER,user);
 		
 		try {

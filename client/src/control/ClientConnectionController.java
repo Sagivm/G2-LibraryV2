@@ -374,24 +374,14 @@ public class ClientConnectionController extends AbstractClient{
                         	if (librarianMain == null)
                         		librarianMain = new HomepageLibrarianController();
                         	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
-                    	}
-                    	else if(ClientUI.getTypeOfUser()=="Manager")
-                    	{
-                        	if (managerMain == null)
-                        		managerMain = new HomepageManagerController();
-                        	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
-                    	}
-						
+                    	}						
 						
 						ScreenController screenController  = new ScreenController();
 						try{
 							
                 			if(ClientUI.getTypeOfUser()=="Librarian")
-                			{
                 				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
-                			}
-                			else if(ClientUI.getTypeOfUser()=="Manager")
-                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+
                 			
                 		} 
                 		catch (Exception e) {
@@ -414,13 +404,7 @@ public class ClientConnectionController extends AbstractClient{
 						else
 							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_FAILED);
 							
-						if(ClientUI.getTypeOfUser()=="Librarian")
-                    	{
-                        	if (librarianMain == null)
-                        		librarianMain = new HomepageLibrarianController();
-                        	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
-                    	}
-                    	else if(ClientUI.getTypeOfUser()=="Manager")
+						if(ClientUI.getTypeOfUser()=="Manager")
                     	{
                         	if (managerMain == null)
                         		managerMain = new HomepageManagerController();
@@ -431,11 +415,7 @@ public class ClientConnectionController extends AbstractClient{
 						ScreenController screenController  = new ScreenController();
 						try{
 							
-                			if(ClientUI.getTypeOfUser()=="Librarian")
-                			{
-                				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
-                			}
-                			else if(ClientUI.getTypeOfUser()=="Manager")
+                			if(ClientUI.getTypeOfUser()=="Manager")
                 				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
                 			
                 		} 

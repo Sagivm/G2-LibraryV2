@@ -14,14 +14,20 @@ public class SearchUserResult {
     private final SimpleStringProperty accountType;
     private final SimpleStringProperty accountStatus;
     private final SimpleStringProperty isBlocked;
+    private final SimpleStringProperty password;
+    private final SimpleStringProperty credits;
+    private final SimpleStringProperty endSubscription;
 
-    public SearchUserResult(String username, String firstName, String lastName, String accountType, String accountStatus, String isBlocked) {
+    public SearchUserResult(String username, String firstName, String lastName, String accountType, String accountStatus, String isBlocked, String password, String credits, String endSubscription) {
         this.username = new SimpleStringProperty(username);
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.accountType = new SimpleStringProperty(accountType);
         this.accountStatus = new SimpleStringProperty(accountStatus);
         this.isBlocked = new SimpleStringProperty(isBlocked);
+        this.password = new SimpleStringProperty(password);
+        this.credits = new SimpleStringProperty(credits);
+        this.endSubscription = new SimpleStringProperty(endSubscription);
     }
 
     public String getUsername() {
@@ -48,6 +54,18 @@ public class SearchUserResult {
         return isBlocked.get();
     }
     
+    public String getPassword() {
+        return password.get();
+    }
+        
+    public String getCredits() {
+        return credits.get();
+    }
+    
+    public String getEndSubscription() {
+        return endSubscription.get();
+    }
+    
     public void setFirstName(String fName) {
     	firstName.set(fName);
     }
@@ -68,7 +86,17 @@ public class SearchUserResult {
     	isBlocked.set(blocked);
     }
     
+    public void setPassword(String pswrd) {
+    	password.set(pswrd);
+    }
     
+    public void setCredits(String crdts) {
+    	credits.set(crdts);
+    }
+    
+    public void setEndSubscription(String endSub) {
+    	endSubscription.set(endSub);
+    }
     
 
 }
