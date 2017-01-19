@@ -114,11 +114,8 @@ public class CurrentDate   {
 	}
 	/**\
 	 * Inc a single purchase row of book by date with the current date
-<<<<<<< Upstream, based on branch 'master' of https://github.com/Sagivm/G2-Library.git
 	 * @param bookId- id of book
-=======
 	 * @param rs- ResultSet of book by date  table with sn in the first index of rs
->>>>>>> 5a59c5e pop fix
 	 * @throws SQLException
 	 */
 	public static int IncPurcahseBookDateRow(String bookId) throws SQLException
