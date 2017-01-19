@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.mysql.jdbc.util.ResultSetUtil;
+
 import control.DatabaseController;
 //
 /**
@@ -34,22 +37,30 @@ public class CurrentDate   {
 		// fix multiply occurrence per date
 		checkLastCrash();
 		if (date == null) {
-			Date Currentdate = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HH");
-			this.date = (String) dateFormat.format(Currentdate);
-			createNewDay();
+			this.date = (String) dateFormat.format(new Date());
+			if(checkLastCrash())
+				createNewDay();
 		}
 	}
-private void checkLastCrash() {
+private boolean checkLastCrash() {
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	String curDate = (String) dateFormat.format(new Date());
 		try {
 			ResultSet rs=DatabaseController.searchInDatabase(
-					"SELECT "
-					+ "FROM book_by_date"
-					+ "WHERE ;");
+					"SELECT * "
+					+ "FROM book_by_date");
+			while(rs.next())
+			{
+				if(rs.getString(2).equals(curDate))
+					return false;			
+			}
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
 		
 	}
 	//
@@ -59,9 +70,8 @@ private void checkLastCrash() {
 	 */
 	private void newDay() {
 		String date;
-		Date Currentdate = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH");
-		date = (String) dateFormat.format(Currentdate);
+		date = (String) dateFormat.format(new Date());
 		// compare to return 0 if equal
 		if ((this.date.compareTo(date)) != 0 && date.compareTo("00") == 0) {
 			createNewDay();
