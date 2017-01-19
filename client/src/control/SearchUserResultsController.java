@@ -89,12 +89,12 @@ public class SearchUserResultsController implements ScreensIF{
 					try{
 						for(int i=0;i<userResult.size();i++)
 						{
-							String[] tmp=new String[6];
+							String[] tmp=new String[9];
 							tmp = userResult.get(i).split("\\^");
 							String isBlocked="NO";
 							if(Integer.parseInt(tmp[5])==1)
 								isBlocked="YES";
-							data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4], isBlocked));
+							data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4], isBlocked, tmp[6],tmp[7],tmp[8]));
 						}
 					}
 					 catch (Exception e1) {
@@ -155,21 +155,24 @@ public class SearchUserResultsController implements ScreensIF{
 				                    setGraphic(button);
 				                    button.setOnAction(new EventHandler<ActionEvent>() {
 				                      @Override public void handle(ActionEvent event) {
+				                    	  UserPageController.searchedUserPage = userRes;
+				                    	  /*
 				                    	  EditUserLibrarianController.searchedUserPageLibrarian = userRes;
 				                    	  EditUserManagerController.searchedUserPageManager = userRes;
+				                    	  */
 				          				if(ClientUI.getTypeOfUser()=="Librarian")
 				                    	{
 				          					
 				                        	if (librarianMain == null)
 				                        		librarianMain = new HomepageLibrarianController();
-				                        	librarianMain.setPage(ScreensInfo.USER_PAGE_LIBRARIAN_SCREEN);
+				                        	librarianMain.setPage(ScreensInfo.USER_PAGE_SCREEN);
 				                    	}
 				                    	else if(ClientUI.getTypeOfUser()=="Manager")
 				                    	{
 				                    		   
 				                        	if (managerMain == null)
 				                        		managerMain = new HomepageManagerController();
-				                        	managerMain.setPage(ScreensInfo.USER_PAGE_MANAGER_SCREEN); //need to change to USER_PAGE_MANGER_SCREEN
+				                        	managerMain.setPage(ScreensInfo.USER_PAGE_SCREEN);
 				                    	}
 
 				                		

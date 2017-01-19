@@ -222,6 +222,18 @@ public class ScreensInfo {
 	 */
 	public static final String USER_PAGE_MANAGER_TITLE = "User Page";
 	
+	
+	/**
+	 *  user page screen path
+	 */
+	public static final String USER_PAGE_SCREEN = "/boundry/UserPageUI.fxml";
+	
+	/**
+	 *  Set user page screen title
+	 */
+	public static final String USER_PAGE_TITLE = "User Page";
+	
+	
 	/**
 	 *  pending account type screen path
 	 */
