@@ -200,13 +200,32 @@ private TextField editBookTitle;
 private ListView < String > editBookAuthorsList;
 
 @FXML
+private ListView < String > editBookAuthorsListSelected;
+
+@FXML
+private Button editBookAuthorsLeft;
+
+@FXML
+private Button editBookAuthorsRight;
+
+@FXML
+private ListView < String > editBookSubjectsList;
+
+@FXML
+private ListView < String > editBookSubjectsListSelected;
+
+@FXML
+private Button editBookSubjectsLeft;
+
+@FXML
+private Button editBookSubjectsRight;
+
+@FXML
 private TextArea editBookKeywordsText;
 
 @FXML
 private ListView < String > editBookLanguageList;
 
-@FXML
-private ListView < String > editBookSubjectsList;
 
 @FXML
 private TextArea editBookTableOfContent;
@@ -220,11 +239,16 @@ private TextField editBookPriceTextField;
 
 
  public static ArrayList < String > BooksList;
- public static ArrayList < Author > authorList;
  public static ArrayList < String > subjectList;
  public ArrayList < String > authorsId = null;
  public ArrayList < String > SubjectsList = null;
  public String picStr="noPicture";
+ public static ArrayList < Author > authorList;
+ public static ArrayList < Author > selectedAuthorsString;
+ public static ArrayList < String >subjectListOfBook;
+ public static ArrayList < String > selectedSubjectString;
+ public static String editBookLanguage;
+ public static String editBookTableOfContant;
 
  private ObservableList < PropertyBook > data = FXCollections.observableArrayList();;
  private ObservableList < PropertyBook > filteredData = FXCollections.observableArrayList();
@@ -390,8 +414,144 @@ private TextField editBookPriceTextField;
   });
   
   editBtn.setOnAction(e -> {
+	  mainPane.setVisible(false);
+	  addBookPane.setVisible(false);
+	  editBookPane.setVisible(true);
+	  PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
+	  editBookTitle.setText(selectedItem.getBookTitle());
+	  editBookKeywordsText.setText(selectedItem.getBookKeywords());
+	  editBookPriceTextField.setText(selectedItem.getBookPrice());
+	  editBookSummary.setText(selectedItem.getBookSummary());  
+	  if(selectedItem.getBookImage()!=null){
+		  String base64EncodedImage = selectedItem.getBookImage();
+		    byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+		    BufferedImage imgbuf;
+		    try {
+		     imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+		     Image image = SwingFXUtils.toFXImage(imgbuf, null);
+		   editBookpicBook.setImage(image);
+		    } catch (Exception e1) {
+		        // TODO Auto-generated catch block
+		        e1.printStackTrace();
+		       }
+	  }
+
 	  
-	  });
+	  
+	  Message message4 = prepareGetAuthors(ActionType.GET_BOOK_AUTHORS,selectedItem.getBookSn());
+	  Message message5 = prepareGetAuthors(ActionType.GET_AUTHORS);
+	  Message message6 = prepareGetSubjects(ActionType.GET_BOOK_SUBJETCS,selectedItem.getBookSn());
+	  Message message7 = prepareGetSubjects(ActionType.GET_SUBJECTS);
+	  Message message8 = prepareGetLanguage(ActionType.GET_BOOK_LANGUAGE,selectedItem.getBookSn());
+	  Message message9 = prepareGetTableOfContent(ActionType.GET_BOOK_TABLE_OF_CONTENT,selectedItem.getBookSn());
+
+	  try {
+		   System.out.println("1");
+	    ClientController.clientConnectionController.sendToServer(message4);
+	    ClientController.clientConnectionController.sendToServer(message5);
+	    ClientController.clientConnectionController.sendToServer(message6);
+	    ClientController.clientConnectionController.sendToServer(message7);
+	    ClientController.clientConnectionController.sendToServer(message8);
+	    ClientController.clientConnectionController.sendToServer(message9);
+	   } catch (Exception e1) {
+	    e1.printStackTrace();
+	   }
+		try {
+		Thread.sleep(1500);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	   Platform.runLater(() -> { 
+	    ArrayList < String > names = new ArrayList < String > ();
+	    editBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	    //System.out.println(statush.get(1).getFirstname());
+	    for (int i = 0; i < authorList.size(); i++) {
+	    		names.add(i, "(" + authorList.get(i).getId() + ")" + "\t" + authorList.get(i).getFirstname() + " " + authorList.get(i).getLastname());
+	    }
+	    ArrayList < String > namesselected = new ArrayList < String > ();
+	    editBookAuthorsListSelected.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	    //System.out.println(statush.get(1).getFirstname());
+	    for (int i = 0; i < selectedAuthorsString.size(); i++) {
+	    	namesselected.add(i, "(" + selectedAuthorsString.get(i).getId() + ")" + "\t" + selectedAuthorsString.get(i).getFirstname() + " " + selectedAuthorsString.get(i).getLastname());
+	    	names.remove(namesselected.get(i));
+	    }
+	    ArrayList < String > subjects = new ArrayList < String > ();
+	    editBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	    //System.out.println(statush.get(1).getFirstname());
+	    for (int i = 0; i < subjectListOfBook.size(); i++) {
+	    	subjects.add(i, subjectListOfBook.get(i));
+	    }
+	    ArrayList < String > subjectsselected = new ArrayList < String > ();
+	    editBookSubjectsListSelected.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	    //System.out.println(statush.get(1).getFirstname());
+	    for (int i = 0; i < selectedSubjectString.size(); i++) {
+	    	subjectsselected.add(i, selectedSubjectString.get(i));
+	    	subjects.remove(subjectsselected.get(i));
+	    }
+	    
+
+	    //System.out.println(names.get(0));
+	    ObservableList < String > authors = FXCollections.observableArrayList(names);
+	    ObservableList < String > selectedAuthors = FXCollections.observableArrayList(namesselected);
+	    editBookAuthorsList.setItems(authors);    
+	    editBookAuthorsListSelected.setItems(selectedAuthors);
+	    
+		editBookAuthorsLeft.setOnAction((ActionEvent event) -> {
+		        String potential = editBookAuthorsList.getSelectionModel().getSelectedItem();
+		        if (potential != null) {
+		        	editBookAuthorsList.getSelectionModel().clearSelection();
+		        	authors.remove(potential);
+		        	selectedAuthors.add(potential);
+		        }
+		      });
+		
+		editBookAuthorsRight.setOnAction((ActionEvent event) -> {
+	        String potential = editBookAuthorsListSelected.getSelectionModel().getSelectedItem();
+	        if (potential != null) {
+	        	editBookAuthorsListSelected.getSelectionModel().clearSelection();
+	        	selectedAuthors.remove(potential);
+	        	authors.add(potential);
+	        }
+	      });
+		
+		
+		
+		
+	    ObservableList < String > allSubjects = FXCollections.observableArrayList(subjects);
+	    ObservableList < String > selectedSubjects = FXCollections.observableArrayList(subjectsselected);
+	    editBookSubjectsList.setItems(allSubjects);    
+	    editBookSubjectsListSelected.setItems(selectedSubjects);
+	    
+	    editBookSubjectsLeft.setOnAction((ActionEvent event) -> {
+		        String potential = editBookSubjectsList.getSelectionModel().getSelectedItem();
+		        if (potential != null) {
+		        	editBookSubjectsList.getSelectionModel().clearSelection();
+		        	allSubjects.remove(potential);
+		        	selectedSubjects.add(potential);
+		        }
+		      });
+		
+	    editBookSubjectsRight.setOnAction((ActionEvent event) -> {
+	        String potential = editBookSubjectsListSelected.getSelectionModel().getSelectedItem();
+	        if (potential != null) {
+	        	editBookSubjectsListSelected.getSelectionModel().clearSelection();
+	        	selectedSubjects.remove(potential);
+	        	allSubjects.add(potential);
+	        }
+	      });
+		
+	   });
+	  
+	   
+	   ObservableList < String > languages = FXCollections.observableArrayList(
+			     "English", "Hebrew", "Russian", "Arabic");
+	   editBookLanguageList.setItems(languages);
+	   editBookLanguageList.getSelectionModel().select(editBookLanguage);
+	   
+	   editBookTableOfContent.setText(editBookTableOfContant); 
+
+	  }); //end edit button
 
 
   delBtn.setOnAction(e -> {
@@ -464,10 +624,39 @@ private TextField editBookPriceTextField;
      "English", "Hebrew", "Russian", "Arabic");
    addBookLanguageList.setItems(languages);
 
+   Message message4 = prepareGetAuthors(ActionType.GET_AUTHORS);
+   try {
+    ClientController.clientConnectionController.sendToServer(message4);
+   } catch (Exception e1) {
+    e1.printStackTrace();
+   }
+   Platform.runLater(() -> {
+    ArrayList < String > names = new ArrayList < String > ();
+    addBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    //System.out.println(statush.get(1).getFirstname());
+    for (int i = 0; i < authorList.size(); i++) {
+     names.add(i, "(" + authorList.get(i).getId() + ")" + "\t" + authorList.get(i).getFirstname() + " " + authorList.get(i).getLastname());
+    }
+    //System.out.println(names.get(0));
+    ObservableList < String > authors = FXCollections.observableArrayList(names);
+    addBookAuthorsList.setItems(authors);
+
+   });
 
 
 
+   Message message5 = prepareGetSubjects(ActionType.GET_SUBJECTS);
+   try {
+    ClientController.clientConnectionController.sendToServer(message5);
+   } catch (Exception e1) {
+    e1.printStackTrace();
+   }
+   Platform.runLater(() -> {
+    addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    ObservableList < String > subjects = FXCollections.observableArrayList(subjectList);
+    addBookSubjectsList.setItems(subjects);
 
+   });
 
   }); //endbtn
 
@@ -596,6 +785,7 @@ private TextField editBookPriceTextField;
     picStr="noPicture";
     
     
+    filteredData.clear();
     Message message7 = prepareGetBooksList(ActionType.GET_BOOK_LIST);
     try {
      ClientController.clientConnectionController.sendToServer(message7);
@@ -638,10 +828,162 @@ private TextField editBookPriceTextField;
    }
   }); //end submit button
 
+ //---------------------------------book edit pane---------------------
+  
+  
+  editBookChoosePicBtn.setOnAction(e -> {
+	   configureFileChooser(fileChooser);
+	   File file = fileChooser.showOpenDialog(ScreenController.getStage());
+	   if (file != null) {
+	    //System.out.println(file.getAbsolutePath());
+	    ByteArrayOutputStream output = new ByteArrayOutputStream();
+	    BufferedImage image;
+	    byte[] imageInBytes;
+	    try {
+	     image = ImageIO.read(file);
+	     //System.out.println(file.getAbsolutePath().substring(file.getAbsolutePath().indexOf(".")+1));
+	     ImageIO.write(image, "png", output);
+	     String base64EncodedImage = DatatypeConverter.printBase64Binary(output.toByteArray());
+	     imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+	     picStr = base64EncodedImage;
+	     System.out.println(base64EncodedImage);
+	     BufferedImage imgbuf;
+	     imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+	     Image image1 = SwingFXUtils.toFXImage(imgbuf, null);
+	     editBookpicBook.setImage(image1);
+	    } catch (Exception e2) {
+	     actionOnError(ActionType.CONTINUE, "Your Picture format not suppoerted!");
+	     imageInBytes = null;
+	    }
 
+	   }
+	  });
+  
+  backEditBook.setOnAction(e -> {
+	   editBookTitle.setText("");
+	   editBookAuthorsList.getSelectionModel().clearSelection();
+	   editBookKeywordsText.setText("");
+	   editBookLanguageList.getSelectionModel().clearSelection();
+	   editBookSubjectsList.getSelectionModel().clearSelection();
+	   editBookTableOfContent.setText("");
+	   editBookSummary.setText("");
+	   editBookPriceTextField.setText("");
+	   picStr="noPicture";
+	   editBookpicBook.setImage(null);
+	   addBookPane.setVisible(false);
+	   editBookPane.setVisible(false);
+	   mainPane.setVisible(true);
+	  });
+  
+  submitEditBook.setOnAction(e -> {
+	  
+	   PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();  
+	   String Sn= selectedItem.getBookSn();
+	  
+	   String TitleBook = null;
+	   TitleBook = editBookTitle.getText();
 
+	   ObservableList < String > Authors = editBookAuthorsListSelected.getItems();
+	   String authorsId = "";
+	   for (int i = 0; i < Authors.size(); i++)
+	    authorsId = Authors.get(i).substring(Authors.get(i).indexOf("(") + 1, Authors.get(i).indexOf(")")) + "^";
+
+	   String keywords = null;
+	   keywords = editBookKeywordsText.getText();
+
+	   String language = null;
+	   language = editBookLanguageList.getSelectionModel().getSelectedItem();
+
+	   ObservableList < String > Subjects = editBookSubjectsListSelected.getItems();
+	   String SubjectsList = "";
+	   for (int i = 0; i < Subjects.size(); i++)
+	    SubjectsList += Subjects.get(i).substring(Subjects.get(i).indexOf("(") + 1, Subjects.get(i).indexOf(")")) + "^";
+
+	   String tableOfContent = null;
+	   tableOfContent = editBookTableOfContent.getText();
+
+	   String summary = null;
+	   summary = editBookSummary.getText();
+	   
+	   String price = null;
+	   price = editBookPriceTextField.getText();
+
+	   String picture=picStr;
+	   
+	   if(price.matches("[-+]?[0-9]*\\.?[0-9]+")==false)
+		   actionOnError(ActionType.CONTINUE, "The price must be number!");
+
+	   else if (language == null || authorsId.length() == 0 || SubjectsList.length() == 0 || TitleBook.equals("")==true || keywords.equals("")==true || tableOfContent.equals("")==true || summary.equals("")==true)
+	    actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
+
+	   else {
+	    Message message6 = prepareEditBook(ActionType.EDIT_BOOK, Sn, TitleBook, authorsId, keywords, language, SubjectsList, tableOfContent, summary, picture, price);
+	    try {
+	     ClientController.clientConnectionController.sendToServer(message6);
+	    } catch (Exception e1) {
+	     e1.printStackTrace();
+	    }
+	    Platform.runLater(() -> {
+	    actionOnError(ActionType.CONTINUE, "The book added successfully!");
+	    addBookTitle.setText("");
+	    addBookAuthorsList.getSelectionModel().clearSelection();
+	    addBookKeywordsText.setText("");
+	    addBookLanguageList.getSelectionModel().clearSelection();
+	    addBookSubjectsList.getSelectionModel().clearSelection();
+	    addBookTableOfContent.setText("");
+	    addBookSummary.setText("");
+	    picBook.setImage(null);
+	    picStr="noPicture";
+	    
+	    filteredData.clear();
+	    Message message7 = prepareGetBooksList(ActionType.GET_BOOK_LIST);
+	    try {
+	     ClientController.clientConnectionController.sendToServer(message7);
+	    } catch (IOException e2) {
+	     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+	    }
+	    Platform.runLater(() -> {
+	     String authors = "";
+	     for (int i = 0; i < BooksList.size(); i += 9) {
+	      if (i + 9 < BooksList.size() && BooksList.get(i).equals(BooksList.get(i + 9))) {
+	       authors = authors + BooksList.get(i + 5) + ",";
+	      } else {
+	       if (authors.equals("")) {
+	        String hide;
+	        if (BooksList.get(i + 3).equals("0")) hide = "no";
+	        else hide = "yes";
+	        data.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+	        filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+	       } else {
+	        String hide;
+	        if (BooksList.get(i + 3).equals("0")) hide = "no";
+	        else hide = "yes";
+	        data.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), authors + BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+	        filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), authors + BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+	       }
+	       authors = "";
+	      }
+	     }
+	    });
+	    try {
+			Thread.sleep(1000);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	    
+	    addBookPane.setVisible(false);
+	    editBookPane.setVisible(false);
+	    mainPane.setVisible(true);
+	    });
+	   }
+	  
+  });
+  
+  
  }
 
+ // ---------------- functions -------------------
+ 
  private static void configureFileChooser(final FileChooser fileChooser) {
   fileChooser.setTitle("View Pictures");
   fileChooser.setInitialDirectory(
@@ -717,12 +1059,67 @@ private TextField editBookPriceTextField;
   message.setElementsList(elementsList);
   return message;
  }
+ 
+ public Message prepareEditBook(ActionType type, String Sn, String titleBook, String authorsId2, String keywords, String language, String subjectsList2, String tableOfContent, String summary, String picture, String price) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(titleBook);
+	  elementsList.add(authorsId2);
+	  elementsList.add(keywords);
+	  elementsList.add(language);
+	  elementsList.add(subjectsList2);
+	  elementsList.add(tableOfContent);
+	  elementsList.add(summary);
+	  elementsList.add(picture);
+	  elementsList.add(price);
+	  elementsList.add(Sn);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
 
  public Message prepareGetAuthors(ActionType type) {
   Message message = new Message();
   message.setType(type);
   return message;
  }
+ 
+ public Message prepareGetAuthors(ActionType type,String bookSn) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(bookSn);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
+ 
+ public Message prepareGetLanguage(ActionType type,String bookSn) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(bookSn);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
+ 
+ public Message prepareGetTableOfContent(ActionType type,String bookSn) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(bookSn);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
+ 
+
+ public Message prepareGetSubjects(ActionType type,String bookSn) {
+		  Message message = new Message();
+		  ArrayList < String > elementsList = new ArrayList < String > ();
+		  elementsList.add(bookSn);
+		  message.setType(type);
+		  message.setElementsList(elementsList);
+		  return message;
+		 }
 
  public Message prepareGetSubjects(ActionType type) {
   Message message = new Message();
