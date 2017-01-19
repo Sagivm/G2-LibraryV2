@@ -164,5 +164,11 @@ public class GeneralMessages {
 	 * Message for user that the ID in not 9 digits.
 	 */
 	public static final String MUST_INCLUDE_ONLY_DIGITS_ID = "The ID must include only 9 digits.";
+
+
+	/**
+	 * User blocked.
+	 */
+	public static final String USER_BLOCKED = "Blocked from system.";
 	
 }

@@ -273,6 +273,19 @@ public class ServerController extends AbstractServer {
 
 					while (rs.next()) {
 						if (rs.getString(4).equals(data.get(1).toString())) {
+							
+							System.out.println(rs.getString(1));
+							
+						
+							ResultSet rs1 = DatabaseController.searchInDatabase("SELECT isBlocked FROM clients WHERE username='" + rs.getString(1) + "'");	
+							
+							while (rs1.next()) {
+								if (rs1.getString(1).equals("1")) {
+									replay = new Replay(ActionType.LOGIN, false, GeneralMessages.USER_BLOCKED);
+									return replay;
+								}
+							}
+							
 							System.out.println("login succssefully");
 							sqlResult = true;
 							action = 1;
@@ -855,7 +868,7 @@ public class ServerController extends AbstractServer {
 				
 				String currTime = currentTime.format(date);
 				String currDate = currentDate.format(date);
-				String msg="Account type updated to " + message.getElementsList().get(1);
+				String msg="Your account has been approved.";
 				
 				DatabaseController.addToDatabase("INSERT INTO messages (`username`, `date`, `time`, `msg`) VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
 		
@@ -1017,7 +1030,8 @@ public class ServerController extends AbstractServer {
 				
 				//
 				
-				if (data.get(2).equals("approved"))
+				if (data.get(2).equals(""
+						+ ""))
 				msg = "Review num " + data.get(0) + " has been approved";
 				else msg = "Review num " + data.get(0) + " has been declined";
 				String username = data.get(3);
