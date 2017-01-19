@@ -85,60 +85,67 @@ public class SearchBookResultsController implements ScreensIF{
 			
 			int j;
 			
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
 			//System.out.println(resultList.size());
-			for(int i=0;i<resultList.size();i++)
-			{
-				int size=countItems(resultList.get(i),"^");
-				String[] tmp=new String[size];
-				tmp = resultList.get(i).split("\\^");
-				
-
-				int authorsCount=Integer.parseInt(tmp[6]);
-				ArrayList<String> authors = new ArrayList<String>();
-				
-				for(j=0; j<authorsCount;j++)
-					authors.add(tmp[7+j]);
-				
-				int continue_index=7+j;
-				
-				int subjectsCount=Integer.parseInt(tmp[continue_index]);
-				ArrayList<String> domains = new ArrayList<String>();
-				ArrayList<String> subjects = new ArrayList<String>();
-				for(j=0; j<subjectsCount*2;j+=2)
+			try{
+				for(int i=0;i<resultList.size();i++)
 				{
-					subjects.add(tmp[continue_index+1+j]);
-					domains.add(tmp[continue_index+1+j+1]);
+					int size=countItems(resultList.get(i),"^");
+					String[] tmp=new String[size];
+					tmp = resultList.get(i).split("\\^");
+					
+	
+					int authorsCount=Integer.parseInt(tmp[6]);
+					ArrayList<String> authors = new ArrayList<String>();
+					
+					for(j=0; j<authorsCount;j++)
+						authors.add(tmp[7+j]);
+					
+					int continue_index=7+j;
+					
+					int subjectsCount=Integer.parseInt(tmp[continue_index]);
+					ArrayList<String> domains = new ArrayList<String>();
+					ArrayList<String> subjects = new ArrayList<String>();
+					for(j=0; j<subjectsCount*2;j+=2)
+					{
+						subjects.add(tmp[continue_index+1+j]);
+						domains.add(tmp[continue_index+1+j+1]);
+					}
+					
+					//remove duplicates in domains
+					Set<String> hs = new HashSet<>();
+					hs.addAll(domains);
+					domains.clear();
+					domains.addAll(hs);
+								
+					
+					
+					String author=authors.toString();
+					author=author.substring(1, author.length()-1);
+					String subject=subjects.toString();
+					subject=subject.substring(1, subject.length()-1);
+					String domain=domains.toString();
+					domain=domain.substring(1, domain.length()-1);
+					
+					//continue_index=continue_index+2+subjectsCount;
+	
+					float price =  Float.parseFloat(tmp[size-1]);
+					//SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price)+"$");
+					SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price));
+					data.add(book);
+				}
+			}catch (Exception e1) {
+				//e1.printStackTrace();
+				initialize();
+				try {
+					TimeUnit.SECONDS.sleep(1);
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
 				}
 				
-				//remove duplicates in domains
-				Set<String> hs = new HashSet<>();
-				hs.addAll(domains);
-				domains.clear();
-				domains.addAll(hs);
-							
-				
-				
-				String author=authors.toString();
-				author=author.substring(1, author.length()-1);
-				String subject=subjects.toString();
-				subject=subject.substring(1, subject.length()-1);
-				String domain=domains.toString();
-				domain=domain.substring(1, domain.length()-1);
-				
-				//continue_index=continue_index+2+subjectsCount;
-
-				float price =  Float.parseFloat(tmp[size-1]);
-				//SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price)+"$");
-				SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price));
-				data.add(book);
 			}
+			
+
 			
 		bookCol.setSortType(TableColumn.SortType.ASCENDING);
 		

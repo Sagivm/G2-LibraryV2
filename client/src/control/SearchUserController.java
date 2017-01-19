@@ -100,12 +100,6 @@ public class SearchUserController implements ScreensIF{
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
 		
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
     	if(ClientUI.getTypeOfUser()=="Librarian")
     	{

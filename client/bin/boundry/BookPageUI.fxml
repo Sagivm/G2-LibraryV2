@@ -110,7 +110,7 @@
                </content></Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="btnBack" layoutX="693.0" layoutY="565.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="46.0" prefWidth="127.0" text="&lt; Back">
+      <Button fx:id="backButton" layoutX="693.0" layoutY="565.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="46.0" prefWidth="127.0" text="&lt; Back">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

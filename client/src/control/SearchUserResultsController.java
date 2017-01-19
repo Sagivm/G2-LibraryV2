@@ -86,22 +86,27 @@ public class SearchUserResultsController implements ScreensIF{
 			public void run() {
 
 				try {
-					try {
-						TimeUnit.SECONDS.sleep(1);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					try{
+						for(int i=0;i<userResult.size();i++)
+						{
+							String[] tmp=new String[6];
+							tmp = userResult.get(i).split("\\^");
+							String isBlocked="NO";
+							if(Integer.parseInt(tmp[5])==1)
+								isBlocked="YES";
+							data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4], isBlocked));
+						}
 					}
-					for(int i=0;i<userResult.size();i++)
-					{
-						String[] tmp=new String[6];
-						tmp = userResult.get(i).split("\\^");
-						String isBlocked="NO";
-						if(Integer.parseInt(tmp[5])==1)
-							isBlocked="YES";
-						data.add(new SearchUserResult(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4], isBlocked));
+					 catch (Exception e1) {
+						//e1.printStackTrace();
+						 initialize();
+							try {
+								TimeUnit.SECONDS.sleep(1);
+							} catch (InterruptedException e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
+							}
 					}
-					
 										
 					fNameCol.setSortType(TableColumn.SortType.ASCENDING);
 					lNameCol.setSortType(TableColumn.SortType.ASCENDING);

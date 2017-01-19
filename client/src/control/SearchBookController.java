@@ -114,12 +114,6 @@ public class SearchBookController implements ScreensIF{
 				e.printStackTrace();
 				
 			}
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		}
 
 		goToServer_flag=0;
@@ -131,19 +125,28 @@ public class SearchBookController implements ScreensIF{
 			public void run() {
 
 				try{
-				ArrayList<String> names=new ArrayList<String>();
-				authorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-				//System.out.println(statush.get(1).getFirstname());
-				for(int i=0 ; i< authorList.size();i++)
-				{
-					names.add(i, "("+authorList.get(i).getId()+")"+"\t"+authorList.get(i).getFirstname()+" "+authorList.get(i).getLastname());
-				}
-				//System.out.println(names.get(0));
-				ObservableList<String> items = FXCollections.observableArrayList(names);
-				authorListView.setItems(items);	
-
+					/* authors */
+					ArrayList<String> names=new ArrayList<String>();
+					authorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+					for(int i=0 ; i< authorList.size();i++)
+						names.add(i, "("+authorList.get(i).getId()+")"+"\t"+authorList.get(i).getFirstname()+" "+authorList.get(i).getLastname());
+					ObservableList<String> items = FXCollections.observableArrayList(names);
+					authorListView.setItems(items);	
+	
+					/* domains */
+					domainListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+					ObservableList<String> items2 = FXCollections.observableArrayList(domainList);
+					domainListView.setItems(items2);
+				
 			} catch (Exception e) {
-				e.printStackTrace();		
+				//e.printStackTrace();	
+				initialize();
+				try {
+					TimeUnit.SECONDS.sleep(1);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				}
 				
 				//question mark images
@@ -160,9 +163,7 @@ public class SearchBookController implements ScreensIF{
 				
 				
 				try{
-				domainListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-				ObservableList<String> items2 = FXCollections.observableArrayList(domainList);
-				domainListView.setItems(items2);
+
 				} catch (Exception e) {
 					e.printStackTrace();		
 					}
