@@ -32,6 +32,7 @@ public class CurrentDate   {
 	 */
 	private void dateInitialize() {
 		// fix multiply occurrence per date
+		checkLastCrash();
 		if (date == null) {
 			Date Currentdate = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HH");
@@ -39,7 +40,19 @@ public class CurrentDate   {
 			createNewDay();
 		}
 	}
-//
+private void checkLastCrash() {
+		try {
+			ResultSet rs=DatabaseController.searchInDatabase(
+					"SELECT "
+					+ "FROM book_by_date"
+					+ "WHERE ;");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	//
 	/**
 	 *Checks if the day has changed and if was 
 	 *create new rows in sql table book by date for each book 
@@ -89,7 +102,7 @@ public class CurrentDate   {
 	public static void insertBookDateRow(ResultSet rs,int search,int purchase) throws SQLException
 	{
 		Date Currentdate=new Date();
-		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
 		String date=(String)dateFormat.format(Currentdate);
 		DatabaseController.addToDatabase("INSERT INTO book_by_date VALUES ("+rs.getInt(1)+",'"+date+"',"+search+","+purchase+");");
 	}
@@ -101,7 +114,7 @@ public class CurrentDate   {
 	public static int IncSearchBookDateRow(String bookId) throws SQLException
 	{
 		Date Currentdate=new Date();
-		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
 		String date=(String)dateFormat.format(Currentdate);
 		Statement stmt = DatabaseController.connection.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT searchCount FROM book_by_date WHERE bookId='" + bookId + "' and date='"+date+"';");
@@ -121,7 +134,7 @@ public class CurrentDate   {
 	public static int IncPurcahseBookDateRow(String bookId) throws SQLException
 	{
 		Date Currentdate=new Date();
-		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
 		String date=(String)dateFormat.format(Currentdate);
 		
 		Statement stmt = DatabaseController.connection.createStatement();
