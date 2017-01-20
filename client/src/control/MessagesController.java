@@ -155,61 +155,29 @@ public class MessagesController implements ScreensIF
 	/**
 	 * Inner class for messsages that will be added as a row.
 	 * @author nire
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
-	 */
-	/**
-	 * @author nirzo
-	 *
 	 */
 	public static class Messages {
 
+	    /**
+	     * SimpleString for date
+	     */
 	    private final SimpleStringProperty date;
-	    private final SimpleStringProperty time;
-	    private final SimpleStringProperty msg;
-
 	    
+	    /**
+	     * SimpleString for time
+	     */
+	    private final SimpleStringProperty time;
+	    
+	    /**
+	     * SimpleString for msg
+	     */
+	    private final SimpleStringProperty msg;
 
 	    /**
 	     * Constructor for create messages that will be added to the message screen rows.
-	     * @param date - Get date.
-	     * @param time - Get time.
-	     * @param msg - Get msg.
+	     * @param date - Gets date.
+	     * @param time - Gets time.
+	     * @param msg - Gets msg.
 	     */
 	    private Messages(String date, String time, String msg) {
 	    	this.date = new SimpleStringProperty(date);
@@ -217,7 +185,6 @@ public class MessagesController implements ScreensIF
 	        this.msg = new SimpleStringProperty(msg);       
 	    	
 	    }
-
 
 
 		/**
@@ -245,7 +212,6 @@ public class MessagesController implements ScreensIF
 	    }
 	    
 	    
-
 	    /** Setter for date.
 	     * @param date - Gets the date.
 	     */

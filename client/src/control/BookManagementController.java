@@ -33,6 +33,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -41,6 +42,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -57,60 +59,112 @@ import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
 /**
- * PendingRegistrationController is the controller that shows a list of all the registration requests.
- * @author Idan
+ * BookManagementController is the controller that manage all books, domains, subject and authors.
+ * @author idanN
  */
 public class BookManagementController {
 
  // Books Tab - main pane
- @FXML
+	
+ /**
+ * TableView that show the books.
+ */
+@FXML
  private TableView < PropertyBook > BooksTableView;
 
- @FXML
+ /**
+ * TableColumn of book sn
+ */
+@FXML
  private TableColumn BookSn;
 
- @FXML
+ /**
+ * TableColumn of book title
+ */
+@FXML
  private TableColumn BookTitle;
 
+/**
+* TableColumn of book authors
+*/
  @FXML
  private TableColumn BookAuthors;
 
+ /**
+ * TableColumn of book keywords
+ */
  @FXML
  private TableColumn BookKeywords;
 
+ /**
+ * TableColumn of book state of hide
+ */
  @FXML
  private TableColumn BookHide;
 
+ /**
+ * Label of book title of the selected book in the table view
+ */
  @FXML
  private Label InfoTitle;
 
+ /**
+  * Label of book authors of the selected book in the table view
+  */
  @FXML
  private Label InfoAuthors;
 
+ /**
+  * Label of book keywords of the selected book in the table view
+  */
  @FXML
  private Label InfoKeywords;
 
+ /**
+  * Text Area of book summary of the selected book in the table view
+  */
  @FXML
  private TextArea BookSummary;
 
+ /**
+  * Label of "title:" in the bottom of books table view
+  */
  @FXML
  private Label TitleLabel;
 
+ /**
+  * Label of "authors:" in the bottom of books table view
+  */
  @FXML
  private Label AuthorsLabel;
 
+ /**
+  * Label of "keywords:" in the bottom of books table view
+  */
  @FXML
  private Label KeywordsLabel;
 
+ /**
+  * Label of "summary:" in the bottom of books table view
+  */
  @FXML
  private Label SummaryLabel;
  
+ /**
+  * Label of book price of the selected book in the table view
+  */
  @FXML
  private Label infoPrice;
  
+ /**
+  * Label of "price:" in the bottom of books table view
+  */
  @FXML
  private Label PriceLabel;
 
+ /**
+  * Button to delete book
+  */
  @FXML
  private Button delBtn;
 
@@ -237,6 +291,176 @@ private TextArea editBookSummary;
 private TextField editBookPriceTextField;
 
 
+// domains tab - mainDomainPane
+
+@FXML
+private AnchorPane mainDomainPane;
+
+@FXML
+private AnchorPane addDomainPane;
+
+@FXML
+private AnchorPane editDomainPane;
+
+@FXML
+private Button addDomain;
+
+@FXML
+private TableView<PropertyDomain> mainDomainTableView;
+
+@FXML
+private TableColumn domainId;
+
+@FXML
+private TableColumn domainName;
+
+@FXML
+private TextField addDomainName;
+
+@FXML
+private Button addDomainBack;
+
+@FXML
+private Button addDomainSubmit;
+
+@FXML
+private Button addDomainClear;
+
+@FXML
+private Button addDomainEditBtn;
+
+@FXML
+private Button DomainDeleteBtn;
+
+@FXML
+private TextField editDomainName;
+
+@FXML
+private Button editDomainBack;
+
+@FXML
+private Button editDomainSubmit;
+
+
+//subjects tab - mainDomainPane
+
+@FXML
+private AnchorPane mainSubjectPane;
+
+@FXML
+private AnchorPane addSubjectPane;
+
+@FXML
+private AnchorPane editSubjectPane;
+
+@FXML
+private Button addSubject;
+
+@FXML
+private TableView<PropertySubject> mainSubjectTable;
+
+@FXML
+private TableColumn subjectId;
+
+@FXML
+private TableColumn subjectName;
+
+@FXML
+private TableColumn subjectDomain;
+
+@FXML
+private TextField addSubjectsName;
+
+@FXML
+private ListView addSubjectsDomainsList;
+
+@FXML
+private Button addSubjetcsBack;
+
+@FXML
+private Button addSubjetcsSubmit;
+
+@FXML
+private Button addSubjetcsClear;
+
+@FXML
+private Button subjectsEditBtn;
+
+@FXML
+private Button subjectsDeleteBtn;
+
+@FXML
+private TextField editSubjectsName;
+
+@FXML
+private Button editSubjetcsBack;
+
+@FXML
+private ListView editSubjectsDomainsList;
+
+@FXML
+private Button editSubjetcsSubmit;
+
+
+//authors tab - mainDomainPane
+
+@FXML
+private AnchorPane mainAuthorPane;
+
+@FXML
+private AnchorPane addAuthorPane;
+
+@FXML
+private AnchorPane editAuthorPane;
+
+@FXML
+private Button addAuthor;
+
+@FXML
+private TableView<PropertyAuthor> mainAuthorTableView;
+
+@FXML
+private TableColumn authorId;
+
+@FXML
+private TableColumn authorFirstName;
+
+@FXML
+private TableColumn authorLastName;
+
+@FXML
+private TextField addAuthorFirstName;
+
+@FXML
+private TextField addAuthorLastName;
+
+@FXML
+private Button addAuthorBack;
+
+@FXML
+private Button addAuthorSubmit;
+
+@FXML
+private Button addAuthorClear;
+
+@FXML
+private Button addAuthorEditBtn;
+
+@FXML
+private Button AuthorDeleteBtn;
+
+@FXML
+private TextField editAuthorFirstName;
+
+@FXML
+private TextField editAuthorLastName;
+
+@FXML
+private Button editAuthorBack;
+
+@FXML
+private Button editAuthorSubmit;
+
 
  public static ArrayList < String > BooksList;
  public static ArrayList < String > subjectList;
@@ -249,6 +473,12 @@ private TextField editBookPriceTextField;
  public static ArrayList < String > selectedSubjectString;
  public static String editBookLanguage;
  public static String editBookTableOfContant;
+ public static ArrayList < String > domainsList;
+ public static int countBookByDomain;
+ public static ArrayList < String > subjectsList;
+ public static int countBookBySubject;
+ public static int countBookOfUser;
+ 
 
  private ObservableList < PropertyBook > data = FXCollections.observableArrayList();;
  private ObservableList < PropertyBook > filteredData = FXCollections.observableArrayList();
@@ -273,7 +503,8 @@ private TextField editBookPriceTextField;
   try {
    ClientController.clientConnectionController.sendToServer(message);
   } catch (IOException e) {
-   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+	  e.printStackTrace();
+	  actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   }
   Platform.runLater(() -> {
    String authors = "";
@@ -372,6 +603,11 @@ private TextField editBookPriceTextField;
     SummaryLabel.setVisible(true);
     PriceLabel.setVisible(true);
     BookSummary.setVisible(true);
+    imageView.setVisible(true);
+    infoPrice.setVisible(true);
+    InfoAuthors.setVisible(true);
+    InfoKeywords.setVisible(true);
+    InfoTitle.setVisible(true);
     delBtn.setVisible(true);
     editBtn.setVisible(true);
     hideBtn.setVisible(true);
@@ -471,7 +707,6 @@ private TextField editBookPriceTextField;
 	    }
 	    ArrayList < String > namesselected = new ArrayList < String > ();
 	    editBookAuthorsListSelected.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-	    //System.out.println(statush.get(1).getFirstname());
 	    for (int i = 0; i < selectedAuthorsString.size(); i++) {
 	    	namesselected.add(i, "(" + selectedAuthorsString.get(i).getId() + ")" + "\t" + selectedAuthorsString.get(i).getFirstname() + " " + selectedAuthorsString.get(i).getLastname());
 	    	names.remove(namesselected.get(i));
@@ -516,8 +751,6 @@ private TextField editBookPriceTextField;
 	      });
 		
 		
-		
-		
 	    ObservableList < String > allSubjects = FXCollections.observableArrayList(subjects);
 	    ObservableList < String > selectedSubjects = FXCollections.observableArrayList(subjectsselected);
 	    editBookSubjectsList.setItems(allSubjects);    
@@ -540,7 +773,7 @@ private TextField editBookPriceTextField;
 	        	allSubjects.add(potential);
 	        }
 	      });
-		
+
 	   });
 	  
 	   
@@ -556,19 +789,16 @@ private TextField editBookPriceTextField;
 
   delBtn.setOnAction(e -> {
    PropertyBook selectedItem = BooksTableView.getSelectionModel().getSelectedItem();
-   //BooksTableView.getItems().remove(selectedItem);
-   //Message message = prepareDeleteBook(ActionType.DELETE_BOOK ,selectedItem.getBookSn());
-   /*try {
-   	ClientController.clientConnectionController.sendToServer(message);
+   BooksTableView.getItems().remove(selectedItem);
+   Message messageDel = prepareDeleteBook(ActionType.DELETE_BOOK ,selectedItem.getBookSn());
+   try {
+   	ClientController.clientConnectionController.sendToServer(messageDel);
    } catch (IOException e1) {	
    	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
    }
-   Platform.runLater(new Runnable() {
-   	@Override
-   	public void run() {
+   Platform.runLater(() -> {
    			data.remove(selectedItem);
-   	}
-   });*/
+   });
    //delete book
   });
 
@@ -580,6 +810,7 @@ private TextField editBookPriceTextField;
     try {
      ClientController.clientConnectionController.sendToServer(message4);
     } catch (IOException e1) {
+     e1.printStackTrace();
      actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
     }
     Platform.runLater(() -> {
@@ -591,6 +822,7 @@ private TextField editBookPriceTextField;
     try {
      ClientController.clientConnectionController.sendToServer(message5);
     } catch (IOException e1) {
+    	e1.printStackTrace();
      actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
     }
     Platform.runLater(() -> {
@@ -785,11 +1017,13 @@ private TextField editBookPriceTextField;
     picStr="noPicture";
     
     
+    filterField.clear();
     filteredData.clear();
     Message message7 = prepareGetBooksList(ActionType.GET_BOOK_LIST);
     try {
      ClientController.clientConnectionController.sendToServer(message7);
     } catch (IOException e2) {
+    	e2.printStackTrace();
      actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
     }
     Platform.runLater(() -> {
@@ -886,7 +1120,7 @@ private TextField editBookPriceTextField;
 	   ObservableList < String > Authors = editBookAuthorsListSelected.getItems();
 	   String authorsId = "";
 	   for (int i = 0; i < Authors.size(); i++)
-	    authorsId = Authors.get(i).substring(Authors.get(i).indexOf("(") + 1, Authors.get(i).indexOf(")")) + "^";
+	    authorsId += Authors.get(i).substring(Authors.get(i).indexOf("(") + 1, Authors.get(i).indexOf(")")) + "^";
 
 	   String keywords = null;
 	   keywords = editBookKeywordsText.getText();
@@ -935,11 +1169,14 @@ private TextField editBookPriceTextField;
 	    picBook.setImage(null);
 	    picStr="noPicture";
 	    
+	    filterField.clear();
+	    data.clear();
 	    filteredData.clear();
 	    Message message7 = prepareGetBooksList(ActionType.GET_BOOK_LIST);
 	    try {
 	     ClientController.clientConnectionController.sendToServer(message7);
 	    } catch (IOException e2) {
+	    	e2.printStackTrace();
 	     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 	    }
 	    Platform.runLater(() -> {
@@ -971,6 +1208,21 @@ private TextField editBookPriceTextField;
 			e1.printStackTrace();
 		}
 	    
+	    TitleLabel.setVisible(false);
+	    InfoTitle.setVisible(false);
+	    AuthorsLabel.setVisible(false);
+	    InfoAuthors.setVisible(false);
+	    KeywordsLabel.setVisible(false);
+	    SummaryLabel.setVisible(false);
+	    imageView.setVisible(false);
+	    InfoKeywords.setVisible(false);
+	    infoPrice.setVisible(false);
+	    PriceLabel.setVisible(false);
+	    BookSummary.setVisible(false);
+	    delBtn.setVisible(false);
+	    editBtn.setVisible(false);
+	    hideBtn.setVisible(false);
+	    
 	    addBookPane.setVisible(false);
 	    editBookPane.setVisible(false);
 	    mainPane.setVisible(true);
@@ -980,11 +1232,819 @@ private TextField editBookPriceTextField;
   });
   
   
+//---------------------------------domain main pane---------------------
+  
+  addDomainEditBtn.setVisible(false);
+  DomainDeleteBtn.setVisible(false);
+  mainDomainPane.setVisible(true);
+  addDomainPane.setVisible(false);
+  editDomainPane.setVisible(false);
+  Message message4 = prepareGetDomainsWithId(ActionType.GET_DOMAINS_WITH_ID);
+  ObservableList<PropertyDomain> dataDomains = FXCollections.observableArrayList();
+  try {
+   ClientController.clientConnectionController.sendToServer(message4);
+  } catch (IOException e) {
+	  e.printStackTrace();
+   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  }
+	Platform.runLater(() -> {
+		for(int i=0;i<domainsList.size();i+=2){
+			dataDomains.add(new PropertyDomain(domainsList.get(i), domainsList.get(i+1)));
+		}
+  });
+  
+	domainId.setCellValueFactory(
+            new PropertyValueFactory<PropertyDomain, String>("domainId"));
+
+		domainName.setCellValueFactory(
+            new PropertyValueFactory<PropertyDomain, String>("domainName"));
+		
+		domainId.setStyle( "-fx-alignment: CENTER;");
+		domainName.setStyle( "-fx-alignment: CENTER;");
+		System.out.println("asas");
+		mainDomainTableView.setItems(dataDomains);
+		
+		
+		mainDomainTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+		 if (newSelection != null) {
+			  addDomainEditBtn.setVisible(true);
+			  DomainDeleteBtn.setVisible(true);
+			  }
+		});
+		
+		addDomainEditBtn.setOnAction(e -> {
+			mainDomainPane.setVisible(false);
+			addDomainPane.setVisible(false);
+			editDomainPane.setVisible(true);
+			PropertyDomain selectedItem = mainDomainTableView.getSelectionModel().getSelectedItem();
+			editDomainName.setText(selectedItem.getDomainName());
+		});
+		
+		editDomainBack.setOnAction(e -> {
+			   editDomainName.setText("");
+			   addDomainPane.setVisible(false);
+			   editDomainPane.setVisible(false);
+			   mainDomainPane.setVisible(true);
+			  });
+		
+		editDomainSubmit.setOnAction(e -> {
+			PropertyDomain selectedItem = mainDomainTableView.getSelectionModel().getSelectedItem(); 
+			String DomainId = null;
+			DomainId = selectedItem.getDomainId();
+			String DomainName = null;
+			DomainName = editDomainName.getText();
+			
+			System.out.println(DomainId+" "+DomainName);
+
+			
+			if (DomainName.equals(""))
+			    actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
+			else{
+				Message message5 = prepareEditDomain(ActionType.EDIT_DOMAIN, DomainId, DomainName);
+				 try {
+				     ClientController.clientConnectionController.sendToServer(message5);
+				    } catch (Exception e1) {
+				     e1.printStackTrace();
+				    }
+				    Platform.runLater(() -> {
+				    actionOnError(ActionType.CONTINUE, "The domain edited successfully!");
+				    editDomainName.setText("");
+				    
+				    dataDomains.clear();
+  				    Message message6 = prepareGetDomainsWithId(ActionType.GET_DOMAINS_WITH_ID);
+  				    try {
+  				     ClientController.clientConnectionController.sendToServer(message6);
+  				    } catch (IOException e2) {
+  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  				    }
+  				    Platform.runLater(() -> {
+  						for(int i=0;i<domainsList.size();i+=2){
+  							dataDomains.add(new PropertyDomain(domainsList.get(i), domainsList.get(i+1)));
+  						}
+  				    });
+  				    try {
+  						Thread.sleep(500);
+  					} catch (Exception e1) {
+  						e1.printStackTrace();
+  					}
+				    
+				    addDomainPane.setVisible(false);
+				    editDomainPane.setVisible(false);
+				    mainDomainPane.setVisible(true);
+			});
+			}
+		});
+
+		
+		
+		addDomain.setOnAction(e -> {
+   		   mainDomainPane.setVisible(false);
+   		   addDomainPane.setVisible(true);
+   		   editDomainPane.setVisible(false);
+   		  });
+		
+		
+		DomainDeleteBtn.setOnAction(e -> {
+			PropertyDomain selectedItem = mainDomainTableView.getSelectionModel().getSelectedItem();
+			String DomainId = selectedItem.getDomainId();
+			Message message5 = prepareGetNumberBookAtDomain(ActionType.GET_NUMBER_BOOK_AT_DOMAIN ,DomainId);
+			   try {
+			   	ClientController.clientConnectionController.sendToServer(message5);
+			   } catch (IOException e1) {	
+			   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+			   }
+			   Platform.runLater(() -> {
+				   try {
+					Thread.sleep(700);
+				} catch (Exception e5) {
+					// TODO Auto-generated catch block
+					e5.printStackTrace();
+				}
+				if(countBookByDomain>0)  
+					actionOnError(ActionType.CONTINUE,"You can't to remove domain that contains books!");
+				else{
+					Message message6 = prepareGetNumberBookAtDomain(ActionType.DELETE_DOMAIN ,DomainId);
+					try {
+					   	ClientController.clientConnectionController.sendToServer(message6);
+					   } catch (IOException e1) {	
+					   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+					   }
+					actionOnError(ActionType.CONTINUE, "The domain deleted successfully!");
+				    dataDomains.clear();
+  				    Message message7 = prepareGetDomainsWithId(ActionType.GET_DOMAINS_WITH_ID);
+  				    try {
+  				     ClientController.clientConnectionController.sendToServer(message7);
+  				    } catch (IOException e2) {
+  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  				    }
+  				    Platform.runLater(() -> {
+  						for(int i=0;i<domainsList.size();i+=2){
+  							dataDomains.add(new PropertyDomain(domainsList.get(i), domainsList.get(i+1)));
+  						}
+  				    });
+  				    try {
+  						Thread.sleep(500);
+  					} catch (Exception e1) {
+  						e1.printStackTrace();
+  					}
+					
+				}
+				
+			   });
+			 
+
+		});
+   		
+   		
+  		 addDomainClear.setOnAction(e -> {
+  			addDomainName.setText("");
+  		 });
+  		 
+  		addDomainBack.setOnAction(e -> {
+  			addDomainName.setText("");
+  			mainDomainPane.setVisible(true);
+    		addDomainPane.setVisible(false);
+    		editDomainPane.setVisible(false);
+  		 });
+  		
+  		addDomainSubmit.setOnAction(e -> {
+  			String DomainName = null;
+  			DomainName = addDomainName.getText();
+  			System.out.println(DomainName);
+  			
+  			if (DomainName.equals(""))
+  			    actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
+  			else {
+  				
+  				 Message message5 = prepareAddDomain(ActionType.ADD_DOMAIN, DomainName);
+  				 try {
+  				     ClientController.clientConnectionController.sendToServer(message5);
+  				    } catch (Exception e1) {
+  				     e1.printStackTrace();
+  				    }
+  				Platform.runLater(() -> {
+  				    actionOnError(ActionType.CONTINUE, "The domain added successfully!");
+  				    addDomainName.setText("");
+  				    
+  				    dataDomains.clear();
+  				    Message message6 = prepareGetDomainsWithId(ActionType.GET_DOMAINS_WITH_ID);
+  				    try {
+  				     ClientController.clientConnectionController.sendToServer(message6);
+  				    } catch (IOException e2) {
+  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  				    }
+  				    Platform.runLater(() -> {
+  						for(int i=0;i<domainsList.size();i+=2){
+  							dataDomains.add(new PropertyDomain(domainsList.get(i), domainsList.get(i+1)));
+  						}
+  				    });
+  				    try {
+  						Thread.sleep(500);
+  					} catch (Exception e1) {
+  						e1.printStackTrace();
+  					}
+  				    
+  				  mainDomainPane.setVisible(true);
+  				  addDomainPane.setVisible(false);
+  				  editDomainPane.setVisible(false);
+  				    
+  				    
+  				});
+  			}
+  		});
+	
+// end domain main pane
+  		
+  		
+//---------------------------------subjects main pane---------------------
+  		
+  	  subjectsEditBtn.setVisible(false);
+  	subjectsDeleteBtn.setVisible(false);
+  	  mainSubjectPane.setVisible(true);
+  	addSubjectPane.setVisible(false);
+  	editSubjectPane.setVisible(false);
+  	  Message message5 = prepareGetDomainsWithId(ActionType.GET_SUBJECTS_INFO);
+  	  ObservableList<PropertySubject> dataSubjects = FXCollections.observableArrayList();
+  	  try {
+  	   ClientController.clientConnectionController.sendToServer(message5);
+  	  } catch (IOException e) {
+  		  e.printStackTrace();
+  	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  	  }
+  		Platform.runLater(() -> {
+  			for(int i=0;i<subjectsList.size();i+=4){
+  				dataSubjects.add(new PropertySubject(subjectsList.get(i), subjectsList.get(i+1), "("+subjectsList.get(i+2)+")"+" "+subjectsList.get(i+3)));
+  			}
+  	  });
+  	  
+  		subjectId.setCellValueFactory(
+  	            new PropertyValueFactory<PropertyDomain, String>("subjectId"));
+
+  		subjectName.setCellValueFactory(
+  	            new PropertyValueFactory<PropertyDomain, String>("subjectName"));
+  			
+  		subjectDomain.setCellValueFactory(
+  	  	            new PropertyValueFactory<PropertyDomain, String>("subjectDomain"));
+  			
+  		subjectId.setStyle( "-fx-alignment: CENTER;");
+  		subjectName.setStyle( "-fx-alignment: CENTER;");
+  		subjectDomain.setStyle( "-fx-alignment: CENTER;");
+  		System.out.println("asas");
+  		mainSubjectTable.setItems(dataSubjects);
+  			
+  		
+  		mainSubjectTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+  			 if (newSelection != null) {
+  				subjectsEditBtn.setVisible(true);
+  				subjectsDeleteBtn.setVisible(true);
+  				  }
+  			});
+  				
+  			
+  		editSubjetcsBack.setOnAction(e -> {
+  				   editSubjectsName.setText("");
+  				   editSubjectsDomainsList.getSelectionModel().clearSelection();
+  				 addSubjectPane.setVisible(false);
+  				 editSubjectPane.setVisible(false);
+  				 mainSubjectPane.setVisible(true);
+  				  });
+  		
+  		subjectsEditBtn.setOnAction(e -> {
+  			mainSubjectPane.setVisible(false);
+  			addSubjectPane.setVisible(false);
+  			editSubjectPane.setVisible(true);
+  				PropertySubject selectedItem = mainSubjectTable.getSelectionModel().getSelectedItem(); 
+  				editSubjectsName.setText(selectedItem.getSubjectName());
+  				
+  				Message message6 = prepareGetAuthors(ActionType.GET_DOMAINS_WITH_ID);
+  				
+  				try {
+  			    ClientController.clientConnectionController.sendToServer(message6);
+  			   } catch (Exception e1) {
+  			    e1.printStackTrace();
+  			   }
+  				Platform.runLater(() -> { 
+  				 ArrayList < String > domains = new ArrayList < String > ();
+  			    //System.out.println(statush.get(1).getFirstname());
+  			    for (int i = 0; i < domainsList.size(); i+=2) {
+  			    	domains.add("(" + domainsList.get(i) + ")" + " " + domainsList.get(i+1));
+  			    }
+
+  			  ObservableList < String > domainsList = FXCollections.observableArrayList(domains);
+  			  editSubjectsDomainsList.setItems(domainsList);  
+  			editSubjectsDomainsList.getSelectionModel().select(selectedItem.getSubjectDomain());
+  			   
+  			 });
+  				
+  				
+
+  				
+  			});
+
+  			
+  				
+  		addSubject.setOnAction(e2 -> {
+  			mainSubjectPane.setVisible(false);
+  			addSubjectPane.setVisible(true);
+  			editSubjectPane.setVisible(false);
+  			
+  			Message message6 = prepareGetAuthors(ActionType.GET_DOMAINS_WITH_ID);
+				
+				try {
+			    ClientController.clientConnectionController.sendToServer(message6);
+			   } catch (Exception e1) {
+			    e1.printStackTrace();
+			   }
+				Platform.runLater(() -> { 
+				 ArrayList < String > domains = new ArrayList < String > ();
+			    //System.out.println(statush.get(1).getFirstname());
+			    for (int i = 0; i < domainsList.size(); i+=2) {
+			    	domains.add("(" + domainsList.get(i) + ")" + " " + domainsList.get(i+1));
+			    }
+
+			  ObservableList < String > domainsList = FXCollections.observableArrayList(domains);
+			  addSubjectsDomainsList.setItems(domainsList);  
+
+				});
+			 });
+  			
+  			
+  			
+  			
+  		subjectsDeleteBtn.setOnAction(e -> {
+  				PropertySubject selectedItem = mainSubjectTable.getSelectionModel().getSelectedItem();
+  				String subjectId = selectedItem.getSubjectId();
+  				Message message6 = prepareGetNumberBookAtDomain(ActionType.GET_NUMBER_BOOK_AT_SUBJECT ,subjectId);
+  				   try {
+  				   	ClientController.clientConnectionController.sendToServer(message6);
+  				   } catch (IOException e1) {	
+  				   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  				   }
+  				   Platform.runLater(() -> {
+  					   try {
+						Thread.sleep(700);
+					} catch (Exception e5) {
+						// TODO Auto-generated catch block
+						e5.printStackTrace();
+					}
+  					if(countBookBySubject>0)  
+  						actionOnError(ActionType.CONTINUE,"You can't to remove subject that contains books!");
+  					else{
+  						Message message7 = prepareGetNumberBookAtDomain(ActionType.DELETE_SUBJECT ,subjectId);
+  						try {
+  						   	ClientController.clientConnectionController.sendToServer(message7);
+  						   } catch (IOException e1) {	
+  						   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  						   }
+  						actionOnError(ActionType.CONTINUE, "The subject deleted successfully!");
+  						
+  						dataSubjects.clear();
+  	  	  		  	  Message message8 = prepareGetDomainsWithId(ActionType.GET_SUBJECTS_INFO);
+  	  	  	  	  try {
+  	  	  	  	   ClientController.clientConnectionController.sendToServer(message8);
+  	  	  	  	  } catch (IOException e2) {
+  	  	  	  		  e2.printStackTrace();
+  	  	  	  	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  	  	  	  	  }
+  	  	  	  		Platform.runLater(() -> {
+  	  	  	  			for(int i=0;i<subjectsList.size();i+=4){
+  	  	  	  				dataSubjects.add(new PropertySubject(subjectsList.get(i), subjectsList.get(i+1), "("+subjectsList.get(i+2)+")"+" "+subjectsList.get(i+3)));
+  	  	  	  			}
+  	  	  	  	  });
+  	  	  				    try {
+  	  	  						Thread.sleep(500);
+  	  	  					} catch (Exception e1) {
+  	  	  						e1.printStackTrace();
+  	  	  					}
+  	  	  				mainSubjectTable.setItems(dataSubjects);
+  						
+  					}
+  					
+  				   });
+  				 
+
+  			});
+  	   		
+  		
+  		addSubjetcsClear.setOnAction(e4 -> {
+  			addSubjectsName.setText("");
+  			addSubjectsDomainsList.getSelectionModel().clearSelection();
+  	  		 });
+  			 
+  		addSubjetcsBack.setOnAction(e3 -> {
+  			addSubjectsName.setText("");
+  			addSubjectsDomainsList.getSelectionModel().clearSelection();
+  			mainSubjectPane.setVisible(true);
+  	  		addSubjectPane.setVisible(false);
+  	  		editSubjectPane.setVisible(false);
+  	  		 });
+  			
+  		addSubjetcsSubmit.setOnAction(e -> {
+  	  			String SubjectName = null;
+  	  			SubjectName = addSubjectsName.getText();
+  	  			System.out.println(SubjectName);
+  	  			String SubjectDomain;
+  	  			SubjectDomain = addSubjectsDomainsList.getSelectionModel().getSelectedItem().toString();
+  	  			System.out.println(SubjectDomain);
+  	  			
+  	  			if (SubjectName.equals("") || SubjectDomain.equals(""))
+  	  			    actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
+  	  			else {
+  	  				 SubjectDomain=SubjectDomain.substring(SubjectDomain.indexOf("(")+1, SubjectDomain.indexOf(")"));
+  	  				 Message message6 = prepareAddSubject(ActionType.ADD_SUBJECT, SubjectName, SubjectDomain);
+  	  				 try {
+  	  				     ClientController.clientConnectionController.sendToServer(message6);
+  	  				    } catch (Exception e1) {
+  	  				     e1.printStackTrace();
+  	  				    }
+  	  				Platform.runLater(() -> {
+  	  				    actionOnError(ActionType.CONTINUE, "The subject added successfully!");
+  	  				addSubjectsName.setText("");
+  	  				addSubjectsDomainsList.getSelectionModel().clearSelection();
+  	  				    
+  	  				
+  	  			dataSubjects.clear();
+  	  		  	  Message message7 = prepareGetDomainsWithId(ActionType.GET_SUBJECTS_INFO);
+  	  	  	  try {
+  	  	  	   ClientController.clientConnectionController.sendToServer(message7);
+  	  	  	  } catch (IOException e2) {
+  	  	  		  e2.printStackTrace();
+  	  	  	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  	  	  	  }
+  	  	  		Platform.runLater(() -> {
+  	  	  			for(int i=0;i<subjectsList.size();i+=4){
+  	  	  				dataSubjects.add(new PropertySubject(subjectsList.get(i), subjectsList.get(i+1), "("+subjectsList.get(i+2)+")"+" "+subjectsList.get(i+3)));
+  	  	  			}
+  	  	  	  });
+  	  				    try {
+  	  						Thread.sleep(500);
+  	  					} catch (Exception e1) {
+  	  						e1.printStackTrace();
+  	  					}
+  	  				mainSubjectTable.setItems(dataSubjects);
+  	  			mainSubjectPane.setVisible(true);
+  	  				addSubjectPane.setVisible(false);
+  	  			editSubjectPane.setVisible(false);
+  	  				    
+  	  				    
+  	  				});
+  	  			}
+  	  		});
+  		
+  		
+  		
+  		editSubjetcsSubmit.setOnAction(e -> {
+  			PropertySubject selectedItem = mainSubjectTable.getSelectionModel().getSelectedItem();
+  			String subjectId = null;
+  			subjectId = selectedItem.getSubjectId();
+			String SubjectName = null;
+			SubjectName = editSubjectsName.getText();
+			String SubjectDomain = null;
+			SubjectDomain = editSubjectsDomainsList.getSelectionModel().getSelectedItem().toString();
+			
+			if (SubjectName.equals("") || SubjectDomain.equals(""))
+			    actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
+			else{
+				SubjectDomain=SubjectDomain.substring(SubjectDomain.charAt('(')+1, SubjectDomain.charAt(')'));
+				Message message6 = prepareEditSubject(ActionType.EDIT_SUBJECT, subjectId, SubjectName, SubjectDomain);
+				 try {
+				     ClientController.clientConnectionController.sendToServer(message6);
+				    } catch (Exception e1) {
+				     e1.printStackTrace();
+				    }
+				    Platform.runLater(() -> {
+				    actionOnError(ActionType.CONTINUE, "The subject edited successfully!");
+				    editDomainName.setText("");
+				    
+				    
+				    
+				    dataSubjects.clear();
+	  	  		  	  Message message7 = prepareGetDomainsWithId(ActionType.GET_SUBJECTS_INFO);
+	  	  	  	  try {
+	  	  	  	   ClientController.clientConnectionController.sendToServer(message7);
+	  	  	  	  } catch (IOException e2) {
+	  	  	  		  e2.printStackTrace();
+	  	  	  	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+	  	  	  	  }
+	  	  	  		Platform.runLater(() -> {
+	  	  	  			for(int i=0;i<subjectsList.size();i+=4){
+	  	  	  				dataSubjects.add(new PropertySubject(subjectsList.get(i), subjectsList.get(i+1), "("+subjectsList.get(i+2)+")"+" "+subjectsList.get(i+3)));
+	  	  	  			}
+	  	  	  	  });
+	  	  				    try {
+	  	  						Thread.sleep(500);
+	  	  					} catch (Exception e1) {
+	  	  						e1.printStackTrace();
+	  	  					}
+	  	  				mainSubjectTable.setItems(dataSubjects);
+	  	  			mainSubjectPane.setVisible(true);
+	  	  				addSubjectPane.setVisible(false);
+	  	  			editSubjectPane.setVisible(false);
+			});
+			}
+  			
+  		});
+  	////////////////////////////////////////////////////
+  		
+  		
+  	//---------------------------------authors main pane---------------------
+
+  		
+  		
+  	  addAuthorEditBtn.setVisible(false);
+  	  AuthorDeleteBtn.setVisible(false);
+  	  mainAuthorPane.setVisible(true);
+  	  addAuthorPane.setVisible(false);
+  	  editAuthorPane.setVisible(false);
+  	  Message message6 = prepareGetAuthors(ActionType.GET_AUTHORS);
+  	  ObservableList<PropertyAuthor> dataAuthors = FXCollections.observableArrayList();
+  	  try {
+  	   ClientController.clientConnectionController.sendToServer(message6);
+  	  } catch (IOException e) {
+  		  e.printStackTrace();
+  	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  	  }
+  		Platform.runLater(() -> {
+  			for(int i=0;i<authorList.size();i++){
+  				dataAuthors.add(new PropertyAuthor(authorList.get(i).getId(), authorList.get(i).getFirstname(), authorList.get(i).getLastname()));
+  			}
+  	  });
+  	  
+  		authorId.setCellValueFactory(
+  	            new PropertyValueFactory<PropertyDomain, String>("authorId"));
+
+  		authorFirstName.setCellValueFactory(
+  	            new PropertyValueFactory<PropertyDomain, String>("authorFirstName"));
+  		
+  		authorLastName.setCellValueFactory(
+  	            new PropertyValueFactory<PropertyDomain, String>("authorLastName"));
+  			
+  		authorId.setStyle( "-fx-alignment: CENTER;");
+  		authorFirstName.setStyle( "-fx-alignment: CENTER;");
+  		authorLastName.setStyle( "-fx-alignment: CENTER;");;
+  			mainAuthorTableView.setItems(dataAuthors);
+  			
+  		
+  			mainAuthorTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+  			 if (newSelection != null) {
+  				  addAuthorEditBtn.setVisible(true);
+  				  AuthorDeleteBtn.setVisible(true);
+  				  }
+  			});
+  					
+  			addAuthorEditBtn.setOnAction(e -> {
+  				mainAuthorPane.setVisible(false);
+  				addAuthorPane.setVisible(false);
+  				editAuthorPane.setVisible(true);
+  				PropertyAuthor selectedItem = mainAuthorTableView.getSelectionModel().getSelectedItem();
+  				editAuthorFirstName.setText(selectedItem.getAuthorFirstName());
+  				editAuthorLastName.setText(selectedItem.getAuthorLastName());
+  			});
+  			
+  			editAuthorBack.setOnAction(e -> {
+  				   editAuthorFirstName.setText("");
+  				 editAuthorLastName.setText("");
+  				   addAuthorPane.setVisible(false);
+  				   editAuthorPane.setVisible(false);
+  				   mainAuthorPane.setVisible(true);
+  				  });
+  			
+  			editAuthorSubmit.setOnAction(e -> {
+  				PropertyAuthor selectedItem = mainAuthorTableView.getSelectionModel().getSelectedItem(); 
+  				String AuthorId = null;
+  				AuthorId = selectedItem.getAuthorId();
+  				String AuthorFirstName = null;
+  				AuthorFirstName = editAuthorFirstName.getText();
+  				String AuthorLastName = null;
+  				AuthorLastName = editAuthorLastName.getText();
+  				
+
+  				
+  				if (AuthorFirstName.equals("") || AuthorLastName.equals(""))
+  				    actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
+  				else{
+  					Message message7 = prepareEditAuthor(ActionType.EDIT_AUTHOR, AuthorId, AuthorFirstName, AuthorLastName);
+  					 try {
+  					     ClientController.clientConnectionController.sendToServer(message7);
+  					    } catch (Exception e1) {
+  					     e1.printStackTrace();
+  					    }
+  					    Platform.runLater(() -> {
+  					    actionOnError(ActionType.CONTINUE, "The author edited successfully!");
+  					    editAuthorFirstName.setText("");
+  					    editAuthorLastName.setText("");
+  					    
+  					    dataAuthors.clear();
+  	  				    Message message8 = prepareGetAuthors(ActionType.GET_AUTHORS);
+  	  				    try {
+  	  				     ClientController.clientConnectionController.sendToServer(message8);
+  	  				    } catch (IOException e2) {
+  	  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  	  				    }
+  	  				    Platform.runLater(() -> {
+  	  				    	for(int i=0;i<authorList.size();i++){
+  	  				    			dataAuthors.add(new PropertyAuthor(authorList.get(i).getId(), authorList.get(i).getFirstname(), authorList.get(i).getLastname()));
+  	  				    		}
+  	  				    });
+
+  	  				    
+  	  				filterField.clear();
+  	  		    data.clear();
+  	  		    filteredData.clear();
+  	  		    Message message9 = prepareGetBooksList(ActionType.GET_BOOK_LIST);
+  	  		    try {
+  	  		     ClientController.clientConnectionController.sendToServer(message9);
+  	  		    } catch (IOException e2) {
+  	  		    	e2.printStackTrace();
+  	  		     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  	  		    }
+  	  		    Platform.runLater(() -> {
+  	  		     String authors = "";
+  	  		     for (int i = 0; i < BooksList.size(); i += 9) {
+  	  		      if (i + 9 < BooksList.size() && BooksList.get(i).equals(BooksList.get(i + 9))) {
+  	  		       authors = authors + BooksList.get(i + 5) + ",";
+  	  		      } else {
+  	  		       if (authors.equals("")) {
+  	  		        String hide;
+  	  		        if (BooksList.get(i + 3).equals("0")) hide = "no";
+  	  		        else hide = "yes";
+  	  		        data.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+  	  		        filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+  	  		       } else {
+  	  		        String hide;
+  	  		        if (BooksList.get(i + 3).equals("0")) hide = "no";
+  	  		        else hide = "yes";
+  	  		        data.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), authors + BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+  	  		        filteredData.add(new PropertyBook(BooksList.get(i), BooksList.get(i + 1), BooksList.get(i + 2), hide, BooksList.get(i + 4), authors + BooksList.get(i + 5), BooksList.get(i + 6), BooksList.get(i + 7), BooksList.get(i + 8)));
+  	  		       }
+  	  		       authors = "";
+  	  		      }
+  	  		     }
+  	  		    });
+  	  		    try {
+  	  				Thread.sleep(700);
+  	  			} catch (Exception e1) {
+  	  				e1.printStackTrace();
+  	  			}
+  	  		    
+  	  		    TitleLabel.setVisible(false);
+  	  		    InfoTitle.setVisible(false);
+  	  		    AuthorsLabel.setVisible(false);
+  	  		    InfoAuthors.setVisible(false);
+  	  		    KeywordsLabel.setVisible(false);
+  	  		    SummaryLabel.setVisible(false);
+  	  		    imageView.setVisible(false);
+  	  		    InfoKeywords.setVisible(false);
+  	  		    infoPrice.setVisible(false);
+  	  		    PriceLabel.setVisible(false);
+  	  		    BookSummary.setVisible(false);
+  	  		    delBtn.setVisible(false);
+  	  		    editBtn.setVisible(false);
+  	  		    hideBtn.setVisible(false);
+  					    
+  					    addAuthorPane.setVisible(false);
+  					    editAuthorPane.setVisible(false);
+  					    mainAuthorPane.setVisible(true);
+  				});
+  				}
+  			});
+
+  			
+  			
+  			addAuthor.setOnAction(e -> {
+  	   		   mainAuthorPane.setVisible(false);
+  	   		   addAuthorPane.setVisible(true);
+  	   		   editAuthorPane.setVisible(false);
+  	   		  });
+  			
+  			
+  			AuthorDeleteBtn.setOnAction(e -> {
+  				PropertyAuthor selectedItem = mainAuthorTableView.getSelectionModel().getSelectedItem();
+  				String AuthorId = selectedItem.getAuthorId();
+  				Message message7 = prepareGetNumberBookOfAuthor(ActionType.GET_NUMBER_BOOK_OF_AUTHOR ,AuthorId);
+  				   try {
+  				   	ClientController.clientConnectionController.sendToServer(message7);
+  				   } catch (IOException e1) {	
+  				   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  				   }
+  				   Platform.runLater(() -> {
+  					   try {
+						Thread.sleep(700);
+					} catch (Exception e5) {
+						// TODO Auto-generated catch block
+						e5.printStackTrace();
+					}
+  					   System.out.println(countBookOfUser);
+  					if(countBookOfUser>0)  
+  						actionOnError(ActionType.CONTINUE,"You can't to remove author that contains books!");
+  					else{
+  						Message message8 = prepareGetNumberBookAtDomain(ActionType.DELETE_AUTHOR ,AuthorId);
+  						try {
+  						   	ClientController.clientConnectionController.sendToServer(message8);
+  						   } catch (IOException e1) {	
+  						   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  						   }
+  						actionOnError(ActionType.CONTINUE, "The author deleted successfully!");
+  						dataAuthors.clear();
+  	  				    Message message9 = prepareGetAuthors(ActionType.GET_AUTHORS);
+  	  				    try {
+  	  				     ClientController.clientConnectionController.sendToServer(message9);
+  	  				    } catch (IOException e2) {
+  	  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  	  				    }
+  	  				    Platform.runLater(() -> {
+  	  				    for(int i=0;i<authorList.size();i++){
+				    			dataAuthors.add(new PropertyAuthor(authorList.get(i).getId(), authorList.get(i).getFirstname(), authorList.get(i).getLastname()));
+				    		}
+  	  				    });
+  	  				    try {
+  	  						Thread.sleep(500);
+  	  					} catch (Exception e1) {
+  	  						e1.printStackTrace();
+  	  					}
+  						
+  					}
+  					
+  				   });
+  				 
+
+  			});
+  	   		
+  	   		
+  	  		 addAuthorClear.setOnAction(e -> {
+  	  			addAuthorFirstName.setText("");
+  	  			addAuthorLastName.setText("");
+  	  		 });
+  	  		 
+  	  		addAuthorBack.setOnAction(e -> {
+  	  			addAuthorFirstName.setText("");
+  	  			addAuthorLastName.setText("");
+  	  			mainAuthorPane.setVisible(true);
+  	    		addAuthorPane.setVisible(false);
+  	    		editAuthorPane.setVisible(false);
+  	  		 });
+  	  		
+  	  		addAuthorSubmit.setOnAction(e -> {
+  	  			String AuthorFirstName = null;
+  	  			AuthorFirstName = addAuthorFirstName.getText();
+  	  			
+  	  			String AuthorLastName = null;
+  	  			AuthorLastName = addAuthorLastName.getText();
+  	  			
+  	  			if (AuthorFirstName.equals("") || AuthorLastName.equals(""))
+  	  			    actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
+  	  			else {
+  	  				
+  	  				 Message message7 = prepareAddAuthor(ActionType.ADD_AUTHOR, AuthorFirstName, AuthorLastName);
+  	  				 try {
+  	  				     ClientController.clientConnectionController.sendToServer(message7);
+  	  				    } catch (Exception e1) {
+  	  				     e1.printStackTrace();
+  	  				    }
+  	  				Platform.runLater(() -> {
+  	  				    actionOnError(ActionType.CONTINUE, "The author added successfully!");
+  	  				    addAuthorFirstName.setText("");
+  	  				    addAuthorLastName.setText("");
+
+  	  				    
+  	  				    dataAuthors.clear();
+  	  				    Message message8 = prepareGetAuthors(ActionType.GET_AUTHORS);
+  	  				    try {
+  	  				     ClientController.clientConnectionController.sendToServer(message8);
+  	  				    } catch (IOException e2) {
+  	  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+  	  				    }
+  	  				    Platform.runLater(() -> {
+  	  				    	for(int i=0;i<authorList.size();i++){
+  	  				    		dataAuthors.add(new PropertyAuthor(authorList.get(i).getId(), authorList.get(i).getFirstname(), authorList.get(i).getLastname()));
+  	  				    	}
+  	  				    });
+  	  				    try {
+  	  						Thread.sleep(500);
+  	  					} catch (Exception e1) {
+  	  						e1.printStackTrace();
+  	  					}
+  	  				    
+  	  				  mainAuthorPane.setVisible(true);
+  	  				  addAuthorPane.setVisible(false);
+  	  				  editAuthorPane.setVisible(false);
+  	  				    
+  	  				    
+  	  				});
+  	  			}
+  	  		});
+  		
+  		
+  		
+  //////////////////////////////////////////////
+	
+
  }
 
  // ---------------- functions -------------------
  
- private static void configureFileChooser(final FileChooser fileChooser) {
+
+private static void configureFileChooser(final FileChooser fileChooser) {
   fileChooser.setTitle("View Pictures");
   fileChooser.setInitialDirectory(
    new File(System.getProperty("user.home"))
@@ -1042,6 +2102,63 @@ private TextField editBookPriceTextField;
   message.setType(type);
   return message;
  }
+ 
+ private Message prepareGetNumberBookAtDomain(ActionType type, String domainId) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(domainId);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
+ 
+ private Message prepareGetNumberBookOfAuthor(ActionType type, String authorId) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(authorId);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
+ 
+ private Message prepareEditDomain(ActionType type, String domainId, String DomainName) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(domainId);
+	  elementsList.add(DomainName);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
+ 
+ private Message prepareEditSubject(ActionType type, String subjectId, String subjectName, String domainId) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(subjectId);
+	  elementsList.add(subjectName);
+	  elementsList.add(domainId);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
+ 
+ private Message prepareEditAuthor(ActionType type, String AuthorId, String AuthorFirstName, String AuthorLastName) {
+	  Message message = new Message();
+	  ArrayList < String > elementsList = new ArrayList < String > ();
+	  elementsList.add(AuthorId);
+	  elementsList.add(AuthorFirstName);
+	  elementsList.add(AuthorLastName);
+	  message.setType(type);
+	  message.setElementsList(elementsList);
+	  return message;
+	 }
+
+ 
+ public Message prepareGetDomainsWithId(ActionType type) {
+	  Message message = new Message();
+	  message.setType(type);
+	  return message;
+	 }
 
  public Message prepareAddBook(ActionType type, String titleBook, String authorsId2, String keywords, String language, String subjectsList2, String tableOfContent, String summary, String picture, String price) {
   Message message = new Message();
@@ -1059,6 +2176,35 @@ private TextField editBookPriceTextField;
   message.setElementsList(elementsList);
   return message;
  }
+ 
+	private Message prepareAddDomain(ActionType type, String domainName) {
+		  Message message = new Message();
+		  ArrayList < String > elementsList = new ArrayList < String > ();
+		  elementsList.add(domainName);
+		  message.setType(type);
+		  message.setElementsList(elementsList);
+		  return message;
+	}
+	
+	private Message prepareAddAuthor(ActionType type, String AuthorFirstName, String AuthorLastName) {
+		  Message message = new Message();
+		  ArrayList < String > elementsList = new ArrayList < String > ();
+		  elementsList.add(AuthorFirstName);
+		  elementsList.add(AuthorLastName);
+		  message.setType(type);
+		  message.setElementsList(elementsList);
+		  return message;
+	}
+	
+	private Message prepareAddSubject(ActionType type, String subjectName, String subjectDomain) {
+		  Message message = new Message();
+		  ArrayList < String > elementsList = new ArrayList < String > ();
+		  elementsList.add(subjectName);
+		  elementsList.add(subjectDomain);
+		  message.setType(type);
+		  message.setElementsList(elementsList);
+		  return message;
+	}
  
  public Message prepareEditBook(ActionType type, String Sn, String titleBook, String authorsId2, String keywords, String language, String subjectsList2, String tableOfContent, String summary, String picture, String price) {
 	  Message message = new Message();
@@ -1272,5 +2418,121 @@ private TextField editBookPriceTextField;
 
  }
 
+ 
+ public static class PropertyDomain {
+
+	  private final SimpleStringProperty domainId;
+	  private final SimpleStringProperty domainName;
+
+
+	  private PropertyDomain(String domainId, String domainName) {
+	   this.domainId = new SimpleStringProperty(domainId);
+	   this.domainName = new SimpleStringProperty(domainName);
+	  }
+
+
+	  public String getDomainId() {
+		   return domainId.get();
+	  }
+	  
+	  public String getDomainName() {
+		   return domainName.get();
+	  }
+
+	  public void setDomainId(String domainId) {
+	   this.domainId.set(domainId);
+	  }
+	  
+	  public void setDomainName(String domainName) {
+		   this.domainName.set(domainName);
+	  }
+
+	 }
+ 
+ 
+ 
+ public static class PropertySubject {
+
+	  private final SimpleStringProperty subjectId;
+	  private final SimpleStringProperty subjectName;
+	  private final SimpleStringProperty subjectDomain;
+
+
+	  private PropertySubject(String subjectId, String subjectName, String subjectDomain) {
+	   this.subjectId = new SimpleStringProperty(subjectId);
+	   this.subjectName = new SimpleStringProperty(subjectName);
+	   this.subjectDomain = new SimpleStringProperty(subjectDomain);
+	  }
+
+
+	  public String getSubjectId() {
+		   return subjectId.get();
+	  }
+	  
+	  public String getSubjectName() {
+		   return subjectName.get();
+	  }
+	  
+	  public String getSubjectDomain() {
+		   return subjectDomain.get();
+	  }
+
+	  public void setDomainId(String subjectId) {
+	   this.subjectId.set(subjectId);
+	  }
+	  
+	  public void setSubjectName(String subjectName) {
+		   this.subjectName.set(subjectName);
+	  }
+	  
+	  public void setSubjectDomain(String subjectDomain) {
+		   this.subjectDomain.set(subjectDomain);
+	  }
+	  
+
+	 }
+ 
+ 
+ public static class PropertyAuthor {
+
+	  private final SimpleStringProperty authorId;
+	  private final SimpleStringProperty authorFirstName;
+	  private final SimpleStringProperty authorLastName;
+
+
+
+	  private PropertyAuthor(String authorId, String authorFirstName, String authorLastName) {
+	   this.authorId = new SimpleStringProperty(authorId);
+	   this.authorFirstName = new SimpleStringProperty(authorFirstName);
+	   this.authorLastName = new SimpleStringProperty(authorLastName);
+	  }
+
+
+	  public String getAuthorId() {
+		   return authorId.get();
+	  }
+	  
+	  public String getAuthorFirstName() {
+		   return authorFirstName.get();
+	  }
+	  
+	  public String getAuthorLastName() {
+		   return authorLastName.get();
+	  }
+
+	  public void setDomainId(String authorId) {
+	   this.authorId.set(authorId);
+	  }
+	  
+	  public void setAuthorFirstName(String authorName) {
+		   this.authorFirstName.set(authorName);
+	  }
+	  
+	  public void setAuthorLastName(String authorName) {
+		   this.authorLastName.set(authorName);
+	  }
+
+	 }
+ 
 
 }

@@ -119,6 +119,9 @@ public void setLastName(String lastName) {
 	LastName = lastName;
 }
 
+/* (non-Javadoc)
+ * @see interfaces.StatementsIF#PrepareAddStatement()
+ */
 @Override
 public String PrepareAddStatement() 
 {
@@ -126,18 +129,27 @@ public String PrepareAddStatement()
 			+ "VALUES ('"+Username+"','"+FirstName+"','"+LastName+"','"+Password+"',"+"'RegisterPending','Standard','0','0','01/01/2000')";
 }
 
+/* (non-Javadoc)
+ * @see interfaces.StatementsIF#PrepareDeleteStatement()
+ */
 @Override
 public String PrepareDeleteStatement() {
 	// TODO Auto-generated method stub
 	return null;
 }
 
+/* (non-Javadoc)
+ * @see interfaces.StatementsIF#prepareUpdateStatement()
+ */
 @Override
 public String prepareUpdateStatement() {
 	// TODO Auto-generated method stub
 	return null;
 }
 
+/* (non-Javadoc)
+ * @see interfaces.StatementsIF#PrepareSelectStatement()
+ */
 @Override
 public String PrepareSelectStatement() {
 	// TODO Auto-generated method stub

@@ -40,10 +40,10 @@ private String LastName;
 
 /**
  * The constructor store the data into the entity.
- * @param Username - The username.
- * @param Password - The password.
- * @param FirstName - The first name.
- * @param LastName - The last name.
+ * @param Username - Gets The username.
+ * @param Password - Gets The password.
+ * @param FirstName - Gets The first name.
+ * @param LastName - Gets The last name.
  */
 public Register(String Username, String Password, String FirstName, String LastName)
 {

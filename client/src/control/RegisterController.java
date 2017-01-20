@@ -25,10 +25,29 @@ import javafx.scene.control.Alert.AlertType;
  */
 public class RegisterController implements ScreensIF {
 
+	/**
+	 * Password field.
+	 */
 	@FXML private PasswordField passField;
+	
+	/**
+	 * User text field.
+	 */
 	@FXML private TextField userField;
+	
+	/**
+	 * First name text field.
+	 */
 	@FXML private TextField firstNameField;
+	
+	/**
+	 * Last name text field.
+	 */
 	@FXML private TextField lastNameField;
+	
+	/**
+	 * Confirm password field.
+	 */
 	@FXML private PasswordField confirmPassField;
 	
 	/* (non-Javadoc)
@@ -48,15 +67,13 @@ public class RegisterController implements ScreensIF {
 	{
         ScreenController screenController = new ScreenController();
         try {
-				screenController.replaceSceneContent(ScreensInfo.CLIENT_SCREEN,ScreensInfo.CLIENT_TITLE);
+			screenController.replaceSceneContent(ScreensInfo.CLIENT_SCREEN,ScreensInfo.CLIENT_TITLE);
 			} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
         try {
 			screenController.finalize();
 			} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
 	}	
@@ -96,8 +113,7 @@ public class RegisterController implements ScreensIF {
 			actionOnError(ActionType.CONTINUE,GeneralMessages.PASSWORD_NOT_MATCH);
 			return;
 		}
-		// register session
-		
+
 		Register register = new Register(username,password,firstName,lastName);
 		Message message = prepareRegistration(ActionType.REGISTER,register);
 		
@@ -113,7 +129,7 @@ public class RegisterController implements ScreensIF {
 	}
 	
 	/** When clear button pressed the function clear the fields.
-	 * @param event
+	 * @param event - Gets event.
 	 */
 	@FXML
 	public void clearButtonPressed(ActionEvent event)

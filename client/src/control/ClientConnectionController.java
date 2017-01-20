@@ -59,20 +59,23 @@ public class ClientConnectionController extends AbstractClient{
 	private static HomepageManagerController managerMain;
 	
 	
-	//public static int gotAnswer;
-	
+	/**
+	 *  File variable
+	 */
 	private File dstFile = null;
+	
+	
+	/**
+	 * File outputstream variable
+	 */
 	private FileOutputStream fileOutputStream = null;
 	
 	/**
 	 * ClientConnectionController constructor initialize the hostname, and then
 	 * the port for establish connection to server. it also open new connection
 	 * physically for it.
-	 * 
-	 * @param host
-	 *            - The hostname/ip for connection.
-	 * @param port
-	 *            - The port for establish connection
+	 * @param host - Gets The hostname/ip for connection.
+	 * @param port - Gets The port for establish connection
 	 */
 	public ClientConnectionController(String host, int port) {
 		super(host, port);
@@ -171,7 +174,6 @@ public class ClientConnectionController extends AbstractClient{
 						ScreenController screenController = new ScreenController();
 						try {
 							int action = replay.getAction();
-							// System.out.println(action);
 							actionToDisplay(ActionType.CONTINUE, GeneralMessages.USER_LOGGED_IN_SUCESSFULLY);
 							if (action == 1) {
 								User user = new User(replay.getElementsList().get(1).toString(),
@@ -184,9 +186,6 @@ public class ClientConnectionController extends AbstractClient{
 								userPage.setConnectedUser(user);
 								screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,
 										ScreensInfo.HOMEPAGE_USER_TITLE);
-
-								// userPage.setUsernameLabel("fdf");
-
 							} else if (action == 2) {
 								Worker worker = new Worker(replay.getElementsList().get(1).toString(),
 										replay.getElementsList().get(2).toString(),
@@ -223,7 +222,6 @@ public class ClientConnectionController extends AbstractClient{
 								clientMain.setTypeOfUser("Manager");
 							centerWindow(screenController);
 						} catch (Exception e) {
-							// COMPELETE
 							e.printStackTrace();
 						}
 					}
@@ -235,14 +233,11 @@ public class ClientConnectionController extends AbstractClient{
 
 						ScreenController screenController = new ScreenController();
 						try {
-							// actionToDisplay(ActionType.CONTINUE,"The password
-							// and Username not match!");
 								actionToDisplay(ActionType.CONTINUE, replay.getGnrlMsg().toString());
 
 						} catch (Exception e) {
-							// COMPELETE
 							e.printStackTrace();
-						} //
+						} 
 					}
 				});
 			}
@@ -255,7 +250,6 @@ public class ClientConnectionController extends AbstractClient{
 					public void run() {
 						ScreenController screenController = new ScreenController();
 						try {
-							// actionToDisplay(ActionType.CONTINUE,GeneralMessages.USER_LOGGED_IN_successFULLY);
 							screenController.replaceSceneContent(ScreensInfo.CLIENT_SCREEN, ScreensInfo.CLIENT_TITLE);
 							centerWindow(screenController);
 							if (clientMain == null)
@@ -278,18 +272,13 @@ public class ClientConnectionController extends AbstractClient{
 
 						ScreenController screenController = new ScreenController();
 						try {
-							// actionToDisplay(ActionType.CONTINUE,"The password
-							// and Username not match!");
 							actionToDisplay(ActionType.CONTINUE, GeneralMessages.PENDING_FOR_LIBRARIAN);
-
 						} catch (Exception e) {
-							// COMPELETE
 							e.printStackTrace();
-						} //
+						}
 					}
 				});
 			}
-
 			break;
 		}
 
@@ -322,7 +311,6 @@ public class ClientConnectionController extends AbstractClient{
 			}
 
 			BookManagementController.selectedAuthorsString = list;
-			//gotAnswer=1;
 			break;
 		}
 		
@@ -345,7 +333,6 @@ public class ClientConnectionController extends AbstractClient{
 			try {
 				thread.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -369,7 +356,6 @@ public class ClientConnectionController extends AbstractClient{
 			try {
 				thread.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -468,13 +454,37 @@ public class ClientConnectionController extends AbstractClient{
 			
 			SearchBookController.authorList = list;
 			BookManagementController.authorList = list;
-			//gotAnswer=1;
+			break;
+		}
+		
+		case GET_NUMBER_BOOK_AT_DOMAIN: {
+			BookManagementController.countBookByDomain = Integer.parseInt(replay.getElementsList().get(0));
+			break;
+		}
+		
+		case GET_NUMBER_BOOK_OF_AUTHOR: {
+			BookManagementController.countBookOfUser = Integer.parseInt(replay.getElementsList().get(0));
+			break;
+		}
+		
+		
+		case GET_NUMBER_BOOK_AT_SUBJECT: {
+			BookManagementController.countBookBySubject = Integer.parseInt(replay.getElementsList().get(0));
 			break;
 		}
 
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
-			//gotAnswer=1;
+			break;
+		}
+		
+		case GET_DOMAINS_WITH_ID: {
+			BookManagementController.domainsList = replay.getElementsList();
+			break;
+		}
+		
+		case GET_SUBJECTS_INFO: {
+			BookManagementController.subjectsList = replay.getElementsList();
 			break;
 		}
 		
@@ -531,8 +541,8 @@ public class ClientConnectionController extends AbstractClient{
 								screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
 						}
 						else
-						{actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_FAILED);
-							//screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);	
+						{
+							actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_FAILED);		
 						}
 					}
 		    		catch (Exception e) {
@@ -641,8 +651,6 @@ public class ClientConnectionController extends AbstractClient{
 			break;
 		}
 		
-		
-		
 		case GET_BUY_STATUS: {
 				BookPageController.buyStatus = replay.getGnrlMsg();
 			break;
@@ -665,22 +673,17 @@ public class ClientConnectionController extends AbstractClient{
 			else
 				HomepageUserController.success = false;
 		break;
-		}
-
-		
-		
+		}	
 		}
 
 	}
 
 	/**
 	 * This function choose what to display the user.
-	 * 
-	 * @param type
-	 *            - Gets the type of action after display.
-	 * @param message
-	 *            - Gets the message to display in popup.
+	 * @param type - Gets the type of action after display.
+	 * @param message - Gets the message to display in popup.
 	 */
+	
 	public void actionToDisplay(ActionType type, String message) {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -698,8 +701,7 @@ public class ClientConnectionController extends AbstractClient{
 
 	/**
 	 * Set the window in the center of the screen.
-	 * 
-	 * @param screenController
+	 * @param screenController - Gets the screencontroller
 	 */
 	public void centerWindow(ScreenController screenController) {
 		Stage primaryStage = screenController.getStage();
@@ -709,6 +711,11 @@ public class ClientConnectionController extends AbstractClient{
 		primaryStage.setX(primaryScreenBounds.getMaxX() / 2.0 - primaryStage.getWidth() / 2.0);
 		primaryStage.setY(primaryScreenBounds.getMaxY() / 2.0 - primaryStage.getHeight() / 2.0);
 	}
+
+	/**
+	 * The function decode the file and download into the user's computer.
+	 * @param fileEvent - Gets the file.
+	 */
 	public void downloadFile(FileEvent fileEvent) {
 		try {
 		String outputFile = fileEvent.getDestinationDirectory() + fileEvent.getFilename();
@@ -720,13 +727,7 @@ public class ClientConnectionController extends AbstractClient{
 		fileOutputStream.write(fileEvent.getFileData());
 		fileOutputStream.flush();
 		fileOutputStream.close();
-		System.out.println("Output file : " + outputFile + " is successfully saved ");
-		Thread.sleep(3000);
-		//System.exit(0);
-
 		} catch (IOException e) {
-		e.printStackTrace();
-		} catch (InterruptedException e) {
 		e.printStackTrace();
 		}
 		}

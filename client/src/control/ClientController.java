@@ -23,8 +23,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-//
-
 /**
  * ClientController called by the GUI, create this instance and then manage "menu"
  * of events because this controlled registered as handler of all triggers.
@@ -101,7 +99,7 @@ public class ClientController implements ScreensIF {
 	
 	
 	/** Handler when press "help" in menu.
-	 * @param event - gets the ActionEvent when the function called.
+	 * @param event - Gets the ActionEvent when the function called.
 	 */
 	@FXML
 	public void pressedHelpMenu(ActionEvent event)
@@ -118,7 +116,6 @@ public class ClientController implements ScreensIF {
 	 */
 	public void connectButtonPressed(ActionEvent event) throws ConnectException
 	{
-		//String IP_ADDRESS = ServerField.getText();
 		IP_ADDRESS = ServerField.getText();
 		String username = userField.getText();
 		String password = passField.getText();
@@ -215,7 +212,6 @@ public class ClientController implements ScreensIF {
 			 
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

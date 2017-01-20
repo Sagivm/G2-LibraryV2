@@ -71,6 +71,76 @@ public enum ActionType {
 	 */
 	SEARCH_WORKER,
 	
+	/**
+	 * Get numbers of books at domain
+	 */
+	GET_NUMBER_BOOK_AT_DOMAIN,
+	
+	/**
+	 * Get numbers of books at subject
+	 */
+	GET_NUMBER_BOOK_AT_SUBJECT,
+	
+	/**
+	 * Get numbers of books of author
+	 */
+	GET_NUMBER_BOOK_OF_AUTHOR,
+	
+	/**
+	 * Delete author from DB
+	 */
+	DELETE_AUTHOR,
+	
+	/**
+	 * Add subject to DB
+	 */
+	ADD_SUBJECT,
+	
+	/**
+	 * Edit subjects in DB
+	 */
+	EDIT_SUBJECT,
+	
+	/**
+	 * Add domains to DB
+	 */
+	ADD_DOMAIN,
+	
+	/**
+	 * Delete domain from DB
+	 */
+	DELETE_DOMAIN,
+	
+	/**
+	 * Delete subject from DB
+	 */
+	DELETE_SUBJECT,
+	
+	/**
+	 * Edit domain
+	 */
+	EDIT_DOMAIN,
+	
+	/**
+	 * Edit author
+	 */
+	EDIT_AUTHOR,
+
+	/**
+	 * Get domains from server
+	 */
+	GET_DOMAINS_WITH_ID,
+	
+	/**
+	 * Add Author to DB
+	 */
+	ADD_AUTHOR,
+	
+	/**
+	 * Get subjects details from DB
+	 */
+	GET_SUBJECTS_INFO,
+	
 	
 	/**
 	 * edit user information in SQL (for librarian).
@@ -266,6 +336,9 @@ public enum ActionType {
 	CHECK_ACCOUNT_TYPE, 
 	
 	
+	/**
+	 * File transformation.
+	 */
 	FILE,
 
 
