@@ -124,6 +124,11 @@ public class SearchUserResultsController implements ScreensIF{
 	 */
 	@FXML
 	private void initialize(){
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e2) {
+			e2.printStackTrace();
+		}
 		if(SearchUserController.updateSearchUserResults==1) //updateBlockStatus
 		{
 			for(int i=0;i<userResult.size();i++)
@@ -180,7 +185,8 @@ public class SearchUserResultsController implements ScreensIF{
 						}
 					}
 					 catch (Exception e1) {
-						//e1.printStackTrace();
+						e1.printStackTrace();
+						/*
 						 initialize();
 							try {
 								TimeUnit.SECONDS.sleep(1);
@@ -188,6 +194,7 @@ public class SearchUserResultsController implements ScreensIF{
 								// TODO Auto-generated catch block
 								e2.printStackTrace();
 							}
+							*/
 					}
 										
 					fNameCol.setSortType(TableColumn.SortType.ASCENDING);
