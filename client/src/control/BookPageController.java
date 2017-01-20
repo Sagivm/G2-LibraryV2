@@ -388,7 +388,18 @@ public class BookPageController implements ScreensIF
 			boolean ans = yesNoDialog("Are you sure you want to buy this book?");
 			if(ans == true)
 			{
-				if(buyStatus.equals("2"))
+				/*
+				 * Action list:
+				 * 1: PerBook - buy book. - call to ExternalPaymentController.
+				 * 2: Monthly - buy book. - call to PaymentController.
+				 * 3: Yearly - buy book. - call to PaymentController.
+				 * ---------------------
+				 * Status list:
+				 * 1: already bought this book.
+				 * 2: user PerBook account type and allowed to buy this book.
+				 * 3: user Subscribed account type and allowed to buy this book.
+				 */
+				if(buyStatus.equals("2")) //PerBook
 				{
 					ScreenController screenController = new ScreenController();
 			        try {

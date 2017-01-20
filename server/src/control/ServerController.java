@@ -1650,6 +1650,7 @@ public class ServerController extends AbstractServer {
 			
 			//System.out.println(dateFormat.format(date).toString());
 			
+			//add boughtBook.
 			String sqlStmt = "INSERT INTO bought_book (`userId`, `bookId`, `purchaseDate`, `price`)"
 					+ "VALUES ('"+data.get(0)+"','"+data.get(1)+"','"+dateFormat.format(date).toString()+"','"+data.get(2)+"')";
 	
@@ -1659,6 +1660,7 @@ public class ServerController extends AbstractServer {
 				int count=0;
 				float credits=0;
 				
+				//increase the purchase counter.
 				Statement stmt = DatabaseController.connection.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT book_by_date.purchaseCount FROM project.book_by_date "
 						+ "WHERE book_by_date.bookId ='" + data.get(1) + "' AND book_by_date.date = '" + dateFormat.format(date).toString() + "';");
@@ -1672,7 +1674,7 @@ public class ServerController extends AbstractServer {
 						+ "book_by_date.bookId ='" + data.get(1) + "' AND book_by_date.date = '" + dateFormat.format(date).toString() + "';");
 				
 				
-				if(data.get(3).equals("3"))
+				if(data.get(3).equals("2") || data.get(3).equals("3"))//decrease the credits.
 				{
 					stmt = DatabaseController.connection.createStatement();
 					rs = stmt.executeQuery("SELECT clients.credits FROM project.clients "

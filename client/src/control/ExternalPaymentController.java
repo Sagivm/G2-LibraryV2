@@ -219,6 +219,8 @@ public class ExternalPaymentController {
 			return;
 		}
 		
+		PaymentController purchase = new PaymentController();
+		
 		if(action == 1)
 		{	
 			ArrayList<String> buyBook = new ArrayList<>();
@@ -256,6 +258,10 @@ public class ExternalPaymentController {
 		            }
 		        };
 		        service.start();
+		}
+		else if(action == 2)
+		{
+			purchase.makePurchase(true, action);
 		}
 		
 		
