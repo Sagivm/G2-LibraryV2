@@ -471,10 +471,36 @@ public class ClientConnectionController extends AbstractClient{
 			//gotAnswer=1;
 			break;
 		}
+		
+		case GET_NUMBER_BOOK_AT_DOMAIN: {
+			BookManagementController.countBookByDomain = Integer.parseInt(replay.getElementsList().get(0));
+			break;
+		}
+		
+		case GET_NUMBER_BOOK_OF_AUTHOR: {
+			BookManagementController.countBookOfUser = Integer.parseInt(replay.getElementsList().get(0));
+			break;
+		}
+		
+		
+		case GET_NUMBER_BOOK_AT_SUBJECT: {
+			BookManagementController.countBookBySubject = Integer.parseInt(replay.getElementsList().get(0));
+			break;
+		}
 
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
 			//gotAnswer=1;
+			break;
+		}
+		
+		case GET_DOMAINS_WITH_ID: {
+			BookManagementController.domainsList = replay.getElementsList();
+			break;
+		}
+		
+		case GET_SUBJECTS_INFO: {
+			BookManagementController.subjectsList = replay.getElementsList();
 			break;
 		}
 		

@@ -691,6 +691,40 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		
+		case GET_DOMAINS_WITH_ID: {
+			ArrayList<String> domainList = new ArrayList<String>();
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT id,name FROM domains");
+				while (rs.next()) {
+					domainList.add(rs.getString(1));
+					domainList.add(rs.getString(2));
+				}
+				replay = new Replay(ActionType.GET_DOMAINS_WITH_ID, true, domainList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+			break;
+		}
+
+		case GET_SUBJECTS_INFO: {
+			ArrayList<String> subjectsList = new ArrayList<String>();
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT subjects.id,subjects.name,subjects.domain,domains.name FROM subjects,domains WHERE subjects.domain=domains.id");
+				while (rs.next()) {
+					subjectsList.add(rs.getString(1));
+					subjectsList.add(rs.getString(2));
+					subjectsList.add(rs.getString(3));
+					subjectsList.add(rs.getString(4));
+				}
+				replay = new Replay(ActionType.GET_SUBJECTS_INFO, true, subjectsList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+			break;
+		}
+		
 		case SEARCH_WORKER: {
 			try
 			{
@@ -1221,11 +1255,209 @@ public class ServerController extends AbstractServer {
 
 		}
 		
-		case DELETE_BOOK: {
+		case GET_NUMBER_BOOK_AT_DOMAIN: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				String domainId = data.get(0);
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT COUNT(DISTINCT book_subjects.bookId) FROM project.books,project.domains,project.book_subjects,project.subjects WHERE book_subjects.bookId=books.sn AND domains.id=subjects.domain AND book_subjects.subjectId=subjects.id AND domains.id="+domainId);
+				while (rs.next()) {
+					elementsList.add(rs.getString(1));
+				}
+						
+				replay = new Replay(ActionType.GET_NUMBER_BOOK_AT_DOMAIN, true, elementsList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case GET_NUMBER_BOOK_AT_SUBJECT: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				String subjectId = data.get(0);
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT booksCount FROM subjects WHERE id="+subjectId);
+				while (rs.next()) {
+					elementsList.add(rs.getString(1));
+				}
+						
+				replay = new Replay(ActionType.GET_NUMBER_BOOK_AT_SUBJECT, true, elementsList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+		}
+		
+		
+		case GET_NUMBER_BOOK_OF_AUTHOR: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				String subjectId = data.get(0);
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT booksCount FROM authors WHERE id="+subjectId);
+				while (rs.next()) {
+					elementsList.add(rs.getString(1));
+				}
+						
+				replay = new Replay(ActionType.GET_NUMBER_BOOK_OF_AUTHOR, true, elementsList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+		}
+
+		
+		case DELETE_DOMAIN: {
 			try {
 				Statement stmt = DatabaseController.connection.createStatement();
+				String DomainId = data.get(0);
+
+				stmt.executeUpdate("DELETE FROM domains WHERE id="+DomainId);
+				replay = new Replay(ActionType.DELETE_DOMAIN, true);
+			}catch (SQLException e) {
+						e.printStackTrace();
+					}
+			break;
+		}
+		
+		case DELETE_AUTHOR: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String AuthorId = data.get(0);
+
+				stmt.executeUpdate("DELETE FROM authors WHERE id="+AuthorId);
+				replay = new Replay(ActionType.DELETE_DOMAIN, true);
+			}catch (SQLException e) {
+						e.printStackTrace();
+					}
+			break;
+		}
+		
+		case DELETE_SUBJECT: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String subjectId = data.get(0);
+
+				stmt.executeUpdate("DELETE FROM subjects WHERE id="+subjectId);
+				replay = new Replay(ActionType.DELETE_SUBJECT, true);
+			}catch (SQLException e) {
+						e.printStackTrace();
+					}
+			break;
+		}
+		
+		
+		case EDIT_SUBJECT: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String subjectId = data.get(0);
+				String subjectName = data.get(1);
+				String subjectDomain = data.get(2);
+
+				stmt.executeUpdate("UPDATE subjects SET name ='"+subjectName+"', domain='"+subjectDomain+"' WHERE id="+subjectId);
+				replay = new Replay(ActionType.EDIT_SUBJECT, true);
+			}catch (SQLException e) {
+						e.printStackTrace();
+					}
+			break;
+		}
+		
+		case ADD_DOMAIN: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String DomainName = data.get(0);
+
+				stmt.executeUpdate("INSERT INTO domains (name,subjectsCount) VALUES ('"+DomainName+"',0)");
+				replay = new Replay(ActionType.ADD_DOMAIN, true);
+			}catch (SQLException e) {
+						e.printStackTrace();
+					}
+			break;
+		}
+		
+		case ADD_AUTHOR: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String AuthorFirstName = data.get(0);
+				String AuthorLastName = data.get(1);
+
+				stmt.executeUpdate("INSERT INTO authors (firstName,lastName,booksCount) VALUES ('"+AuthorFirstName+"','"+AuthorLastName+"','0')");
+				replay = new Replay(ActionType.ADD_AUTHOR, true);
+			}catch (SQLException e) {
+						e.printStackTrace();
+					}
+			break;
+		}
+		
+		case ADD_SUBJECT: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String subjectName = data.get(0);
+				String subjectDomain = data.get(1);
+
+				stmt.executeUpdate("INSERT INTO subjects (name,booksCount,domain) VALUES ('"+subjectName+"',0,'"+subjectDomain+"')");
+				stmt.executeUpdate("UPDATE domains SET subjectsCount=subjectsCount+1 WHERE id="+subjectDomain);
+				replay = new Replay(ActionType.ADD_SUBJECT, true);
+			}catch (SQLException e) {
+						e.printStackTrace();
+					}
+			break;
+		}
+		
+		case EDIT_DOMAIN: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String DomainId = data.get(0);
+				String DomainName = data.get(1);
+				stmt.executeUpdate("UPDATE domains SET name ='"+DomainName+"' WHERE id="+DomainId);
+				replay = new Replay(ActionType.EDIT_DOMAIN, true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case EDIT_AUTHOR: {
+			try {
+				Statement stmt = DatabaseController.connection.createStatement();
+				String AuthorId = data.get(0);
+				String AuthorFirstName = data.get(1);
+				String AuthorLastName = data.get(2);
+				stmt.executeUpdate("UPDATE authors SET firstName ='"+AuthorFirstName+"',lastName ='"+AuthorLastName+"' WHERE id="+AuthorId);
+				replay = new Replay(ActionType.EDIT_DOMAIN, true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		case DELETE_BOOK: {
+			try {
+				ArrayList<String> elementsList = new ArrayList<String>();
+				Statement stmt = DatabaseController.connection.createStatement();
 				String sn = data.get(0);
+				ResultSet rs = stmt.executeQuery("SELECT subjectId FROM project.book_subjects WHERE bookId="+sn);
+				
+				while (rs.next()) {
+					elementsList.add(rs.getString(1));
+				}
+				for(int i=0;i<elementsList.size();i++)
+				{
+					stmt.executeUpdate("UPDATE subjects SET booksCount=booksCount-1 WHERE id=" + elementsList.get(i));
+				}
+				
 				stmt.executeUpdate("DELETE FROM books WHERE sn=" + sn);
+				stmt.executeUpdate("DELETE FROM reviews WHERE bookId=" + sn);
+				stmt.executeUpdate("DELETE FROM bought_book WHERE bookId=" + sn);
+				stmt.executeUpdate("DELETE FROM book_by_date WHERE bookId=" + sn);
+				stmt.executeUpdate("DELETE FROM book_authors WHERE bookId=" + sn);
+				stmt.executeUpdate("DELETE FROM book_subjects WHERE bookId=" + sn);
 				replay = new Replay(ActionType.DELETE_BOOK, true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

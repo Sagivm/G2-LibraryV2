@@ -1,9 +1,7 @@
-ιπε 20, 2017 2:09:43 PM control.ServerController writeToLog
+ιπε 20, 2017 2:26:18 PM control.ServerController writeToLog
 INFO: Connected to database
-ιπε 20, 2017 2:09:43 PM control.ServerController writeToLog
+ιπε 20, 2017 2:26:18 PM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-ιπε 20, 2017 2:09:47 PM control.ServerController writeToLog
+ιπε 20, 2017 2:26:19 PM control.ServerController writeToLog
 INFO: Login attempt
-ιπε 20, 2017 2:09:56 PM control.ServerController writeToLog
-INFO: Name of username '123456789' was changed to 'fdsfds Naor'
