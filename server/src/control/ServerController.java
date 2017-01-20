@@ -2002,6 +2002,7 @@ public class ServerController extends AbstractServer {
 	/**
 	 * This function returns relevant data for book search
 	 * @author itain
+	 * @return - all unhidden books from server with relevant data for books search
 	 */
 	private ArrayList<String> makeSearchBook() throws IOException 
 	{

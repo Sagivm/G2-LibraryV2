@@ -54,27 +54,94 @@ import javafx.scene.control.Tooltip;
 
 public class SearchBookController implements ScreensIF{
 
+	/**
+	 * shows image of books 
+	 */
 	@FXML private ImageView booksImageView;
+	
+	/**
+	 * show title "books search"
+	 */
 	@FXML private TextField titleTextField;
+	
+	/**
+	 * show authors from DB 
+	 */
 	@FXML private ListView<String> authorListView;
+	
+	/**
+	 * show available languages 
+	 */
 	@FXML private ComboBox<String> languageComboBox;
+	
+	/**
+	 * enables user enter summary to search 
+	 */
 	@FXML private TextArea summaryTextArea;
+	
+	/**
+	 * enables user enter table of contents to search 
+	 */
 	@FXML private TextArea tocTextArea;
+	
+	/**
+	 * shows domains from DB 
+	 */
 	@FXML private ListView<String> domainListView;
+	
+	/**
+	 * enables user enter summary to search 
+	 */
 	@FXML private TextArea keywTextArea;
+	
+	/**
+	 * starts books search
+	 */
 	@FXML private Button searchButton;
+	
+	/**
+	 * clears all fields 
+	 */
 	@FXML private Button clearButton;
+	
+	/**
+	 * makes an AND search with users data 
+	 */
 	@FXML private RadioButton andRadioButton;
+	
+	/**
+	 * makes an OR search with users data 
+	 */
 	@FXML private RadioButton orRadioButton;
+	
+	/**
+	 * make radio buttons connected so user can choose only one 
+	 */
 	@FXML private ToggleGroup searchGroup;
+	
+	/**
+	 * information question mark for multiple choice 
+	 */
 	@FXML private ImageView authorImage;
+	
+	/**
+	 * information question mark for multiple choice 
+	 */
 	@FXML private ImageView domainImage;
+	
+	/**
+	 * information question mark for right separating key words 
+	 */
 	@FXML private ImageView keyWordsImage;
 	
-	private Image questionMarkImage;
-	//final Tooltip tooltipListView = new Tooltip();
-
+	/**
+	 * holds available authors from DB  
+	 */
 	public static ArrayList<Author> authorList;
+	
+	/**
+	 * holds available domains from DB  
+	 */
 	public static ArrayList<String> domainList;
 	
 	
@@ -93,8 +160,14 @@ public class SearchBookController implements ScreensIF{
 	 */
 	private static HomepageManagerController managerMain;
 	
+	/**
+	 * flag, if true downloads data from DB.  
+	 */
 	int goToServer_flag=1;
 	
+	/** initializing data when page comes up
+	 * @author itain
+	 */
 	@FXML
 	public void initialize() {
 		Image booksImagePath = new Image("/img/books.png");
@@ -119,9 +192,9 @@ public class SearchBookController implements ScreensIF{
 		goToServer_flag=0;
 
 		
-		//Platform.runLater(new Runnable() {
+		
 		Platform.runLater(new Runnable() {
-			//@Override
+			@Override
 			public void run() {
 
 				try{
@@ -150,7 +223,7 @@ public class SearchBookController implements ScreensIF{
 				}
 				
 				//question mark images
-				questionMarkImage = new Image("/img/questionMark.png");
+				Image questionMarkImage= new Image("/img/questionMark.png");
 				authorImage.setImage(questionMarkImage);
 				domainImage.setImage(questionMarkImage);
 				keyWordsImage.setImage(questionMarkImage);
@@ -179,6 +252,7 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	/** When search button is pressed a search is made.
+	 * @author itain
 	 * @param event
 	 */
 	@FXML
@@ -290,8 +364,8 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	
-	/** When listview question mark is pressed the function shows proper message.
-	 * @param event
+	/** When listview question mark is pressed the function shows message for multiple choice.
+	 * @author itain
 	 */
 	@FXML
 	public void msgMultipleChoice() throws IOException {
@@ -305,8 +379,8 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	
-	/** When question mark of Key Words is pressed the function shows proper message.
-	 * @param event
+	/** When question mark of Key Words is pressed the function shows message for right separation.
+	 * @author itain
 	 */
 	@FXML
 	public void msgKeyWords() throws IOException {
@@ -341,10 +415,7 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	
-	/**
-	 * The function close the program.
-	 * @param event - ActionEvent event
-	 */
+
 	@Override
 	public void pressedCloseMenu(ActionEvent event) {
 		// TODO Auto-generated method stub
@@ -355,6 +426,7 @@ public class SearchBookController implements ScreensIF{
 	
 	/**
 	 * This function gets message and perform the task by the error type.
+	 * @author itain
 	 * @param type - Gets error type.
 	 * @param errorCode - Gets error message.
 	 */
@@ -375,10 +447,7 @@ public class SearchBookController implements ScreensIF{
 		
 	}
 	
-	/**
-	 * no back button on this screen
-	 * @param event - ActionEvent event
-	 */
+
 	@Override
 	public void backButtonPressed(ActionEvent event){
 	}
@@ -387,6 +456,7 @@ public class SearchBookController implements ScreensIF{
 	
 	/** This function prepare message that will be sent to the server with arraylist,
 	 * and the action.
+	 * @author itain
 	 * @param type - Gets the type of the action
 	 * @param searchBook - Gets the class with the search book information.
 	 * @return - message that will be sent to server.
@@ -412,11 +482,7 @@ public class SearchBookController implements ScreensIF{
 		for(i=0;i<searchBook.getDomainsNumber();i++) //domains
 			elementsList.add(searchBook.getDomains().get(i));
 		
-		/*
-		for(int k=0;k<elementsList.size();k++)
-			System.out.println(elementsList.get(k));
-			*/
-		
+
 		message.setElementsList(elementsList);
 		
 		return message;

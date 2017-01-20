@@ -30,20 +30,28 @@ import javafx.scene.control.Alert.AlertType;
 /** EditUserLibrarianController. Responsible to enable a librarian to edit user first name and last name.
  * @author itain
  */
-
-
 public class EditUserLibrarianController implements ScreensIF{
 	
-	//@FXML private ImageView userImageView;
-	//@FXML private Label usernameLable;
+	/**
+	 * holds first name of user, editable
+	 */
 	@FXML private TextField fNameTextField;
+	
+	/**
+	 * holds last name of user, editable
+	 */
 	@FXML private TextField lNameTextField;
 	
+	/**
+	 * confirm changes
+	 */
 	@FXML private Button submitButton;
+	
+	/**
+	 * cancel changes
+	 */
 	@FXML private Button cancelButton;
 
-
-	//public static SearchUserResult searchedUserPageLibrarian;
 	
 	/**
 	 * static reference for user's changes.
@@ -65,12 +73,13 @@ public class EditUserLibrarianController implements ScreensIF{
 	 */
 	private static HomepageManagerController managerMain;
 	
+	
+	/** initializing data when page comes up
+	 * @author itain
+	 */
 	@FXML
 	public void initialize()
 	{ 
-		//Image userImagePath = new Image("/img/user.png");
-		//userImageView.setImage(userImagePath);
-		//usernameLable.setText(UserPageController.searchedUserPage.getUsername());
 		fNameTextField.setText(UserPageController.searchedUserPage.getFirstName().trim());
 		lNameTextField.setText(UserPageController.searchedUserPage.getLastName().trim());
 		
@@ -78,6 +87,12 @@ public class EditUserLibrarianController implements ScreensIF{
 		lNameTextField.setEditable(true);
 	}
 	
+	
+	
+	/** When submit button is pressed, checks violation of fields and sends data to server.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	@FXML
 	public void submitButtonPressed(ActionEvent event) 
 	{
@@ -98,9 +113,7 @@ public class EditUserLibrarianController implements ScreensIF{
 			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_CHARACTERS);
 			return;
 		}
-		
-		//System.out.println("change to:" + usernameLable.getText() + " " + fNameTextField.getText() + " " + lNameTextField.getText());
-		
+				
 		SearchUserResult user = new SearchUserResult(UserPageController.searchedUserPage.getUsername(), fNameTextField.getText().trim(), lNameTextField.getText().trim(), "", "", "", "", "", "");
 		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
 		userDetailsToChange=new SearchUserResult(user.getUsername(),user.getFirstName(),user.getLastName(),"","","","","","");
@@ -113,6 +126,10 @@ public class EditUserLibrarianController implements ScreensIF{
 	}
 	
 	
+	/** When cancel button is pressed, delete changes and goes back to user's page details.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	public void cancelButtonPressed(ActionEvent event)
 	{
 		if(ClientUI.getTypeOfUser()=="Librarian")
@@ -153,8 +170,11 @@ public class EditUserLibrarianController implements ScreensIF{
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)
+	/**
+	 * This function gets message and perform the task by the error type.
+	 * @author itain
+	 * @param type - Gets error type.
+	 * @param errorCode - Gets error message.
 	 */
 	public void actionOnError(ActionType type, String errorCode) {
 		
@@ -174,6 +194,7 @@ public class EditUserLibrarianController implements ScreensIF{
 	
 	/** This function prepare message that will be send to the server with arraylist,
 	 * and the action.
+	 * @author itain
 	 * @param type - Gets the type of the action
 	 * @param user - Gets the class with the user information.
 	 * @return - message that will send to server.

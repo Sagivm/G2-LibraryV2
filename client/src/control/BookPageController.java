@@ -60,32 +60,109 @@ import javafx.geometry.Rectangle2D;
 public class BookPageController implements ScreensIF
 {
 
+	/**
+	 * lable which contains book's name 
+	 */
 	@FXML private Label bookLable;
+	
+	/**
+	 * lable which contains book's authors names 
+	 */
 	@FXML private Label authorsLable;
+	
+	/**
+	 * lable which contains book's language 
+	 */
 	@FXML private Label languageLable;
+	
+	/**
+	 * lable which contains book's domains 
+	 */
 	@FXML private Label domainsLable;
+	
+	/**
+	 * lable which contains book's subjects 
+	 */
 	@FXML private Label subjectsLable;
+	
+	/**
+	 * text area which contains book's key words 
+	 */
 	@FXML private TextArea keyWordsTextArea;
+	
+	/**
+	 * text area which contains book's table of contents.
+	 */
 	@FXML private TextArea tocTextArea;
+	
+	/**
+	 * text area which contains book's summary. 
+	 */
 	@FXML private TextArea summaryTextArea;
+	
+	/**
+	 * lable which contains book's price 
+	 */
 	@FXML private Label priceLable;
 	
+	
+	/**
+	 * tab pane which contains book's details 
+	 */
 	@FXML private TabPane bookTabPane;
+	
+	/**
+	 * tab for book's reviews page
+	 */
 	@FXML private Tab readReviewsTab;
+	
+	/**
+	 * tab for writing a review page
+	 */
 	@FXML private Tab writeReviewTab;
+	
+	/**
+	 * tab for book's report
+	 */
 	@FXML private Tab bookReportTab;
+	
+	/**
+	 * tab which contains book's popularity report
+	 */
 	@FXML private Tab popularityReportTab;
 	
+	/**
+	 * anchor pane which contains book's reviews page
+	 */
 	@FXML private AnchorPane readReviewContent;
+	
+	/**
+	 * anchor pane which show book's writing a reviews page
+	 */
 	@FXML private AnchorPane writeReviewContent;
+	
+	/**
+	 * anchor pane which show book's report page
+	 */
 	@FXML private AnchorPane bookReportContent;
+	
+	/**
+	 * anchor pane which show book's popularity report page
+	 */
 	@FXML private AnchorPane popularityContent;
 	
+	/**
+	 * image view which show book's image
+	 */
 	@FXML private ImageView imgBookImg;
 	
 	@FXML private Label lblBought;
 	@FXML private Button btnPurchase;
 	@FXML private Button btnDownload;
+	
+	/**
+	 * button which takes user to last page
+	 */
 	@FXML private Button backButton;
 	
 	public static ArrayList<String> img;
@@ -93,6 +170,10 @@ public class BookPageController implements ScreensIF
 	
 	public static boolean canWrite = false;
 	
+	
+	/**
+	 * contains book's data to show on page
+	 */
 	public static SearchBookResult searchedBookPage;
 	
 	/**
@@ -122,6 +203,10 @@ public class BookPageController implements ScreensIF
 	 */
 	private Image bookImage;
 	
+	
+	/** initializing data when page comes up
+	 * @author itain
+	 */
 	@FXML
 	public void initialize() 
 	{
@@ -304,7 +389,6 @@ public class BookPageController implements ScreensIF
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//bookTabPane.getTabs().remove(3);
 		bookLable.setText(searchedBookPage.getBookTitle());
 		languageLable.setText(searchedBookPage.getBookLanguage());
 		summaryTextArea.setText(searchedBookPage.getBookSummary());
@@ -324,29 +408,11 @@ public class BookPageController implements ScreensIF
 		keyWordsTextArea.setWrapText(true);
 
 		
-		/*
-		int authorsCount=Integer.parseInt(bookData[6]);
-		String authors=bookData[7]; //first author
-		for(i=1;i<authorsCount;i++)
-			authors+=", "+bookData[7+i];
-			*/
 		authorsLable.setText(searchedBookPage.getBookAuthors());
-		/*
-		int continue_index=7+authorsCount;
-		
-		int domainsCount=Integer.parseInt(bookData[continue_index]);
-		String subjects=bookData[continue_index+1]; //first subject
-		String domains=bookData[continue_index+2]; //first domain
-		
-		for(i=1;i<domainsCount;i+=2)
-		{
-			subjects+=", "+bookData[continue_index+1+i];
-			domains+=", "+bookData[continue_index+2+i];
-		}
-		*/
+
 		subjectsLable.setText(searchedBookPage.getBookSubjects());
 		domainsLable.setText(searchedBookPage.getBookDomains());
-		//continue_index=continue_index+domainsCount;
+
 		priceLable.setText(searchedBookPage.getBookPrice()+ " \u20AA");
 	}
 	
@@ -358,6 +424,7 @@ public class BookPageController implements ScreensIF
 		return message;
 	}
 	
+
 	@FXML
 	public void loadReviews() throws IOException {
 				try {
@@ -566,6 +633,10 @@ public class BookPageController implements ScreensIF
 		return false;
 	}
 	
+	/** When pressed, takes user to search book result page.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	@FXML
 	public void backButtonPressed(ActionEvent event)
 	{
@@ -613,6 +684,11 @@ public class BookPageController implements ScreensIF
 		// TODO Auto-generated method stub
 	}
 	
+	/** shows an alert to screen
+	 * @author itain
+	 * @param type - Gets type of action.
+	 * @param message - Gets message to display.
+	 */
 	public void actionToDisplay(ActionType type, String message) {
 
 		Alert alert = new Alert(AlertType.INFORMATION);

@@ -7,14 +7,8 @@ package entity;
  */
 public class Author extends Person{
 	/**
-	 * number of author's books
-	 */
-	private int booksCount;
-	
-
-
-	/**
 	 * Author constructor store the data.
+	 * @author itain
 	 * @param firstname - Gets the firstname.
 	 * @param lastname - Gets the lastname.
 	 * @param id - Gets id.
@@ -26,19 +20,17 @@ public class Author extends Person{
 	
 	/**
 	 * empty Author constructor
+	 * @author itain
 	 */
 	public Author() {
 		super();
 	}
 	
-	
-	/** Setter for booksCount
-	 * booksCount - number of author's books
+
+	/** prints author's name
+	 * @author itain
+	 * @return - full name of author
 	 */
-	public int getBooksCount() {
-		return booksCount;
-	}
-	
 	public String toString() { 
 	    return getFirstname()+" "+getLastname();
 	} 
