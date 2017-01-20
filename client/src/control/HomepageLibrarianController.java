@@ -258,7 +258,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	public void pendingAccountButtonPressed(ActionEvent event) throws IOException {
 		loadPage(ScreensInfo.PENDING_ACCOUNT_SCREEN);
 	}
-	
+	//
 	/**
 	 * this method load the page to the content AnchorPane.
 	 * @param screenPath
