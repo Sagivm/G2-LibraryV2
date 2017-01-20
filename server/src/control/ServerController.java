@@ -674,6 +674,79 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		
+		case SEARCH_WORKER: {
+			try
+			{
+				ArrayList<String> elementsList = new ArrayList<String>();
+				ArrayList<String> res = new ArrayList<String>();
+				
+				Statement stmt = DatabaseController.connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT username, firstName,lastName, email, job, department FROM workers");
+				while (rs.next())
+				{
+					elementsList.add(rs.getString(1)); // username
+					elementsList.add(rs.getString(2)); // first name
+					elementsList.add(rs.getString(3)); // last name
+					elementsList.add(rs.getString(4)); // email
+					elementsList.add(rs.getString(5)); // job
+					elementsList.add(rs.getString(6)); // department
+				}
+				
+				
+				int[] filterResult = new int[elementsList.size()/6];
+				
+				for(int i=0;i<filterResult.length;i++)
+					filterResult[i]=1;
+
+
+				for(int i=0;i<elementsList.size();i+=6)
+				{
+					if(!message.getElementsList().get(0).isEmpty())
+						if(!elementsList.get(i).contains(message.getElementsList().get(0).trim()))
+							filterResult[i/6]=0;
+						
+
+					if(!message.getElementsList().get(1).isEmpty())
+						if(!elementsList.get(i+1).toLowerCase().trim().contains(message.getElementsList().get(1).toLowerCase().trim()))
+							filterResult[i/6]=0;
+
+
+					if(!message.getElementsList().get(2).isEmpty())
+						if(!elementsList.get(i+2).toLowerCase().trim().contains(message.getElementsList().get(2).toLowerCase().trim()))
+							filterResult[i/6]=0;
+
+					
+				}
+				
+				/*
+				for(int i=0;i<filterResult.length;i++)
+					System.out.println(filterResult[i]);
+				System.out.println(" ");
+				*/
+				
+				for(int j=0;j<elementsList.size();j+=6)
+				{
+					if(filterResult[j/6]==1)
+						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4)+"^"+elementsList.get(j+5));
+				}
+				
+				
+				/*
+				for(int i=0;i<res.size();i++)
+					System.out.println(res.get(i));
+				*/
+				
+				replay = new Replay(ActionType.SEARCH_WORKER, true, res);
+				
+			} 
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		
 		case SEARCH_USER: {
 			try
 			{
@@ -748,6 +821,7 @@ public class ServerController extends AbstractServer {
 			}
 			break;
 		}
+		
 		
 		case EDIT_USER_LIBRARIAN: {
 			try

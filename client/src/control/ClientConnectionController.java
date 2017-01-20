@@ -294,6 +294,13 @@ public class ClientConnectionController extends AbstractClient{
 			break;
 		}
 		
+		case SEARCH_WORKER:{
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			SearchWorkerResultsController.workerResult = list;
+			break;
+		}
+		
 		case GET_BOOK_AUTHORS:{
 			ArrayList<Author> list = new ArrayList<Author>();
 			for (int i = 0; i < replay.getElementsList().size(); i++) {
@@ -373,7 +380,7 @@ public class ClientConnectionController extends AbstractClient{
                     	{
                         	if (librarianMain == null)
                         		librarianMain = new HomepageLibrarianController();
-                        	librarianMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+                        	librarianMain.setPage(ScreensInfo.USER_PAGE_SCREEN);
                     	}						
 						
 						ScreenController screenController  = new ScreenController();
@@ -408,7 +415,11 @@ public class ClientConnectionController extends AbstractClient{
                     	{
                         	if (managerMain == null)
                         		managerMain = new HomepageManagerController();
-                        	managerMain.setPage(ScreensInfo.SEARCH_USER_SCREEN);
+                        	if(UserPageController.searchedUserPage.getIsBlocked().equals("YES"))
+                        		UserPageController.searchedUserPage.setIsBlocked("NO");
+                        	else if(UserPageController.searchedUserPage.getIsBlocked().equals("NO"))
+                        		UserPageController.searchedUserPage.setIsBlocked("YES");
+                        	managerMain.setPage(ScreensInfo.USER_PAGE_SCREEN);
                     	}
 						
 						

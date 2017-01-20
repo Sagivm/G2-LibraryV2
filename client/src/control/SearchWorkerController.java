@@ -11,6 +11,7 @@ import entity.Register;
 import entity.ScreensInfo;
 import entity.User;
 import entity.Validate;
+import entity.Worker;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -29,9 +30,9 @@ import javafx.scene.image.ImageView;
  */
 
 
-public class SearchUserController implements ScreensIF{
+public class SearchWorkerController implements ScreensIF{
 
-	@FXML private ImageView usersImageView;
+	@FXML private ImageView workersImageView;
 	@FXML private TextField idTextField;
 	@FXML private TextField fNameTextField;
 	@FXML private TextField lNameTextField;
@@ -49,9 +50,8 @@ public class SearchUserController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{ 
-		UserPageController.updateSearchUserResults=0;
-		Image usersImagePath = new Image("/img/users_three.png");
-		usersImageView.setImage(usersImagePath);
+		Image workersImagePath = new Image("/img/workers.png");
+		workersImageView.setImage(workersImagePath);
 	}
 
 	
@@ -87,12 +87,12 @@ public class SearchUserController implements ScreensIF{
 		
 
 		
-		User user = new User();
-		user.setId(id);
-		user.setFirstname(firstName);
-		user.setLastname(lastName);
+		Worker worker = new Worker();
+		worker.setId(id);
+		worker.setFirstname(firstName);
+		worker.setLastname(lastName);
 		
-		Message message = prepareUserSearch(ActionType.SEARCH_USER,user);
+		Message message = prepareWorkerSearch(ActionType.SEARCH_WORKER,worker);
 		
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -106,13 +106,13 @@ public class SearchUserController implements ScreensIF{
     	{
         	if (librarianMain == null)
         		librarianMain = new HomepageLibrarianController();
-        	librarianMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
+        	librarianMain.setPage(ScreensInfo.SEARCH_WORKER_RESULTS_SCREEN);
     	}
     	else if(ClientUI.getTypeOfUser()=="Manager")
     	{
         	if (managerMain == null)
         		managerMain = new HomepageManagerController();
-        	managerMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
+        	managerMain.setPage(ScreensInfo.SEARCH_WORKER_RESULTS_SCREEN);
     	}
     	
 		ScreenController screenController = new ScreenController();
@@ -144,14 +144,14 @@ public class SearchUserController implements ScreensIF{
 	 * @param user - Gets the class with the user information.
 	 * @return - message that will send to server.
 	 */
-	public Message prepareUserSearch(ActionType type, User user)
+	public Message prepareWorkerSearch(ActionType type, Worker worker)
 	{
 		Message message = new Message();
 		message.setType(type);
 		ArrayList <String> elementsList = new ArrayList<String>();
-		elementsList.add(user.getId());
-		elementsList.add(user.getFirstname());
-		elementsList.add(user.getLastname());
+		elementsList.add(worker.getId());
+		elementsList.add(worker.getFirstname());
+		elementsList.add(worker.getLastname());
 		message.setElementsList(elementsList);
 		return message;
 	}

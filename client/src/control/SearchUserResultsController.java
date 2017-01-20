@@ -80,7 +80,26 @@ public class SearchUserResultsController implements ScreensIF{
 	 */
 	@FXML
 	private void initialize(){
-	
+		if(UserPageController.updateSearchUserResults==1) //updateBlockStatus
+		{
+			for(int i=0;i<userResult.size();i++)
+			{
+				String[] tmp=new String[9];
+				tmp = userResult.get(i).split("\\^");
+				if(tmp[0].equals(UserPageController.searchedUserPage.getUsername()))
+				{
+					userResult.remove(i);
+					String isBlocked="0";
+					if(UserPageController.searchedUserPage.getIsBlocked()=="YES")
+						isBlocked="1";
+					userResult.add(tmp[0]+"^"+tmp[1]+"^"+tmp[2]+"^"+tmp[3]+"^"+tmp[4]+"^"+isBlocked+"^"+tmp[6]+"^"+tmp[7]+"^"+tmp[8]);
+					UserPageController.updateSearchUserResults=0;
+					break;
+					
+				}
+			}
+			
+		}
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -220,7 +239,7 @@ public class SearchUserResultsController implements ScreensIF{
 		
 	}
 	
-	public static ArrayList<String> resultList;
+	//public static ArrayList<String> resultList;
 	
 	
 	public void backButtonPressed(ActionEvent event) {

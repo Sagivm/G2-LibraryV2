@@ -29,21 +29,19 @@ import javafx.scene.image.ImageView;
  * @author itain
  */
 public class EditUserManagerController implements ScreensIF{
-
+	/*
 	@FXML private ImageView userImageView;
 	@FXML private Label usernameLable;
 	@FXML private Label fNameLable;
 	@FXML private Label lNameLable;
 	//@FXML private ComboBox accountTypeComboBox;
+	 */
 	@FXML private CheckBox blockedCheckBox;
 	
 	@FXML private Button submitButton;
 	@FXML private Button cancelButton;
 
-	/**
-	 * user information
-	 */
-	public static SearchUserResult searchedUserPageManager;
+	//public static SearchUserResult searchedUserPageManager;
 	
 	/**
 	 * static reference of user home page.
@@ -63,12 +61,14 @@ public class EditUserManagerController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{
+		/*
 		Image userImagePath = new Image("/img/user.png");
 		userImageView.setImage(userImagePath);
-		usernameLable.setText(searchedUserPageManager.getUsername());
-		fNameLable.setText(searchedUserPageManager.getFirstName().trim());
-		lNameLable.setText(searchedUserPageManager.getLastName().trim());
-		if(searchedUserPageManager.getIsBlocked()=="YES")
+		usernameLable.setText(UserPageController.searchedUserPage.getUsername());
+		fNameLable.setText(UserPageController.searchedUserPage.getFirstName().trim());
+		lNameLable.setText(UserPageController.searchedUserPage.getLastName().trim());
+		*/
+		if(UserPageController.searchedUserPage.getIsBlocked()=="YES")
 				blockedCheckBox.setSelected(true);
 	}
 	
@@ -138,7 +138,7 @@ public class EditUserManagerController implements ScreensIF{
 		String isBlocked="0";
 		if(blockedCheckBox.isSelected())
 			isBlocked="1";
-		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameLable.getText(), lNameLable.getText(), "", "", isBlocked, "", "", "");
+		SearchUserResult user = new SearchUserResult(UserPageController.searchedUserPage.getUsername(), UserPageController.searchedUserPage.getFirstName(), UserPageController.searchedUserPage.getLastName(), "", "", isBlocked, "", "", "");
 		Message message = prepareEditUser(ActionType.EDIT_USER_MANAGER,user);
 		
 		try {
