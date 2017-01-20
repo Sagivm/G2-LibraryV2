@@ -243,8 +243,7 @@ public class HomepageLibrarianController implements ScreensIF {
 			e.printStackTrace();
 		}
 	}
-	//
-	//
+
 	@FXML
 	public void userMngButtonPressed(ActionEvent event) throws IOException {
 		loadPage(ScreensInfo.SEARCH_USER_SCREEN);
