@@ -250,6 +250,11 @@ public class HomepageLibrarianController implements ScreensIF {
 	}
 	
 	@FXML
+	public void searchWorkerButtonPressed(ActionEvent event) throws IOException {
+		loadPage(ScreensInfo.SEARCH_WORKER_SCREEN);
+	}
+	
+	@FXML
 	public void pendingAccountButtonPressed(ActionEvent event) throws IOException {
 		loadPage(ScreensInfo.PENDING_ACCOUNT_SCREEN);
 	}

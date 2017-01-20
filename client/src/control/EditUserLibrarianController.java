@@ -33,19 +33,16 @@ import javafx.scene.control.Alert.AlertType;
 
 public class EditUserLibrarianController implements ScreensIF{
 	
-	@FXML private ImageView userImageView;
-	@FXML private Label usernameLable;
+	//@FXML private ImageView userImageView;
+	//@FXML private Label usernameLable;
 	@FXML private TextField fNameTextField;
 	@FXML private TextField lNameTextField;
 	
 	@FXML private Button submitButton;
 	@FXML private Button cancelButton;
 
-	
-	/**
-	 * user information
-	 */
-	public static SearchUserResult searchedUserPageLibrarian;
+
+	//public static SearchUserResult searchedUserPageLibrarian;
 	
 	/**
 	 * static reference of user home page.
@@ -65,11 +62,11 @@ public class EditUserLibrarianController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{ 
-		Image userImagePath = new Image("/img/user.png");
-		userImageView.setImage(userImagePath);
-		usernameLable.setText(searchedUserPageLibrarian.getUsername());
-		fNameTextField.setText(searchedUserPageLibrarian.getFirstName().trim());
-		lNameTextField.setText(searchedUserPageLibrarian.getLastName().trim());
+		//Image userImagePath = new Image("/img/user.png");
+		//userImageView.setImage(userImagePath);
+		//usernameLable.setText(UserPageController.searchedUserPage.getUsername());
+		fNameTextField.setText(UserPageController.searchedUserPage.getFirstName().trim());
+		lNameTextField.setText(UserPageController.searchedUserPage.getLastName().trim());
 		
 		fNameTextField.setEditable(true);
 		lNameTextField.setEditable(true);
@@ -98,7 +95,7 @@ public class EditUserLibrarianController implements ScreensIF{
 		
 		//System.out.println("change to:" + usernameLable.getText() + " " + fNameTextField.getText() + " " + lNameTextField.getText());
 		
-		SearchUserResult user = new SearchUserResult(usernameLable.getText(), fNameTextField.getText(), lNameTextField.getText(), "", "", "", "", "", "");
+		SearchUserResult user = new SearchUserResult(UserPageController.searchedUserPage.getUsername(), fNameTextField.getText(), lNameTextField.getText(), "", "", "", "", "", "");
 		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
 		
 		try {

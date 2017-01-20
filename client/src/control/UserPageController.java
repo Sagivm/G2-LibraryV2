@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import boundry.ClientUI;
+import entity.GeneralMessages;
+import entity.Message;
+import entity.ScreensInfo;
 import entity.SearchBookResult;
 import entity.SearchUserResult;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -30,6 +35,8 @@ public class UserPageController implements ScreensIF{
 	@FXML private CheckBox blockedCheckBox;
 	@FXML private Label accountStatusLable;
 	@FXML private Label accountTypeLable;
+	@FXML private Label creditsLable;
+	@FXML private Label crdtsLable;
 	@FXML private Label endSubscroptionLable;
 	@FXML private Label eosTextLable;
 	
@@ -44,15 +51,41 @@ public class UserPageController implements ScreensIF{
 	
 	@FXML private ImageView userImageView;
 	
+	@FXML private Button blockButton;
+	@FXML private Button unblockButton;
+	
+	
+	
+	public static int updateSearchUserResults;
 	
 		/**
 	 * user information
 	 */
 	public static SearchUserResult searchedUserPage;
 	
+	
+	/**
+	 * static reference of user home page.
+	 */
+	private static HomepageUserController userMain;
+	
+	
+
+	/**
+	 * static reference of librarian home page.
+	 */
+	private static HomepageLibrarianController librarianMain;
+	
+	/**
+	 * static reference of manager home page.
+	 */
+	private static HomepageManagerController managerMain;
+	
 	@FXML
 	public void initialize()
 	{ 
+		updateSearchUserResults=0;
+		unblockButton.setVisible(false);
 		userLable.setText(searchedUserPage.getFirstName()+" "+searchedUserPage.getLastName()+ " ("+searchedUserPage.getUsername()+")");
 		Image userImagePath = new Image("/img/user.png");
 		userImageView.setImage(userImagePath);
@@ -61,21 +94,30 @@ public class UserPageController implements ScreensIF{
 		fNameLable.setText(searchedUserPage.getFirstName());
 		lNameLable.setText(searchedUserPage.getLastName());
 		if(searchedUserPage.getIsBlocked()=="YES")
+		{
 			blockedCheckBox.setSelected(true);
+			blockButton.setVisible(false);
+			unblockButton.setVisible(true);
+		}
 		blockedCheckBox.setDisable(true);
 		accountStatusLable.setText(searchedUserPage.getAccountStatus());
 		accountTypeLable.setText(searchedUserPage.getAccountType());
+		creditsLable.setText(searchedUserPage.getCredits());
 		endSubscroptionLable.setText(searchedUserPage.getEndSubscription());
 		
 		
 		if(!searchedUserPage.getAccountType().equals("Yearly") && !searchedUserPage.getAccountType().equals("Monthly"))
 		{
+			creditsLable.setVisible(false);
+			crdtsLable.setVisible(false);
 			endSubscroptionLable.setVisible(false);
 			eosTextLable.setVisible(false);
 		}
 		
 		if(ClientUI.getTypeOfUser()=="Librarian")
 		{
+			unblockButton.setVisible(false);
+			blockButton.setVisible(false);
 			userTabPane.getTabs().remove(3); //remove user report tab
 			userTabPane.getTabs().remove(2); //remove block user tab
 		}
@@ -84,11 +126,75 @@ public class UserPageController implements ScreensIF{
 			
 	}
 
-	
-	public void backButtonPressed(ActionEvent event) {
-		// TODO Auto-generated method stub
-		
+	@FXML
+	public void editUserLibrarianTab() throws IOException {
+				try {
+					if(editUserLibrarianContent.getChildren().size()>0)
+						editUserLibrarianContent.getChildren().remove(0);
+					Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.USER_PAGE_LIBRARIAN_SCREEN));
+					editUserLibrarianContent.getChildren().add(root);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 	}
+	
+	@FXML
+	public void editUserManagerTab() throws IOException {
+				try {
+					if(editUserManagerContent.getChildren().size()>0)
+						editUserManagerContent.getChildren().remove(0);
+					Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.USER_PAGE_MANAGER_SCREEN));
+					editUserManagerContent.getChildren().add(root);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	}
+	
+	@FXML
+	public void userReportTab() throws IOException {
+				try {
+					if(userReportContent.getChildren().size()>0)
+						userReportContent.getChildren().remove(0);
+					Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.BOOK_PAGE_SCREEN)); // SAGIV - CHANGE HERE USER REPORT SCREEN
+					userReportContent.getChildren().add(root);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	}
+	
+	@FXML
+	public void backButtonPressed(ActionEvent event)
+	{
+		updateSearchUserResults=1;
+		if(ClientUI.getTypeOfUser()=="Librarian")
+    	{
+        	if (librarianMain == null)
+        		librarianMain = new HomepageLibrarianController();
+        	librarianMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
+    	}
+    	else if(ClientUI.getTypeOfUser()=="Manager")
+    	{
+        	if (managerMain == null)
+        		managerMain = new HomepageManagerController();
+        	managerMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
+    	}
+
+		
+		ScreenController screenController = new ScreenController();
+		try{
+			if(ClientUI.getTypeOfUser()=="Librarian")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+			else if(ClientUI.getTypeOfUser()=="Manager")
+				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+			
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}  
+	}
+	
+	
+	
 
 	@Override
 	public void pressedCloseMenu(ActionEvent event) throws IOException {
@@ -100,6 +206,57 @@ public class UserPageController implements ScreensIF{
 	public void actionOnError(ActionType type, String errorCode) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	@FXML
+	public void blockButtonPressed(ActionEvent event) 
+	{		
+		String isBlocked="1";
+		SearchUserResult user = new SearchUserResult(UserPageController.searchedUserPage.getUsername(), UserPageController.searchedUserPage.getFirstName(), UserPageController.searchedUserPage.getLastName(), "", "", isBlocked, "", "", "");
+		Message message = prepareEditUser(ActionType.EDIT_USER_MANAGER,user);
+		
+		try {
+			ClientController.clientConnectionController.sendToServer(message);
+		} catch (IOException e) {
+					
+			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+		}
+	}
+	
+	@FXML
+	public void unblockButtonPressed(ActionEvent event) 
+	{		
+		String isBlocked="0";
+		SearchUserResult user = new SearchUserResult(UserPageController.searchedUserPage.getUsername(), UserPageController.searchedUserPage.getFirstName(), UserPageController.searchedUserPage.getLastName(), "", "", isBlocked, "", "", "");
+		Message message = prepareEditUser(ActionType.EDIT_USER_MANAGER,user);
+		
+		try {
+			ClientController.clientConnectionController.sendToServer(message);
+		} catch (IOException e) {
+					
+			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+		}
+	}
+	
+	
+	/** This function prepare message that will be send to the server with arraylist,
+	 * and the action.
+	 * @param type - Gets the type of the action
+	 * @param user - Gets the class with the user information.
+	 * @return - message that will send to server.
+	 */
+	public Message prepareEditUser(ActionType type, SearchUserResult user)
+	{
+		Message message = new Message();
+		message.setType(type);
+		ArrayList <String> elementsList = new ArrayList<String>();
+		elementsList.add(user.getUsername());
+		elementsList.add(user.getFirstName());
+		elementsList.add(user.getLastName());
+		elementsList.add(user.getIsBlocked());
+		message.setElementsList(elementsList);
+		return message;
 	}
 
 }

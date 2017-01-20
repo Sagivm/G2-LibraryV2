@@ -214,6 +214,11 @@ public class HomepageManagerController implements ScreensIF {
 		loadPage(ScreensInfo.SEARCH_USER_SCREEN);
 	}
 	
+	@FXML
+	public void searchWorkerButtonPressed(ActionEvent event) throws IOException {
+		loadPage(ScreensInfo.SEARCH_WORKER_SCREEN);
+	}
+	
 	/** Setter for page.
 	 * @param page
 	 */

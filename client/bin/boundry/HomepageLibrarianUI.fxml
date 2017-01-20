@@ -37,5 +37,6 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
+      <Button id="userMsgsButton" font="$x1" layoutY="445.0" mnemonicParsing="false" onAction="#searchWorkerButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Search Worker" />
   </children>
 </AnchorPane>

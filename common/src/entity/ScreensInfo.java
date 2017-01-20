@@ -159,6 +159,17 @@ public class ScreensInfo {
 	 */
 	public static final String SEARCH_USER_TITLE = "Search User";
 	
+	
+	/**
+	 *  search worker screen path
+	 */
+	public static final String SEARCH_WORKER_SCREEN = "/boundry/SearchWorkerUI.fxml";
+	
+	/**
+	 *  Set search worker screen title
+	 */
+	public static final String SEARCH_WORKER_TITLE = "Search Worker";
+	
 	/**
 	 *  Search Book results screen path
 	 */
@@ -179,6 +190,21 @@ public class ScreensInfo {
 	 */
 	public static final String SEARCH_USER_RESULTS_TITLE = "Search User results";
 	
+	
+	/**
+	 *  Search User results screen path
+	 */
+	public static final String SEARCH_WORKER_RESULTS_SCREEN = "/boundry/SearchWorkerResultsUI.fxml";
+	
+	/**
+	 *  Set Search User results screen title
+	 */
+	public static final String SEARCH_WORKER_RESULTS_TITLE = "Search worker results";
+	
+	
+	/**
+	 *  user report screen path
+	 */
 	public static final String USER_REPORT="/boundry/UserReportUI.fxml";
 
 	/**
