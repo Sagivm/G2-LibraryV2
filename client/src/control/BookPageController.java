@@ -205,6 +205,7 @@ public class BookPageController implements ScreensIF
 	
 	
 	/** initializing data when page comes up
+	 * @author itain
 	 */
 	@FXML
 	public void initialize() 
@@ -621,6 +622,7 @@ public class BookPageController implements ScreensIF
 	}
 	
 	/** When pressed, takes user to search book result page.
+	 * @author itain
 	 * @param event - Gets event.
 	 */
 	@FXML
@@ -671,6 +673,7 @@ public class BookPageController implements ScreensIF
 	}
 	
 	/** shows an alert to screen
+	 * @author itain
 	 * @param type - Gets type of action.
 	 * @param message - Gets message to display.
 	 */
