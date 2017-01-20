@@ -387,6 +387,10 @@ public class ClientConnectionController extends AbstractClient{
 						else
 							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_FAILED);
 							
+						//System.out.println("test");
+						UserPageController.searchedUserPage.setFirstName(EditUserLibrarianController.userDetailsToChange.getFirstName());
+						UserPageController.searchedUserPage.setLastName(EditUserLibrarianController.userDetailsToChange.getLastName());
+						SearchUserController.updateSearchUserResults=2;
 						if(ClientUI.getTypeOfUser()=="Librarian")
                     	{
                         	if (librarianMain == null)
@@ -430,6 +434,7 @@ public class ClientConnectionController extends AbstractClient{
                         		UserPageController.searchedUserPage.setIsBlocked("NO");
                         	else if(UserPageController.searchedUserPage.getIsBlocked().equals("NO"))
                         		UserPageController.searchedUserPage.setIsBlocked("YES");
+                        	SearchUserController.updateSearchUserResults=1;
                         	managerMain.setPage(ScreensInfo.USER_PAGE_SCREEN);
                     	}
 						

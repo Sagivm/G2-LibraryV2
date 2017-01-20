@@ -80,7 +80,28 @@ public class SearchUserResultsController implements ScreensIF{
 	 */
 	@FXML
 	private void initialize(){
-		if(UserPageController.updateSearchUserResults==1) //updateBlockStatus
+		if(SearchUserController.updateSearchUserResults==1) //updateBlockStatus
+		{
+			for(int i=0;i<userResult.size();i++)
+			{
+				String[] tmp=new String[9];
+				tmp = userResult.get(i).split("\\^");
+				
+				if(tmp[0].equals(UserPageController.searchedUserPage.getUsername()))
+				{
+					userResult.remove(i);
+					String isBlocked="0";
+					if(UserPageController.searchedUserPage.getIsBlocked()=="YES")
+						isBlocked="1";
+					userResult.add(tmp[0]+"^"+tmp[1]+"^"+tmp[2]+"^"+tmp[3]+"^"+tmp[4]+"^"+isBlocked+"^"+tmp[6]+"^"+tmp[7]+"^"+tmp[8]);
+					SearchUserController.updateSearchUserResults=0;
+					break;
+					
+				}
+			}
+			
+		}
+		else if(SearchUserController.updateSearchUserResults==2) //edit User's full name
 		{
 			for(int i=0;i<userResult.size();i++)
 			{
@@ -89,17 +110,15 @@ public class SearchUserResultsController implements ScreensIF{
 				if(tmp[0].equals(UserPageController.searchedUserPage.getUsername()))
 				{
 					userResult.remove(i);
-					String isBlocked="0";
-					if(UserPageController.searchedUserPage.getIsBlocked()=="YES")
-						isBlocked="1";
-					userResult.add(tmp[0]+"^"+tmp[1]+"^"+tmp[2]+"^"+tmp[3]+"^"+tmp[4]+"^"+isBlocked+"^"+tmp[6]+"^"+tmp[7]+"^"+tmp[8]);
-					UserPageController.updateSearchUserResults=0;
+					userResult.add(tmp[0]+"^"+UserPageController.searchedUserPage.getFirstName()+"^"+UserPageController.searchedUserPage.getLastName()+"^"+tmp[3]+"^"+tmp[4]+"^"+tmp[5]+"^"+tmp[6]+"^"+tmp[7]+"^"+tmp[8]);
+					SearchUserController.updateSearchUserResults=0;
 					break;
 					
 				}
 			}
 			
 		}
+		
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -159,7 +178,7 @@ public class SearchUserResultsController implements ScreensIF{
 				        });
 					
 					userPageCol.setCellFactory(new Callback<TableColumn<SearchUserResult, SearchUserResult>, TableCell<SearchUserResult, SearchUserResult>>() {
-				          @Override public TableCell<SearchUserResult, SearchUserResult> call(TableColumn<SearchUserResult, SearchUserResult> bookPageCol) {
+				          @Override public TableCell<SearchUserResult, SearchUserResult> call(TableColumn<SearchUserResult, SearchUserResult> userPageCol) {
 				            return new TableCell<SearchUserResult, SearchUserResult>() {
 				              final ImageView buttonGraphic = new ImageView();
 				              final Button button = new Button(); {
@@ -175,10 +194,8 @@ public class SearchUserResultsController implements ScreensIF{
 				                    button.setOnAction(new EventHandler<ActionEvent>() {
 				                      @Override public void handle(ActionEvent event) {
 				                    	  UserPageController.searchedUserPage = userRes;
-				                    	  /*
-				                    	  EditUserLibrarianController.searchedUserPageLibrarian = userRes;
-				                    	  EditUserManagerController.searchedUserPageManager = userRes;
-				                    	  */
+
+				                    	  
 				          				if(ClientUI.getTypeOfUser()=="Librarian")
 				                    	{
 				          					
@@ -208,6 +225,7 @@ public class SearchUserResultsController implements ScreensIF{
 				                		catch (Exception e) {
 				        					e.printStackTrace();
 				        				}  
+				        				
 				                      }
 				                    });
 				                  } else {
