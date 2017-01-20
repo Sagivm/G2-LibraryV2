@@ -266,6 +266,9 @@ public enum ActionType {
 	CHECK_ACCOUNT_TYPE, 
 	
 	
+	/**
+	 * File transformation.
+	 */
 	FILE,
 
 
