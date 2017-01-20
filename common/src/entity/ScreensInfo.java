@@ -130,7 +130,6 @@ public class ScreensInfo {
 	public static final String EDIT_REVIEW_TITLE = "Edit Review";
 	
 	/**
-<<<<<<< HEAD
 	 * Set Edit Review path.
 	 */
 	public static final String BOOK_REVIEWS_SCREEN = "/boundry/BookReviewsUI.fxml";
@@ -281,6 +280,9 @@ public class ScreensInfo {
 	public static final String EXTERNAL_PAYMENT_TITLE = "Pay Secure with ExtPayment";
 	
 	
+	/**
+	 * Set book popularity report screen.
+	 */
 	public static final String BOOK_POPULARITY_REPORT = "/boundry/BookPopularityReportUI.fxml";
 
 }

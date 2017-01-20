@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import boundry.ClientUI;
 import entity.GeneralMessages;
@@ -45,6 +46,11 @@ public class EditUserLibrarianController implements ScreensIF{
 	//public static SearchUserResult searchedUserPageLibrarian;
 	
 	/**
+	 * static reference for user's changes.
+	 */
+	public static SearchUserResult userDetailsToChange;
+	
+	/**
 	 * static reference of user home page.
 	 */
 	private static HomepageUserController userMain;
@@ -72,7 +78,7 @@ public class EditUserLibrarianController implements ScreensIF{
 		lNameTextField.setEditable(true);
 	}
 	
-	
+	@FXML
 	public void submitButtonPressed(ActionEvent event) 
 	{
 		if (fNameTextField.equals("") || lNameTextField.equals(""))
@@ -95,9 +101,9 @@ public class EditUserLibrarianController implements ScreensIF{
 		
 		//System.out.println("change to:" + usernameLable.getText() + " " + fNameTextField.getText() + " " + lNameTextField.getText());
 		
-		SearchUserResult user = new SearchUserResult(UserPageController.searchedUserPage.getUsername(), fNameTextField.getText(), lNameTextField.getText(), "", "", "", "", "", "");
+		SearchUserResult user = new SearchUserResult(UserPageController.searchedUserPage.getUsername(), fNameTextField.getText().trim(), lNameTextField.getText().trim(), "", "", "", "", "", "");
 		Message message = prepareEditUser(ActionType.EDIT_USER_LIBRARIAN,user);
-		
+		userDetailsToChange=new SearchUserResult(user.getUsername(),user.getFirstName(),user.getLastName(),"","","","","","");
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
 		} catch (IOException e) {
@@ -113,13 +119,13 @@ public class EditUserLibrarianController implements ScreensIF{
     	{
         	if (librarianMain == null)
         		librarianMain = new HomepageLibrarianController();
-        	librarianMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
+        	librarianMain.setPage(ScreensInfo.USER_PAGE_SCREEN);
     	}
     	else if(ClientUI.getTypeOfUser()=="Manager")
     	{
         	if (managerMain == null)
         		managerMain = new HomepageManagerController();
-        	managerMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
+        	managerMain.setPage(ScreensInfo.USER_PAGE_SCREEN);
     	}
 		
 		ScreenController screenController = new ScreenController();

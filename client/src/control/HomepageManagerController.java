@@ -219,6 +219,21 @@ public class HomepageManagerController implements ScreensIF {
 		loadPage(ScreensInfo.SEARCH_WORKER_SCREEN);
 	}
 	
+	@FXML
+	public void bookManagmentButtonPressed(ActionEvent event) throws IOException {
+		Platform.runLater(() -> {
+		try {
+			while(content.getChildren().size()>0)
+				content.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.HOMEPAGE_BOOK_MANAGEMENT));
+			content.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		});
+	}
+	
 	/** Setter for page.
 	 * @param page
 	 */

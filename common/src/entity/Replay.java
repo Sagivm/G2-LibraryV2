@@ -52,6 +52,9 @@ private ActionType transmitType;
 
 
 
+/**
+ * The FileEvent.
+ */
 private FileEvent fileEvent;
 
 
@@ -66,6 +69,10 @@ public Replay(ActionType type, boolean sucess)
 	setTransmitType(ActionType.UNICAST);
 }
 
+/** Replay constructor that initialize the attributes for file sending.
+ * @param type - Gets the type of action.
+ * @param fileEvent - Gets the file.
+ */
 public Replay(ActionType type, FileEvent fileEvent) {
 	setType(type);
 	setFileEvent(fileEvent);
@@ -73,6 +80,10 @@ public Replay(ActionType type, FileEvent fileEvent) {
 }
 
 
+/** Replay constructor that initialize the attributes.
+ * @param type - Gets the type of action.
+ * @param action - Gets the action.
+ */
 public Replay(ActionType type, int action)
 {
 	this.action=action;
@@ -82,6 +93,12 @@ public Replay(ActionType type, int action)
 
 
 
+/** Replay constructor that initialize the attributes.
+ * @param type - Gets the type of action.
+ * @param sucess - Gets if the action true\false.
+ * @param transmitType - Gets the transmit type.
+ * @param elementsList - Gets the elements list.
+ */
 public Replay(ActionType type, boolean sucess,ActionType transmitType, ArrayList<String> elementsList)
 {
 	setType(type);
@@ -220,10 +237,16 @@ public void setTransmitType(ActionType transmitType) {
 	this.transmitType = transmitType;
 }
 
+/** Getter for FileEvent.
+ * @return - The fileEvent.
+ */
 public FileEvent getFileEvent() {
 	return fileEvent;
 }
 
+/** Setter for FileEvent.
+ * @param fileEvent - Gets the fileEvent.
+ */
 public void setFileEvent(FileEvent fileEvent) {
 	this.fileEvent = fileEvent;
 }

@@ -48,7 +48,7 @@ public Message(ActionType type, ArrayList<String> elementsList)
  * Empty constructor.
  */
 public Message() {
-	// TODO Auto-generated constructor stub
+	
 }
 
 

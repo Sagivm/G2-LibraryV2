@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SearchUserController">
    <children>
-      <Text layoutX="315.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Search">
+      <Text layoutX="230.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users Management">
          <font>
             <Font size="50.0" />
          </font>

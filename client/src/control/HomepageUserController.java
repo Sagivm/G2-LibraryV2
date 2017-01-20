@@ -1,12 +1,14 @@
 package control;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 //import java.net.URL;
 //import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import entity.Author;
 import entity.Book;
@@ -386,20 +388,7 @@ public class HomepageUserController implements ScreensIF {
 	}
 	
 	public void btnPayForSubscriptionPressed() throws Exception
-	{
-		String dt1 = "31/01/2017";  // Start date
-		String dt = dt1.replace('/', '-');
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		Calendar c = Calendar.getInstance();
-		c.setTime(sdf.parse(dt));
-		System.out.println("Now:" + c.getTime() + " , " + dt1);
-		c.add(Calendar.MONTH, 1);  // number of days to add
-		dt = sdf.format(c.getTime());  // dt is now the new date
-		dt = sdf.format(c.getTime());
-		dt1 = dt.replace('-','/');
-		System.out.println("Next:" + c.getTime() + " , " + dt1);
-		
-		
+	{	
 		try 
 		{
 			ScreenController screenController = new ScreenController();

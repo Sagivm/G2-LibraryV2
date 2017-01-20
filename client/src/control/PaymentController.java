@@ -1,8 +1,14 @@
 package control;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import entity.GeneralMessages;
 import entity.Message;
@@ -28,19 +34,14 @@ import javafx.stage.Stage;
 public class PaymentController {
 	
 	/**
-	 * get answer from the external payment comppany.
-	 */
-	private static boolean ans;
-	
-	/**
-	 * Get the type of the purchase.
-	 */
-	//private static String action;
-	
-	/**
 	 * Saves the book entity information.
 	 */
-	private static SearchBookResult searchedBookPage;
+	public static SearchBookResult searchedBookPage;
+	
+	/**
+	 * Get answer from DB if the action was success.
+	 */
+	public static boolean success=false;
 	
 	/**
 	 * static reference of user home page.
@@ -86,8 +87,19 @@ public class PaymentController {
 			                    final CountDownLatch latch = new CountDownLatch(1);
 			                    Platform.runLater(new Runnable() {                          
 			                        @Override
-			                        public void run() { 	
-			                        	returnToPrevScreen(ScreensInfo.BOOK_PAGE_SCREEN);
+			                        public void run() { 
+			                        	try {
+		                    				//TimeUnit.SECONDS.sleep(1);
+		                    				TimeUnit.MILLISECONDS.sleep(300);
+		                    			} catch (InterruptedException e1) {
+		                    				e1.printStackTrace();
+		                    			}
+			                        	if(success == true)
+			                        	{
+			                        		BookPageController.searchedBookPage = searchedBookPage;
+			                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.BOOK_PURCHASE_SUCCESS);
+			                        		returnToPrevScreen(ScreensInfo.BOOK_PAGE_SCREEN);
+			                        	}
 									}
 			                        });
 			                     latch.await();                      
@@ -98,11 +110,93 @@ public class PaymentController {
 			        };
 			        service.start();
 			}
-			else	//Buy subscription.
+			else if(action == 4 || action == 5)	//Buy subscription.
 			{
+				String credits;
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Date date = new Date();
+				
+				String dateGUIFormat="",dateDBFormat="";
+				//String dateDBFormat = dateGUIFormat.replace('/', '-');
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				System.out.println("Now:" + cal.getTime() + " , " + dateGUIFormat);
+				if(action == 4)
+				{
+					cal.add(Calendar.MONTH, 1);  // number of months to add
+					credits = "300";
+				}
+				else
+				{
+					cal.add(Calendar.YEAR, 1);  // number of years to add
+					credits = "4000";
+				}
+				dateDBFormat = sdf.format(cal.getTime());  // dateDBFormat is now the new date
+				dateDBFormat = sdf.format(cal.getTime());
+				dateGUIFormat = dateDBFormat.replace('-','/');
+				System.out.println("Next:" + cal.getTime() + " , " + dateGUIFormat);
 				
 				
+				ArrayList<String> buySubscription = new ArrayList<>();
+				User user = HomepageUserController.getConnectedUser();
+				buySubscription.add(user.getId());
+				buySubscription.add(credits);
+				buySubscription.add(dateGUIFormat);
+				buySubscription.add(Integer.toString(action));	
+				
+				Message message = prepareBuy(ActionType.BUY_SUBSCRIPTION,buySubscription);
+				try {
+					ClientController.clientConnectionController.sendToServer(message);
+				} catch (IOException e) {	
+					actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+				}
+				
+				Service<Void> service = new Service<Void>() {
+			        @Override
+			        protected Task<Void> createTask() {
+			            return new Task<Void>() {           
+			                @Override
+			                protected Void call() throws Exception {                
+			                    final CountDownLatch latch = new CountDownLatch(1);
+			                    Platform.runLater(new Runnable() {                          
+			                        @Override
+			                        public void run() { 
+			                        	try {
+			                    			TimeUnit.MILLISECONDS.sleep(300);
+		                    			} catch (InterruptedException e1) {
+		                    				e1.printStackTrace();
+		                    			}
+			                        	if(success == true)
+			                        	{
+			                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.SUBSCRIPTION_PURCHASE_SUCCESS);
+			                        		returnToPrevScreen(null);
+			                        	}
+			                        	
+			                        	
+			                        	if(success == true)
+			                        		returnToPrevScreen(null);
+									}
+			                        });
+			                     latch.await();                      
+			                     return null;
+			                   }
+			                };
+			            }
+			        };
+			        service.start();
+								
 			}
+		}
+		else
+		{
+			if(action == 1)
+			{
+				BookPageController.searchedBookPage = searchedBookPage;
+				returnToPrevScreen(ScreensInfo.BOOK_PAGE_SCREEN);
+			}
+			else if(action == 4 || action == 5)
+				returnToPrevScreen(null);
 		}
 	}
 	
@@ -170,27 +264,22 @@ public class PaymentController {
 		if (type == ActionType.CONTINUE)
 			return;
 	}
-	
-	
-	
-	/**
-	 * Setter for answer from external payment company.
-	 * @param ans
-	 */
-	public void setAns(boolean ans)
-	{
-		this.ans = ans;
+
+	public void actionToDisplay(ActionType type, String message) {
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+		if (type == ActionType.TERMINATE) {
+			Platform.exit();
+			System.exit(1);
+		}
+		if (type == ActionType.CONTINUE)
+			return;
 	}
-	
-	/**
-	 * Setter for the action type.
-	 * @param action
-	 */
-/*	public void setAction(String action)
-	{
-		this.action = action;
-	}
-	*/
+
 	/**
 	 * Setter for searchedBookPage.
 	 * @param searchedBookPage
@@ -198,6 +287,15 @@ public class PaymentController {
 	public void setSearchBookPage(SearchBookResult searchedBookPage)
 	{
 		this.searchedBookPage = searchedBookPage;
+	}
+	
+	/**
+	 * Setter for success.
+	 * @param success
+	 */
+	public void setSuccess(boolean success)
+	{
+		this.success = success;
 	}
 
 }

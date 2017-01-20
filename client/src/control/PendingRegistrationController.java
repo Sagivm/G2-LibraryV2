@@ -32,49 +32,92 @@ import javafx.util.Callback;
 
 /**
  * PendingRegistrationController is the controller that shows a list of all the registration requests.
- * @author ork
+ * @author idanN
  */
 public class PendingRegistrationController {
 	
+	
+	/**
+	 * TableView for showing the pending registration.
+	 */
 	@FXML
     private TableView<pendingUser> table;
     
+	/**
+	 * Column in the table that shows the user id.
+	 */
 	@FXML
     private TableColumn username;
 	
+	/**
+	 * Column in the table that shows the user first name.
+	 */
 	@FXML
     private TableColumn firstName;
 	
+	/**
+	 * Column in the table that shows the user last name.
+	 */
 	@FXML
     private TableColumn lastName;
 	
+	/**
+	 * Column in the table that shows the accept button.
+	 */
 	@FXML
     private TableColumn<pendingUser, pendingUser> btnConfirm;
 	
+    /**
+	 * Column in the table that shows the decline button.
+	 */
 	@FXML
     private TableColumn<pendingUser, pendingUser> btnDecline;
 	
+    /**
+	 * Label that show the state of the last operation.
+	 */
 	@FXML
     private Label printAction;
 	
+	/**
+	 * Label that show the amount of pending registration in DB.
+	 */
 	@FXML
     private Label CountLabel;
 	
+	/**
+	 * static Array list of all the pending registration from the DB.
+	 */
 	public static ArrayList <String> pendingUsersList;
 	
+	/**
+	 * Integer that count the registration pending requests.
+	 */
 	public static int countUsers;
     
+	/**
+	 * this attribute insert the data (pending registration) to the table.
+	 */
 	private ObservableList<pendingUser> data = FXCollections.observableArrayList();;
 
+	/**
+	 * Image of the accept button.
+	 */
 	private final Image confirmImage = new Image(
     	      "/img/confirm.png"
     	    );
+	
+	/**
+	 * Image of the decline button.
+	 */
     private final Image declineImage = new Image(
     	      "/img/decline.png"
     	    );
 	
 	
-	
+    /**
+	 * initialize data from the DB in the form on load.
+	 */
 	@FXML
 	private void initialize(){
 		Message message = prepareGetPendingUsers(ActionType.GET_PENDING_USERS);
@@ -203,6 +246,12 @@ public class PendingRegistrationController {
 	
 	}
 	
+	
+	/** 
+	 * Create a message to the server with the Pending Registration ActionType.
+	 * @param type
+	 * @return message
+	 */
 	public Message prepareGetPendingUsers(ActionType type)
 	{
 		Message message = new Message();
@@ -211,6 +260,12 @@ public class PendingRegistrationController {
 	}
 	
 	
+	/** 
+	 * Create a message to the server with the Pending Registration Username to update.
+	 * @param type
+	 * @param username
+	 * @return message
+	 */
 	public Message prepareUpdatePendingUsers(ActionType type,String username)
 	{
 		Message message = new Message();
@@ -221,6 +276,12 @@ public class PendingRegistrationController {
 		return message;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType,
+	 * java.lang.String)
+	 */
 	public void actionOnError(ActionType type, String errorCode) {
 		
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -237,35 +298,85 @@ public class PendingRegistrationController {
 			return;
 	}
 	
-	
+	/**
+	 * @author idaN
+	 *
+	 */
 	public static class pendingUser {
 
+	    /**
+	     * String Property that contains username of pending user.
+	     */
 	    private final SimpleStringProperty username;
+	    
+	    
+	    /**
+	     * String Property that contains first name of pending user.
+	     */
 	    private final SimpleStringProperty firstName;
+	    
+	    
+	    /**
+	     * String Property that contains last name of pending user.
+	     */
 	    private final SimpleStringProperty lastName;
 
+	    /**
+	     * pendingUser constructor store the data.
+	     * @param username - Gets the username.
+	     * @param firstName - Gets the firstName.
+	     * @param lastName - Gets the lastName.
+	     */
 	    private pendingUser(String username, String firstName, String lastName) {
 	        this.username = new SimpleStringProperty(username);
 	        this.firstName = new SimpleStringProperty(firstName);
 	        this.lastName = new SimpleStringProperty(lastName);
 	    }
 
+	    /**
+	     * Getter for username.
+	     * @return
+	     */
 	    public String getUsername() {
 	        return username.get();
 	    }
 	    
+	    /**
+	     * Getter for first name.
+	     * @return
+	     */
 	    public String getFirstName() {
 	        return firstName.get();
 	    }
 	    
+	    /**
+	     * Getter for last name.
+	     * @return
+	     */
 	    public String getLastName() {
 	        return lastName.get();
 	    }
 
+	    /**
+	     * Setter for username
+	     * @param username
+	     */
+	    public void setUsername(String Username) {
+	    	username.set(Username);
+	    }
+	    
+	    /**
+	     * Setter for first name
+	     * @param fName
+	     */
 	    public void setFirstName(String fName) {
 	    	firstName.set(fName);
 	    }
 
+	    /**
+	     * Setter for last name
+	     * @param fName
+	     */
 	    public void setLastName(String fName) {
 	        lastName.set(fName);
 	    }

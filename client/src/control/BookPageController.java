@@ -33,6 +33,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -407,7 +408,8 @@ public class BookPageController implements ScreensIF
 			        	extPayment.setProduct("Book - " + searchedBookPage.getBookTitle());
 			        	extPayment.setPrice(searchedBookPage.getBookPrice());
 			        	extPayment.setAction(1);	//buy book PerBook
-			        	extPayment.searchedBookPage = searchedBookPage;
+			        	//extPayment.searchedBookPage = searchedBookPage;
+			        	PaymentController.searchedBookPage = searchedBookPage;
 			        	        			        	
 						screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.EXTERNAL_PAYMENT_TITLE);
 						Stage primaryStage = screenController.getStage();
@@ -500,17 +502,19 @@ public class BookPageController implements ScreensIF
 	public void btnDownloadPressed(ActionEvent event) throws IOException{    
 		try{
 			
-		Alert alert = new Alert(AlertType.CONFIRMATION, 
-		"Choose format: PDF - Yes, WORD - No",ButtonType.YES, ButtonType.NO);
-		alert.setTitle("Choose format");
-		alert.setHeaderText(null);
-		alert.setContentText("Choose format: PDF - Yes, WORD - No");
-		Optional<ButtonType> result = alert.showAndWait();
-		String format;
-		if (result.get() == ButtonType.YES)
-			format = "pdf";
-		else format= "word";
-			
+			ArrayList<String> choices = new ArrayList<String>();
+			choices.add("pdf");
+			choices.add("docx");
+			choices.add("bf2");
+
+			ChoiceDialog<String> dialog = new ChoiceDialog<>("pdf", choices);
+			dialog.setTitle(null);
+			dialog.setHeaderText("Format choose:");
+			dialog.setContentText("Format:");
+
+			// Traditional way to get the response value.
+			Optional<String> result = dialog.showAndWait();
+			String format = result.get();
 		
 			final Label labelSelectedDirectory = new Label();
 			DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -522,14 +526,15 @@ public class BookPageController implements ScreensIF
             }else{
                 labelSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
             }
-            
-            
-            ArrayList <String> elementsList = new ArrayList<String>();
-            elementsList.add(labelSelectedDirectory.getText());
-            elementsList.add(searchedBookPage.getBookTitle());
+            char ot1='\\';
+            char ot2='/';
+            String path = labelSelectedDirectory.getText().replace(ot1,ot2);
+            ArrayList <String> elementsList = new ArrayList<String>();         
+            elementsList.add(path);         
+            elementsList.add(searchedBookPage.getBookSn());        
             elementsList.add(format);
             Message message = new Message(ActionType.FILE,elementsList);
-            
+            actionToDisplay(ActionType.CONTINUE,"File successfully saved");
     		try {
     			ClientController.clientConnectionController.sendToServer(message);
     		} catch (IOException e) {	
@@ -606,7 +611,21 @@ public class BookPageController implements ScreensIF
 	@Override
 	public void actionOnError(ActionType type, String errorCode) {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	public void actionToDisplay(ActionType type, String message) {
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+		if (type == ActionType.TERMINATE) {
+			Platform.exit();
+			System.exit(1);
+		}
+		if (type == ActionType.CONTINUE)
+			return;
 	}
 
 }
