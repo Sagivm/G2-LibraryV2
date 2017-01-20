@@ -49,18 +49,59 @@ import javafx.util.Callback;
 
 public class SearchBookResultsController implements ScreensIF{
 	
+	/**
+	 * shows results table  
+	 */
 	@FXML private TableView resultsTable;
+	
+	/**
+	 * shows books titles 
+	 */
 	@FXML private TableColumn bookCol;
+	
+	/**
+	 * shows books authors 
+	 */
 	@FXML private TableColumn authorsCol;
+	
+	/**
+	 * shows books language 
+	 */
 	@FXML private TableColumn languageCol;
+	
+	/**
+	 * shows books domains 
+	 */
 	@FXML private TableColumn domainsCol;
+	
+	/**
+	 * shows books subjects 
+	 */
 	@FXML private TableColumn subjectsCol;
+	
+	/**
+	 * shows button to enter book's page 
+	 */
 	@FXML private TableColumn bookPageCol;
+	
+	/**
+	 * shows button to go back for books search page
+	 */
 	@FXML private Button backButton;
 	
+	/**
+	 * saves results data from DB according to user's search 
+	 */
 	public static ArrayList<String> resultList;
+	
+	/**
+	 * image for entering book page button
+	 */
 	private final Image enterImage = new Image("/img/enter.png");
 	
+	/**
+	 * saves results data from DB according to user's serach in order to show on table
+	 */
 	private ObservableList<SearchBookResult> data = FXCollections.observableArrayList();
 	
 	/**
@@ -78,14 +119,18 @@ public class SearchBookResultsController implements ScreensIF{
 	 */
 	private static HomepageManagerController managerMain;
 	
+	
+	
+	/** initializing data when page comes up
+	 * @author itain
+	 */
 	@FXML
 	private void initialize()
 	{
 		try{
 			
 			int j;
-			
-			//System.out.println(resultList.size());
+
 			try{
 				for(int i=0;i<resultList.size();i++)
 				{
@@ -125,11 +170,10 @@ public class SearchBookResultsController implements ScreensIF{
 					subject=subject.substring(1, subject.length()-1);
 					String domain=domains.toString();
 					domain=domain.substring(1, domain.length()-1);
-					
-					//continue_index=continue_index+2+subjectsCount;
+
 	
 					float price =  Float.parseFloat(tmp[size-1]);
-					//SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price)+"$");
+					
 					SearchBookResult book = new SearchBookResult(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], author, subject, domain, Float.toString(price));
 					data.add(book);
 				}
@@ -139,7 +183,6 @@ public class SearchBookResultsController implements ScreensIF{
 				try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 				
@@ -253,8 +296,10 @@ public class SearchBookResultsController implements ScreensIF{
 	
 	
 
-	
-	
+	/** When pressed, takes user to books search page.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	public void backButtonPressed(ActionEvent event) {
 		if(ClientUI.getTypeOfUser()=="Librarian")
     	{
@@ -305,7 +350,9 @@ public class SearchBookResultsController implements ScreensIF{
 	/**
 	 * This function returns number of items on each book row on search
 	 * @author itain
-	 * @param str- string to be checked
+	 * @param str - string to be checked
+	 * @param lookFor - character that differs between words on given string (str) 
+	 * @return - number of words on string
 	 */
 	private int countItems(String str, String lookFor)
 	{

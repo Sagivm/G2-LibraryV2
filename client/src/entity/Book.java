@@ -84,10 +84,11 @@ public class Book {
 
 	/**
 	 * Book constructor store the data.
+	 * @author itain
 	 * @param sn - Gets the sn.
 	 * @param title - Gets the title.
-	 * @param language - Gets the title.
-	 * @param summary - Gets the title.
+	 * @param language - Gets the language.
+	 * @param summary - Gets the summary.
 	 * @param tableOfContent - Gets the tableOfContent.
 	 * @param keywords - Gets the keywords.
 	 * @param price - Gets the price.
@@ -116,11 +117,11 @@ public class Book {
 	
 	/**
 	 * Book constructor store the data.
-	 * @param booksIdCounter - adds 1 to booksIdCounter.
-	 * @param sn - Gets the booksIdCounter.
+	 * @author itain
+	 * @param sn - Gets the sn.
 	 * @param title - Gets the title.
-	 * @param language - Gets the title.
-	 * @param summary - Gets the title.
+	 * @param language - Gets the language.
+	 * @param summary - Gets the summary.
 	 * @param tableOfContent - Gets the tableOfContent.
 	 * @param keywords - Gets the keywords.
 	 * @param price - Gets the price.
@@ -145,13 +146,15 @@ public class Book {
 
 	/**
 	 * empty Book constructor
+	 * @author itain
 	 */
 	public Book() {
 
 	}
 
 	/** Getter for sn
-	 * @return sn
+	 * @author itain
+	 * @return sn - the sn of book
 	 */
 	public int getSn() {
 		return sn;
@@ -160,13 +163,15 @@ public class Book {
 	
 
 	/** Setter for sn
-	 *@ sn - the sn of book
+	 * @author itain
+	 *@param sn - the sn of book
 	 */
 	public void setSn(int sn) {
 		this.sn = sn;
 	}
 
 	/** Getter for title
+	 * @author itain
 	 * @return title
 	 */
 	public String getTitle() {
@@ -174,13 +179,15 @@ public class Book {
 	}
 	
 	/** Setter for title
-	 * @title - the title of book
+	 * @author itain
+	 * @param title - the title of book
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 	
 	/** Getter for language
+	 * @author itain
 	 * @return language
 	 */
 	public String getLanguage() {
@@ -188,13 +195,15 @@ public class Book {
 	}
 	
 	/** Setter for language
-	 * @language - the language of book
+	 * @author itain
+	 * @param language - the language of book
 	 */
 	public void setLanguage(String language) {
 		this.language = language;
 	}
 	
 	/** Getter for summary
+	 * @author itain
 	 * @return summary
 	 */
 	public String getSummary() {
@@ -202,27 +211,31 @@ public class Book {
 	}
 	
 	/** Setter for summary
-	 * @summary - the summary of book
+	 * @author itain
+	 * @param summary - the summary of book
 	 */
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
 	
 	/** Getter for TableOfContents
-	 * @return summary
+	 * @author itain
+	 * @return table of contents
 	 */
 	public String getTableOfContent() {
 		return tableOfContent;
 	}
 	
 	/** Setter for TableOfContents
-	 * TableOfContents - the Table Of Contents of book
+	 * @author itain
+	 * @param TableOfContents - the Table Of Contents of book
 	 */
 	public void setTableOfContent(String tableOfContent) {
 		this.tableOfContent = tableOfContent;
 	}
 	
 	/** Getter for keywords
+	 * @author itain
 	 * @return keywords
 	 */
 	public String getKeywords() {
@@ -230,13 +243,15 @@ public class Book {
 	}
 	
 	/** Setter for keywords
-	 * keywords - the keywords of book
+	 * @author itain
+	 * @param keywords - the keywords of book
 	 */
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
 	}
 	
 	/** Getter for price
+	 * @author itain
 	 * @return price
 	 */
 	public String getPrice() {
@@ -244,13 +259,15 @@ public class Book {
 	}
 	
 	/** Setter for price
-	 * price - the price of book
+	 * @author itain
+	 * @param price - the price of book
 	 */
 	public void setPrice(String price) {
 		this.price = price;
 	}
 	
 	/** Getter for hide
+	 * @author itain
 	 * @return hide
 	 */
 	public boolean isHide() {
@@ -258,7 +275,8 @@ public class Book {
 	}
 	
 	/** Setter for hide
-	 * hide - if book is hidden from catalog or not
+	 * @author itain
+	 * @param hide - if book is hidden from catalog or not
 	 */
 	public void setHide(boolean hide) {
 		this.hide = hide;
@@ -266,6 +284,7 @@ public class Book {
 
 
 	/** Getter for authors
+	 * @author itain
 	 * @return authors
 	 */
 	public ArrayList<String> getAuthors() {
@@ -273,6 +292,7 @@ public class Book {
 	}
 	
 	/** Getter for authors
+	 * @author itain
 	 * @return authors
 	 */
 	public ArrayList<Author> getAuthorsList() {
@@ -280,20 +300,23 @@ public class Book {
 	}
 
 	/** Setter for authors
-	 * authors - list of authors
+	 * @author itain
+	 * @param authors - list of authors
 	 */
 	public void setAuthors(ArrayList<String> authors) {
 		this.authors = authors;
 	}
 	
 	/** Setter for authors
-	 * authors - list of authors
+	 * @author itain
+	 * @param authors - list of authors
 	 */
 	public void setAuthorsList(ArrayList<Author> authorsList) {
 		this.authorsList = authorsList;
 	}
 
 	/** Getter for domains
+	 * @author itain
 	 * @return domains
 	 */
 	public ArrayList<String> getDomains() {
@@ -301,13 +324,15 @@ public class Book {
 	}
 
 	/** Setter for domains
-	 * domains - list of domains
+	 * @author itain
+	 * @param domains - list of domains
 	 */
 	public void setDomains(ArrayList<String> domains) {
 		this.domains = domains;
 	}
 
 	/** Getter for subjects
+	 * @author itain
 	 * @return subjects
 	 */
 	public ArrayList<String> getSubjects() {
@@ -315,24 +340,42 @@ public class Book {
 	}
 
 	/** Setter for subjects
-	 * domains - list of subjects
+	 * @author itain
+	 * @param subjects - list of subjects
 	 */
 	public void setSubjects(ArrayList<String> subjects) {
 		this.subjects = subjects;
 	}
 
+	/** Getter for domains
+	 * @author itain
+	 * @return domains
+	 */
 	public ArrayList<Domain> getDomainsList() {
 		return domainsList;
 	}
-
+	
+	
+	/** Setter for domains
+	 * @author itain
+	 * @param domains - list of domains
+	 */
 	public void setDomainsList(ArrayList<Domain> domainsList) {
 		this.domainsList = domainsList;
 	}
 
+	/** Getter for subjects
+	 * @author itain
+	 * @return subjects
+	 */
 	public ArrayList<Subject> getSubjectsList() {
 		return subjectsList;
 	}
 
+	/** Setter for subjects
+	 * @author itain
+	 * @param subjects - list of subjects
+	 */
 	public void setSubjectsList(ArrayList<Subject> subjectsList) {
 		this.subjectsList = subjectsList;
 	}

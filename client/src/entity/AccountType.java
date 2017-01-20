@@ -11,10 +11,6 @@ public enum AccountType {
 	 */
 	Intrested,
 	/**
-	 * States that the user is blocked by an operator and cannot interact with the system.
-	 */
-	Blocked,
-	/**
 	 * States that the user has a per book subscription.
 	 */
 	PerBook,

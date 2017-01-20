@@ -25,6 +25,7 @@ public class SearchBook {
 	
 	/**
 	 * The constructor store the data into the entity.
+	 * @author itain
 	 * @param title - title.
 	 * @param authors - authors.
 	 * @param language - language.
@@ -49,6 +50,7 @@ public class SearchBook {
 	
 	/**
 	 * Getter for title
+	 * @author itain
 	 * @return the title.
 	 */
 	public String getTitle() {
@@ -56,6 +58,7 @@ public class SearchBook {
 	}
 
 	/** Setter for title.
+	 * @author itain
 	 * @param title - Set the title.
 	 */
 	public void setTitle(String title) {
@@ -64,6 +67,7 @@ public class SearchBook {
 
 	/**
 	 * Getter for authors
+	 * @author itain
 	 * @return the authors.
 	 */
 	public ArrayList<String> getAuthors() {
@@ -72,6 +76,7 @@ public class SearchBook {
 
 
 	/** Setter for authors.
+	 * @author itain
 	 * @param authors - Set the authors.
 	 */
 	public void setAuthors(ArrayList<String> authors) {
@@ -83,6 +88,7 @@ public class SearchBook {
 
 	/**
 	 * Getter for language
+	 * @author itain
 	 * @return the language.
 	 */
 	public String getLanguage() {
@@ -91,6 +97,7 @@ public class SearchBook {
 
 
 	/** Setter for language.
+	 * @author itain
 	 * @param language - Set the language.
 	 */
 	public void setLanguage(String language) {
@@ -99,6 +106,7 @@ public class SearchBook {
 
 	/**
 	 * Getter for summary
+	 * @author itain
 	 * @return the summary.
 	 */
 	public String getSummary() {
@@ -106,6 +114,7 @@ public class SearchBook {
 	}
 
 	/** Setter for summary.
+	 * @author itain
 	 * @param summary - Set the summary.
 	 */
 	public void setSummary(String summary) {
@@ -113,7 +122,8 @@ public class SearchBook {
 	}
 
 	/**
-	 * Getter for toc
+	 * Getter for table of contents
+	 * @author itain
 	 * @return the table of contents.
 	 */
 	public String getToc() {
@@ -121,7 +131,8 @@ public class SearchBook {
 	}
 
 	
-	/** Setter for toc.
+	/** Setter for table of contents.
+	 * @author itain
 	 * @param toc - Set the table of contents.
 	 */
 	public void setToc(String toc) {
@@ -132,6 +143,7 @@ public class SearchBook {
 
 	/**
 	 * Getter for domains
+	 * @author itain
 	 * @return the domains.
 	 */
 
@@ -139,21 +151,17 @@ public class SearchBook {
 		return domains;
 	}
 
-
-
-
 	/** Setter for domain.
+	 * @author itain
 	 * @param domain - Set the domain.
 	 */
 	public void setDomains(ArrayList<String> domains) {
 		this.domains = domains;
 	}
 
-
-
-
 	/**
 	 * Getter for keyWords
+	 * @author itain
 	 * @return the key words.
 	 */
 	public String getKeyWords() {
@@ -164,6 +172,7 @@ public class SearchBook {
 
 
 	/** Setter for keyWords.
+	 * @author itain
 	 * @param keyWords - Set the key words.
 	 */
 	public void setKeyWords(String keyWords) {
@@ -173,6 +182,7 @@ public class SearchBook {
 
 	/**
 	 * Getter for number of authors
+	 * @author itain
 	 * @return the number of authors.
 	 */
 	public int getAuthorsNumber() {
@@ -182,6 +192,7 @@ public class SearchBook {
 	
 	/**
 	 * Getter for domainsNumber
+	 * @author itain
 	 * @return the number of domains.
 	 */
 	public int getDomainsNumber() {

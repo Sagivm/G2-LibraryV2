@@ -28,6 +28,7 @@ public class Subject {
 
 	/**
 	 * Subject constructor store the data.
+	 * @author itain
 	 * @param id - Gets the id.
 	 * @param name - Gets the name.
 	 * @param booksCount - Gets the number of books under this subject.
@@ -44,13 +45,15 @@ public class Subject {
 	}
 	
 	/**
-	 * Subject constructor store the data.
+	 * empty subject constructor.
+	 * @author itain
 	  */ 
 	public Subject() {
 
 	}
 
 	/** Getter for id
+	 * @author itain
 	 * @return id
 	 */
 	public int getId() {
@@ -58,27 +61,31 @@ public class Subject {
 	}
 
 	/** Setter for id
-	 * @id - id of subject
+	 * @author itain
+	 * @param - id - id of subject
 	 */
 	public void setId(int id) {
 		this.id=id;
 	}
 
 	/** Getter for name
-	 * @return name
+	 * @author itain
+	 * @return name of subject
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/** Setter for name
-	 * @name - the name of subject
+	 * @author itain
+	 * @param name - the name of subject
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/** Getter for booksCount
+	 * @author itain
 	 * @return booksCount
 	 */
 	public int getBooksCount() {
@@ -86,13 +93,15 @@ public class Subject {
 	}
 
 	/** Setter for booksCount
-	 * booksCount - number of books under this subject
+	 * @author itain
+	 * @param booksCount - number of books under this subject
 	 */
 	public void setBooksCount(int booksCount) {
 		this.booksCount = booksCount;
 	}
 
 	/** Getter for domain
+	 * @author itain
 	 * @return domain
 	 */
 	public int getDomain() {
@@ -100,7 +109,8 @@ public class Subject {
 	}
 
 	/** Setter for domain
-	 * domain - id of subject's domain
+	 * @author itain
+	 * @param domain - id of subject's domain
 	 */
 	public void setDomain(int domain) {
 		this.domain = domain;

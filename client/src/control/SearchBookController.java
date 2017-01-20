@@ -192,9 +192,9 @@ public class SearchBookController implements ScreensIF{
 		goToServer_flag=0;
 
 		
-		//Platform.runLater(new Runnable() {
+		
 		Platform.runLater(new Runnable() {
-			//@Override
+			@Override
 			public void run() {
 
 				try{
@@ -364,7 +364,7 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	
-	/** When listview question mark is pressed the function shows proper message.
+	/** When listview question mark is pressed the function shows message for multiple choice.
 	 * @author itain
 	 */
 	@FXML
@@ -379,7 +379,7 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	
-	/** When question mark of Key Words is pressed the function shows proper message.
+	/** When question mark of Key Words is pressed the function shows message for right separation.
 	 * @author itain
 	 */
 	@FXML
@@ -482,11 +482,7 @@ public class SearchBookController implements ScreensIF{
 		for(i=0;i<searchBook.getDomainsNumber();i++) //domains
 			elementsList.add(searchBook.getDomains().get(i));
 		
-		/*
-		for(int k=0;k<elementsList.size();k++)
-			System.out.println(elementsList.get(k));
-			*/
-		
+
 		message.setElementsList(elementsList);
 		
 		return message;

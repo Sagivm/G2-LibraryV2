@@ -28,13 +28,26 @@ import javafx.scene.image.ImageView;
 /** SearchUserController. Responsible to enable a librarian or a manager to search users.
  * @author itain
  */
-
-
 public class SearchWorkerController implements ScreensIF{
 
+	/**
+	 * shows workers image
+	 */
 	@FXML private ImageView workersImageView;
+	
+	/**
+	 * gets username to search
+	 */
 	@FXML private TextField idTextField;
+	
+	/**
+	 * gets first name of user to search
+	 */
 	@FXML private TextField fNameTextField;
+	
+	/**
+	 * gets last name of user to search
+	 */
 	@FXML private TextField lNameTextField;
 	
 	/**
@@ -47,6 +60,11 @@ public class SearchWorkerController implements ScreensIF{
 	 */
 	private static HomepageManagerController managerMain;
 	
+	
+	
+	/** initializing data when page comes up
+	 * @author itain
+	 */
 	@FXML
 	public void initialize()
 	{ 
@@ -57,6 +75,7 @@ public class SearchWorkerController implements ScreensIF{
 	
 	/** This function called when the worker press on search. the function tests the
 	 * integrity of the fields, and send the message to the server.
+	 * @author itain
 	 * @param event
 	 */
 	@FXML
@@ -127,7 +146,8 @@ public class SearchWorkerController implements ScreensIF{
 		}  
 	}
 	
-	/** When clear button pressed the function clear the fields.
+	/** When clear button pressed the function clear all fields.
+	 * @author itain
 	 * @param event
 	 */
 	@FXML
