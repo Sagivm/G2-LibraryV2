@@ -123,8 +123,6 @@ public class WriteReviewController implements ScreensIF {
 	@FXML
     public void initialize() {
 		try{
-			//Message message = prepareGetBookReviews(ActionType.BOOK_REVIEWS,book.getSn());
-			//ClientController.clientConnectionController.sendToServer(message);
 		}
 		catch (Exception e) {
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
@@ -135,43 +133,21 @@ public class WriteReviewController implements ScreensIF {
 			public void run() {
 				String reviewContent,bookSummary,authors="";
 				int textLength,rows,h=10,y=50,posY=50;
-				
-	/*			//System.out.print(book.getBookTitle());
-				lblBookTitle.setText(book.getBookTitle());
-				authors = book.getBookAuthors();
-				authors = book.getAuthorsList().get(0).getFirstname() + " " + book.getAuthorsList().get(0).getLastname();
-				for(int i=1;i<book.getAuthorsList().size();i++)
-					authors +=", " + book.getAuthorsList().get(i).getFirstname() + " " + book.getAuthorsList().get(i).getLastname();
-				lblAuthor.setText(authors);
-				lblLanguage.setText(book.getBookLanguage());
-				bookSummary = book.getBookSummary();
-				
-				textLength = bookSummary.length();
-				for(int i=90;i<textLength;i++)
-				{
-					 if (bookSummary.charAt(i) == ' ')
-					 {
-						 bookSummary = bookSummary.substring(0, i) + "\n" + bookSummary.substring(i+1, bookSummary.length());
-						 i+=90;
-					 }
-				}
-				
-				lblSummary.setText(bookSummary);
-				
-				String imageName = "Lord of the rings1.png";///add to book entity
-				try{
-				bookImage = new Image("/img/Books/" + imageName);
-				//bookImage.
-				}
-				catch (Exception e) {
-					bookImage = new Image("/img/Books/no photo.png");
-					//e.printStackTrace();
-				}
-
-				imgBookImg.setImage(bookImage);	*/
+			
 			}
 		});
 	}
+	
+	@FXML
+	public void ClearkButtonPressed(ActionEvent event) throws IOException{
+		try{
+			txtAreaReview.setText("");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	/**
 	 * This method create a new review in the DB.

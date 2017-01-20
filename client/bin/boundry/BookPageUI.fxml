@@ -12,7 +12,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.BookPageController">
    <children>
       <AnchorPane layoutX="445.0" layoutY="511.0" />
-      <Label fx:id="bookLable" alignment="CENTER" layoutX="10.0" layoutY="8.0" prefHeight="46.0" prefWidth="869.0" textAlignment="CENTER">
+      <Label fx:id="bookLable" alignment="CENTER" layoutX="10.0" layoutY="2.0" prefHeight="46.0" prefWidth="869.0" textAlignment="CENTER">
          <font>
             <Font size="40.0" />
          </font>

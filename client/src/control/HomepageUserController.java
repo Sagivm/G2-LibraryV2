@@ -286,7 +286,7 @@ public class HomepageUserController implements ScreensIF {
     				}
     				else
     				{
-    					lblSubscribed.setText("Not Subscribed account");
+    					lblSubscribed.setText("Unsubscribed account");
     					lblSubscribed.setVisible(true);
     				}
     			}

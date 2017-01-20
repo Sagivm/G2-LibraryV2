@@ -22,7 +22,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="btnBack" layoutX="732.0" layoutY="270.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="46.0" prefWidth="127.0" text="&lt; Back">
+      <Button fx:id="btnClear" layoutX="732.0" layoutY="270.0" mnemonicParsing="false" onAction="#ClearkButtonPressed" prefHeight="46.0" prefWidth="127.0" text="Clear">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

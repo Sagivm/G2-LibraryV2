@@ -155,11 +155,13 @@ public class BookPageController implements ScreensIF
 		                        	{
 		                        		try {
 			                		    String data = img.get(0).toString();
-			                		    String base64EncodedImage = data.split(",")[1];
+			                		    //String base64EncodedImage = data.split(",")[1];
+			                		    String base64EncodedImage = data;
 			                		    byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
 			                		    BufferedImage imgbuf;
 		                				imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
 		                				Image image = SwingFXUtils.toFXImage(imgbuf, null);
+		                				
 		                				imgBookImg.setImage(image);
 			                			} catch (Exception e1) {
 			                				//e1.printStackTrace();
