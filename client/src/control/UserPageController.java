@@ -118,8 +118,7 @@ public class UserPageController implements ScreensIF{
 		{
 			unblockButton.setVisible(false);
 			blockButton.setVisible(false);
-			userTabPane.getTabs().remove(3); //remove user report tab
-			userTabPane.getTabs().remove(2); //remove block user tab
+			userTabPane.getTabs().remove(2); //remove user report tab
 		}
 		else if(ClientUI.getTypeOfUser()=="Manager")
 			userTabPane.getTabs().remove(1); //remove edit user tab
