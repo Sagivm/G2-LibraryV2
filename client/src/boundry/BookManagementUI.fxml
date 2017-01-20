@@ -13,7 +13,7 @@
 <AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.BookManagementController">
   <!-- TODO Add Nodes -->
   <children>
-    <Label layoutX="263.0" layoutY="8.0" prefWidth="351.0" text="       Books Managment">
+    <Label layoutX="263.0" layoutY="8.0" prefWidth="351.0" text="       Book Managment">
       <font>
         <Font size="30.0" />
       </font>
@@ -145,41 +145,38 @@
                   </AnchorPane>
                </content>
           </Tab>
-            <Tab text="Domains">
+            <Tab fx:id="DomainsTab" text="Domains">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <AnchorPane fx:id="mainDomainPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
+                              <TableView fx:id="mainDomainTableView" layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
                                  <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="397.0" text="Name" />
+                                    <TableColumn fx:id="domainId" prefWidth="135.0" text="ID" />
+                                    <TableColumn fx:id="domainName" minWidth="0.0" prefWidth="397.0" text="Name" />
                                  </columns>
                               </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Domain" />
+                              <Button fx:id="addDomain" layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Domain" />
+                              <Button fx:id="addDomainEditBtn" layoutX="328.0" layoutY="388.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Edit" />
+                              <Button fx:id="DomainDeleteBtn" layoutX="438.0" layoutY="388.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Delete" />
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="addDomainPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
-                                 <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="397.0" text="Name" />
-                                 </columns>
-                              </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Domain" />
+                              <Button fx:id="addDomainSubmit" layoutX="430.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Submit" />
+                              <Button fx:id="addDomainClear" layoutX="535.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Clear" />
+                              <Button fx:id="addDomainBack" layoutX="325.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Back" />
+                              <Label layoutX="374.0" layoutY="157.0" prefHeight="17.0" prefWidth="46.0" text="Name:" />
+                              <TextField fx:id="addDomainName" layoutX="413.0" layoutY="153.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="editDomainPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
-                                 <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="397.0" text="Name" />
-                                 </columns>
-                              </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Domain" />
+                              <Label layoutX="374.0" layoutY="157.0" text="Name:" />
+                              <TextField fx:id="editDomainName" layoutX="413.0" layoutY="153.0" />
+                              <Button fx:id="editDomainBack" layoutX="374.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Back" />
+                              <Button fx:id="editDomainSubmit" layoutX="482.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Submit" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -192,38 +189,37 @@
                      <children>
                         <AnchorPane fx:id="mainSubjectPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
+                              <TableView fx:id="mainSubjectTable" layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
                                  <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="198.0" text="Name" />
-                                    <TableColumn prefWidth="199.0" text="Domain" />
+                                    <TableColumn fx:id="subjectId" prefWidth="135.0" text="ID" />
+                                    <TableColumn fx:id="subjectName" minWidth="0.0" prefWidth="198.0" text="Name" />
+                                    <TableColumn fx:id="subjectDomain" prefWidth="199.0" text="Domain" />
                                  </columns>
                               </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Subject" />
+                              <Button fx:id="addSubject" layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Subject" />
+                              <Button fx:id="subjectsEditBtn" layoutX="323.0" layoutY="392.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit" />
+                              <Button fx:id="subjectsDeleteBtn" layoutX="438.0" layoutY="392.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete" />
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="addSubjectPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
-                                 <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="198.0" text="Name" />
-                                    <TableColumn prefWidth="199.0" text="Domain" />
-                                 </columns>
-                              </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Subject" />
+                              <Label layoutX="313.0" layoutY="108.0" text="Name:" />
+                              <TextField fx:id="addSubjectsName" layoutX="380.0" layoutY="104.0" prefHeight="25.0" prefWidth="200.0" />
+                              <Label layoutX="313.0" layoutY="163.0" text="Domain:" />
+                              <ListView fx:id="addSubjectsDomainsList" layoutX="380.0" layoutY="165.0" prefHeight="146.0" prefWidth="200.0" />
+                              <Button fx:id="addSubjetcsClear" layoutX="535.0" layoutY="372.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Clear" />
+                              <Button fx:id="addSubjetcsSubmit" layoutX="430.0" layoutY="372.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Submit" />
+                              <Button fx:id="addSubjetcsBack" layoutX="331.0" layoutY="372.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" text="Back" />
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="editSubjectPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
-                                 <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="198.0" text="Name" />
-                                    <TableColumn prefWidth="199.0" text="Domain" />
-                                 </columns>
-                              </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Subject" />
+                              <Label layoutX="313.0" layoutY="108.0" text="Name:" />
+                              <TextField fx:id="editSubjectsName" layoutX="380.0" layoutY="104.0" prefHeight="25.0" prefWidth="200.0" />
+                              <Label layoutX="313.0" layoutY="163.0" text="Domain:" />
+                              <ListView fx:id="editSubjectsDomainsList" layoutX="380.0" layoutY="165.0" prefHeight="146.0" prefWidth="200.0" />
+                              <Button fx:id="editSubjetcsSubmit" layoutX="485.0" layoutY="372.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Submit" />
+                              <Button fx:id="editSubjetcsBack" layoutX="380.0" layoutY="372.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" text="Back" />
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>
@@ -233,40 +229,39 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <AnchorPane fx:id="mainAutherPane" prefHeight="529.0" prefWidth="908.0">
+                        <AnchorPane fx:id="mainAuthorPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
+                              <TableView fx:id="mainAuthorTableView" layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
                                  <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="199.0" text="First Name" />
-                                    <TableColumn prefWidth="198.0" text="Last Name" />
+                                    <TableColumn fx:id="authorId" prefWidth="135.0" text="ID" />
+                                    <TableColumn fx:id="authorFirstName" minWidth="0.0" prefWidth="199.0" text="First Name" />
+                                    <TableColumn fx:id="authorLastName" prefWidth="198.0" text="Last Name" />
                                  </columns>
                               </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Author" />
+                              <Button fx:id="addAuthor" layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Author" />
+                              <Button fx:id="addAuthorEditBtn" layoutX="316.0" layoutY="399.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Edit" />
+                              <Button fx:id="AuthorDeleteBtn" layoutX="438.0" layoutY="399.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Delete" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="addAutherPane" prefHeight="529.0" prefWidth="908.0">
+                        <AnchorPane fx:id="addAuthorPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
-                                 <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="199.0" text="First Name" />
-                                    <TableColumn prefWidth="198.0" text="Last Name" />
-                                 </columns>
-                              </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Author" />
+                              <Label layoutX="304.0" layoutY="147.0" text="First Name:" />
+                              <Label layoutX="305.0" layoutY="190.0" text="Last Name:" />
+                              <TextField fx:id="addAuthorFirstName" layoutX="380.0" layoutY="143.0" prefHeight="25.0" prefWidth="169.0" />
+                              <TextField fx:id="addAuthorLastName" layoutX="380.0" layoutY="189.0" prefHeight="25.0" prefWidth="171.0" />
+                              <Button fx:id="addAuthorBack" layoutX="279.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Back" />
+                              <Button fx:id="addAuthorSubmit" layoutX="395.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Submit" />
+                              <Button fx:id="addAuthorClear" layoutX="504.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Clear" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="editAutherPane" prefHeight="529.0" prefWidth="908.0">
+                        <AnchorPane fx:id="editAuthorPane" prefHeight="529.0" prefWidth="908.0">
                            <children>
-                              <TableView layoutX="171.0" layoutY="99.0" prefHeight="270.0" prefWidth="533.0">
-                                 <columns>
-                                    <TableColumn prefWidth="135.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="199.0" text="First Name" />
-                                    <TableColumn prefWidth="198.0" text="Last Name" />
-                                 </columns>
-                              </TableView>
-                              <Button layoutX="171.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Add Author" />
+                              <TextField fx:id="editAuthorLastName" layoutX="379.0" layoutY="201.0" prefHeight="25.0" prefWidth="171.0" />
+                              <TextField fx:id="editAuthorFirstName" layoutX="379.0" layoutY="148.0" prefHeight="25.0" prefWidth="169.0" />
+                              <Label layoutX="307.0" layoutY="205.0" text="Last Name:" />
+                              <Label layoutX="307.0" layoutY="152.0" text="First Name:" />
+                              <Button fx:id="editAuthorSubmit" layoutX="444.0" layoutY="272.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Submit" />
+                              <Button fx:id="editAuthorBack" layoutX="320.0" layoutY="272.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Back" />
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>

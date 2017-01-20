@@ -46,7 +46,7 @@ public class UserPageController implements ScreensIF{
 	@FXML private Tab userReportTab;
 	
 	@FXML private AnchorPane editUserLibrarianContent;
-	@FXML private AnchorPane editUserManagerContent;
+	//@FXML private AnchorPane editUserManagerContent;
 	@FXML private AnchorPane userReportContent;
 	
 	@FXML private ImageView userImageView;
@@ -56,7 +56,7 @@ public class UserPageController implements ScreensIF{
 	
 	
 	
-	public static int updateSearchUserResults;
+	
 	
 		/**
 	 * user information
@@ -84,7 +84,7 @@ public class UserPageController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{ 
-		updateSearchUserResults=0;
+		SearchUserController.updateSearchUserResults=0;
 		unblockButton.setVisible(false);
 		userLable.setText(searchedUserPage.getFirstName()+" "+searchedUserPage.getLastName()+ " ("+searchedUserPage.getUsername()+")");
 		Image userImagePath = new Image("/img/user.png");
@@ -123,10 +123,20 @@ public class UserPageController implements ScreensIF{
 		else if(ClientUI.getTypeOfUser()=="Manager")
 			userTabPane.getTabs().remove(1); //remove edit user tab
 			
+		
+		//BookReviewsController bookReview = new BookReviewsController();
+		try {
+			loadEditUserLibrarian();
+			//loadUserReport();  //SAGIV -add user report
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@FXML
-	public void editUserLibrarianTab() throws IOException {
+	public void loadEditUserLibrarian() throws IOException {
 				try {
 					if(editUserLibrarianContent.getChildren().size()>0)
 						editUserLibrarianContent.getChildren().remove(0);
@@ -136,7 +146,7 @@ public class UserPageController implements ScreensIF{
 					e.printStackTrace();
 				}
 	}
-	
+	/*
 	@FXML
 	public void editUserManagerTab() throws IOException {
 				try {
@@ -148,31 +158,36 @@ public class UserPageController implements ScreensIF{
 					e.printStackTrace();
 				}
 	}
+	*/
 	
+	/*
 	@FXML
-	public void userReportTab() throws IOException {
+	public void loadUserReport() throws IOException {
 				try {
 					if(userReportContent.getChildren().size()>0)
 						userReportContent.getChildren().remove(0);
-					Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.BOOK_PAGE_SCREEN)); // SAGIV - CHANGE HERE USER REPORT SCREEN
+					Parent root = FXMLLoader.load(getClass().getResource()); // SAGIV - CHANGE HERE USER REPORT SCREEN
 					userReportContent.getChildren().add(root);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 	}
+	*/
 	
 	@FXML
 	public void backButtonPressed(ActionEvent event)
 	{
-		updateSearchUserResults=1;
+		
 		if(ClientUI.getTypeOfUser()=="Librarian")
     	{
+			SearchUserController.updateSearchUserResults=2;
         	if (librarianMain == null)
         		librarianMain = new HomepageLibrarianController();
         	librarianMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
     	}
     	else if(ClientUI.getTypeOfUser()=="Manager")
     	{
+    		SearchUserController.updateSearchUserResults=1;
         	if (managerMain == null)
         		managerMain = new HomepageManagerController();
         	managerMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);

@@ -189,6 +189,7 @@ public class SearchBookResultsController implements ScreensIF{
 	                    setGraphic(button);
 	                    button.setOnAction(new EventHandler<ActionEvent>() {
 	                      @Override public void handle(ActionEvent event) {
+	                    	  BookPageController.searchedBookPage = new SearchBookResult("","","","","","","","","","");
 	                    	BookPageController.searchedBookPage = bookRes;
 	          				if(ClientUI.getTypeOfUser()=="Librarian")
 	                    	{

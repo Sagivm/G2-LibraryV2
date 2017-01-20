@@ -36,6 +36,9 @@ public class SearchUserController implements ScreensIF{
 	@FXML private TextField fNameTextField;
 	@FXML private TextField lNameTextField;
 	
+	public static int updateSearchUserResults;
+	
+	
 	/**
 	 * static reference of librarian home page.
 	 */
@@ -49,7 +52,7 @@ public class SearchUserController implements ScreensIF{
 	@FXML
 	public void initialize()
 	{ 
-		UserPageController.updateSearchUserResults=0;
+		SearchUserController.updateSearchUserResults=0;
 		Image usersImagePath = new Image("/img/users_three.png");
 		usersImageView.setImage(usersImagePath);
 	}

@@ -373,6 +373,10 @@ public class ClientConnectionController extends AbstractClient{
 						else
 							actionToDisplay(ActionType.CONTINUE, GeneralMessages.OPERATION_FAILED);
 							
+						//System.out.println("test");
+						UserPageController.searchedUserPage.setFirstName(EditUserLibrarianController.userDetailsToChange.getFirstName());
+						UserPageController.searchedUserPage.setLastName(EditUserLibrarianController.userDetailsToChange.getLastName());
+						SearchUserController.updateSearchUserResults=2;
 						if(ClientUI.getTypeOfUser()=="Librarian")
                     	{
                         	if (librarianMain == null)
@@ -416,6 +420,7 @@ public class ClientConnectionController extends AbstractClient{
                         		UserPageController.searchedUserPage.setIsBlocked("NO");
                         	else if(UserPageController.searchedUserPage.getIsBlocked().equals("NO"))
                         		UserPageController.searchedUserPage.setIsBlocked("YES");
+                        	SearchUserController.updateSearchUserResults=1;
                         	managerMain.setPage(ScreensInfo.USER_PAGE_SCREEN);
                     	}
 						
@@ -451,9 +456,35 @@ public class ClientConnectionController extends AbstractClient{
 			BookManagementController.authorList = list;
 			break;
 		}
+		
+		case GET_NUMBER_BOOK_AT_DOMAIN: {
+			BookManagementController.countBookByDomain = Integer.parseInt(replay.getElementsList().get(0));
+			break;
+		}
+		
+		case GET_NUMBER_BOOK_OF_AUTHOR: {
+			BookManagementController.countBookOfUser = Integer.parseInt(replay.getElementsList().get(0));
+			break;
+		}
+		
+		
+		case GET_NUMBER_BOOK_AT_SUBJECT: {
+			BookManagementController.countBookBySubject = Integer.parseInt(replay.getElementsList().get(0));
+			break;
+		}
 
 		case GET_DOMAINS: {
 			SearchBookController.domainList = replay.getElementsList();
+			break;
+		}
+		
+		case GET_DOMAINS_WITH_ID: {
+			BookManagementController.domainsList = replay.getElementsList();
+			break;
+		}
+		
+		case GET_SUBJECTS_INFO: {
+			BookManagementController.subjectsList = replay.getElementsList();
 			break;
 		}
 		
