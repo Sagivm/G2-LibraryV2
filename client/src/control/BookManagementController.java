@@ -59,60 +59,112 @@ import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
 /**
- * PendingRegistrationController is the controller that shows a list of all the registration requests.
- * @author Idan
+ * BookManagementController is the controller that manage all books, domains, subject and authors.
+ * @author idanN
  */
 public class BookManagementController {
 
  // Books Tab - main pane
- @FXML
+	
+ /**
+ * TableView that show the books.
+ */
+@FXML
  private TableView < PropertyBook > BooksTableView;
 
- @FXML
+ /**
+ * TableColumn of book sn
+ */
+@FXML
  private TableColumn BookSn;
 
- @FXML
+ /**
+ * TableColumn of book title
+ */
+@FXML
  private TableColumn BookTitle;
 
+/**
+* TableColumn of book authors
+*/
  @FXML
  private TableColumn BookAuthors;
 
+ /**
+ * TableColumn of book keywords
+ */
  @FXML
  private TableColumn BookKeywords;
 
+ /**
+ * TableColumn of book state of hide
+ */
  @FXML
  private TableColumn BookHide;
 
+ /**
+ * Label of book title of the selected book in the table view
+ */
  @FXML
  private Label InfoTitle;
 
+ /**
+  * Label of book authors of the selected book in the table view
+  */
  @FXML
  private Label InfoAuthors;
 
+ /**
+  * Label of book keywords of the selected book in the table view
+  */
  @FXML
  private Label InfoKeywords;
 
+ /**
+  * Text Area of book summary of the selected book in the table view
+  */
  @FXML
  private TextArea BookSummary;
 
+ /**
+  * Label of "title:" in the bottom of books table view
+  */
  @FXML
  private Label TitleLabel;
 
+ /**
+  * Label of "authors:" in the bottom of books table view
+  */
  @FXML
  private Label AuthorsLabel;
 
+ /**
+  * Label of "keywords:" in the bottom of books table view
+  */
  @FXML
  private Label KeywordsLabel;
 
+ /**
+  * Label of "summary:" in the bottom of books table view
+  */
  @FXML
  private Label SummaryLabel;
  
+ /**
+  * Label of book price of the selected book in the table view
+  */
  @FXML
  private Label infoPrice;
  
+ /**
+  * Label of "price:" in the bottom of books table view
+  */
  @FXML
  private Label PriceLabel;
 
+ /**
+  * Button to delete book
+  */
  @FXML
  private Button delBtn;
 
