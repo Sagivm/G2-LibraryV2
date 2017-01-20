@@ -23,7 +23,7 @@
         <Image url="@../img/home_librarian.png" />
       </image>
     </ImageView>
-    <Button font="$x1" layoutX="0.0" layoutY="192.0" mnemonicParsing="false" onAction="#searchBookButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Search Book" />
+    <Button font="$x1" layoutX="0.0" layoutY="192.0" mnemonicParsing="false" onAction="#searchBookButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Books Search" />
     <Button id="myBooksButton" fx:id="bookMngButton" font="$x1" layoutX="0.0" layoutY="234.0" mnemonicParsing="false" onAction="#bookManagmentButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Book Management" />
     <Button id="userMsgsButton" fx:id="pendingAccountButton" font="$x1" layoutX="1.0" layoutY="361.0" mnemonicParsing="false" onAction="#pendingAccountButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Pending Account Type" />
     <Button id="payButton" fx:id="pendingReviewsButton" font="$x1" layoutX="1.0" layoutY="319.0" mnemonicParsing="false" onAction="#pendingReviewsButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Pending Readers Reviews" />
@@ -37,6 +37,6 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Button id="userMsgsButton" font="$x1" layoutY="445.0" mnemonicParsing="false" onAction="#searchWorkerButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Search Worker" />
+      <Button id="userMsgsButton" font="$x1" layoutY="445.0" mnemonicParsing="false" onAction="#searchWorkerButtonPressed" prefHeight="42.0" prefWidth="235.0" text="Workers Search" />
   </children>
 </AnchorPane>
