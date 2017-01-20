@@ -1,11 +1,14 @@
 package control;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import boundry.ClientUI;
 import entity.Author;
 import entity.Domain;
+import entity.FileEvent;
 import entity.GeneralMessages;
 import entity.Replay;
 import entity.ScreensInfo;
@@ -58,7 +61,9 @@ public class ClientConnectionController extends AbstractClient{
 	
 	//public static int gotAnswer;
 	
-
+	private File dstFile = null;
+	private FileOutputStream fileOutputStream = null;
+	
 	/**
 	 * ClientConnectionController constructor initialize the hostname, and then
 	 * the port for establish connection to server. it also open new connection
@@ -106,9 +111,15 @@ public class ClientConnectionController extends AbstractClient{
 	public void actionToPerform(Replay replay)  {
 		ActionType transmitType = replay.getTransmitType();
 		ActionType type = replay.getType();
+		FileEvent fileEvent = replay.getFileEvent();
 		boolean success = replay.getSucess();
 		
 		switch (type) {
+		
+		case FILE: {
+			downloadFile(fileEvent);
+		}
+		break;
 		case GET_MESSAGES: {
 			
 			ArrayList<String> list = new ArrayList<String>();
@@ -693,5 +704,25 @@ public class ClientConnectionController extends AbstractClient{
 		primaryStage.setX(primaryScreenBounds.getMaxX() / 2.0 - primaryStage.getWidth() / 2.0);
 		primaryStage.setY(primaryScreenBounds.getMaxY() / 2.0 - primaryStage.getHeight() / 2.0);
 	}
+	public void downloadFile(FileEvent fileEvent) {
+		try {
+		String outputFile = fileEvent.getDestinationDirectory() + fileEvent.getFilename();
+		if (!new File(fileEvent.getDestinationDirectory()).exists()) {
+		new File(fileEvent.getDestinationDirectory()).mkdirs();
+		}
+		dstFile = new File(outputFile);
+		fileOutputStream = new FileOutputStream(dstFile);
+		fileOutputStream.write(fileEvent.getFileData());
+		fileOutputStream.flush();
+		fileOutputStream.close();
+		System.out.println("Output file : " + outputFile + " is successfully saved ");
+		Thread.sleep(3000);
+		//System.exit(0);
 
+		} catch (IOException e) {
+		e.printStackTrace();
+		} catch (InterruptedException e) {
+		e.printStackTrace();
+		}
+		}
 }

@@ -52,5 +52,6 @@
             <Font size="13.0" />
          </font>
       </Label>
+      <Button id="userMsgsButton" font="$x1" layoutX="2.0" layoutY="476.0" mnemonicParsing="false" onAction="#downloadFunction" prefHeight="42.0" prefWidth="235.0" text="ahla bahla (nir)" />
   </children>
 </AnchorPane>

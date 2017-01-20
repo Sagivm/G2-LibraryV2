@@ -3,6 +3,7 @@ package control;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -42,6 +43,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.fxml.Initializable;
@@ -487,12 +489,52 @@ public class BookPageController implements ScreensIF
 	public void btnDownloadPressed(ActionEvent event) throws IOException{    
 		try{
 			
+		Alert alert = new Alert(AlertType.CONFIRMATION, 
+		"Choose format: PDF - Yes, WORD - No",ButtonType.YES, ButtonType.NO);
+		alert.setTitle("Choose format");
+		alert.setHeaderText(null);
+		alert.setContentText("Choose format: PDF - Yes, WORD - No");
+		Optional<ButtonType> result = alert.showAndWait();
+		String format;
+		if (result.get() == ButtonType.YES)
+			format = "pdf";
+		else format= "word";
+			
+		
+			final Label labelSelectedDirectory = new Label();
+			DirectoryChooser directoryChooser = new DirectoryChooser();
+            File selectedDirectory = 
+                    directoryChooser.showDialog(ScreenController.getStage());
+             
+            if(selectedDirectory == null){
+                labelSelectedDirectory.setText("No Directory selected");
+            }else{
+                labelSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
+            }
+            
+            
+            ArrayList <String> elementsList = new ArrayList<String>();
+            elementsList.add(labelSelectedDirectory.getText());
+            elementsList.add(searchedBookPage.getBookTitle());
+            elementsList.add(format);
+            Message message = new Message(ActionType.FILE,elementsList);
+            
+    		try {
+    			ClientController.clientConnectionController.sendToServer(message);
+    		} catch (IOException e) {	
+            
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+	} 
+		finally 
+		{
+		
+		}
 	}
-	
+
 	
 	public boolean yesNoDialog(String message)
 	{

@@ -52,6 +52,9 @@ private ActionType transmitType;
 
 
 
+private FileEvent fileEvent;
+
+
 /** Replay constructor that initialize the attributes.
  * @param type - Gets the type of action.
  * @param sucess - Gets the kind of response from SQL.
@@ -63,7 +66,11 @@ public Replay(ActionType type, boolean sucess)
 	setTransmitType(ActionType.UNICAST);
 }
 
-
+public Replay(ActionType type, FileEvent fileEvent) {
+	setType(type);
+	setFileEvent(fileEvent);
+	setTransmitType(ActionType.UNICAST);
+}
 
 
 public Replay(ActionType type, int action)
@@ -211,6 +218,14 @@ public ActionType getTransmitType() {
  */
 public void setTransmitType(ActionType transmitType) {
 	this.transmitType = transmitType;
+}
+
+public FileEvent getFileEvent() {
+	return fileEvent;
+}
+
+public void setFileEvent(FileEvent fileEvent) {
+	this.fileEvent = fileEvent;
 }
 	
 }

@@ -263,7 +263,10 @@ public enum ActionType {
 	/**
 	 * Gets account type, credits and Exp.date from DB.
 	 */
-	CHECK_ACCOUNT_TYPE,
+	CHECK_ACCOUNT_TYPE, 
+	
+	
+	FILE,
 
 
 }
