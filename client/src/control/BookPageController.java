@@ -165,11 +165,24 @@ public class BookPageController implements ScreensIF
 	 */
 	@FXML private Button backButton;
 	
+	/**
+	 * get the book's image from DB.
+	 */
 	public static ArrayList<String> img;
+	
+	/**
+	 * States which buttons to show.
+	 * 0: Can't allow to buy this book.
+	 * 1: The user already buy this book.
+	 * 2: The user allow to buy this book. User account per book.
+	 * 3: The user allow to buy this book. The user is subscribed.
+	 */
 	public static String buyStatus="0";
 	
+	/**
+	 * Checks if the user can write a review for this book.
+	 */
 	public static boolean canWrite = false;
-	
 	
 	/**
 	 * contains book's data to show on page
@@ -180,8 +193,6 @@ public class BookPageController implements ScreensIF
 	 * static reference of user home page.
 	 */
 	private static HomepageUserController userMain;
-	
-	
 
 	/**
 	 * static reference of librarian home page.
@@ -416,6 +427,12 @@ public class BookPageController implements ScreensIF
 		priceLable.setText(searchedBookPage.getBookPrice()+ " \u20AA");
 	}
 	
+	/**
+	 * Create's a message for get data from DB.
+	 * @param type
+	 * @param elementList
+	 * @return
+	 */
 	public Message prepareGetFromSQL(ActionType type, ArrayList<String> elementList)
 	{
 		Message message = new Message();
@@ -425,6 +442,10 @@ public class BookPageController implements ScreensIF
 	}
 	
 
+	/**
+	 * Responsible to load the book's reviews screen.
+	 * @throws IOException
+	 */
 	@FXML
 	public void loadReviews() throws IOException {
 				try {
@@ -437,6 +458,10 @@ public class BookPageController implements ScreensIF
 				}
 	}
 	
+	/**
+	 * Responsible to load the book's write review scrren.
+	 * @throws IOException
+	 */
 	@FXML
 	public void loadWriteReview() throws IOException {
 				try {
@@ -450,6 +475,11 @@ public class BookPageController implements ScreensIF
 	}
 	
 	
+	/**
+	 * This button responsible for purchasing the book.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void btnPurchasePressed(ActionEvent event) throws IOException{    
 		try{
@@ -565,6 +595,11 @@ public class BookPageController implements ScreensIF
 		}
 	}
 	
+	/**
+	 * This buuton opens pop-up with 3 options of formats to download the book.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void btnDownloadPressed(ActionEvent event) throws IOException{    
 		try{
@@ -619,6 +654,11 @@ public class BookPageController implements ScreensIF
 	}
 
 	
+	/**
+	 * An alert message that poped-up when the user click on "Purchase".
+	 * @param message
+	 * @return
+	 */
 	public boolean yesNoDialog(String message)
 	{
 		Alert alert = new Alert(AlertType.CONFIRMATION, 
