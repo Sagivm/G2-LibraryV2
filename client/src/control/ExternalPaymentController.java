@@ -134,6 +134,9 @@ public class ExternalPaymentController {
 	
 	final ToggleGroup group = new ToggleGroup();
 	
+	/**
+	 * Initialize FX components.
+	 */
 	@FXML
 	public void initialize() 
 	{
@@ -169,6 +172,12 @@ public class ExternalPaymentController {
 	}
 	
 	
+	/**
+	 * When pressed, checks validation of all fields and call method makePurchase
+	 * On PayementController with TRUE and action to do.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void btnPayPressed(ActionEvent event) throws IOException
 	{ 
@@ -216,93 +225,20 @@ public class ExternalPaymentController {
 		
 		PaymentController purchase = new PaymentController();
 		purchase.makePurchase(true, action);
-		
-		/*if(action == 1)
-		{	
-			ArrayList<String> buyBook = new ArrayList<>();
-			User user = HomepageUserController.getConnectedUser();
-			buyBook.add(user.getId());
-			buyBook.add(searchedBookPage.getBookSn());
-			buyBook.add(searchedBookPage.getBookPrice());
-			buyBook.add("2");	//PerBook
-			//buyBook.add(Integer.toString(action));
-			
-			Message message = prepareBuyBook(ActionType.BUY_BOOK,buyBook);
-			try {
-				ClientController.clientConnectionController.sendToServer(message);
-			} catch (IOException e) {	
-				actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-			}
-			
-			Service<Void> service = new Service<Void>() {
-		        @Override
-		        protected Task<Void> createTask() {
-		            return new Task<Void>() {           
-		                @Override
-		                protected Void call() throws Exception {                
-		                    final CountDownLatch latch = new CountDownLatch(1);
-		                    Platform.runLater(new Runnable() {                          
-		                        @Override
-		                        public void run() { 	
-		                        	returnToPrevScreen(ScreensInfo.BOOK_PAGE_SCREEN);
-								}
-		                        });
-		                     latch.await();                      
-		                     return null;
-		                   }
-		                };
-		            }
-		        };
-		        service.start();
-		}
-		else if(action == 2)
-		{
-			purchase.makePurchase(true, action);
-		}*/
-		
-		
-		
 	}
 	
+	/**
+	 * When pressed, call method makePurchase On PayementController with FALSE and action to do.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void btnCancelPressed(ActionEvent event) throws IOException
 	{ 
-		/*if(action == 1)
-		{
-			returnToPrevScreen(ScreensInfo.BOOK_PAGE_SCREEN);
-		}
-		*/
 		PaymentController purchase = new PaymentController();
 		purchase.makePurchase(false, action);
 		
 	}
-	
-	/*public void returnToPrevScreen(String screen)
-	{
-    	if (userMain == null)
-    		userMain = new HomepageUserController();
-    	userMain.setPage(screen);
-    	
-    	//BookPageController editReview = new Review(review.getReviewId(),review.getUsername(),review.getFirstName(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
-    	BookPageController bookPage = new BookPageController();
-    	bookPage.searchedBookPage = searchedBookPage;
-		ScreenController screenController = new ScreenController();
-    	
-		try{
-			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);	
-			
-			Stage primaryStage = screenController.getStage();
-			ScreenController.setStage(primaryStage);
-			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-			primaryStage.show();
-			primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
-			primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);	
-			
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 	/**
 	 * Setter of product.
@@ -331,13 +267,13 @@ public class ExternalPaymentController {
 		this.action = action;
 	}
 	
-	public Message prepareBuyBook(ActionType type, ArrayList<String> elementList)
+/*	public Message prepareBuyBook(ActionType type, ArrayList<String> elementList)
 	{
 		Message message = new Message();
 		message.setType(type);
 		message.setElementsList(elementList);
 		return message;
-	}
+	}*/
 	
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)

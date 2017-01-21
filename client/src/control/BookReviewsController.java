@@ -192,7 +192,6 @@ public class BookReviewsController implements ScreensIF {
 						Label lblPurchasedDate = new Label();
 						Label lblReviewDate = new Label();
 						Label lblReviewContent = new Label();
-						//TextFlow lblReviewContent = new TextFlow();
 						Line hLine = new Line();
 						Label lblPosition3 = new Label();
 						
