@@ -288,6 +288,13 @@ public class SearchBookController implements ScreensIF{
 					actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_FIELDS);
 					return;
 				}
+				
+				if (title.contains("^") ||  summary.contains("^") || toc.contains("^") || keyWords.contains("^"))
+				{
+					actionOnError(ActionType.CONTINUE,GeneralMessages.ILLEGAL_CHARACTER);
+					return;
+				}
+				
 				SearchBook newSearch = new SearchBook(title, authorList, language, summary, toc, domainList, keyWords);
 				
 				String selectedToggle=searchGroup.getSelectedToggle().toString();

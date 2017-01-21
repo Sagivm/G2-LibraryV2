@@ -43,6 +43,11 @@ public class GeneralMessages {
 	 */
 	public static final String EMPTY_FIELDS = "One or more fields are missing.";
 	
+	/**
+	 * Empty fields.
+	 */
+	public static final String ILLEGAL_CHARACTER = "'^' is an illegal character";
+	
 	
 	/**
 	 * Error during communication.
