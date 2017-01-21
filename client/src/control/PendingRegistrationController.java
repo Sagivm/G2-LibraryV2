@@ -299,6 +299,7 @@ public class PendingRegistrationController {
 	}
 	
 	/**
+	 * inner class that contains propery strings of pending user attributes
 	 * @author idaN
 	 *
 	 */

@@ -62,6 +62,10 @@ import javafx.util.Callback;
  * BookManagementController is the controller that manage all books, domains, subject and authors.
  * @author idanN
  */
+/**
+ * @author Idan
+ *
+ */
 public class BookManagementController {
 
  // Books Tab - main pane
@@ -2422,7 +2426,7 @@ private void updateFilteredData() {
 
 
  /**
-  * this func help to updateFilteredData func by searching in the data (books table) the appropriate string that user search
+  * this function help to updateFilteredData function by searching in the data (books table) the appropriate string that user search
  * @param book 
  * @return true- success, false - not success
  */
@@ -2461,13 +2465,26 @@ private void reapplyTableSortOrder() {
   BooksTableView.getSortOrder().addAll(sortOrder);
  }
 
- public Message prepareGetBooksList(ActionType type) {
+
+ /**
+  * Prepare message to get books list from server
+ * @param type - the type of the action that server need to do
+ * @return message
+ */
+public Message prepareGetBooksList(ActionType type) {
   Message message = new Message();
   message.setType(type);
   return message;
  }
  
- private Message prepareGetNumberBookAtDomain(ActionType type, String domainId) {
+
+ /**
+  * Prepare message to get amount of books by specific domain
+ * @param type - the type of the action that server need to do
+ * @param domainId - ID of domain
+ * @return message
+ */
+private Message prepareGetNumberBookAtDomain(ActionType type, String domainId) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(domainId);
@@ -2476,7 +2493,14 @@ private void reapplyTableSortOrder() {
 	  return message;
 	 }
  
- private Message prepareGetNumberBookOfAuthor(ActionType type, String authorId) {
+
+ /**
+  * Prepare message to get amount of books by specific author
+ * @param type - the type of the action that server need to do
+ * @param authorId -ID of author
+ * @return message
+ */
+private Message prepareGetNumberBookOfAuthor(ActionType type, String authorId) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(authorId);
@@ -2485,7 +2509,14 @@ private void reapplyTableSortOrder() {
 	  return message;
 	 }
  
- private Message prepareEditDomain(ActionType type, String domainId, String DomainName) {
+ /**
+  * Prepare message to edit specific domain
+ * @param type - the type of the action that server need to do
+ * @param domainId - ID of domain
+ * @param DomainName - the new domain name
+ * @return message
+ */
+private Message prepareEditDomain(ActionType type, String domainId, String DomainName) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(domainId);
@@ -2495,7 +2526,15 @@ private void reapplyTableSortOrder() {
 	  return message;
 	 }
  
- private Message prepareEditSubject(ActionType type, String subjectId, String subjectName, String domainId) {
+ /**
+  * Prepare message to edit specific subject
+ * @param type - the type of the action that server need to do
+ * @param subjectId - ID of subject
+ * @param subjectName - new subject name
+ * @param domainId - new ID of domain
+ * @return message
+ */
+private Message prepareEditSubject(ActionType type, String subjectId, String subjectName, String domainId) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(subjectId);
@@ -2506,7 +2545,15 @@ private void reapplyTableSortOrder() {
 	  return message;
 	 }
  
- private Message prepareEditAuthor(ActionType type, String AuthorId, String AuthorFirstName, String AuthorLastName) {
+ /**
+  * Prepare message to edit specific author
+ * @param type - the type of the action that server need to do
+ * @param AuthorId - ID of author
+ * @param AuthorFirstName - new first name
+ * @param AuthorLastName - new last name
+ * @return message
+ */
+private Message prepareEditAuthor(ActionType type, String AuthorId, String AuthorFirstName, String AuthorLastName) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(AuthorId);
@@ -2518,13 +2565,32 @@ private void reapplyTableSortOrder() {
 	 }
 
  
- public Message prepareGetDomainsWithId(ActionType type) {
+ /**
+  * Prepare message to get domains with thier ID
+ * @param type - the type of the action that server need to do
+ * @return message
+ */
+public Message prepareGetDomainsWithId(ActionType type) {
 	  Message message = new Message();
 	  message.setType(type);
 	  return message;
 	 }
 
- public Message prepareAddBook(ActionType type, String titleBook, String authorsId2, String keywords, String language, String subjectsList2, String tableOfContent, String summary, String picture, String price) {
+ /**
+  * Prepare message to add book
+ * @param type - the type of the action that server need to do
+ * @param titleBook - title of book
+ * @param authorsId2 - ID's of the authors
+ * @param keywords - keywords of the book
+ * @param language - language of the book
+ * @param subjectsList2 - ID's of the subjects
+ * @param tableOfContent - table of content of the book
+ * @param summary - summary of the book
+ * @param picture - picture of the book (base64 encoded)
+ * @param price - price of the book
+ * @return message
+ */
+public Message prepareAddBook(ActionType type, String titleBook, String authorsId2, String keywords, String language, String subjectsList2, String tableOfContent, String summary, String picture, String price) {
   Message message = new Message();
   ArrayList < String > elementsList = new ArrayList < String > ();
   elementsList.add(titleBook);
@@ -2541,6 +2607,12 @@ private void reapplyTableSortOrder() {
   return message;
  }
  
+ /**
+  * Prepare message to add domain
+ * @param type - the type of the action that server need to do
+ * @param domainName - name of domain
+ * @return message
+ */
 	private Message prepareAddDomain(ActionType type, String domainName) {
 		  Message message = new Message();
 		  ArrayList < String > elementsList = new ArrayList < String > ();
@@ -2550,6 +2622,13 @@ private void reapplyTableSortOrder() {
 		  return message;
 	}
 	
+	/**
+	 * Prepare message to add author
+	 * @param type - the type of the action that server need to do
+	 * @param AuthorFirstName - first name
+	 * @param AuthorLastName - last name
+	 * @return message
+	 */
 	private Message prepareAddAuthor(ActionType type, String AuthorFirstName, String AuthorLastName) {
 		  Message message = new Message();
 		  ArrayList < String > elementsList = new ArrayList < String > ();
@@ -2560,6 +2639,13 @@ private void reapplyTableSortOrder() {
 		  return message;
 	}
 	
+	/**
+	 * Prepare message to add subject
+	 * @param type - the type of the action that server need to do
+	 * @param subjectName - subject name
+	 * @param subjectDomain - domain of the subject
+	 * @return message
+	 */
 	private Message prepareAddSubject(ActionType type, String subjectName, String subjectDomain) {
 		  Message message = new Message();
 		  ArrayList < String > elementsList = new ArrayList < String > ();
@@ -2570,7 +2656,22 @@ private void reapplyTableSortOrder() {
 		  return message;
 	}
  
- public Message prepareEditBook(ActionType type, String Sn, String titleBook, String authorsId2, String keywords, String language, String subjectsList2, String tableOfContent, String summary, String picture, String price) {
+ /**
+  * Prepare message to edit book
+ * @param type - the type of the action that server need to do
+ * @param Sn - the SN of the edited book
+ * @param titleBook - new title book
+ * @param authorsId2 - new ID's of authors
+ * @param keywords - new keywords
+ * @param language - new language
+ * @param subjectsList2 - new subjects
+ * @param tableOfContent - new table of content
+ * @param summary - new summary
+ * @param picture - new picture (base64 encoded)
+ * @param price - new price
+ * @return message
+ */
+public Message prepareEditBook(ActionType type, String Sn, String titleBook, String authorsId2, String keywords, String language, String subjectsList2, String tableOfContent, String summary, String picture, String price) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(titleBook);
@@ -2588,13 +2689,24 @@ private void reapplyTableSortOrder() {
 	  return message;
 	 }
 
- public Message prepareGetAuthors(ActionType type) {
+ /**
+  * Prepare message to get all available authors
+ * @param type - the type of the action that server need to do
+ * @return message
+ */
+public Message prepareGetAuthors(ActionType type) {
   Message message = new Message();
   message.setType(type);
   return message;
  }
  
- public Message prepareGetAuthors(ActionType type,String bookSn) {
+ /**
+  * Prepare message to get authors of specific book
+ * @param type - the type of the action that server need to do
+ * @param bookSn - SN of book
+ * @return message
+ */
+public Message prepareGetAuthors(ActionType type,String bookSn) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(bookSn);
@@ -2603,7 +2715,13 @@ private void reapplyTableSortOrder() {
 	  return message;
 	 }
  
- public Message prepareGetLanguage(ActionType type,String bookSn) {
+ /**
+  * Prepare message to get language of specific book
+ * @param type - the type of the action that server need to do
+ * @param bookSn - SN of book
+ * @return message
+ */
+public Message prepareGetLanguage(ActionType type,String bookSn) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(bookSn);
@@ -2612,7 +2730,13 @@ private void reapplyTableSortOrder() {
 	  return message;
 	 }
  
- public Message prepareGetTableOfContent(ActionType type,String bookSn) {
+/**
+ * Prepare message to get table of content of specific book
+* @param type - the type of the action that server need to do
+* @param bookSn - SN of book
+* @return message
+*/
+public Message prepareGetTableOfContent(ActionType type,String bookSn) {
 	  Message message = new Message();
 	  ArrayList < String > elementsList = new ArrayList < String > ();
 	  elementsList.add(bookSn);
@@ -2622,7 +2746,13 @@ private void reapplyTableSortOrder() {
 	 }
  
 
- public Message prepareGetSubjects(ActionType type,String bookSn) {
+/**
+ * Prepare message to get subjects of specific book
+* @param type - the type of the action that server need to do
+* @param bookSn - SN of book
+* @return message
+*/
+public Message prepareGetSubjects(ActionType type,String bookSn) {
 		  Message message = new Message();
 		  ArrayList < String > elementsList = new ArrayList < String > ();
 		  elementsList.add(bookSn);
@@ -2631,23 +2761,24 @@ private void reapplyTableSortOrder() {
 		  return message;
 		 }
 
- public Message prepareGetSubjects(ActionType type) {
+ /**
+  * Prepare message to get all available subjects
+ * @param type - the type of the action that server need to do
+ * @return message
+ */
+public Message prepareGetSubjects(ActionType type) {
   Message message = new Message();
   message.setType(type);
   return message;
  }
 
-
- public Message prepareUpdatePropertyBooks(ActionType type, String username) {
-  Message message = new Message();
-  ArrayList < String > elementsList = new ArrayList < String > ();
-  elementsList.add(username);
-  message.setType(type);
-  message.setElementsList(elementsList);
-  return message;
- }
-
- public Message prepareDeleteBook(ActionType type, String sn) {
+ /**
+  * Prepare message to delete specific book
+ * @param type - the type of the action that server need to do
+ * @param sn - The SN of book
+ * @return message
+ */
+public Message prepareDeleteBook(ActionType type, String sn) {
   Message message = new Message();
   ArrayList < String > elementsList = new ArrayList < String > ();
   elementsList.add(sn);
@@ -2656,7 +2787,15 @@ private void reapplyTableSortOrder() {
   return message;
  }
 
- public Message prepareHideBook(ActionType type, String sn, String hide) {
+
+ /**
+  * Prepare message to hide/unhide specific book
+ * @param type - the type of the action that server need to do
+ * @param sn - The SN of book
+ * @param hide - hide or unhide operation
+ * @return message
+ */
+public Message prepareHideBook(ActionType type, String sn, String hide) {
   Message message = new Message();
   ArrayList < String > elementsList = new ArrayList < String > ();
   elementsList.add(sn);
@@ -2666,7 +2805,12 @@ private void reapplyTableSortOrder() {
   return message;
  }
 
- public void actionOnError(ActionType type, String errorCode) {
+ /**
+  * Prepare message create alert popup
+ * @param type - the type of the action that server need to do
+ * @param errorCode - the error to show
+ */
+public void actionOnError(ActionType type, String errorCode) {
 
   Alert alert = new Alert(AlertType.INFORMATION);
   alert.setTitle("Error");
@@ -2682,19 +2826,72 @@ private void reapplyTableSortOrder() {
  }
 
 
- public static class PropertyBook {
+ /**
+  * inner class that contains propery strings of book attributes
+ * @author Idan
+ *
+ */
+public static class PropertyBook {
 
-  private final SimpleStringProperty bookSn;
-  private final SimpleStringProperty bookTitle;
-  private final SimpleStringProperty bookKeywords;
-  private final SimpleStringProperty bookHide;
-  private final SimpleStringProperty authorId;
-  private final SimpleStringProperty authorName;
-  private final SimpleStringProperty bookSummary;
-  private final SimpleStringProperty bookImage;
-  private final SimpleStringProperty bookPrice;
+  /**
+ * String Property that contains SN of book.
+ */
+private final SimpleStringProperty bookSn;
+  
+  /**
+ * String Property that contains title of book.
+ */
+private final SimpleStringProperty bookTitle;
+  
+  /**
+ * String Property that contains keywords of book.
+ */
+private final SimpleStringProperty bookKeywords;
+  
+  /**
+ * String Property that contains hide state (yes or no) of book.
+ */
+private final SimpleStringProperty bookHide;
+  
+  /**
+ * String Property that contains author ID of book.
+ */
+private final SimpleStringProperty authorId;
+  
+  /**
+ * String Property that contains author name of book.
+ */
+private final SimpleStringProperty authorName;
+  
+  /**
+ * String Property that contains summary of book.
+ */
+private final SimpleStringProperty bookSummary;
+  
+  /**
+ * String Property that contains image (base64 encoded) of book.
+ */
+private final SimpleStringProperty bookImage;
+  
+  /**
+ * String Property that contains price of book.
+ */
+private final SimpleStringProperty bookPrice;
+  
 
-  private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName, String bookSummary, String bookImage, String bookPrice) {
+  /**
+   * PropertyBook constructor store the data.
+ * @param bookSn - Gets the SN of book.
+ * @param bookTitle - Gets the title of book.
+ * @param bookKeywords - Gets the keywords of book.
+ * @param bookHide - Gets the hide state of book.
+ * @param authorId - Gets the author ID of book.
+ * @param authorName - Gets the author name of book.
+ * @param bookSummary - Gets the summary of book.
+ * @param bookImage - Gets the image of book.
+ * @param bookPrice - Gets the price of book.
+ */
+private PropertyBook(String bookSn, String bookTitle, String bookKeywords, String bookHide, String authorId, String authorName, String bookSummary, String bookImage, String bookPrice) {
    this.bookSn = new SimpleStringProperty(bookSn);
    this.bookTitle = new SimpleStringProperty(bookTitle);
    this.bookKeywords = new SimpleStringProperty(bookKeywords);
@@ -2706,194 +2903,387 @@ private void reapplyTableSortOrder() {
    this.bookPrice = new SimpleStringProperty(bookPrice);
   }
 
-  public String getBookSn() {
+  /**
+   * Getter for SN.
+ * @return
+ */
+public String getBookSn() {
    return bookSn.get();
   }
 
-  public String getBookTitle() {
+  /**
+   * Getter for title.
+ * @return
+ */
+public String getBookTitle() {
    return bookTitle.get();
   }
 
-  public String getBookKeywords() {
+  /**
+   * Getter for keywords.
+ * @return
+ */
+public String getBookKeywords() {
    return bookKeywords.get();
   }
 
-  public String getBookHide() {
+  /**
+   * Getter for hide state.
+ * @return
+ */
+public String getBookHide() {
    return bookHide.get();
   }
 
-  public String getAuthorId() {
+  /**
+   * Getter for author ID.
+ * @return
+ */
+public String getAuthorId() {
    return authorId.get();
   }
 
-  public String getAuthorName() {
+  /**
+   * Getter for author name.
+ * @return
+ */
+public String getAuthorName() {
    return authorName.get();
   }
 
-  public String getBookSummary() {
+  /**
+   * Getter for summary.
+ * @return
+ */
+public String getBookSummary() {
    return bookSummary.get();
   }
 
-  public String getBookImage() {
+  /**
+   * Getter for image.
+ * @return
+ */
+public String getBookImage() {
    return bookImage.get();
   }
   
-  public String getBookPrice() {
+  /**
+   * Getter for price.
+ * @return
+ */
+public String getBookPrice() {
 	   return bookPrice.get();
 	  }
 
 
-  public void setBookSn(String bookSn) {
+  /**
+   * Getter for SN.
+ * @param bookSn
+ */
+public void setBookSn(String bookSn) {
    this.bookSn.set(bookSn);
   }
 
-  public void setBookTitle(String bookTitle) {
+  /**
+   * Setter for title
+ * @param bookTitle
+ */
+public void setBookTitle(String bookTitle) {
    this.bookTitle.set(bookTitle);
   }
 
-  public void setBookKeywords(String bookKeywords) {
+  /**
+   * Setter for keywords
+ * @param bookKeywords
+ */
+public void setBookKeywords(String bookKeywords) {
    this.bookKeywords.set(bookKeywords);
   }
 
-  public void setBookHide(String bookHide) {
+  /**
+   * Setter for hide state
+ * @param bookHide
+ */
+public void setBookHide(String bookHide) {
    this.bookHide.set(bookHide);
   }
 
-  public void setAuthorId(String authorId) {
+  /**
+   * Setter for author ID
+ * @param authorId
+ */
+public void setAuthorId(String authorId) {
    this.authorId.set(authorId);
   }
 
-  public void setAuthorName(String authorName) {
+  /**
+   * Setter for author name
+ * @param authorName
+ */
+public void setAuthorName(String authorName) {
    this.authorName.set(authorName);
   }
 
-  public void setBookSummary(String bookSummary) {
+  /**
+   * Setter for summary
+ * @param bookSummary
+ */
+public void setBookSummary(String bookSummary) {
    this.bookSummary.set(bookSummary);
   }
 
-  public void setBookImage(String bookImage) {
+  /**
+   * Setter for image
+ * @param bookImage
+ */
+public void setBookImage(String bookImage) {
    this.bookImage.set(bookImage);
   }
   
-  public void setBookPrice(String bookPrice) {
+  /**
+   * Setter for price
+ * @param bookPrice
+ */
+public void setBookPrice(String bookPrice) {
    this.bookPrice.set(bookPrice);
   }
 
 
  }
 
- 
+/**
+ * inner class that contains propery strings of domain attributes
+* @author Idan
+*
+*/
  public static class PropertyDomain {
 
-	  private final SimpleStringProperty domainId;
-	  private final SimpleStringProperty domainName;
+	  /**
+	  * String Property that contains ID of domain
+	  */
+	private final SimpleStringProperty domainId;
+	/**
+	  * String Property that contains domain name
+	  */
+	private final SimpleStringProperty domainName;
 
 
-	  private PropertyDomain(String domainId, String domainName) {
+	  /**
+	   * PropertyDomain constructor store the data.
+	 * @param domainId - Gets the ID of domain.
+	 * @param domainName - Gets the name of domain
+	 */
+	private PropertyDomain(String domainId, String domainName) {
 	   this.domainId = new SimpleStringProperty(domainId);
 	   this.domainName = new SimpleStringProperty(domainName);
 	  }
 
 
-	  public String getDomainId() {
+	  /**
+	   * Getter for domain ID.
+	 * @return
+	 */
+	public String getDomainId() {
 		   return domainId.get();
 	  }
 	  
-	  public String getDomainName() {
+	  /**
+	   * Getter for domain name. 
+	 * @return
+	 */
+	public String getDomainName() {
 		   return domainName.get();
 	  }
 
-	  public void setDomainId(String domainId) {
+	  /**
+	   * Setter for domain ID.
+	 * @param domainId
+	 */
+	public void setDomainId(String domainId) {
 	   this.domainId.set(domainId);
 	  }
 	  
-	  public void setDomainName(String domainName) {
+	  /**
+	   * Setter for domain name.
+	 * @param domainName
+	 */
+	public void setDomainName(String domainName) {
 		   this.domainName.set(domainName);
 	  }
 
 	 }
  
  
- 
+ /**
+  * inner class that contains propery strings of subjects attributes
+ * @author Idan
+ *
+ */
  public static class PropertySubject {
 
-	  private final SimpleStringProperty subjectId;
-	  private final SimpleStringProperty subjectName;
-	  private final SimpleStringProperty subjectDomain;
+	  /**
+	 * String Property that contains ID of subject 
+	 */
+	private final SimpleStringProperty subjectId;
+	  
+	  /**
+	 * String Property that contains subject name
+	 */
+	private final SimpleStringProperty subjectName;
+	  
+	  /**
+	 * String Property that contains the domain of subject
+	 */
+	private final SimpleStringProperty subjectDomain;
 
 
-	  private PropertySubject(String subjectId, String subjectName, String subjectDomain) {
+	  /**
+	   * PropertySubject constructor store the data.
+	 * @param subjectId - Gets the ID of subject.
+	 * @param subjectName - Gets the name of subject.
+	 * @param subjectDomain - Gets the domain of subject.
+	 */
+	private PropertySubject(String subjectId, String subjectName, String subjectDomain) {
 	   this.subjectId = new SimpleStringProperty(subjectId);
 	   this.subjectName = new SimpleStringProperty(subjectName);
 	   this.subjectDomain = new SimpleStringProperty(subjectDomain);
 	  }
 
 
-	  public String getSubjectId() {
+	  /**
+	   * Getter for subject ID.
+	 * @return
+	 */
+	public String getSubjectId() {
 		   return subjectId.get();
 	  }
 	  
-	  public String getSubjectName() {
+	  /**
+	   * Getter for subject name.
+	 * @return
+	 */
+	public String getSubjectName() {
 		   return subjectName.get();
 	  }
 	  
-	  public String getSubjectDomain() {
+	  /**
+	   * Getter for domain of subject.
+	 * @return
+	 */
+	public String getSubjectDomain() {
 		   return subjectDomain.get();
 	  }
 
-	  public void setDomainId(String subjectId) {
+	  /**
+	   * Setter for subject ID.
+	 * @param subjectId
+	 */
+	public void setSubjectId(String subjectId) {
 	   this.subjectId.set(subjectId);
 	  }
 	  
-	  public void setSubjectName(String subjectName) {
+	  /**
+	   * Setter for subject name.
+	 * @param subjectName
+	 */
+	public void setSubjectName(String subjectName) {
 		   this.subjectName.set(subjectName);
 	  }
 	  
-	  public void setSubjectDomain(String subjectDomain) {
+	  /**
+	   * Setter for domain of subject.
+	 * @param subjectDomain
+	 */
+	public void setSubjectDomain(String subjectDomain) {
 		   this.subjectDomain.set(subjectDomain);
 	  }
 	  
 
 	 }
  
- 
+ /**
+  * inner class that contains propery strings of author attributes
+ * @author Idan
+ *
+ */
  public static class PropertyAuthor {
 
+	 /**
+	  * String Property that contains ID of author
+	  */
 	  private final SimpleStringProperty authorId;
-	  private final SimpleStringProperty authorFirstName;
-	  private final SimpleStringProperty authorLastName;
+	  
+	  /**
+	 * String Property that contains first name of author
+	 */
+	private final SimpleStringProperty authorFirstName;
+	  
+	  /**
+	 * String Property that contains last name of author
+	 */
+	private final SimpleStringProperty authorLastName;
 
 
 
-	  private PropertyAuthor(String authorId, String authorFirstName, String authorLastName) {
+	  /**
+	   * PropertyAuthor constructor store the data.
+	 * @param authorId
+	 * @param authorFirstName
+	 * @param authorLastName
+	 */
+	private PropertyAuthor(String authorId, String authorFirstName, String authorLastName) {
 	   this.authorId = new SimpleStringProperty(authorId);
 	   this.authorFirstName = new SimpleStringProperty(authorFirstName);
 	   this.authorLastName = new SimpleStringProperty(authorLastName);
 	  }
 
 
-	  public String getAuthorId() {
+	  /**
+	   * Getter for author ID.
+	 * @return
+	 */
+	public String getAuthorId() {
 		   return authorId.get();
 	  }
 	  
-	  public String getAuthorFirstName() {
+	  /**
+	   * Getter for author first name.
+	 * @return
+	 */
+	public String getAuthorFirstName() {
 		   return authorFirstName.get();
 	  }
 	  
-	  public String getAuthorLastName() {
+	  /**
+	   * Getter for author last name.
+	 * @return
+	 */
+	public String getAuthorLastName() {
 		   return authorLastName.get();
 	  }
 
-	  public void setDomainId(String authorId) {
+	  /**
+	   * Setter for author ID.
+	 * @param authorId
+	 */
+	public void setDomainId(String authorId) {
 	   this.authorId.set(authorId);
 	  }
 	  
-	  public void setAuthorFirstName(String authorName) {
-		   this.authorFirstName.set(authorName);
+	  /**
+	   * Setter for author first name.
+	 * @param authorName
+	 */
+	public void setAuthorFirstName(String authorFirstName) {
+		   this.authorFirstName.set(authorFirstName);
 	  }
 	  
-	  public void setAuthorLastName(String authorName) {
-		   this.authorLastName.set(authorName);
+	  /**
+	   * Setter for author last name.
+	 * @param authorName
+	 */
+	public void setAuthorLastName(String authorLastName) {
+		   this.authorLastName.set(authorLastName);
 	  }
 
 	 }
