@@ -129,7 +129,8 @@ public class SearchBookResultsController implements ScreensIF{
 	{
 		try{
 			try {
-				TimeUnit.SECONDS.sleep(1);
+				//TimeUnit.SECONDS.sleep(1);
+				TimeUnit.MILLISECONDS.sleep(300);
 			} catch (InterruptedException e2) {
 				e2.printStackTrace();
 			}

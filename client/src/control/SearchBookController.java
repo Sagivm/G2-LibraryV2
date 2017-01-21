@@ -211,16 +211,18 @@ public class SearchBookController implements ScreensIF{
 					ObservableList<String> items2 = FXCollections.observableArrayList(domainList);
 					domainListView.setItems(items2);
 				
-			} catch (Exception e) {
+			} 
+			catch (Exception e) {
 				//e.printStackTrace();	
-				initialize();
 				try {
-					TimeUnit.SECONDS.sleep(1);
+					//TimeUnit.SECONDS.sleep(1);
+					TimeUnit.MILLISECONDS.sleep(300);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				}
+				initialize();
+			}
 				
 				//question mark images
 				Image questionMarkImage= new Image("/img/questionMark.png");
