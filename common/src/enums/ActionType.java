@@ -331,11 +331,19 @@ public enum ActionType {
 	BUY_BOOK,
 	
 	/**
+	 * update subscription in DB.
+	 */
+	BUY_SUBSCRIPTION,
+	
+	/**
 	 * Gets account type, credits and Exp.date from DB.
 	 */
 	CHECK_ACCOUNT_TYPE, 
 	
 	
+	/**
+	 * File transformation.
+	 */
 	FILE,
 
 

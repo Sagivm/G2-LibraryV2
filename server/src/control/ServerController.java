@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -57,7 +58,7 @@ import ocsf.server.ConnectionToClient;
  *
  */
 /**
- * @author sagivm
+ * @author nire
  *
  */
 public class ServerController extends AbstractServer {
@@ -114,15 +115,12 @@ public class ServerController extends AbstractServer {
 	 */
 	private static ArrayList<Login> connectedList = new ArrayList<Login>();
 	
-	//private String sourceFilePath = "C:/Users/nirzo/OneDrive/Documents/Scan0001.pdf";
-	//private String destinationPath = "C:/Users/nirzo/OneDrive/Documents/dst/";
 
 	/**
 	 * Constructor to establish connection with server, and prepare log file.
 	 */
 	public ServerController() {
 		super(dPort);
-
 		
 		logger = Logger.getLogger("ServerLog.log");
 		FileHandler fh;
@@ -143,9 +141,7 @@ public class ServerController extends AbstractServer {
 
 	/**
 	 * Constructor to establish connection with server, and prepare log file.
-	 * 
-	 * @param port
-	 *            - Gets the port.
+	 * @param port - Gets the port.
 	 */
 	public ServerController(int port) {
 		super(port);
@@ -167,8 +163,7 @@ public class ServerController extends AbstractServer {
 
 	/**
 	 * CloseApp close the application when function called by menu -> "close"
-	 * 
-	 * @param event
+	 * @param event - Gets the event.
 	 */
 	@FXML
 	public void CloseApp(ActionEvent event) {
@@ -202,8 +197,8 @@ public class ServerController extends AbstractServer {
 	 * Given a message from client actionToPerform decide what to perform and
 	 * the reply to return
 	 * 
-	 * @param message
-	 * @return
+	 * @param - Gets the message.
+	 * @return - the replay for the client.
 	 */
 	private Replay actionToPerform(Message message) throws IOException {
 
@@ -215,15 +210,12 @@ public class ServerController extends AbstractServer {
 		switch (type) {
 		
 		case FILE: {
-			String dst = data.get(0);
 			String suffix = data.get(2);
-			if (suffix.equals("pdf")) suffix="pdf";
-			else suffix="doc";
-			String destinationPath = data.get(1);
-			String sourceFilePath = "/books/" + data.get(0) + "." + suffix; 
-					
+			URL location = ServerController.class.getProtectionDomain().getCodeSource().getLocation();
+			String destinationPath = data.get(0) + "/";
+			String sourceFilePath = location.getFile().replaceAll("bin", "src") + "books/" + data.get(1) + "." + suffix;
+			System.out.println(sourceFilePath);
 			replay = new Replay(ActionType.FILE, generateFile(destinationPath,sourceFilePath));
-			
 		}
 		break;
 		case GET_MESSAGES: {
@@ -355,18 +347,12 @@ public class ServerController extends AbstractServer {
 				e.printStackTrace();
 				System.out.println("error");
 			}
-			/*
-			 * if (sqlResult == true) { replay = new
-			 * Replay(ActionType.LOGIN,true,action); } else { replay = new
-			 * Replay(ActionType.LOGIN,false);
-			 * System.out.println(replay.getSucess()); }
-			 */
+
 			writeToLog("Login attempt");
 			break;
 		}
 
 		case LOGOUT: {
-			// ArrayList <String> elementsList = new ArrayList<String>();
 			boolean succes = false;
 			for (int i = 0; i < connectedList.size(); i++) {
 				if (connectedList.get(i).getUsername().equals(data.get(0).toString())) {
@@ -376,7 +362,6 @@ public class ServerController extends AbstractServer {
 				}
 			}
 			if (succes) {
-				// System.out.println("Logout");
 				replay = new Replay(ActionType.LOGOUT, true);
 			}
 			break;
@@ -393,7 +378,6 @@ public class ServerController extends AbstractServer {
 				
 				replay = new Replay(ActionType.ACCOUNTTYPEREQ, true);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -413,16 +397,12 @@ public class ServerController extends AbstractServer {
 				}
 				replay = new Replay(ActionType.GET_PENDING_USERS, true, elementsList);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
 
 		}
-
-		
-		
-		
+	
 		case SEARCH_BOOK_AND: { // itai
 			ArrayList<String> elementsList = new ArrayList<String>();
 			elementsList=makeSearchBook();
@@ -522,11 +502,6 @@ public class ServerController extends AbstractServer {
 				j++;
 			}
 			
-			/*
-			 for(i=0;i<elementsList.size();i++)
-				 System.out.println(elementsList.get(i));
-			 */
-			 
 			
 			ArrayList<String> res = new ArrayList<String>();
 			
@@ -550,27 +525,13 @@ public class ServerController extends AbstractServer {
                  try {
                      searchCount = CurrentDate.IncSearchBookDateRow(bookId);
                  } catch (SQLException e) {
-                     // TODO Auto-generated catch block
                      e.printStackTrace();
                  }
                  writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
                       + searchCount + "' to '" + (searchCount+1) +"'");
 			}
 			
-			/*
-			for(i=0;i<elementsList.size();i++)
-			{
-				if(filterResults[i]==1)
-					res.add(elementsList.get(i));
-			}
-			*/
-			/*
-			 for(i=0;i<res.size();i++)
-				 System.out.println(res.get(i));
-				 */
 			
-			
-
 			replay = new Replay(ActionType.SEARCH_BOOK_AND, true, res);
 			break;
 		}
@@ -655,19 +616,11 @@ public class ServerController extends AbstractServer {
 								res.add(elementsList.get(i));
 						}
 					}
-					
-	
+
 				}
-				
-				
-				
+	
 			}
 
-			/*
-			 for(i=0;i<res.size();i++)
-				 System.out.println(res.get(i));
-				  */
-			
 			Set<String> hs = new HashSet<>();
 			hs.addAll(res);
 			res.clear();
@@ -680,7 +633,6 @@ public class ServerController extends AbstractServer {
                  try {
                      searchCount = CurrentDate.IncSearchBookDateRow(bookId);
                  } catch (SQLException e) {
-                     // TODO Auto-generated catch block
                      e.printStackTrace();
                  }
                  writeToLog("Search counter of book ID " + "'" + bookId + "' was increased from '"
@@ -769,11 +721,6 @@ public class ServerController extends AbstractServer {
 					
 				}
 				
-				/*
-				for(int i=0;i<filterResult.length;i++)
-					System.out.println(filterResult[i]);
-				System.out.println(" ");
-				*/
 				
 				for(int j=0;j<elementsList.size();j+=6)
 				{
@@ -781,11 +728,6 @@ public class ServerController extends AbstractServer {
 						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4)+"^"+elementsList.get(j+5));
 				}
 				
-				
-				/*
-				for(int i=0;i<res.size();i++)
-					System.out.println(res.get(i));
-				*/
 				
 				replay = new Replay(ActionType.SEARCH_WORKER, true, res);
 				
@@ -841,28 +783,15 @@ public class ServerController extends AbstractServer {
 					if(!message.getElementsList().get(2).isEmpty())
 						if(!elementsList.get(i+2).toLowerCase().trim().contains(message.getElementsList().get(2).toLowerCase().trim()))
 							filterResult[i/9]=0;
-
 					
 				}
-				
-				/*
-				for(int i=0;i<filterResult.length;i++)
-					System.out.println(filterResult[i]);
-				System.out.println(" ");
-				*/
-				
+
 				for(int j=0;j<elementsList.size();j+=9)
 				{
 					if(filterResult[j/9]==1)
 						res.add(elementsList.get(j)+"^"+elementsList.get(j+1)+"^"+elementsList.get(j+2)+"^"+elementsList.get(j+3)+"^"+elementsList.get(j+4)+"^"+elementsList.get(j+5)+"^"+elementsList.get(j+6)+"^"+elementsList.get(j+7)+"^"+elementsList.get(j+8));
 				}
-				
-				
-				/*
-				for(int i=0;i<res.size();i++)
-					System.out.println(res.get(i));
-				*/
-				
+						
 				replay = new Replay(ActionType.SEARCH_USER, true, res);
 				
 			} 
@@ -877,7 +806,6 @@ public class ServerController extends AbstractServer {
 		case EDIT_USER_LIBRARIAN: {
 			try
 			{
-				//System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
 				DatabaseController.updateDatabase("UPDATE clients SET firstName=" + "'" + message.getElementsList().get(1)
 						+ "'" + " ,lastName=" + "'" + message.getElementsList().get(2) +"'" +  " WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				
@@ -895,7 +823,6 @@ public class ServerController extends AbstractServer {
 		case EDIT_USER_MANAGER: {
 			try
 			{
-				//System.out.println("new: "+message.getElementsList().get(0) + " " + message.getElementsList().get(1) + " " + message.getElementsList().get(2));
 				DatabaseController.updateDatabase("UPDATE clients SET isBlocked='" + message.getElementsList().get(3) + "' WHERE username=" + "'" + message.getElementsList().get(0) + "'");
 				if(Integer.parseInt(message.getElementsList().get(3))==1)
 					writeToLog("Username" + "'" + message.getElementsList().get(0) + "' is now blocked");
@@ -996,7 +923,6 @@ public class ServerController extends AbstractServer {
 		
 				replay = new Replay(ActionType.ACCEPT_PENDING_USERS, true);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1030,18 +956,11 @@ public class ServerController extends AbstractServer {
 					elementsList.add(rs.getString(6)); // review content
 					elementsList.add(rs.getString(7)); // review date
 				}
-				/*
-				 * for(int i=0;i<elementsList.size();i+=7)
-				 * System.out.println("Review: " + elementsList.get(i) + " " +
-				 * elementsList.get(i+1) + " " + elementsList.get(i+2) + " " +
-				 * elementsList.get(i+3) + " " + elementsList.get(i+4) + " " +
-				 * elementsList.get(i+5));
-				 */
+
 				replay = new Replay(ActionType.PENDING_REVIEWS, true, elementsList);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-				// System.out.println("error2");
 			}
 			break;
 		}
@@ -1064,7 +983,6 @@ public class ServerController extends AbstractServer {
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1084,7 +1002,6 @@ public class ServerController extends AbstractServer {
 				}
 				replay = new Replay(ActionType.GETDOMAINSSPECIFIC, true, elementsList);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1108,7 +1025,6 @@ public class ServerController extends AbstractServer {
 				}
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1126,10 +1042,8 @@ public class ServerController extends AbstractServer {
 				}
 				replay = new Replay(ActionType.BOOKREPORT, true, elementsList);
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1139,7 +1053,6 @@ public class ServerController extends AbstractServer {
 			try {
 				char quotationMarks = '"';  
 				Statement stmt = DatabaseController.connection.createStatement();
-				//System.out.println("UPDATE project.reviews SET reviews.status = '" + data.get(2) + "' , reviews.content = " + quotationMarks + data.get(1) + quotationMarks + "  WHERE reviews.id =" + data.get(0));
 				stmt.executeUpdate("UPDATE project.reviews SET reviews.status = '" + data.get(2) + "' , reviews.content = " + quotationMarks + data.get(1) + quotationMarks + " WHERE reviews.id =" + data.get(0));
 				
 				DateFormat currentTime = new SimpleDateFormat("HH:mm");
@@ -1150,17 +1063,14 @@ public class ServerController extends AbstractServer {
 				String currDate = currentDate.format(date);
 				String msg;
 				
-				//
-				
-				if (data.get(2).equals(""
-						+ ""))
+			
+				if (data.get(2).equals("approve"))
 				msg = "Review num " + data.get(0) + " has been approved";
 				else msg = "Review num " + data.get(0) + " has been declined";
 				String username = data.get(3);
 				
 				DatabaseController.addToDatabase("INSERT INTO messages (`username`, `date`, `time`, `msg`) VALUES('"+username+"', '"+currDate+"' , '"+currTime+"', '"+msg+"')");
 					
-			
 				replay = new Replay(ActionType.UPDATE_REVIEW_STATUS, true);
 				
 			} catch (SQLException e) {
@@ -1172,7 +1082,6 @@ public class ServerController extends AbstractServer {
 			try { 
 				ArrayList<String> elementsList = new ArrayList<String>();
 				Statement stmt = DatabaseController.connection.createStatement();
-				//System.out.println("SELECT clients.firstName,clients.lastName,bought_book.purchaseDate,reviews.date,reviews.content FROM project.reviews,project.clients,project.bought_book WHERE reviews.userId=clients.username and reviews.userId=bought_book.userId and bought_book.bookId = " + data.get(0) + " and reviews.bookId = " + data.get(0));
 				ResultSet rs = stmt.executeQuery("SELECT clients.firstName,clients.lastName,bought_book.purchaseDate,reviews.date,reviews.content FROM project.reviews,project.clients,project.bought_book WHERE reviews.status='approved' and reviews.userId=clients.username and reviews.userId=bought_book.userId and bought_book.bookId = " + data.get(0) + " and reviews.bookId = " + data.get(0));
 				
 				if(rs == null)
@@ -1197,10 +1106,9 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		case WRITE_REVIEW: {
-			
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date date = new Date();
-			
+
 			String sqlStmt = "INSERT INTO reviews (`userId`, `bookId`, `content`, `status`, `date`)"
 					+ "VALUES ('"+data.get(0)+"','"+data.get(1)+"','"+data.get(2)+"','pending','"+dateFormat.format(date).toString()+"')";
 	
@@ -1208,6 +1116,7 @@ public class ServerController extends AbstractServer {
 				DatabaseController.addToDatabase(sqlStmt);
 				sqlResult = true;
 			} catch (SQLException e) {
+				//System.out.println(sqlStmt);
 				System.out.println(e);
 				if (e.getErrorCode() == 1062) { //// duplicate primary key
 					System.out.println("duplicate primary key - Write a review");
@@ -1248,7 +1157,6 @@ public class ServerController extends AbstractServer {
 				}
 				replay = new Replay(ActionType.GET_BOOK_LIST, true, elementsList);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1460,7 +1368,6 @@ public class ServerController extends AbstractServer {
 				stmt.executeUpdate("DELETE FROM book_subjects WHERE bookId=" + sn);
 				replay = new Replay(ActionType.DELETE_BOOK, true);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1474,7 +1381,6 @@ public class ServerController extends AbstractServer {
 				stmt.executeUpdate("UPDATE books SET hide="+hide+" WHERE sn="+sn);
 				replay = new Replay(ActionType.HIDE_BOOK, true);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1493,7 +1399,6 @@ public class ServerController extends AbstractServer {
 				Float price = Float.parseFloat(data.get(8));
 				String authorsId = data.get(1);
 				String SubjectsList = data.get(4);
-				//System.out.println("asasassas");
 				
 				String subjectsId[];
 				subjectsId = SubjectsList.split("\\^");
@@ -1786,7 +1691,6 @@ public class ServerController extends AbstractServer {
 				}
 				replay = new Replay(ActionType.CHECK_WRITE_REVIEW, allowed);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1809,7 +1713,6 @@ public class ServerController extends AbstractServer {
 				}
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -1882,6 +1785,7 @@ public class ServerController extends AbstractServer {
 			
 			//System.out.println(dateFormat.format(date).toString());
 			
+			//add boughtBook.
 			String sqlStmt = "INSERT INTO bought_book (`userId`, `bookId`, `purchaseDate`, `price`)"
 					+ "VALUES ('"+data.get(0)+"','"+data.get(1)+"','"+dateFormat.format(date).toString()+"','"+data.get(2)+"')";
 	
@@ -1891,6 +1795,7 @@ public class ServerController extends AbstractServer {
 				int count=0;
 				float credits=0;
 				
+				//increase the purchase counter.
 				Statement stmt = DatabaseController.connection.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT book_by_date.purchaseCount FROM project.book_by_date "
 						+ "WHERE book_by_date.bookId ='" + data.get(1) + "' AND book_by_date.date = '" + dateFormat.format(date).toString() + "';");
@@ -1904,14 +1809,14 @@ public class ServerController extends AbstractServer {
 						+ "book_by_date.bookId ='" + data.get(1) + "' AND book_by_date.date = '" + dateFormat.format(date).toString() + "';");
 				
 				
-				if(data.get(3).equals("3"))
+				if(data.get(3).equals("2") || data.get(3).equals("3"))//decrease the credits.
 				{
 					stmt = DatabaseController.connection.createStatement();
 					rs = stmt.executeQuery("SELECT clients.credits FROM project.clients "
 							+ "WHERE clients.username ='" + data.get(0) + "';");
 					while (rs.next()) {
 						//sqlResult = true;
-						credits = Integer.parseInt(rs.getString(1));
+						credits = Float.parseFloat(rs.getString(1));
 					}
 					credits = credits - Float.parseFloat(data.get(2));
 					
@@ -1921,11 +1826,7 @@ public class ServerController extends AbstractServer {
 				
 				sqlResult = true;
 			} catch (SQLException e) {
-				System.out.println("");
-				System.out.println(e);
-				if (e.getErrorCode() == 1062) { //// duplicate primary key
-					//System.out.println("duplicate primary key - bought book");
-				}
+				e.printStackTrace();
 			}
 
 			if (sqlResult == true)
@@ -1934,7 +1835,34 @@ public class ServerController extends AbstractServer {
 			}
 			else {
 				replay = new Replay(ActionType.BUY_BOOK, false,data.get(3));
-				//System.out.println(replay.getSucess());
+			}
+			break;
+		}
+		case BUY_SUBSCRIPTION: {
+			try {
+				//
+				float credits=0;
+				ResultSet rs = DatabaseController.searchInDatabase("SELECT clients.credits FROM project.clients "
+						+ "WHERE clients.username ='" + data.get(0) + "';");
+				while (rs.next()) {
+					credits = Float.parseFloat(rs.getString(1));
+				}
+				credits = credits + Float.parseFloat(data.get(1));
+				
+				DatabaseController.updateDatabase("UPDATE clients SET credits="+credits+" , endSubscription='" + data.get(2) + "' , accountStatus='Standard' WHERE "
+						+ "clients.username ='" + data.get(0) + "';");
+
+				sqlResult = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			if (sqlResult == true)
+			{
+				replay = new Replay(ActionType.BUY_SUBSCRIPTION,true,data.get(3));
+			}
+			else {
+				replay = new Replay(ActionType.BUY_SUBSCRIPTION, false,data.get(3));
 			}
 			break;
 		}
@@ -1969,9 +1897,8 @@ public class ServerController extends AbstractServer {
 
 	/**
 	 * When the user pressed menu -> "help" it displays the user the message
-	 * about us.
-	 * 
-	 * @param event
+	 * about us. 
+	 * @param event - Gets the event.
 	 */
 	@FXML
 	public void PressedHelpMenu(ActionEvent event) {
@@ -1985,8 +1912,7 @@ public class ServerController extends AbstractServer {
 	/**
 	 * This function called when the user pressed on the button connect or
 	 * disconnect the function connect databse, and server.
-	 * 
-	 * @param event
+	 * @param event - Gets the event.
 	 * @throws IOException
 	 */
 	@FXML
@@ -2054,9 +1980,7 @@ public class ServerController extends AbstractServer {
 	/**
 	 * This function send the parameter to file, and to I/O after getting the
 	 * time. it appends the string.
-	 * 
-	 * @param msg
-	 *            - message that will be write in log file, and into server GUI.
+	 * @param msg - Gets themessage that will be write in log file, and into server GUI.
 	 */
 	void writeToLog(String msg) {
 		Date datelog = new Date();
@@ -2073,17 +1997,12 @@ public class ServerController extends AbstractServer {
 	protected void serverStarted() {
 		writeToLog("Server listening for connections\non port: " + getPort());
 	}
-	/*
-	 * protected void serverStopped() { //writeToLog("NIR"); }
-	 * 
-	 * writeToLog("Server stopped"); }
-	 */
 
-	
 	
 	/**
 	 * This function returns relevant data for book search
 	 * @author itain
+	 * @return - all unhidden books from server with relevant data for books search
 	 */
 	private ArrayList<String> makeSearchBook() throws IOException 
 	{
@@ -2116,12 +2035,6 @@ public class ServerController extends AbstractServer {
 				book_sn.add(rs_books.getString(1));
 			}
 			
-			/*
-			 System.out.println(" ");
-			 for(int i=0;i<elementsList.size();i++)
-				 System.out.println(elementsList.get(i)); 
-			 System.out.println(" ");
-			 */
 			
 			/* add authors names for each book */
 			ResultSet rs_book_authors = stmt.executeQuery("SELECT * FROM book_authors;");
@@ -2171,7 +2084,6 @@ public class ServerController extends AbstractServer {
 
 			}
 			
-
 			
 			/* add subjects count for each book */ 
 			ResultSet rs_books2 = stmt.executeQuery("SELECT subjectsCount FROM books;");
@@ -2184,7 +2096,6 @@ public class ServerController extends AbstractServer {
 				k++;
 			}
 			
-
 		
 			//download book_subjects table from DB
 			ResultSet rs_bookSubjects= stmt.executeQuery("SELECT * from book_subjects;");
@@ -2289,12 +2200,6 @@ public class ServerController extends AbstractServer {
 				if(Integer.parseInt(filter.get(i))==0)
 					res.add(elementsList.get(i));
 		
-			/*
-			 for(int i=0;i<res.size();i++)
-				 System.out.println(res.get(i)); 
-			 System.out.println(" ");
-			 */
-			
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -2307,8 +2212,9 @@ public class ServerController extends AbstractServer {
 	
 	/**
 	 * This function returns number of items on each book row on search
-	 * @author itain
-	 * @param str- string to be checked
+	 * @param str - Gets str string.
+	 * @param loofFor - Gets lookFor string.
+	 * @return - the count of items.
 	 */
 	private int countItems(String str, String lookFor)
 	{
@@ -2328,6 +2234,12 @@ public class ServerController extends AbstractServer {
 		return count+1;
 	}
 
+	/**
+	 * generateFile encode the file to bytes, and receive the file encoded.
+	 * @param destinationPath - Gets the destination path to the file.
+	 * @param sourceFilePath - Gets the source path.
+	 * @return The file encoded.
+	 */
 	public FileEvent generateFile(String destinationPath, String sourceFilePath) {
 
 		FileEvent fileEvent = new FileEvent();

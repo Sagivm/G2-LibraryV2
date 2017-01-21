@@ -38,7 +38,8 @@ public class ScreenController {
 
 	/**
 	 * This function actually replace the stages. we can think about it like context switch.
-	 * @param fxml - fxml is the path to .fxml file
+	 * @param fxml - Gets the screen's path.
+	 * @param title - Gets the screen's title.
 	 * @return Pointer to parent.
 	 * @throws Exception
 	 */ 

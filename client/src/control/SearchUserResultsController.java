@@ -41,20 +41,56 @@ import javafx.util.Callback;
 /** SearchUserResultsController. Responsible to show user search results and do actions on them.
  * @author itain
  */
-
-
 public class SearchUserResultsController implements ScreensIF{
 	
+	/**
+	 * shows results table  
+	 */
 	@FXML private TableView resultsTable;
+	
+	/**
+	 * shows usernames  
+	 */
 	@FXML private TableColumn usernameCol;
+	
+	/**
+	 * shows first names
+	 */
 	@FXML private TableColumn fNameCol;
+	
+	/**
+	 * shows last names
+	 */
 	@FXML private TableColumn lNameCol;
+	
+	/**
+	 * shows accounts types
+	 */
 	@FXML private TableColumn accountTypeCol;
+	
+	/**
+	 * shows accounts statuses  
+	 */
 	@FXML private TableColumn accountStatusCol;
+	
+	/**
+	 * Column for button that leads to user page  
+	 */
 	@FXML private TableColumn userPageCol;
+	
+	/**
+	 * block status of user 
+	 */
 	@FXML private TableColumn isBlockedCol;
+	
+	/**
+	 * Back button to users search page
+	 */
 	@FXML private Button backButton;
 	
+	/**
+	 * image for entering user page button
+	 */
 	private final Image enterImage = new Image("/img/enter.png");
 	
 	/**
@@ -72,14 +108,27 @@ public class SearchUserResultsController implements ScreensIF{
 	 */
 	private static HomepageManagerController managerMain;
 	
+	/**
+	 * holds users data from worker's search
+	 */
 	public static ArrayList<String> userResult;
+	
+	/**
+	 * holds users data from worker's search in order to show on the results table
+	 */
 	private ObservableList<SearchUserResult> data = FXCollections.observableArrayList();
 			
-	/**
-	 * initialize data from the DB in the form on load.
+	
+	/** initializing data when page comes up
+	 * @author itain
 	 */
 	@FXML
 	private void initialize(){
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e2) {
+			e2.printStackTrace();
+		}
 		if(SearchUserController.updateSearchUserResults==1) //updateBlockStatus
 		{
 			for(int i=0;i<userResult.size();i++)
@@ -136,7 +185,8 @@ public class SearchUserResultsController implements ScreensIF{
 						}
 					}
 					 catch (Exception e1) {
-						//e1.printStackTrace();
+						e1.printStackTrace();
+						/*
 						 initialize();
 							try {
 								TimeUnit.SECONDS.sleep(1);
@@ -144,6 +194,7 @@ public class SearchUserResultsController implements ScreensIF{
 								// TODO Auto-generated catch block
 								e2.printStackTrace();
 							}
+							*/
 					}
 										
 					fNameCol.setSortType(TableColumn.SortType.ASCENDING);
@@ -257,9 +308,10 @@ public class SearchUserResultsController implements ScreensIF{
 		
 	}
 	
-	//public static ArrayList<String> resultList;
-	
-	
+	/** When pressed, takes worker to workers search page.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	public void backButtonPressed(ActionEvent event) {
 		if(ClientUI.getTypeOfUser()=="Librarian")
     	{

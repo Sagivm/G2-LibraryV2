@@ -26,6 +26,7 @@ public class Domain {
 	
 	/**
 	 * Domain constructor store the data.
+	 * @author itain
 	 * @param domainsIdCounter - add 1 to domainsIdCounter.
 	 * @param id - Gets domainsIdCounter.
 	 * @param name - Gets the name.
@@ -40,6 +41,7 @@ public class Domain {
 	
 	/**
 	 * Domain empty constructor
+	 * @author itain
 	 * @param subjects - initiate empty array
 	 */
 	public Domain() {
@@ -49,6 +51,7 @@ public class Domain {
 	}
 
 	/** Getter for id
+	 * @author itain
 	 * @return id
 	 */
 	public int getId() {
@@ -56,13 +59,15 @@ public class Domain {
 	}
 
 	/** Setter for id
-	 * @id - id of domain
+	 * @author itain
+	 * @param id - id of domain
 	 */
 	public void setId(int id) {
 		this.id=id;
 	}
 
 	/** Getter for name
+	 * @author itain
 	 * @return name
 	 */
 	public String getName() {
@@ -70,7 +75,8 @@ public class Domain {
 	}
 
 	/** Setter for name
-	 * @name - the name of domain
+	 * @author itain
+	 * @param name - the name of domain
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -79,6 +85,7 @@ public class Domain {
 
 	
 	/** Getter for subjects
+	 * @author itain
 	 * @return subjects
 	 */
 	public ArrayList<Subject> getSubjects() {
@@ -86,14 +93,16 @@ public class Domain {
 	}
 
 	/** Setter for subjects
-	 * subjects - subjects under this domain
+	 * @author itain
+	 * @param subjects - subjects under this domain
 	 */
 	public void setSubjects(ArrayList<Subject> subjects) {
 		this.subjects = subjects;
 	}
 	
 	/** Getter for subjects count
-	 * @return subjects.size()
+	 * @author itain
+	 * @return number of subjects
 	 */
 	public int getSubjectsCount() {
 		return subjects.size();

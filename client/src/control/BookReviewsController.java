@@ -27,8 +27,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
-
-
+import javafx.scene.text.TextFlow;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -53,47 +52,10 @@ import java.nio.channels.ReadableByteChannel;
  */
 public class BookReviewsController implements ScreensIF {
 	
-/*	
-	*//**
-	 * Shows the book title.
-	 *//*
-	@FXML
-	private Label lblBookTitle;
-	
-	*//**
-	 * Shows the authors names.
-	 *//*
-	@FXML
-	private Label lblAuthor;
-	
-	*//**
-	 * Shows the language of the book.
-	 *//*
-	@FXML
-	private Label lblLanguage;
-	
-	*//**
-	 * Shows the book summary.
-	 *//*
-	@FXML
-	private Label lblSummary;
-	
-	*//**
-	 * Shows the image of the book.
-	 *//*
-	@FXML
-	private ImageView imgBookImg;*/
-	
 	/**
 	 * Gets the specific book entity.
 	 */
-	//public static Book book; 
 	public static SearchBookResult book; 
-	
-/*	*//**
-	 * Load the image from the path.
-	 *//*
-	private Image bookImage;*/
 	
 	/**
 	 * Shows the reviews in a loop.
@@ -177,39 +139,6 @@ public class BookReviewsController implements ScreensIF {
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				Date purchaseDate,reviewDate;
 				
-/*				lblBookTitle.setText(book.getBookTitle());
-				//authors = book.getAuthorsList().get(0).getFirstname() + " " + book.getAuthorsList().get(0).getLastname();
-				authors = book.getBookAuthors();
-				for(int i=1;i<book.getAuthorsList().size();i++)
-					authors +=", " + book.getAuthorsList().get(i).getFirstname() + " " + book.getAuthorsList().get(i).getLastname();
-				lblAuthor.setText(authors);
-				lblLanguage.setText(book.getBookLanguage());
-				bookSummary = book.getBookSummary();*/
-				
-/*				textLength = bookSummary.length();
-				for(int i=90;i<textLength;i++)
-				{
-					 if (bookSummary.charAt(i) == ' ')
-					 {
-						 bookSummary = bookSummary.substring(0, i) + "\n" + bookSummary.substring(i+1, bookSummary.length());
-						 i+=90;
-					 }
-				}*/
-				
-/*				lblSummary.setText(bookSummary);
-				
-				String imageName = "Lord of the rings1.png";///add to book entity
-				try{
-				bookImage = new Image("/img/Books/" + imageName);
-				//bookImage.
-				}
-				catch (Exception e) {
-					bookImage = new Image("/img/Books/no photo.png");
-					//e.printStackTrace();
-				}
-
-				imgBookImg.setImage(bookImage);	
-							*/
 				scrollPaneReviews.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 				scrollPaneReviews.setStyle("-fx-background-color:transparent;");
 				
@@ -217,7 +146,7 @@ public class BookReviewsController implements ScreensIF {
 				Label lblPosition2 = new Label();
 				
 				if((data.size()/5)<2)
-					posY=100;
+					posY=200;
 				
 				lblPosition.setLayoutX(0);
 				lblPosition.setLayoutY(-posY);
@@ -259,11 +188,11 @@ public class BookReviewsController implements ScreensIF {
 				else
 				{
 					for(int i=0; i<data.size(); i+=5){
-						
 						Label lblFullName = new Label();
 						Label lblPurchasedDate = new Label();
 						Label lblReviewDate = new Label();
 						Label lblReviewContent = new Label();
+						//TextFlow lblReviewContent = new TextFlow();
 						Line hLine = new Line();
 						Label lblPosition3 = new Label();
 						
@@ -285,18 +214,24 @@ public class BookReviewsController implements ScreensIF {
 						reviewContent = data.get(i+4);
 						textLength = reviewContent.length();
 						rows=1;
+						int cnt=0;
 						for(int j=120;j<textLength;j++)
 						{
-							 if (reviewContent.charAt(j) == ' ')
+							 if (reviewContent.charAt(j) == '\n')
+							 {
+								 cnt++;
+							 }
+							/* if (reviewContent.charAt(j) == ' ')
 							 {
 								 reviewContent = reviewContent.substring(0, j) + "\n" + reviewContent.substring(j+1, reviewContent.length());
 								 j+=120;
 								 rows++;
-							 }
+							 }*/
 						}
-						//System.out.println(rows);
+						System.out.println(cnt);
+						rows=cnt;
 						lblReviewContent.setText(reviewContent);
-						
+
 						lblFullName.setFont(new Font("Arial", 14));
 						lblFullName.setTextFill(Color.web("#0076a3"));
 						lblPurchasedDate.setFont(new Font("Arial", 14));
@@ -304,6 +239,8 @@ public class BookReviewsController implements ScreensIF {
 						lblReviewDate.setFont(new Font("Arial", 14));
 						lblReviewDate.setTextFill(Color.web("grey"));
 						lblReviewContent.setFont(new Font("Arial", 14));
+						lblReviewContent.setWrapText(true);
+
 						
 						lblPosition3.setLayoutX(0);
 						lblPosition3.setLayoutY(30+i*(h*rows));

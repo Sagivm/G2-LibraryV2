@@ -54,7 +54,7 @@ public class Validate {
 	/** 
 	 * This static function validates name for characters only.
 	 * @param text - Gets string
-	 * @return true when the string contains only characters, and else false.
+	 * @return - true when the string contains only characters, and else false.
 	 */
 	public static boolean nameValidateCharactersOnly(String text) {
 	if(text.isEmpty())
@@ -67,8 +67,8 @@ public class Validate {
 	
 	/**
 	 * This static function validate the credit card number.
-	 * @param text
-	 * @return
+	 * @param text - Gets the text.
+	 * @return - the answer.
 	 */
 	public static boolean cardNumberValidate(String text) {
 	if (text.matches("[0-9]+")) 
@@ -78,8 +78,8 @@ public class Validate {
 	
 	/**
 	 * This static function validate if inserted 2 digits.
-	 * @param text
-	 * @return
+	 * @param text - Gets the text.
+	 * @return - the answer.
 	 */
 	public static boolean twoDigitValidate(String text) {
 	if (text.matches("[0-9]+") && text.length() == 2) 
@@ -90,14 +90,26 @@ public class Validate {
 	
 	/**
 	 * This static function validate for CVV.
-	 * @param text
-	 * @return
+	 * @param text - Gets the text.
+	 * @return - the answer.
 	 */
 	public static boolean cvvValidate(String text) {
 	if (text.matches("[0-9]+") && (text.length() == 3 || text.length() == 4 )) 
 		return true;
 	
 	return false;
+	}
+	
+	/**
+	 * Get string and add apostrophe beside of every apostrophe in the text to fix
+	 * writing to DB problem.
+	 * @param str
+	 * @return
+	 */
+	public static String fixText(String str)
+	{
+		str = str.replace("'", "''");
+		return str;
 	}
 	
 }

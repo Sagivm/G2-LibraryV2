@@ -33,6 +33,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -59,32 +60,109 @@ import javafx.geometry.Rectangle2D;
 public class BookPageController implements ScreensIF
 {
 
+	/**
+	 * lable which contains book's name 
+	 */
 	@FXML private Label bookLable;
+	
+	/**
+	 * lable which contains book's authors names 
+	 */
 	@FXML private Label authorsLable;
+	
+	/**
+	 * lable which contains book's language 
+	 */
 	@FXML private Label languageLable;
+	
+	/**
+	 * lable which contains book's domains 
+	 */
 	@FXML private Label domainsLable;
+	
+	/**
+	 * lable which contains book's subjects 
+	 */
 	@FXML private Label subjectsLable;
+	
+	/**
+	 * text area which contains book's key words 
+	 */
 	@FXML private TextArea keyWordsTextArea;
+	
+	/**
+	 * text area which contains book's table of contents.
+	 */
 	@FXML private TextArea tocTextArea;
+	
+	/**
+	 * text area which contains book's summary. 
+	 */
 	@FXML private TextArea summaryTextArea;
+	
+	/**
+	 * lable which contains book's price 
+	 */
 	@FXML private Label priceLable;
 	
+	
+	/**
+	 * tab pane which contains book's details 
+	 */
 	@FXML private TabPane bookTabPane;
+	
+	/**
+	 * tab for book's reviews page
+	 */
 	@FXML private Tab readReviewsTab;
+	
+	/**
+	 * tab for writing a review page
+	 */
 	@FXML private Tab writeReviewTab;
+	
+	/**
+	 * tab for book's report
+	 */
 	@FXML private Tab bookReportTab;
+	
+	/**
+	 * tab which contains book's popularity report
+	 */
 	@FXML private Tab popularityReportTab;
 	
+	/**
+	 * anchor pane which contains book's reviews page
+	 */
 	@FXML private AnchorPane readReviewContent;
+	
+	/**
+	 * anchor pane which show book's writing a reviews page
+	 */
 	@FXML private AnchorPane writeReviewContent;
+	
+	/**
+	 * anchor pane which show book's report page
+	 */
 	@FXML private AnchorPane bookReportContent;
+	
+	/**
+	 * anchor pane which show book's popularity report page
+	 */
 	@FXML private AnchorPane popularityContent;
 	
+	/**
+	 * image view which show book's image
+	 */
 	@FXML private ImageView imgBookImg;
 	
 	@FXML private Label lblBought;
 	@FXML private Button btnPurchase;
 	@FXML private Button btnDownload;
+	
+	/**
+	 * button which takes user to last page
+	 */
 	@FXML private Button backButton;
 	
 	public static ArrayList<String> img;
@@ -92,6 +170,10 @@ public class BookPageController implements ScreensIF
 	
 	public static boolean canWrite = false;
 	
+	
+	/**
+	 * contains book's data to show on page
+	 */
 	public static SearchBookResult searchedBookPage;
 	
 	/**
@@ -121,6 +203,10 @@ public class BookPageController implements ScreensIF
 	 */
 	private Image bookImage;
 	
+	
+	/** initializing data when page comes up
+	 * @author itain
+	 */
 	@FXML
 	public void initialize() 
 	{
@@ -303,7 +389,6 @@ public class BookPageController implements ScreensIF
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//bookTabPane.getTabs().remove(3);
 		bookLable.setText(searchedBookPage.getBookTitle());
 		languageLable.setText(searchedBookPage.getBookLanguage());
 		summaryTextArea.setText(searchedBookPage.getBookSummary());
@@ -323,29 +408,11 @@ public class BookPageController implements ScreensIF
 		keyWordsTextArea.setWrapText(true);
 
 		
-		/*
-		int authorsCount=Integer.parseInt(bookData[6]);
-		String authors=bookData[7]; //first author
-		for(i=1;i<authorsCount;i++)
-			authors+=", "+bookData[7+i];
-			*/
 		authorsLable.setText(searchedBookPage.getBookAuthors());
-		/*
-		int continue_index=7+authorsCount;
-		
-		int domainsCount=Integer.parseInt(bookData[continue_index]);
-		String subjects=bookData[continue_index+1]; //first subject
-		String domains=bookData[continue_index+2]; //first domain
-		
-		for(i=1;i<domainsCount;i+=2)
-		{
-			subjects+=", "+bookData[continue_index+1+i];
-			domains+=", "+bookData[continue_index+2+i];
-		}
-		*/
+
 		subjectsLable.setText(searchedBookPage.getBookSubjects());
 		domainsLable.setText(searchedBookPage.getBookDomains());
-		//continue_index=continue_index+domainsCount;
+
 		priceLable.setText(searchedBookPage.getBookPrice()+ " \u20AA");
 	}
 	
@@ -357,6 +424,7 @@ public class BookPageController implements ScreensIF
 		return message;
 	}
 	
+
 	@FXML
 	public void loadReviews() throws IOException {
 				try {
@@ -388,7 +456,18 @@ public class BookPageController implements ScreensIF
 			boolean ans = yesNoDialog("Are you sure you want to buy this book?");
 			if(ans == true)
 			{
-				if(buyStatus.equals("2"))
+				/*
+				 * Action list:
+				 * 1: PerBook - buy book. - call to ExternalPaymentController.
+				 * 2: Monthly - buy book. - call to PaymentController.
+				 * 3: Yearly - buy book. - call to PaymentController.
+				 * ---------------------
+				 * Status list:
+				 * 1: already bought this book.
+				 * 2: user PerBook account type and allowed to buy this book.
+				 * 3: user Subscribed account type and allowed to buy this book.
+				 */
+				if(buyStatus.equals("2")) //PerBook
 				{
 					ScreenController screenController = new ScreenController();
 			        try {
@@ -396,7 +475,8 @@ public class BookPageController implements ScreensIF
 			        	extPayment.setProduct("Book - " + searchedBookPage.getBookTitle());
 			        	extPayment.setPrice(searchedBookPage.getBookPrice());
 			        	extPayment.setAction(1);	//buy book PerBook
-			        	extPayment.searchedBookPage = searchedBookPage;
+			        	//extPayment.searchedBookPage = searchedBookPage;
+			        	PaymentController.searchedBookPage = searchedBookPage;
 			        	        			        	
 						screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.EXTERNAL_PAYMENT_TITLE);
 						Stage primaryStage = screenController.getStage();
@@ -489,17 +569,19 @@ public class BookPageController implements ScreensIF
 	public void btnDownloadPressed(ActionEvent event) throws IOException{    
 		try{
 			
-		Alert alert = new Alert(AlertType.CONFIRMATION, 
-		"Choose format: PDF - Yes, WORD - No",ButtonType.YES, ButtonType.NO);
-		alert.setTitle("Choose format");
-		alert.setHeaderText(null);
-		alert.setContentText("Choose format: PDF - Yes, WORD - No");
-		Optional<ButtonType> result = alert.showAndWait();
-		String format;
-		if (result.get() == ButtonType.YES)
-			format = "pdf";
-		else format= "word";
-			
+			ArrayList<String> choices = new ArrayList<String>();
+			choices.add("pdf");
+			choices.add("docx");
+			choices.add("bf2");
+
+			ChoiceDialog<String> dialog = new ChoiceDialog<>("pdf", choices);
+			dialog.setTitle(null);
+			dialog.setHeaderText("Format choose:");
+			dialog.setContentText("Format:");
+
+			// Traditional way to get the response value.
+			Optional<String> result = dialog.showAndWait();
+			String format = result.get();
 		
 			final Label labelSelectedDirectory = new Label();
 			DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -511,14 +593,15 @@ public class BookPageController implements ScreensIF
             }else{
                 labelSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
             }
-            
-            
-            ArrayList <String> elementsList = new ArrayList<String>();
-            elementsList.add(labelSelectedDirectory.getText());
-            elementsList.add(searchedBookPage.getBookTitle());
+            char ot1='\\';
+            char ot2='/';
+            String path = labelSelectedDirectory.getText().replace(ot1,ot2);
+            ArrayList <String> elementsList = new ArrayList<String>();         
+            elementsList.add(path);         
+            elementsList.add(searchedBookPage.getBookSn());        
             elementsList.add(format);
             Message message = new Message(ActionType.FILE,elementsList);
-            
+            actionToDisplay(ActionType.CONTINUE,"File successfully saved");
     		try {
     			ClientController.clientConnectionController.sendToServer(message);
     		} catch (IOException e) {	
@@ -550,6 +633,10 @@ public class BookPageController implements ScreensIF
 		return false;
 	}
 	
+	/** When pressed, takes user to search book result page.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	@FXML
 	public void backButtonPressed(ActionEvent event)
 	{
@@ -595,7 +682,26 @@ public class BookPageController implements ScreensIF
 	@Override
 	public void actionOnError(ActionType type, String errorCode) {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	/** shows an alert to screen
+	 * @author itain
+	 * @param type - Gets type of action.
+	 * @param message - Gets message to display.
+	 */
+	public void actionToDisplay(ActionType type, String message) {
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+		if (type == ActionType.TERMINATE) {
+			Platform.exit();
+			System.exit(1);
+		}
+		if (type == ActionType.CONTINUE)
+			return;
 	}
 
 }

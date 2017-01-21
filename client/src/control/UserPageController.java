@@ -27,39 +27,110 @@ import javafx.scene.layout.AnchorPane;
 
 public class UserPageController implements ScreensIF{
 
+	/**
+	 * lable which contains the full name and his username (headline)
+	 */
 	@FXML private Label userLable;
+	
+	/**
+	 * lable which contains user's username 
+	 */
 	@FXML private Label usernameLable;
+	
+	/**
+	 * lable which contains user's password
+	 */
 	@FXML private Label passwordLable;
+	
+	/**
+	 * lable which contains user's first name 
+	 */
 	@FXML private Label fNameLable;
+	
+	/**
+	 * lable which contains user's last name 
+	 */
 	@FXML private Label lNameLable;
+	
+	/**
+	 * check box which says whether user is blocked or not 
+	 */
 	@FXML private CheckBox blockedCheckBox;
+	
+	/**
+	 * lable which contains user's account status
+	 */
 	@FXML private Label accountStatusLable;
+	
+	/**
+	 * lable which contains user's account type
+	 */
 	@FXML private Label accountTypeLable;
+	
+	/**
+	 * credits lable
+	 */
 	@FXML private Label creditsLable;
+	
+	/**
+	 * lable which contains user's left credits 
+	 */
 	@FXML private Label crdtsLable;
+	
+	/**
+	 * end of subscription date lable
+	 */
 	@FXML private Label endSubscroptionLable;
+	
+	/**
+	 * lable which contains user's end of subscription date
+	 */
 	@FXML private Label eosTextLable;
 	
+	/**
+	 * tab pane which contains users's details 
+	 */
 	@FXML private TabPane userTabPane;
+	
+	/**
+	 * tab to show edit user for librarian
+	 */
 	@FXML private Tab editUserLibrarianTab;
-	@FXML private Tab editUserManagerTab;
+	
+	/**
+	 * tab to show user's report
+	 */
 	@FXML private Tab userReportTab;
 	
+	/**
+	 * anchor pane which contains edit user details page for librarian
+	 */
 	@FXML private AnchorPane editUserLibrarianContent;
-	//@FXML private AnchorPane editUserManagerContent;
+	
+	/**
+	 * anchor pane which contains show user's report page for
+	 */
 	@FXML private AnchorPane userReportContent;
 	
+	/**
+	 * image of user
+	 */
 	@FXML private ImageView userImageView;
 	
+	/**
+	 * block user button for manager
+	 */
 	@FXML private Button blockButton;
+	
+	/**
+	 * unblock user button for manager
+	 */
 	@FXML private Button unblockButton;
 	
-	
-	
-	
+
 	
 		/**
-	 * user information
+	 * holds user's information to display
 	 */
 	public static SearchUserResult searchedUserPage;
 	
@@ -81,6 +152,10 @@ public class UserPageController implements ScreensIF{
 	 */
 	private static HomepageManagerController managerMain;
 	
+	
+	/** initializing data when page comes up
+	 * @author itain
+	 */
 	@FXML
 	public void initialize()
 	{ 
@@ -135,6 +210,9 @@ public class UserPageController implements ScreensIF{
 		
 	}
 
+	/** when page comes up, loads edit user page for librarian
+	 * @author itain
+	 */
 	@FXML
 	public void loadEditUserLibrarian() throws IOException {
 				try {
@@ -146,20 +224,12 @@ public class UserPageController implements ScreensIF{
 					e.printStackTrace();
 				}
 	}
-	/*
-	@FXML
-	public void editUserManagerTab() throws IOException {
-				try {
-					if(editUserManagerContent.getChildren().size()>0)
-						editUserManagerContent.getChildren().remove(0);
-					Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.USER_PAGE_MANAGER_SCREEN));
-					editUserManagerContent.getChildren().add(root);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	}
-	*/
+
 	
+	/** when page comes up, loads user's report page
+	 * @author itain
+	 */
+	/* FOR SAGIV! */
 	/*
 	@FXML
 	public void loadUserReport() throws IOException {
@@ -174,6 +244,10 @@ public class UserPageController implements ScreensIF{
 	}
 	*/
 	
+	/** When pressed, takes user to search users result page.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	@FXML
 	public void backButtonPressed(ActionEvent event)
 	{
@@ -222,7 +296,10 @@ public class UserPageController implements ScreensIF{
 		
 	}
 	
-	
+	/** When pressed, blocks user from system.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	@FXML
 	public void blockButtonPressed(ActionEvent event) 
 	{		
@@ -238,6 +315,10 @@ public class UserPageController implements ScreensIF{
 		}
 	}
 	
+	/** When pressed, unblocks user from system.
+	 * @author itain
+	 * @param event - Gets event.
+	 */
 	@FXML
 	public void unblockButtonPressed(ActionEvent event) 
 	{		
@@ -256,6 +337,7 @@ public class UserPageController implements ScreensIF{
 	
 	/** This function prepare message that will be send to the server with arraylist,
 	 * and the action.
+	 * @author itain
 	 * @param type - Gets the type of the action
 	 * @param user - Gets the class with the user information.
 	 * @return - message that will send to server.

@@ -41,23 +41,49 @@ import javafx.util.Callback;
 /** SearchWorkerResultsController. Responsible to show worker search results
  * @author itain
  */
-
-
 public class SearchWorkerResultsController implements ScreensIF{
 	
+	/**
+	 * shows results table  
+	 */
 	@FXML private TableView resultsTable;
+	
+	/**
+	 * shows usernames  
+	 */
 	@FXML private TableColumn usernameCol;
+	
+	/**
+	 * shows first names
+	 */
 	@FXML private TableColumn fNameCol;
+	
+	/**
+	 * shows last names
+	 */
 	@FXML private TableColumn lNameCol;
+	
+	/**
+	 * shows emails
+	 */
 	@FXML private TableColumn emailCol;
+	
+	/**
+	 * shows jobs
+	 */
 	@FXML private TableColumn jobCol;
+	
+	/**
+	 * shows depatments
+	 */
 	@FXML private TableColumn departmentCol;
+	
+	/**
+	 * Back button to workers search page
+	 */
 	@FXML private Button backButton;
 	
-	//public static ArrayList<String> resultList;
-	
 
-	
 	/**
 	 * static reference of librarian home page.
 	 */
@@ -68,11 +94,20 @@ public class SearchWorkerResultsController implements ScreensIF{
 	 */
 	private static HomepageManagerController managerMain;
 	
+	/**
+	 * holds workers data from worker's search
+	 */
 	public static ArrayList<String> workerResult;
+	
+	/**
+	 * holds workers data from worker's search in order to show on the results table
+	 */
 	private ObservableList<SearchWorkerResult> data = FXCollections.observableArrayList();
 			
-	/**
-	 * initialize data from the DB in the form on load.
+	
+	
+	/** initializing data when page comes up
+	 * @author itain
 	 */
 	@FXML
 	private void initialize(){
@@ -83,7 +118,6 @@ public class SearchWorkerResultsController implements ScreensIF{
 				try { //Necessary! without that search sometimes is wrong..
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 				try {
@@ -96,12 +130,10 @@ public class SearchWorkerResultsController implements ScreensIF{
 						}
 					}
 					 catch (Exception e1) {
-						//e1.printStackTrace();
 						 initialize();
 							try {
 								TimeUnit.SECONDS.sleep(1);
 							} catch (InterruptedException e2) {
-								// TODO Auto-generated catch block
 								e2.printStackTrace();
 							}
 					}
@@ -128,12 +160,7 @@ public class SearchWorkerResultsController implements ScreensIF{
 					
 					jobCol.setCellValueFactory(
 			                new PropertyValueFactory<SearchWorkerResult, String>("job"));
-					
-					
-					
-					
-					
-					
+
 					usernameCol.setStyle( "-fx-alignment: CENTER;");
 					fNameCol.setStyle( "-fx-alignment: CENTER;");
 					lNameCol.setStyle( "-fx-alignment: CENTER;");

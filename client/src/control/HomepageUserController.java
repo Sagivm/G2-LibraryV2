@@ -1,9 +1,14 @@
 package control;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 //import java.net.URL;
 //import java.util.ResourceBundle;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import entity.Author;
 import entity.Book;
@@ -382,15 +387,24 @@ public class HomepageUserController implements ScreensIF {
 		}
 	}
 	
-	public void btnPayForSubscriptionPressed() throws IOException
-	{
-/*		try {
+	public void btnPayForSubscriptionPressed() throws Exception
+	{	
+		try 
+		{
 			ScreenController screenController = new ScreenController();
         	ExternalPaymentController extPayment = new ExternalPaymentController();
         	extPayment.setProduct(subscription.get(0).toString() + " Subscription");
-        	extPayment.setPrice(searchedBookPage.getBookPrice());
-        	extPayment.setAction(1);	//buy book PerBook
-        	extPayment.searchedBookPage = searchedBookPage;
+        	if(subscription.get(0).toString().equals("Monthly"))
+        	{
+        		extPayment.setPrice("250");
+        		extPayment.setAction(4);	//Buy monthly subscription.
+        	}
+        	else
+        	{
+        		extPayment.setPrice("2800");
+        		extPayment.setAction(5);	//Buy yearly subscription.
+        	}
+        	//extPayment.searchedBookPage = searchedBookPage;
         	        			        	
 			screenController.replaceSceneContent(ScreensInfo.EXTERNAL_PAYMENT_SCREEN,ScreensInfo.EXTERNAL_PAYMENT_TITLE);
 			Stage primaryStage = screenController.getStage();
@@ -399,11 +413,10 @@ public class HomepageUserController implements ScreensIF {
 			primaryStage.show();
 			primaryStage.setX(primaryScreenBounds.getMaxX()/2.0 - primaryStage.getWidth()/2.0);
 			primaryStage.setY(primaryScreenBounds.getMaxY()/2.0 - primaryStage.getHeight()/2.0);
-			
-			//loadPage(ScreensInfo.EXTERNAL_PAYMENT_SCREEN);
+
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	public void testbookreport() {

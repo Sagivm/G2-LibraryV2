@@ -73,9 +73,6 @@ public class User extends Person {
 		case "Yearly":
 			this.accountType=AccountType.Yearly;
 			break;
-		case "Blocked":
-			this.accountType=AccountType.Blocked;
-			break;
 		case "PerBook":
 			this.accountType=AccountType.PerBook;
 			break;
@@ -86,7 +83,7 @@ public class User extends Person {
 	}
 	
 	/**
-	 * @return User's pasword.
+	 * @return User's password.
 	 */
 	public String getPassword()
 	{

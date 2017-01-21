@@ -43,6 +43,11 @@ public class GeneralMessages {
 	 */
 	public static final String EMPTY_FIELDS = "One or more fields are missing.";
 	
+	/**
+	 * Empty fields.
+	 */
+	public static final String ILLEGAL_CHARACTER = "'^' is an illegal character";
+	
 	
 	/**
 	 * Error during communication.
@@ -165,10 +170,20 @@ public class GeneralMessages {
 	 */
 	public static final String MUST_INCLUDE_ONLY_DIGITS_ID = "The ID must include only 9 digits.";
 
-
 	/**
 	 * User blocked.
 	 */
 	public static final String USER_BLOCKED = "Blocked from system.";
+	
+	/**
+	 * Purchase of the book was successfully done!.
+	 */
+	public static final String BOOK_PURCHASE_SUCCESS = "Purchase of the book was successfully done!";
+	
+	/**
+	 * Purchase of the subscription was successfully done!.
+	 */
+	public static final String SUBSCRIPTION_PURCHASE_SUCCESS = "Purchase of the subscription was successfully done!";
+	
 	
 }

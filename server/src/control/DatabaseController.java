@@ -61,23 +61,40 @@ static void CloseConnection()
 	}
 }
 
+/** Perform query to database (add).
+ * @param statement - Gets the statement.
+ * @throws SQLException - throw exception if there is problem in database.
+ */
 public static void addToDatabase(String statement) throws SQLException {
 	Statement stmt=connection.createStatement();
 	stmt.executeUpdate(statement);
     stmt.close();	
 }
 
+/** Perform query to database (remove).
+ * @param statement - Gets the statement.
+ * @throws SQLException - throw exception if there is problem in database.
+ */
 public static void removeFromDatabase(String statement) throws SQLException {
 	Statement stmt=connection.createStatement();
 	stmt.executeUpdate(statement);
     stmt.close();	
 }
+
+/** Perform query to database (update).
+ * @param statement - Gets the statement.
+ * @throws SQLException - throw exception if there is problem in database.
+ */
 public static void updateDatabase(String statement) throws SQLException {
 	Statement stmt=connection.createStatement();
 	stmt.executeUpdate(statement);
     stmt.close();	
 }
 
+/** Perform query to database (search).
+ * @param statement - Gets the statement.
+ * @throws SQLException - throw exception if there is problem in database.
+ */
 public static ResultSet searchInDatabase(String statement) throws SQLException {
 	Statement stmt = connection.createStatement();
 	ResultSet rs = stmt.executeQuery(statement);

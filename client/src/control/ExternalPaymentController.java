@@ -154,13 +154,8 @@ public class ExternalPaymentController {
 	                    Platform.runLater(new Runnable() {                          
 	                        @Override
 	                        public void run() {
-	                        		
-	                        	//System.out.println(product.toString());
-	                        	//System.out.println(price.toString());
-	                        	
 		                        lblProduct.setText(product);
-	                        	lblPrice.setText(price 	+ " \u20AA");
-	                        	
+		                        lblPrice.setText(price 	+ " \u20AA");   	
 							}
 	                        });
 	                     latch.await();                      
@@ -219,7 +214,10 @@ public class ExternalPaymentController {
 			return;
 		}
 		
-		if(action == 1)
+		PaymentController purchase = new PaymentController();
+		purchase.makePurchase(true, action);
+		
+		/*if(action == 1)
 		{	
 			ArrayList<String> buyBook = new ArrayList<>();
 			User user = HomepageUserController.getConnectedUser();
@@ -257,6 +255,10 @@ public class ExternalPaymentController {
 		        };
 		        service.start();
 		}
+		else if(action == 2)
+		{
+			purchase.makePurchase(true, action);
+		}*/
 		
 		
 		
@@ -265,14 +267,17 @@ public class ExternalPaymentController {
 	@FXML
 	public void btnCancelPressed(ActionEvent event) throws IOException
 	{ 
-		if(action == 1)
+		/*if(action == 1)
 		{
 			returnToPrevScreen(ScreensInfo.BOOK_PAGE_SCREEN);
 		}
+		*/
+		PaymentController purchase = new PaymentController();
+		purchase.makePurchase(false, action);
 		
 	}
 	
-	public void returnToPrevScreen(String screen)
+	/*public void returnToPrevScreen(String screen)
 	{
     	if (userMain == null)
     		userMain = new HomepageUserController();
@@ -297,7 +302,7 @@ public class ExternalPaymentController {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	/**
 	 * Setter of product.
@@ -314,7 +319,6 @@ public class ExternalPaymentController {
 	 */
 	public void setPrice(String price)
 	{
-		System.out.println(price);
 		this.price = price;
 	}
 	
