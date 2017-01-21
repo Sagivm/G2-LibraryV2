@@ -144,12 +144,13 @@ public class EditReviewController implements ScreensIF {
 				lblFullName.setText(editReview.getFirstName() + " " + editReview.getLastName());
 				lblDate.setText("reviewed on " + editReview.getReviewDate());
 				txtAreaContent.setText(editReview.getReviewContent());		
+				txtAreaContent.setWrapText(true);
 			}
 		});
 	}
 	
 	/**
-	 * Sends the action tho the DB.
+	 * Sends the action to the DB.
 	 * @param status
 	 * @param content
 	 */

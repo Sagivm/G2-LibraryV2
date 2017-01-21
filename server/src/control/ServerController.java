@@ -1106,10 +1106,9 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		case WRITE_REVIEW: {
-			
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date date = new Date();
-			
+
 			String sqlStmt = "INSERT INTO reviews (`userId`, `bookId`, `content`, `status`, `date`)"
 					+ "VALUES ('"+data.get(0)+"','"+data.get(1)+"','"+data.get(2)+"','pending','"+dateFormat.format(date).toString()+"')";
 	
@@ -1117,6 +1116,7 @@ public class ServerController extends AbstractServer {
 				DatabaseController.addToDatabase(sqlStmt);
 				sqlResult = true;
 			} catch (SQLException e) {
+				//System.out.println(sqlStmt);
 				System.out.println(e);
 				if (e.getErrorCode() == 1062) { //// duplicate primary key
 					System.out.println("duplicate primary key - Write a review");

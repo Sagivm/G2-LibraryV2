@@ -100,4 +100,16 @@ public class Validate {
 	return false;
 	}
 	
+	/**
+	 * Get string and add apostrophe beside of every apostrophe in the text to fix
+	 * writing to DB problem.
+	 * @param str
+	 * @return
+	 */
+	public static String fixText(String str)
+	{
+		str = str.replace("'", "''");
+		return str;
+	}
+	
 }

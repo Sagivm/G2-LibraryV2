@@ -3,13 +3,18 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.sun.javafx.image.impl.ByteIndexed.Getter;
+
 import entity.Book;
 import entity.GeneralMessages;
 import entity.Message;
 import entity.SearchBookResult;
+import entity.Validate;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,6 +23,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  * WriteReviewController is the controller that responsible
@@ -74,7 +81,8 @@ public class WriteReviewController implements ScreensIF {
 	 */
 	private Image bookImage;
 	
-	
+	protected int row = 1;
+	protected int line = 110,rowlength=0;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -131,9 +139,41 @@ public class WriteReviewController implements ScreensIF {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				String reviewContent,bookSummary,authors="";
-				int textLength,rows,h=10,y=50,posY=50;
-			
+				txtAreaReview.setWrapText(true);
+/*				txtAreaReview.textProperty().addListener(new ChangeListener < String > () {
+					   @Override
+					   public void changed(ObservableValue < ? extends String > observable,
+					    String oldValue, String newValue) {
+						   String content = "";
+						   
+						   	//if(txtAreaReview.getLength()%line == 0)
+						   	if(txtAreaReview.getLength() == row*line)
+						    //if(rowlength == line)
+						   	{
+							   //	rowlength=0;
+						   		content = txtAreaReview.getText();
+						   		content = content + "\n";
+						   		txtAreaReview.setText(content);
+						   		row++;
+						   		
+						   	}
+						   //else
+							  // rowlength++;
+					   }
+				  });
+				txtAreaReview.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
+					if (event.getCode() == KeyCode.BACK_SPACE)
+						if(txtAreaReview.getText().charAt(txtAreaReview.getText().length()-1) == '\n')
+						{
+							txtAreaReview.setText(txtAreaReview.getText().substring(0,txtAreaReview.getText().length()-1));
+							//row--;
+							//rowlength=line;
+							txtAreaReview.positionCaret(txtAreaReview.getText().length());
+							if(row<1)
+								row=1;
+						}
+				});*/
+				
 			}
 		});
 	}
@@ -141,6 +181,8 @@ public class WriteReviewController implements ScreensIF {
 	@FXML
 	public void ClearkButtonPressed(ActionEvent event) throws IOException{
 		try{
+			String text1 = txtAreaReview.getText();
+			System.out.println(text1);
 			txtAreaReview.setText("");
 		}
 		catch(Exception e) {
@@ -164,9 +206,10 @@ public class WriteReviewController implements ScreensIF {
 			}
 			ArrayList<String> review = new ArrayList<>();
 			review.add(HomepageUserController.getConnectedUser().getId());	//user id
-			//review.add(Integer.toString((book.getSn())));	//book sn
 			review.add(book.getBookSn());	//book sn
-			review.add(txtAreaReview.getText());	//review content
+			String text1 = txtAreaReview.getText();
+			//System.out.println(text1);
+			review.add(Validate.fixText(txtAreaReview.getText()));	//review content
 	
 			Message message = addReview(ActionType.WRITE_REVIEW,review);
 			

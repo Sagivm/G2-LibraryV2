@@ -594,22 +594,22 @@ public class ClientConnectionController extends AbstractClient{
 					
 					if (currUsername.equals(replay.getElementsList().get(0)))
 					{
-					HomepageUserController.setPage(null);
-					ScreenController screenController = new ScreenController();
-					try{
-						if (success == true)
-						{
-							actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_SUCCEEDED);
-							screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+						HomepageUserController.setPage(null);
+						ScreenController screenController = new ScreenController();
+						try{
+							if (success == true)
+							{
+								actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_SUCCEEDED);
+								screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+							}
+							else
+							{
+								actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_FAILED);	
+							}
 						}
-						else
-						{
-							actionToDisplay(ActionType.CONTINUE,GeneralMessages.OPERATION_FAILED);	
+			    		catch (Exception e) {
+							e.printStackTrace();
 						}
-					}
-		    		catch (Exception e) {
-						e.printStackTrace();
-					}
 					} else
 					{
 						if (flag == 2)
