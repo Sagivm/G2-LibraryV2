@@ -34,41 +34,11 @@ import javafx.scene.input.KeyEvent;
  */
 public class WriteReviewController implements ScreensIF {
 	
-/*	*//**
-	 * Shows the book title.
-	 *//*
-	@FXML
-	private Label lblBookTitle;
-	
-	*//**
-	 * Shows the authors names.
-	 *//*
-	@FXML
-	private Label lblAuthor;
-	
-	*//**
-	 * Shows the language of the book.
-	 *//*
-	@FXML
-	private Label lblLanguage;
-	
-	*//**
-	 * Shows the book summary.
-	 *//*
-	@FXML
-	private Label lblSummary;*/
-	
 	/**
 	 * A Text Area for writing a reviews.
 	 */
 	@FXML
 	private TextArea txtAreaReview;
-	
-/*	*//**
-	 * Shows the image of the book.
-	 *//*
-	@FXML
-	private ImageView imgBookImg;*/
 	
 	/**
 	 * Gets the specific book entity.
@@ -83,6 +53,7 @@ public class WriteReviewController implements ScreensIF {
 	
 	protected int row = 1;
 	protected int line = 110,rowlength=0;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -178,6 +149,11 @@ public class WriteReviewController implements ScreensIF {
 		});
 	}
 	
+	/**
+	 * clear the text in the TextArea.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void ClearkButtonPressed(ActionEvent event) throws IOException{
 		try{

@@ -1,7 +1,27 @@
-ιπε 21, 2017 8:31:50 PM control.ServerController writeToLog
+ιπε 22, 2017 1:33:28 AM control.ServerController writeToLog
 INFO: Connected to database
-ιπε 21, 2017 8:31:50 PM control.ServerController writeToLog
+ιπε 22, 2017 1:33:28 AM control.ServerController writeToLog
 INFO: Server listening for connections
 on port: 1337
-ιπε 21, 2017 8:31:57 PM control.ServerController writeToLog
+ιπε 22, 2017 1:33:37 AM control.ServerController writeToLog
 INFO: Login attempt
+ιπε 22, 2017 1:33:42 AM control.ServerController writeToLog
+INFO: Search counter of book ID '12' was increased from '9' to '10'
+ιπε 22, 2017 1:33:42 AM control.ServerController writeToLog
+INFO: Search counter of book ID '13' was increased from '9' to '10'
+ιπε 22, 2017 1:33:42 AM control.ServerController writeToLog
+INFO: Search counter of book ID '10' was increased from '9' to '10'
+ιπε 22, 2017 1:33:42 AM control.ServerController writeToLog
+INFO: Search counter of book ID '9' was increased from '9' to '10'
+ιπε 22, 2017 1:33:42 AM control.ServerController writeToLog
+INFO: Search counter of book ID '11' was increased from '9' to '10'
+ιπε 22, 2017 1:34:08 AM control.ServerController writeToLog
+INFO: Search counter of book ID '12' was increased from '10' to '11'
+ιπε 22, 2017 1:34:08 AM control.ServerController writeToLog
+INFO: Search counter of book ID '13' was increased from '10' to '11'
+ιπε 22, 2017 1:34:08 AM control.ServerController writeToLog
+INFO: Search counter of book ID '10' was increased from '10' to '11'
+ιπε 22, 2017 1:34:08 AM control.ServerController writeToLog
+INFO: Search counter of book ID '9' was increased from '10' to '11'
+ιπε 22, 2017 1:34:08 AM control.ServerController writeToLog
+INFO: Search counter of book ID '11' was increased from '10' to '11'

@@ -214,6 +214,11 @@ public class BookPageController implements ScreensIF
 	 */
 	private Image bookImage;
 	
+	/**
+	 * Which screen load this screen.
+	 */
+	public static String previousPage = "";
+	
 	
 	/** initializing data when page comes up
 	 * @author itain
@@ -690,15 +695,21 @@ public class BookPageController implements ScreensIF
     	{
         	if (managerMain == null)
         		managerMain = new HomepageManagerController();
-        	managerMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
+        	if(previousPage.equals("UserReport"))
+        		managerMain.setPage(ScreensInfo.USER_REPORT);
+        	else
+        		managerMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
     	}
     	else if(ClientUI.getTypeOfUser()=="User")
     	{
         	if (userMain == null)
         		userMain = new HomepageUserController();
-        	userMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
+        	if(previousPage.equals("UserReport"))
+        		userMain.setPage(ScreensInfo.USER_REPORT);
+        	else
+        		userMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
     	}
-		
+		previousPage = "";
 		ScreenController screenController = new ScreenController();
 		try{
 			if(ClientUI.getTypeOfUser()=="Librarian")

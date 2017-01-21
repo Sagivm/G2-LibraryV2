@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import control.BookManagementController.PropertyBook;
 import control.PendingRegistrationController.pendingUser;
@@ -87,6 +88,11 @@ public class MessagesController implements ScreensIF
 		
 		
 		Platform.runLater(() -> {
+			try {
+				TimeUnit.MILLISECONDS.sleep(300);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 			table.setEditable(true);
 			
 			dateCol.setCellValueFactory(

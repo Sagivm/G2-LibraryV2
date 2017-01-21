@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import boundry.ClientUI;
 import entity.GeneralMessages;
 import entity.Message;
+import entity.ScreensInfo;
+import entity.SearchBookResult;
 import entity.User;
 import enums.ActionType;
 import javafx.application.Platform;
@@ -17,8 +21,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 /**
  * Makes a popularity report given a specific user The class will make a book
@@ -87,7 +93,26 @@ public class UserReportController implements Initializable {
 	 * List of items that will be displayed in the table
 	 */
 	private ObservableList<Purchase> items = FXCollections.observableArrayList();
+	
+	
+	/**
+	 * static reference of user home page.
+	 */
+	private static HomepageUserController userMain;
+	
+	/**
+	 * static reference of librarian home page.
+	 */
+	private static HomepageLibrarianController librarianMain;
+	
+	/**
+	 * static reference of manager home page.
+	 */
+	private static HomepageManagerController managerMain;
+	
 
+	
+	
 	/* (non-Javadoc)
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
 	 */
@@ -99,7 +124,58 @@ public class UserReportController implements Initializable {
 
 		initializeTable();
 		initializeLabel();
-
+		
+		table.setRowFactory( tv -> {
+		    TableRow<Purchase> row = new TableRow<>();
+		    row.setOnMouseClicked(event -> {
+		        if (event.getClickCount() == 2 && (! row.isEmpty()) )
+		        {
+		        	Purchase rowData = row.getItem();
+		            System.out.println(rowData.getId());
+		            
+		            BookPageController.searchedBookPage = new SearchBookResult(
+		            		rowData.getId(),rowData.getTitle(),rowData.getLanguage(),
+		            		"","","",rowData.getAuthor(),"","",rowData.getPrice());
+                	BookPageController.previousPage = "UserReport";
+      				if(ClientUI.getTypeOfUser()=="Librarian")
+                	{
+                    	if (librarianMain == null)
+                    		librarianMain = new HomepageLibrarianController();
+                    	librarianMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+                	}
+                	else if(ClientUI.getTypeOfUser()=="Manager")
+                	{
+                    	if (managerMain == null)
+                    		managerMain = new HomepageManagerController();
+                    	managerMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+                	}
+                	else if(ClientUI.getTypeOfUser()=="User")
+                	{
+                    	if (userMain == null)
+                    		userMain = new HomepageUserController();
+                    	userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+                	}
+            		
+            		ScreenController screenController = new ScreenController();
+            		try{
+            			if(ClientUI.getTypeOfUser()=="Librarian")
+            			{
+            				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+            			}
+            			else if(ClientUI.getTypeOfUser()=="Manager")
+            				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);
+            			else if(ClientUI.getTypeOfUser()=="User")
+            				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);
+            		} 
+            		catch (Exception e) {
+    					e.printStackTrace();
+    				}  
+		            
+		            
+		        }
+		    });
+		    return row ;
+		});
 	}
 
 	/**

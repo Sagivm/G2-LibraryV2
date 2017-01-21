@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import boundry.ClientUI;
 import entity.GeneralMessages;
@@ -166,6 +167,11 @@ public class PendingReviewsController implements ScreensIF {
 		Platform.runLater(new Runnable() {
 		@Override
 		public void run() {
+			try {
+				TimeUnit.MILLISECONDS.sleep(300);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 			for(int i=0;i<pendingReviewList.size();i+=7){
 				data.add(new pendingReview(pendingReviewList.get(i), pendingReviewList.get(i+1), pendingReviewList.get(i+2), pendingReviewList.get(i+3), pendingReviewList.get(i+4), pendingReviewList.get(i+5), pendingReviewList.get(i+6)));
 			}
@@ -287,6 +293,7 @@ public class PendingReviewsController implements ScreensIF {
 	}
 	
 	/**
+	 * Inner class that responsible for filling the table.
 	 * @author ork
 	 *
 	 */

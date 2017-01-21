@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import entity.GeneralMessages;
 import entity.Message;
@@ -35,52 +36,94 @@ import javafx.util.Callback;
  */
 public class PendingAccountTypeController {
 	
+	/**
+	 * The table view that shows the pending account type requests.
+	 */
 	@FXML
     private TableView<pendingAccount> table;
     
+	/**
+	 * username column.
+	 */
 	@FXML
     private TableColumn username;
 	
+	/**
+	 * fist name column.
+	 */
 	@FXML
     private TableColumn firstName;
 	
+	/**
+	 * last name column.
+	 */
 	@FXML
     private TableColumn lastName;
 	
+	/**
+	 * The user's current account type.
+	 */
 	@FXML
 	private TableColumn currentAccType;
 	
+	/**
+	 * The user's requested account type.
+	 */
 	@FXML
 	private TableColumn requestedAccType;
 	
+	/**
+	 * Click on this button call the method that responsible for confirming this request.
+	 */
 	@FXML
     private TableColumn<pendingAccount, pendingAccount> btnConfirm;
 	
+	/**
+	 * Click on this button call the method that responsible for decline this request.
+	 */
 	@FXML
     private TableColumn<pendingAccount, pendingAccount> btnDecline;
     
+	/**
+	 * shows message about the action.
+	 */
 	@FXML
     private Label printAction;
 	
+	/**
+	 * shows the count of the requests.
+	 */
 	@FXML
     private Label CountLabel;
     
     
+	/**
+	 * saves all the account requests list.
+	 */
 	public static ArrayList <String> pendingAccountList;
 	
+	/**
+	 * the number of the requests.
+	 */
 	public static int countUsers;
     
 	private ObservableList<pendingAccount> data = FXCollections.observableArrayList();;
 
-	private final Image confirmImage = new Image(
-    	      "/img/confirm.png"
-    	    );
-    private final Image declineImage = new Image(
-    	      "/img/decline.png"
-    	    );
+	/**
+	 * Image for the confirm button.
+	 */
+	private final Image confirmImage = new Image("/img/confirm.png");
+	
+    /**
+     * Image for the decline button.
+     */
+    private final Image declineImage = new Image("/img/decline.png");
     
     
     
+	/**
+	 * Fill the table when the screen load.
+	 */
 	@FXML
 	private void initialize(){
 		Message message = prepareGetPendingAccunts(ActionType.GET_PENDING_ACCOUNTS);
@@ -91,132 +134,142 @@ public class PendingAccountTypeController {
 		}
 		
 		Platform.runLater(() -> {
-		countUsers=0;
-		for(int i=0;i<pendingAccountList.size();i+=5){
-			countUsers++;
-			data.add(new pendingAccount(pendingAccountList.get(i), pendingAccountList.get(i+1), pendingAccountList.get(i+2), pendingAccountList.get(i+3), pendingAccountList.get(i+4)));
-		}
-		
-		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
-		
-        table.setEditable(true);
-        
-        username.setCellValueFactory(
-                new PropertyValueFactory<pendingAccount, String>("username"));
-
-        firstName.setCellValueFactory(
-                new PropertyValueFactory<pendingAccount, String>("firstName"));
-
-        lastName.setCellValueFactory(
-                new PropertyValueFactory<pendingAccount, String>("lastName"));
-        
-        currentAccType.setCellValueFactory(
-                new PropertyValueFactory<pendingAccount, String>("currentAccType"));
-
-        requestedAccType.setCellValueFactory(
-                new PropertyValueFactory<pendingAccount, String>("requestedAccType"));
-
-
-        username.setStyle( "-fx-alignment: CENTER;");
-        firstName.setStyle( "-fx-alignment: CENTER;");
-        lastName.setStyle( "-fx-alignment: CENTER;");
-        currentAccType.setStyle( "-fx-alignment: CENTER;");
-        requestedAccType.setStyle( "-fx-alignment: CENTER;");
-        btnConfirm.setStyle( "-fx-alignment: CENTER;");
-        btnDecline.setStyle( "-fx-alignment: CENTER;");
-
-        btnConfirm.setCellValueFactory(new Callback<CellDataFeatures<pendingAccount, pendingAccount>, ObservableValue<pendingAccount>>() {
-          @Override public ObservableValue<pendingAccount> call(CellDataFeatures<pendingAccount, pendingAccount> features) {
-              return new ReadOnlyObjectWrapper(features.getValue());
-          }
-        });
-
-        btnConfirm.setCellFactory(new Callback<TableColumn<pendingAccount, pendingAccount>, TableCell<pendingAccount, pendingAccount>>() {
-          @Override public TableCell<pendingAccount, pendingAccount> call(TableColumn<pendingAccount, pendingAccount> btnConfirm) {
-            return new TableCell<pendingAccount, pendingAccount>() {
-              final ImageView buttonGraphic = new ImageView();
-              final Button button = new Button(); {
-                button.setGraphic(buttonGraphic);
-                button.setPrefWidth(40);
-              }
-              @Override public void updateItem(final pendingAccount user, boolean empty) {
-                super.updateItem(user, empty);
-                if (user != null) {
-                  buttonGraphic.setImage(confirmImage);
-                  setGraphic(button);
-                  button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override public void handle(ActionEvent event) {
-                    	//String newaccountType = user.getRequestedAccType().substring(7);
-                    	//System.out.println(newaccountType);
-                    	Message message = prepareUpdatePendingAccounts(ActionType.UPDATE_PENDING_ACCOUNT,user.getUsername(),"approve",user.getRequestedAccType());
-                		try {
-                			ClientController.clientConnectionController.sendToServer(message);
-                        	printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");     
-                        	table.getItems().remove(user);
-                        	countUsers--;
-                    		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
-                		} catch (IOException e) {	
-                			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-                		}
-                    }
-                  });
-                } else {
-                  setGraphic(null);
-                }
-              }
-            };
-          }
-        });
-        
-        
-        
-        btnDecline.setCellValueFactory(new Callback<CellDataFeatures<pendingAccount, pendingAccount>, ObservableValue<pendingAccount>>() {
-            @Override public ObservableValue<pendingAccount> call(CellDataFeatures<pendingAccount, pendingAccount> features) {
-                return new ReadOnlyObjectWrapper(features.getValue());
-            }
-          });
-
-        btnDecline.setCellFactory(new Callback<TableColumn<pendingAccount, pendingAccount>, TableCell<pendingAccount, pendingAccount>>() {
-            @Override public TableCell<pendingAccount, pendingAccount> call(TableColumn<pendingAccount, pendingAccount> btnDecline) {
-              return new TableCell<pendingAccount, pendingAccount>() {
-                final ImageView buttonGraphic = new ImageView();
-                final Button button = new Button(); {
-                  button.setGraphic(buttonGraphic);
-                  button.setPrefWidth(40);
-                }
-                @Override public void updateItem(final pendingAccount user, boolean empty) {
-                  super.updateItem(user, empty);
-                  if (user != null) {
-                    buttonGraphic.setImage(declineImage);
-                    setGraphic(button);
-                    button.setOnAction(new EventHandler<ActionEvent>() {
-                      @Override public void handle(ActionEvent event) {
-                      	Message message = prepareUpdatePendingAccounts(ActionType.UPDATE_PENDING_ACCOUNT,user.getUsername(),"decline",user.getCurrentAccType());
-                  		try {
-                  			ClientController.clientConnectionController.sendToServer(message);
-                            printAction.setText("User " + user.getFirstName().toLowerCase() + " has been decline successfully");
-                          	table.getItems().remove(user);
-                          	countUsers--;
-                    		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
-                  		} catch (IOException e) {	
-                  			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
-                  		}
-                      }
-                    });
-                  } else {
-                    setGraphic(null);
-                  }
-                }
-              };
-            }
-          });
-
-        table.setItems(data);
+			try {
+				TimeUnit.MILLISECONDS.sleep(300);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			countUsers=0;
+			for(int i=0;i<pendingAccountList.size();i+=5){
+				countUsers++;
+				data.add(new pendingAccount(pendingAccountList.get(i), pendingAccountList.get(i+1), pendingAccountList.get(i+2), pendingAccountList.get(i+3), pendingAccountList.get(i+4)));
+			}
+			
+			CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
+			
+	        table.setEditable(true);
+	        
+	        username.setCellValueFactory(
+	                new PropertyValueFactory<pendingAccount, String>("username"));
+	
+	        firstName.setCellValueFactory(
+	                new PropertyValueFactory<pendingAccount, String>("firstName"));
+	
+	        lastName.setCellValueFactory(
+	                new PropertyValueFactory<pendingAccount, String>("lastName"));
+	        
+	        currentAccType.setCellValueFactory(
+	                new PropertyValueFactory<pendingAccount, String>("currentAccType"));
+	
+	        requestedAccType.setCellValueFactory(
+	                new PropertyValueFactory<pendingAccount, String>("requestedAccType"));
+	
+	
+	        username.setStyle( "-fx-alignment: CENTER;");
+	        firstName.setStyle( "-fx-alignment: CENTER;");
+	        lastName.setStyle( "-fx-alignment: CENTER;");
+	        currentAccType.setStyle( "-fx-alignment: CENTER;");
+	        requestedAccType.setStyle( "-fx-alignment: CENTER;");
+	        btnConfirm.setStyle( "-fx-alignment: CENTER;");
+	        btnDecline.setStyle( "-fx-alignment: CENTER;");
+	
+	        btnConfirm.setCellValueFactory(new Callback<CellDataFeatures<pendingAccount, pendingAccount>, ObservableValue<pendingAccount>>() {
+	          @Override public ObservableValue<pendingAccount> call(CellDataFeatures<pendingAccount, pendingAccount> features) {
+	              return new ReadOnlyObjectWrapper(features.getValue());
+	          }
+	        });
+	
+	        btnConfirm.setCellFactory(new Callback<TableColumn<pendingAccount, pendingAccount>, TableCell<pendingAccount, pendingAccount>>() {
+	          @Override public TableCell<pendingAccount, pendingAccount> call(TableColumn<pendingAccount, pendingAccount> btnConfirm) {
+	            return new TableCell<pendingAccount, pendingAccount>() {
+	              final ImageView buttonGraphic = new ImageView();
+	              final Button button = new Button(); {
+	                button.setGraphic(buttonGraphic);
+	                button.setPrefWidth(40);
+	              }
+	              @Override public void updateItem(final pendingAccount user, boolean empty) {
+	                super.updateItem(user, empty);
+	                if (user != null) {
+	                  buttonGraphic.setImage(confirmImage);
+	                  setGraphic(button);
+	                  button.setOnAction(new EventHandler<ActionEvent>() {
+	                    @Override public void handle(ActionEvent event) {
+	                    	//String newaccountType = user.getRequestedAccType().substring(7);
+	                    	//System.out.println(newaccountType);
+	                    	Message message = prepareUpdatePendingAccounts(ActionType.UPDATE_PENDING_ACCOUNT,user.getUsername(),"approve",user.getRequestedAccType());
+	                		try {
+	                			ClientController.clientConnectionController.sendToServer(message);
+	                        	printAction.setText("User " + user.getFirstName().toLowerCase() + " has been confirm successfully");     
+	                        	table.getItems().remove(user);
+	                        	countUsers--;
+	                    		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
+	                		} catch (IOException e) {	
+	                			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+	                		}
+	                    }
+	                  });
+	                } else {
+	                  setGraphic(null);
+	                }
+	              }
+	            };
+	          }
+	        });
+	        
+	        
+	        
+	        btnDecline.setCellValueFactory(new Callback<CellDataFeatures<pendingAccount, pendingAccount>, ObservableValue<pendingAccount>>() {
+	            @Override public ObservableValue<pendingAccount> call(CellDataFeatures<pendingAccount, pendingAccount> features) {
+	                return new ReadOnlyObjectWrapper(features.getValue());
+	            }
+	          });
+	
+	        btnDecline.setCellFactory(new Callback<TableColumn<pendingAccount, pendingAccount>, TableCell<pendingAccount, pendingAccount>>() {
+	            @Override public TableCell<pendingAccount, pendingAccount> call(TableColumn<pendingAccount, pendingAccount> btnDecline) {
+	              return new TableCell<pendingAccount, pendingAccount>() {
+	                final ImageView buttonGraphic = new ImageView();
+	                final Button button = new Button(); {
+	                  button.setGraphic(buttonGraphic);
+	                  button.setPrefWidth(40);
+	                }
+	                @Override public void updateItem(final pendingAccount user, boolean empty) {
+	                  super.updateItem(user, empty);
+	                  if (user != null) {
+	                    buttonGraphic.setImage(declineImage);
+	                    setGraphic(button);
+	                    button.setOnAction(new EventHandler<ActionEvent>() {
+	                      @Override public void handle(ActionEvent event) {
+	                      	Message message = prepareUpdatePendingAccounts(ActionType.UPDATE_PENDING_ACCOUNT,user.getUsername(),"decline",user.getCurrentAccType());
+	                  		try {
+	                  			ClientController.clientConnectionController.sendToServer(message);
+	                            printAction.setText("User " + user.getFirstName().toLowerCase() + " has been decline successfully");
+	                          	table.getItems().remove(user);
+	                          	countUsers--;
+	                    		CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
+	                  		} catch (IOException e) {	
+	                  			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+	                  		}
+	                      }
+	                    });
+	                  } else {
+	                    setGraphic(null);
+	                  }
+	                }
+	              };
+	            }
+	          });
+	
+	        table.setItems(data);
 		});
 	
 	}
 	
 	
+	/**
+	 * Create's a message for get the account requests from DB.
+	 * @param type
+	 * @return
+	 */
 	public Message prepareGetPendingAccunts(ActionType type)
 	{
 		Message message = new Message();
@@ -225,6 +278,14 @@ public class PendingAccountTypeController {
 	}
 	
 	
+	/**
+	 * Create's a message for update the DB with the new account type.
+	 * @param type
+	 * @param username
+	 * @param action
+	 * @param newAccountType
+	 * @return
+	 */
 	public Message prepareUpdatePendingAccounts(ActionType type,String username,String action, String newAccountType)
 	{
 		Message message = new Message();
@@ -237,6 +298,12 @@ public class PendingAccountTypeController {
 		return message;
 	}
 	
+	
+	/**
+	 * Shows alert message on error.
+	 * @param type
+	 * @param errorCode
+	 */
 	public void actionOnError(ActionType type, String errorCode) {
 		
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -255,6 +322,11 @@ public class PendingAccountTypeController {
 	
 	
 	
+	/**
+	 * Inner class for filling the table dynamically.
+	 * @author or
+	 *
+	 */
 	public static class pendingAccount {
 
 	    private final SimpleStringProperty username;
@@ -272,38 +344,74 @@ public class PendingAccountTypeController {
 	        this.requestedAccType = new SimpleStringProperty(newaccountType);
 	    }
 
+	    /**
+	     * Getter for username.
+	     * @return
+	     */
 	    public String getUsername() {
 	        return username.get();
 	    }
 	    
+	    /**
+	     * Getter for first name.
+	     * @return
+	     */
 	    public String getFirstName() {
 	        return firstName.get();
 	    }
 	    
+	    /**
+	     * Getter for last name.
+	     * @return
+	     */
 	    public String getLastName() {
 	        return lastName.get();
 	    }
 	    
+	    /**
+	     * Getter for current account type.
+	     * @return
+	     */
 	    public String getCurrentAccType() {
 	        return currentAccType.get();
 	    }
 	    
+	    /**
+	     * Getter for requests account type.
+	     * @return
+	     */
 	    public String getRequestedAccType() {
 	        return requestedAccType.get();
 	    }
 
+	    /**
+	     * Setter for first name.
+	     * @param fName
+	     */
 	    public void setFirstName(String fName) {
 	    	firstName.set(fName);
 	    }
 
+	    /**
+	     * Setter for last name.
+	     * @param fName
+	     */
 	    public void setLastName(String fName) {
 	        lastName.set(fName);
 	    }
 	    
+	    /**
+	     * Setter for current account type.
+	     * @param currAccType
+	     */
 	    public void setCurrentAccType(String currAccType) {
 	    	currentAccType.set(currAccType);
 	    }
 
+	    /**
+	     * Setter requested account type.
+	     * @param reqAccType
+	     */
 	    public void setRequestedAccType(String reqAccType) {
 	    	requestedAccType.set(reqAccType);
 	    }
