@@ -1450,6 +1450,14 @@ public class ServerController extends AbstractServer {
 		        for(int i=0;i<subjectsId.length;i++){
 		        	stmt.executeUpdate("INSERT INTO book_subjects (`bookId`,`subjectId`) VALUES('"+bookSn+"', '"+subjectsId[i]+"')");
 		        }
+		        
+		        //update book_by_date
+		        Date Currentdate=new Date();
+				SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+				String date=(String)dateFormat.format(Currentdate);
+				DatabaseController.addToDatabase("INSERT INTO book_by_date VALUES ("+bookSn+",'"+date+"','0','0')");
+
+		        
 				
 		        //update booksCount at subjects
 		        for(int i=0;i<subjectsId.length;i++){
