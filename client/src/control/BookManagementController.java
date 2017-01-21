@@ -168,321 +168,667 @@ public class BookManagementController {
  @FXML
  private Button delBtn;
 
+ /**
+  * Button to edit book
+  */
  @FXML
  private Button editBtn;
 
+ /**
+  * Button to hide/unhide book
+  */
  @FXML
  private Button hideBtn;
-
- @FXML
- private ImageView imageView;
-
- @FXML
- private TextField filterField;
-
- @FXML
- private AnchorPane mainPane;
-
+ 
+ /**
+  * Button to add book
+  */
  @FXML
  private Button addBookBtn;
 
+ /**
+  * Image of the book
+  */
+ @FXML
+ private ImageView imageView;
+
+ /**
+  * Text field of the search book line
+  */
+ @FXML
+ private TextField filterField;
+
+ /**
+  * Container of the main books in books tab
+  */
+ @FXML
+ private AnchorPane mainPane;
+
+ /**
+  * Container of the add books in books tab
+  */
  @FXML
  private AnchorPane addBookPane;
  
+ /**
+  * Container of the edit books in books tab
+  */
  @FXML
  private AnchorPane editBookPane;
+ 
  // end mainpane
 
- // books tab - addbookpane
+ // books tab - add book pane
+ 
+ /**
+  * Button of choose image to upload
+  */
  @FXML
  private Button choosePicBtn;
 
+ /**
+  * Image of the uploaded image
+  */
  @FXML
  private ImageView picBook;
 
+ /**
+  * Submit button to send book to server
+  */
  @FXML
  private Button submitAddBook;
 
+ /**
+  * Back button to main books container
+  */
  @FXML
  private Button backAddBook;
 
+ /**
+  * Button to clear add book form
+  */
  @FXML
  private Button clearAddBook;
 
+ /**
+  * Text field of the added book title
+  */
  @FXML
  private TextField addBookTitle;
 
+ /**
+  * List view of the added book authors
+  */
  @FXML
  private ListView < String > addBookAuthorsList;
 
+ /**
+  * Text area of the added book keywords
+  */
  @FXML
  private TextArea addBookKeywordsText;
 
+ /**
+  * List view of the added book languages
+  */
  @FXML
  private ListView < String > addBookLanguageList;
 
+ /**
+  * List view of the added book subjects
+  */
  @FXML
  private ListView < String > addBookSubjectsList;
 
+ /**
+  * Text area of the added book table of content
+  */
  @FXML
  private TextArea addBookTableOfContent;
 
+ /**
+  * Text area of the added book summary
+  */
  @FXML
  private TextArea addBookSummary;
  
+ /**
+  * Text field of the added book price
+  */
  @FXML
  private TextField priceTextField;
  
  
 //books tab - editbookpane
+ 
+ /**
+  * Button of choose image to upload
+  */
 @FXML
 private Button editBookChoosePicBtn;
 
+/**
+ * Image of the uploaded image
+ */
 @FXML
 private ImageView editBookpicBook;
 
+/**
+ * Submit button to send edited book to server
+ */
 @FXML
 private Button submitEditBook;
 
+/**
+ * Back button to main books container
+ */
 @FXML
 private Button backEditBook;
 
+/**
+ * Text field of the edited book title
+ */
 @FXML
 private TextField editBookTitle;
 
+/**
+ * List view of the current autorhs of the book
+ */
 @FXML
 private ListView < String > editBookAuthorsList;
 
+/**
+ * List view of the new autorhs of the book
+ */
 @FXML
 private ListView < String > editBookAuthorsListSelected;
 
+/**
+ * Button to move authors from all avalibale authors list to book authors list
+ */
 @FXML
 private Button editBookAuthorsLeft;
 
+/**
+ * Button to move authors from book authors list to all avalibale authors list
+ */
 @FXML
 private Button editBookAuthorsRight;
 
+/**
+ * List view of the current subjects of the book
+ */
 @FXML
 private ListView < String > editBookSubjectsList;
 
+/**
+ * List view of the new subjects of the book
+ */
 @FXML
 private ListView < String > editBookSubjectsListSelected;
 
+/**
+ * Button to move authors from all avalibale subjects list to book subjects list
+ */
 @FXML
 private Button editBookSubjectsLeft;
 
+/**
+ * Button to move authors from book subjects list to all avalibale subjects list
+ */
 @FXML
 private Button editBookSubjectsRight;
 
+/**
+ * Text area of the edited book table of keywords
+ */
 @FXML
 private TextArea editBookKeywordsText;
 
+/**
+ * List view of the edited book languages
+ */
 @FXML
 private ListView < String > editBookLanguageList;
 
-
+/**
+ * List view of the edited book table of content
+ */
 @FXML
 private TextArea editBookTableOfContent;
 
+/**
+ * List view of the edited book summary
+ */
 @FXML
 private TextArea editBookSummary;
 
+/**
+ * List view of the edited book price
+ */
 @FXML
 private TextField editBookPriceTextField;
 
 
 // domains tab - mainDomainPane
 
+/**
+ * Container of the main domains in domains tab
+ */
 @FXML
 private AnchorPane mainDomainPane;
 
+/**
+ * Container of the add domains in domains tab
+ */
 @FXML
 private AnchorPane addDomainPane;
 
+/**
+ * Container of the edit domains in domains tab
+ */
 @FXML
 private AnchorPane editDomainPane;
 
+/**
+ * Submit button to add domain
+ */
 @FXML
 private Button addDomain;
 
+/**
+* TableView that show the domains.
+*/
 @FXML
 private TableView<PropertyDomain> mainDomainTableView;
 
+/**
+* TableColumn of domain id
+*/
 @FXML
 private TableColumn domainId;
 
+/**
+* TableColumn of domain name
+*/
 @FXML
 private TableColumn domainName;
 
+/**
+* Text Field of added domain name
+*/
 @FXML
 private TextField addDomainName;
 
+/**
+ * Button to add domain
+ */
 @FXML
 private Button addDomainBack;
 
+/**
+ * Button to submit added domain to server
+ */
 @FXML
 private Button addDomainSubmit;
 
+/**
+ * Button to clear domain add form
+ */
 @FXML
 private Button addDomainClear;
 
+/**
+ * Button to edit domain from the table view of domains
+ */
 @FXML
 private Button addDomainEditBtn;
 
+/**
+ * Button to delete domain from the table view of domains
+ */
 @FXML
 private Button DomainDeleteBtn;
 
+/**
+ * Text Field of the edited domain name
+ */
 @FXML
 private TextField editDomainName;
 
+/**
+ * Button to go back to main domains container from edit domain container
+ */
 @FXML
 private Button editDomainBack;
 
+/**
+ * Button to submit the edited domain to server
+ */
 @FXML
 private Button editDomainSubmit;
 
-
 //subjects tab - mainDomainPane
 
+/**
+ * Container of the main supjects page in subjects tab
+ */
 @FXML
 private AnchorPane mainSubjectPane;
 
+/**
+ * Container of the add supjects page in subjects tab
+ */
 @FXML
 private AnchorPane addSubjectPane;
 
+/**
+ * Container of the edit supjects page in subjects tab
+ */
 @FXML
 private AnchorPane editSubjectPane;
 
+/**
+ * Button to add book
+ */
 @FXML
 private Button addSubject;
 
+/**
+ * Table view that contains the subjects in DB
+ */
 @FXML
 private TableView<PropertySubject> mainSubjectTable;
 
+/**
+* Table Column of subject id
+*/
 @FXML
 private TableColumn subjectId;
 
+/**
+* Table Column of subject name
+*/
 @FXML
 private TableColumn subjectName;
 
+/**
+* Table Column of subject domain
+*/
 @FXML
 private TableColumn subjectDomain;
 
+/**
+* Text Field of added subject name
+*/
 @FXML
 private TextField addSubjectsName;
 
+/**
+* List View of domains list in add subject page
+*/
 @FXML
 private ListView addSubjectsDomainsList;
 
+/**
+* Button to go back to main subjects page from add subject form
+*/
 @FXML
 private Button addSubjetcsBack;
 
+/**
+* Button to submit added subject to server
+*/
 @FXML
 private Button addSubjetcsSubmit;
 
+/**
+* Button to clear add subject form
+*/
 @FXML
 private Button addSubjetcsClear;
 
+/**
+* Button to edit subject from the subjects table
+*/
 @FXML
 private Button subjectsEditBtn;
 
+/**
+* Button to delete subject from DB
+*/
 @FXML
 private Button subjectsDeleteBtn;
 
+/**
+* Text field of the edited subject name
+*/
 @FXML
 private TextField editSubjectsName;
 
+/**
+* Button to go back to main subjects page from edit subject form
+*/
 @FXML
 private Button editSubjetcsBack;
 
+/**
+* List of domains list in edit subject page
+*/
 @FXML
 private ListView editSubjectsDomainsList;
 
+/**
+* Button to send to server the edited subject
+*/
 @FXML
 private Button editSubjetcsSubmit;
 
 
 //authors tab - mainDomainPane
 
+/**
+ * Container of the main authors in authors tab
+ */
 @FXML
 private AnchorPane mainAuthorPane;
 
+/**
+ * Container of the add authors in authors tab
+ */
 @FXML
 private AnchorPane addAuthorPane;
 
+/**
+ * Container of the edit authors in authors tab
+ */
 @FXML
 private AnchorPane editAuthorPane;
 
+/**
+ * Submit button to add author
+ */
 @FXML
 private Button addAuthor;
 
+/**
+* TableView that show the authors.
+*/
 @FXML
 private TableView<PropertyAuthor> mainAuthorTableView;
 
+/**
+* Table Column of author id
+*/
 @FXML
 private TableColumn authorId;
 
+/**
+* Table Column of author first name
+*/
 @FXML
 private TableColumn authorFirstName;
 
+/**
+* Table Column of author last name 
+*/
 @FXML
 private TableColumn authorLastName;
 
+/**
+* Text Field of added author first name
+*/
 @FXML
 private TextField addAuthorFirstName;
 
+/**
+* Text Field of added author last name
+*/
 @FXML
 private TextField addAuthorLastName;
 
+/**
+ * Button to go back to main authors page from add author page
+ */
 @FXML
 private Button addAuthorBack;
 
+/**
+ * Button to submit added author to server
+ */
 @FXML
 private Button addAuthorSubmit;
 
+/**
+ * Button to clear author add form
+ */
 @FXML
 private Button addAuthorClear;
 
+/**
+ * Button to edit author from the table view of authors
+ */
 @FXML
 private Button addAuthorEditBtn;
 
+/**
+ * Button to delete author from the table view of authors
+ */
 @FXML
 private Button AuthorDeleteBtn;
 
+/**
+ * Text Field of the edited author first name
+ */
 @FXML
 private TextField editAuthorFirstName;
 
+/**
+ * Text Field of the edited author last name
+ */
 @FXML
 private TextField editAuthorLastName;
 
+/**
+ * Button to go back to main authors page from edit author container
+ */
 @FXML
 private Button editAuthorBack;
 
+/**
+ * Button to submit the edited author to server
+ */
 @FXML
 private Button editAuthorSubmit;
 
-
+/**
+ * static Array list of all the books from the DB.
+ */
  public static ArrayList < String > BooksList;
+ 
+ /**
+  * static Array list of all the subjects names from the DB.
+  */
  public static ArrayList < String > subjectList;
+ 
+ /**
+  * static Array list of all the authors Id from the DB.
+  */
  public ArrayList < String > authorsId = null;
- public ArrayList < String > SubjectsList = null;
+ 
+ /**
+  * String to keep the ecoded choosen picture from computer
+  */
  public String picStr="noPicture";
+ 
+ /**
+  * static Array list of all the authors from the DB.
+  */
  public static ArrayList < Author > authorList;
+ 
+ /**
+  * static Array list of all the selected authors in edit book page
+  */
  public static ArrayList < Author > selectedAuthorsString;
+ 
+ /**
+  * static Array list of the subjects of choose book to edit
+  */
  public static ArrayList < String >subjectListOfBook;
+ 
+ /**
+  * static Array list of all the selected subjects in edit book page
+  */
  public static ArrayList < String > selectedSubjectString;
+ 
+ /**
+  * static string that contains the language of edited book
+  */
  public static String editBookLanguage;
+ 
+ /**
+  * static string that contains the table of content of edited book
+  */
  public static String editBookTableOfContant;
+ 
+ /**
+  * static Array list of all the domains from the DB.
+  */
  public static ArrayList < String > domainsList;
+ 
+ /**
+  * static Integer that contains the number of book of specific domain
+  */
  public static int countBookByDomain;
+ 
+ /**
+  * static Array list of all the subjects info from the DB.
+  */
  public static ArrayList < String > subjectsList;
+
+ /**
+  * static Integer that contains the number of book of specific subject
+  */
  public static int countBookBySubject;
+ 
+ /**
+  * static Integer that contains the number of book of specific author
+  */
  public static int countBookOfUser;
  
-
- private ObservableList < PropertyBook > data = FXCollections.observableArrayList();;
+ /**
+ * this attribute insert the data (books) to the table.
+ */
+ private ObservableList < PropertyBook > data = FXCollections.observableArrayList();
+ 
+ /**
+ * this attribute insert the data (filtered books by search) to the table.
+ */
  private ObservableList < PropertyBook > filteredData = FXCollections.observableArrayList();
 
+ /**
+ * initialize all the listener and data from the DB in the form on load.
+ */
  @FXML
  private void initialize() {
   addBookPane.setVisible(false);
@@ -2044,6 +2390,10 @@ private Button editAuthorSubmit;
  // ---------------- functions -------------------
  
 
+/**
+ * Open file chooser in the user home directory
+ * @param fileChooser
+ */
 private static void configureFileChooser(final FileChooser fileChooser) {
   fileChooser.setTitle("View Pictures");
   fileChooser.setInitialDirectory(
@@ -2053,7 +2403,10 @@ private static void configureFileChooser(final FileChooser fileChooser) {
 
 
 
- private void updateFilteredData() {
+ /**
+ * Update books table view after change the search input (filteredTextField string)
+ */
+private void updateFilteredData() {
   filteredData.clear();
 
   for (PropertyBook b: data) {
@@ -2066,7 +2419,14 @@ private static void configureFileChooser(final FileChooser fileChooser) {
   reapplyTableSortOrder();
  }
 
- private boolean matchesFilter(PropertyBook book) {
+
+
+ /**
+  * this func help to updateFilteredData func by searching in the data (books table) the appropriate string that user search
+ * @param book 
+ * @return true- success, false - not success
+ */
+private boolean matchesFilter(PropertyBook book) {
   String filterString = filterField.getText();
   if (filterString == null || filterString.isEmpty()) {
    // No filter --> Add all.
@@ -2091,7 +2451,11 @@ private static void configureFileChooser(final FileChooser fileChooser) {
   return false; // Does not match
  }
 
- private void reapplyTableSortOrder() {
+
+ /**
+ * Sort the data of books after user search and filter data
+ */
+private void reapplyTableSortOrder() {
   ArrayList < TableColumn < PropertyBook, ? >> sortOrder = new ArrayList < > (BooksTableView.getSortOrder());
   BooksTableView.getSortOrder().clear();
   BooksTableView.getSortOrder().addAll(sortOrder);
