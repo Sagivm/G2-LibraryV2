@@ -58,6 +58,12 @@ public class PaymentController {
 	 * 5: Buy yearly subscription. - called from ExternalPaymentController.
 	*/
 	
+	/**
+	 * The method gets answer(true, false) and action to do. this method responsible for 
+	 * purchasing books and subscriptions and to write the action in the DB.
+	 * @param answer
+	 * @param action
+	 */
 	public void makePurchase(boolean answer, int action)
 	{
 		if(answer == true)
@@ -265,6 +271,11 @@ public class PaymentController {
 			return;
 	}
 
+	/**
+	 * This method shows alert message after the action finished.
+	 * @param type
+	 * @param message
+	 */
 	public void actionToDisplay(ActionType type, String message) {
 
 		Alert alert = new Alert(AlertType.INFORMATION);

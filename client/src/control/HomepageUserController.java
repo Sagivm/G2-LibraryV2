@@ -339,11 +339,6 @@ public class HomepageUserController implements ScreensIF {
 			return;
 	}
 	
-	
-	
-
-	
-	
 	/**
 	 * this method load the page to the content AnchorPane.
 	 * @param screenPath
@@ -387,6 +382,10 @@ public class HomepageUserController implements ScreensIF {
 		}
 	}
 	
+	/**
+	 * when pressed, load the external payment company screen.
+	 * @throws Exception
+	 */
 	public void btnPayForSubscriptionPressed() throws Exception
 	{	
 		try 

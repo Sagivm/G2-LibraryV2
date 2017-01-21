@@ -166,6 +166,10 @@ public class HomepageManagerController implements ScreensIF {
 	}
 	
 	
+	/**
+	 * Getter of the connected manager.
+	 * @return
+	 */
 	public static Worker getConnectedManager()
 	{
 		return connectedManager;

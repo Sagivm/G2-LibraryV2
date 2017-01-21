@@ -173,6 +173,11 @@ public class HomepageLibrarianController implements ScreensIF {
 	}
 	
 	
+	/**
+	 * When pressed, load book management screen. 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void bookManagmentButtonPressed(ActionEvent event) throws IOException {
 		Platform.runLater(() -> {
@@ -254,6 +259,11 @@ public class HomepageLibrarianController implements ScreensIF {
 		loadPage(ScreensInfo.SEARCH_WORKER_SCREEN);
 	}
 	
+	/**
+	 * when pressed, load pending account requests list screen.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void pendingAccountButtonPressed(ActionEvent event) throws IOException {
 		loadPage(ScreensInfo.PENDING_ACCOUNT_SCREEN);
