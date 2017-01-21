@@ -128,7 +128,11 @@ public class SearchBookResultsController implements ScreensIF{
 	private void initialize()
 	{
 		try{
-			
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e2) {
+				e2.printStackTrace();
+			}
 			int j;
 
 			try{
@@ -178,13 +182,15 @@ public class SearchBookResultsController implements ScreensIF{
 					data.add(book);
 				}
 			}catch (Exception e1) {
-				//e1.printStackTrace();
+				e1.printStackTrace();
+				/*
 				initialize();
 				try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e2) {
 					e2.printStackTrace();
 				}
+				*/
 				
 			}
 			
