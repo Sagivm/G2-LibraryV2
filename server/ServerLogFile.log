@@ -7,3 +7,5 @@ on port: 1337
 INFO: Login attempt
 ιπε 22, 2017 2:38:07 PM control.ServerController writeToLog
 INFO: Login attempt
+ιπε 22, 2017 2:53:14 PM control.ServerController writeToLog
+INFO: Disconnected sucessfully
