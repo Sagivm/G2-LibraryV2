@@ -18,6 +18,7 @@ import entity.Author;
 import entity.GeneralMessages;
 import entity.Message;
 import entity.Register;
+import entity.Validate;
 import enums.ActionType;
 import img.*;
 import javafx.application.Platform;
@@ -1348,7 +1349,7 @@ private Button editAuthorSubmit;
     actionOnError(ActionType.CONTINUE, "You must to fill the all fields!");
 
    else {
-    Message message6 = prepareAddBook(ActionType.ADD_BOOK, TitleBook, authorsId, keywords, language, SubjectsList, tableOfContent, summary, picture, price);
+    Message message6 = prepareAddBook(ActionType.ADD_BOOK, Validate.fixText(TitleBook), authorsId, keywords, language, SubjectsList, tableOfContent, summary, picture, price);
     try {
      ClientController.clientConnectionController.sendToServer(message6);
     } catch (Exception e1) {
