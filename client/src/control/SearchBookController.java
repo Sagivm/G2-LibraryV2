@@ -297,7 +297,7 @@ public class SearchBookController implements ScreensIF{
 					return;
 				}
 				
-				Book newSearch = new Book(0, title, language, summary, toc,keyWords,"", authorList, domainList, new ArrayList());
+				Book newSearch = new Book(0, title, language, summary, toc,keyWords,"", authorList, domainList, new ArrayList<String>());
 				
 				String selectedToggle=searchGroup.getSelectedToggle().toString();
 			
