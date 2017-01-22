@@ -213,22 +213,28 @@ public class BookReviewsController implements ScreensIF {
 						reviewContent = data.get(i+4);
 						textLength = reviewContent.length();
 						rows=1;
-						int cnt=0;
-						for(int j=120;j<textLength;j++)
+						int rowChars=0,line = 120;
+						for(int j=0;j<textLength;j++)
 						{
-							 if (reviewContent.charAt(j) == '\n')
-							 {
-								 cnt++;
-							 }
-							/* if (reviewContent.charAt(j) == ' ')
-							 {
-								 reviewContent = reviewContent.substring(0, j) + "\n" + reviewContent.substring(j+1, reviewContent.length());
-								 j+=120;
-								 rows++;
-							 }*/
+							rowChars++;
+							if(rowChars >= line)
+							{
+								if (reviewContent.charAt(j) == ' ')
+								{
+									reviewContent = reviewContent.substring(0, j) + "\n" + reviewContent.substring(j+1, reviewContent.length());
+									//j+=120;
+									j++;
+									rowChars = 0;
+									rows++;
+								}
+							}
+							if (reviewContent.charAt(j) == '\n')
+							{
+								rowChars = 0;
+								rows++;
+							}
 						}
-						System.out.println(cnt);
-						rows=cnt;
+						//System.out.println(rows);
 						lblReviewContent.setText(reviewContent);
 
 						lblFullName.setFont(new Font("Arial", 14));

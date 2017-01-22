@@ -1064,7 +1064,7 @@ public class ServerController extends AbstractServer {
 				String msg;
 				
 			
-				if (data.get(2).equals("approve"))
+				if (data.get(2).equals("approved"))
 				msg = "Review num " + data.get(0) + " has been approved";
 				else msg = "Review num " + data.get(0) + " has been declined";
 				String username = data.get(3);

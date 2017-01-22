@@ -1317,7 +1317,7 @@ private Button editAuthorSubmit;
    ObservableList < String > Authors = addBookAuthorsList.getSelectionModel().getSelectedItems();
    String authorsId = "";
    for (int i = 0; i < Authors.size(); i++)
-    authorsId = Authors.get(i).substring(Authors.get(i).indexOf("(") + 1, Authors.get(i).indexOf(")")) + "^";
+    authorsId += Authors.get(i).substring(Authors.get(i).indexOf("(") + 1, Authors.get(i).indexOf(")")) + "^";
 
    String keywords = null;
    keywords = addBookKeywordsText.getText();
