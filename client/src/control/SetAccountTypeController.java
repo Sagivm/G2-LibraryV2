@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
+
 //
 /**
  * SetAccountTypeController is the controller that responsible to send the
@@ -23,7 +24,7 @@ import javafx.scene.control.Alert.AlertType;
  * 
  * @author sagivm
  */
-public class SetAccountTypeController implements Initializable{
+public class SetAccountTypeController implements Initializable {
 
 	/**
 	 * List of Account Types
@@ -37,12 +38,27 @@ public class SetAccountTypeController implements Initializable{
 	 * @param type
 	 */
 	@FXML
-	 public void initializeSettingList() {
+	public void initializeSettingList() {
 		settingList.setPromptText("Select sub.");
-		if (HomepageUserController.getConnectedUser().getAccountType() != entity.AccountType.Intrested) {
-			// Do Nothing
-		} else
+		switch (HomepageUserController.getConnectedUser().getAccountType()) {
+		case Yearly: {
+			settingList.getItems().addAll("Monthly sub.");
+			break;
+		}
+		case Monthly: {
+			settingList.getItems().addAll("Monthly sub.", "Yearly sub.");
+			break;
+		}
+		case PerBook: {
+			settingList.getItems().addAll("Monthly sub.", "Yearly sub.");
+			break;
+		}
+		case Intrested: {
 			settingList.getItems().addAll("Per book sub.", "Monthly sub.", "Yearly sub.");
+			break;
+		}
+		default:{}
+		}
 		settingList.setPromptText("Select sub.");
 	}
 
@@ -55,50 +71,49 @@ public class SetAccountTypeController implements Initializable{
 	@FXML
 	public void submitSettingButtonPressed(ActionEvent event) throws IOException {
 		boolean valid = true;
-		String choice=new String();
+		String choice = new String();
 		if ((String) settingList.getSelectionModel().getSelectedItem() != null) {
 			HomepageUserController userPage = new HomepageUserController();
 			switch ((String) settingList.getValue()) {
 			case "Per book sub.": {
 				HomepageUserController.getConnectedUser().setAccountStatus("PendingPerBook");
-				choice="PendingPerBook";
+				choice = "PendingPerBook";
 				userPage.getConnectedUser().setAccountStatus("PendingPerBook");
 				break;
 			}
 			case "Monthly sub.": {
 				HomepageUserController.getConnectedUser().setAccountStatus("PendingMonthly");
-				choice="PendingMonthly";
+				choice = "PendingMonthly";
 				userPage.getConnectedUser().setAccountStatus("PendingMonthly");
 				break;
 			}
 			case "Yearly sub.": {
 				HomepageUserController.getConnectedUser().setAccountStatus("PendingYearly");
-				choice="PendingYearly";
+				choice = "PendingYearly";
 				userPage.getConnectedUser().setAccountStatus("PendingYearly");
 				break;
 			}
 			}
-			ArrayList <String> elementsList = new ArrayList<String>();
-			elementsList.add(0,HomepageUserController.getConnectedUser().getId());
-			elementsList.add(1,choice);
-			Message message=new Message(ActionType.ACCOUNTTYPEREQ,elementsList);
+			ArrayList<String> elementsList = new ArrayList<String>();
+			elementsList.add(0, HomepageUserController.getConnectedUser().getId());
+			elementsList.add(1, choice);
+			Message message = new Message(ActionType.ACCOUNTTYPEREQ, elementsList);
 			try {
 				ClientController.clientConnectionController.sendToServer(message);
-				
+
 			} catch (IOException e) {
-						
-				actionToDisplay("Warning",ActionType.CONTINUE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
+
+				actionToDisplay("Warning", ActionType.CONTINUE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 			}
+		} else {
+			actionToDisplay("Info", ActionType.CONTINUE, "Subscription must be selected");
 		}
-		else 
-		{
-			actionToDisplay("Info", ActionType.CONTINUE,"Subscription must be selected");
-		}
-		
+
 	}
 
 	/**
 	 * This function choose what to display the user.
+	 * 
 	 * @param type
 	 *            - Defines if alert or info.
 	 * @param actiontype
@@ -106,7 +121,7 @@ public class SetAccountTypeController implements Initializable{
 	 * @param message
 	 *            - Gets the message to display in popup.
 	 */
-	public void actionToDisplay(String type,ActionType actiontype, String message) {
+	public void actionToDisplay(String type, ActionType actiontype, String message) {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(type);
@@ -121,15 +136,17 @@ public class SetAccountTypeController implements Initializable{
 			return;
 	}
 
-	/* (non-Javadoc)
-	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
+	 * java.util.ResourceBundle)
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		initializeSettingList();
-		
-		
+
 	}
 
 }
