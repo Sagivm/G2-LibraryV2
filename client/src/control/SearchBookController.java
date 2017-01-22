@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import boundry.ClientUI;
 import entity.Author;
+import entity.Book;
 import entity.Domain;
 import entity.GeneralMessages;
 import entity.Language;
@@ -17,7 +18,6 @@ import entity.Message;
 import entity.Register;
 import entity.Review;
 import entity.ScreensInfo;
-import entity.SearchBook;
 import entity.Validate;
 import enums.ActionType;
 import interfaces.ScreensIF;
@@ -297,7 +297,7 @@ public class SearchBookController implements ScreensIF{
 					return;
 				}
 				
-				SearchBook newSearch = new SearchBook(title, authorList, language, summary, toc, domainList, keyWords);
+				Book newSearch = new Book(0, title, language, summary, toc,keyWords,"", authorList, domainList, new ArrayList());
 				
 				String selectedToggle=searchGroup.getSelectedToggle().toString();
 			
@@ -470,7 +470,7 @@ public class SearchBookController implements ScreensIF{
 	 * @param searchBook - Gets the class with the search book information.
 	 * @return - message that will be sent to server.
 	 */
-	public Message prepareSerachBook(ActionType type, SearchBook searchBook)
+	public Message prepareSerachBook(ActionType type, Book searchBook)
 	{
 		int i;
 		Message message = new Message();
@@ -480,15 +480,15 @@ public class SearchBookController implements ScreensIF{
 		elementsList.add(searchBook.getTitle()); //title
 		elementsList.add(searchBook.getLanguage()); //language
 		elementsList.add(searchBook.getSummary()); //summary
-		elementsList.add(searchBook.getToc()); //table of contents
-		elementsList.add(searchBook.getKeyWords()); //keywords
+		elementsList.add(searchBook.getTableOfContent()); //table of contents
+		elementsList.add(searchBook.getKeywords()); //keywords
 		
-		elementsList.add(Integer.toString(searchBook.getAuthorsNumber())); //authors number
-		for(i=0;i<searchBook.getAuthorsNumber();i++) //authors
+		elementsList.add(Integer.toString(searchBook.getAuthors().size())); //authors number
+		for(i=0;i<searchBook.getAuthors().size();i++) //authors
 			elementsList.add(searchBook.getAuthors().get(i));
 
-		elementsList.add(Integer.toString(searchBook.getDomainsNumber())); //domains number
-		for(i=0;i<searchBook.getDomainsNumber();i++) //domains
+		elementsList.add(Integer.toString(searchBook.getDomains().size())); //domains number
+		for(i=0;i<searchBook.getDomains().size();i++) //domains
 			elementsList.add(searchBook.getDomains().get(i));
 		
 
