@@ -318,51 +318,18 @@ public class ClientConnectionController extends AbstractClient{
 		}
 		
 		case SEARCH_BOOK_AND:{
-			Task<Void> task = new Task<Void>() {
-			    @Override
-			    protected Void call() throws Exception {
-					ArrayList<String> list = new ArrayList<String>();
-					list=replay.getElementsList();
-					SearchBookResultsController.resultList = list;
-					
-			         return null;
-			    }
-			};
-			 
-			 
-			Thread thread = new Thread(task);
-			thread.setDaemon(true);
-			thread.start();
-			try {
-				thread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
+		    
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			SearchBookResultsRecv.resultList = list;
 			break;
 		}
 		
 		case SEARCH_BOOK_OR:{
-			Task<Void> task = new Task<Void>() {
-			    @Override
-			    protected Void call() throws Exception {
-					ArrayList<String> list = new ArrayList<String>();
-					list=replay.getElementsList();
-					SearchBookResultsController.resultList = list;
-			         return null;
-			    }
-			};
-			 
-			Thread thread = new Thread(task);
-			thread.setDaemon(true);
-			thread.start();
-			try {
-				thread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
 
+			ArrayList<String> list = new ArrayList<String>();
+			list=replay.getElementsList();
+			SearchBookResultsRecv.resultList = list;
 			break;
 		}
 		
@@ -455,7 +422,7 @@ public class ClientConnectionController extends AbstractClient{
 				list.add(author);
 			}
 			
-			SearchBookController.authorList = list;
+			SearchBookAuthorsRecv.authorList = list;
 			BookManagementController.authorList = list;
 			break;
 		}
@@ -477,7 +444,7 @@ public class ClientConnectionController extends AbstractClient{
 		}
 
 		case GET_DOMAINS: {
-			SearchBookController.domainList = replay.getElementsList();
+			SearchBookDomainsRecv.domainList = replay.getElementsList();
 			break;
 		}
 		

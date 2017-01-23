@@ -134,15 +134,9 @@ public class SearchBookController implements ScreensIF{
 	 */
 	@FXML private ImageView keyWordsImage;
 	
-	/**
-	 * holds available authors from DB  
-	 */
-	public static ArrayList<Author> authorList;
+
 	
-	/**
-	 * holds available domains from DB  
-	 */
-	public static ArrayList<String> domainList;
+
 	
 	
 	/**
@@ -165,6 +159,8 @@ public class SearchBookController implements ScreensIF{
 	 */
 	int goToServer_flag=1;
 	
+
+	
 	/** initializing data when page comes up
 	 * @author itain
 	 */
@@ -174,7 +170,7 @@ public class SearchBookController implements ScreensIF{
 		booksImageView.setImage(booksImagePath);
 		ArrayList<String> elementList = new ArrayList<String>();
 		Message message = new Message(ActionType.GET_AUTHORS, elementList);
-		Message message2= new Message(ActionType.GET_DOMAINS, domainList);
+		Message message2= new Message(ActionType.GET_DOMAINS, SearchBookDomainsRecv.domainList);
 		
 		if(goToServer_flag==1)
 		{
@@ -196,33 +192,44 @@ public class SearchBookController implements ScreensIF{
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-
-				try{
+				SearchBookAuthorsRecv recv_authors = new SearchBookAuthorsRecv();
+				recv_authors.start();
+				synchronized (recv_authors) {
+					try{
+						recv_authors.wait();
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
 					/* authors */
 					ArrayList<String> names=new ArrayList<String>();
 					authorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-					for(int i=0 ; i< authorList.size();i++)
-						names.add(i, "("+authorList.get(i).getId()+")"+"\t"+authorList.get(i).getFirstname()+" "+authorList.get(i).getLastname());
+					for(int i=0 ; i< SearchBookAuthorsRecv.authorList.size();i++)
+						names.add(i, "("+SearchBookAuthorsRecv.authorList.get(i).getId()+")"+"\t"+SearchBookAuthorsRecv.authorList.get(i).getFirstname()+" "+SearchBookAuthorsRecv.authorList.get(i).getLastname());
 					ObservableList<String> items = FXCollections.observableArrayList(names);
 					authorListView.setItems(items);	
-	
+				}
+				
+				SearchBookAuthorsRecv recv_domains = new SearchBookAuthorsRecv();
+				recv_domains.start();
+				synchronized (recv_domains) {
+					try{
+						recv_domains.wait();
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
+					
 					/* domains */
 					domainListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-					ObservableList<String> items2 = FXCollections.observableArrayList(domainList);
+					ObservableList<String> items2 = FXCollections.observableArrayList(SearchBookDomainsRecv.domainList);
 					domainListView.setItems(items2);
-				
-			} 
-			catch (Exception e) {
-				//e.printStackTrace();	
-				try {
-					//TimeUnit.SECONDS.sleep(1);
-					TimeUnit.MILLISECONDS.sleep(300);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
-				initialize();
-			}
+				
+
+
+
+
+				
+				
 				
 				//question mark images
 				Image questionMarkImage= new Image("/img/questionMark.png");
@@ -252,6 +259,9 @@ public class SearchBookController implements ScreensIF{
 		
 
 	}
+	
+	
+
 	
 	/** When search button is pressed a search is made.
 	 * @author itain
@@ -500,4 +510,37 @@ public class SearchBookController implements ScreensIF{
 
 
 
+}
+
+class SearchBookAuthorsRecv extends Thread{
+	
+	/**
+	 * holds available authors from DB  
+	 */
+	public static ArrayList<Author> authorList;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+			notify();
+		}
+	}
+	
+}
+
+
+class SearchBookDomainsRecv extends Thread{
+	
+	/**
+	 * holds available domains from DB  
+	 */
+	public static ArrayList<String> domainList;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+			notify();
+		}
+	}
+	
 }
