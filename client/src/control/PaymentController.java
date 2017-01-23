@@ -41,7 +41,7 @@ public class PaymentController {
 	/**
 	 * Get answer from DB if the action was success.
 	 */
-	public static boolean success=false;
+	//public static boolean success=false;
 	
 	/**
 	 * static reference of user home page.
@@ -94,18 +94,28 @@ public class PaymentController {
 			                    Platform.runLater(new Runnable() {                          
 			                        @Override
 			                        public void run() { 
-			                        	try {
-		                    				//TimeUnit.SECONDS.sleep(1);
-		                    				TimeUnit.MILLISECONDS.sleep(300);
-		                    			} catch (InterruptedException e1) {
-		                    				e1.printStackTrace();
-		                    			}
-			                        	if(success == true)
-			                        	{
-			                        		BookPageController.searchedBookPage = searchedBookPage;
-			                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.BOOK_PURCHASE_SUCCESS);
-			                        		returnToPrevScreen(ScreensInfo.BOOK_PAGE_SCREEN);
-			                        	}
+			                        	PaymentRecv recv = new PaymentRecv();
+			                	        recv.start();
+			                	        synchronized(recv)
+			                			{
+			                				try {
+			                					recv.wait();
+			                				} catch (InterruptedException e1) {
+			                					e1.printStackTrace();
+			                				}
+				                        	try {
+			                    				//TimeUnit.SECONDS.sleep(1);
+			                    				TimeUnit.MILLISECONDS.sleep(300);
+			                    			} catch (InterruptedException e1) {
+			                    				e1.printStackTrace();
+			                    			}
+				                        	if(recv.success == true)
+				                        	{
+				                        		BookPageController.searchedBookPage = searchedBookPage;
+				                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.BOOK_PURCHASE_SUCCESS);
+				                        		returnToPrevScreen(ScreensInfo.BOOK_PAGE_SCREEN);
+				                        	}
+			                			}
 									}
 			                        });
 			                     latch.await();                      
@@ -168,20 +178,30 @@ public class PaymentController {
 			                    Platform.runLater(new Runnable() {                          
 			                        @Override
 			                        public void run() { 
-			                        	try {
-			                    			TimeUnit.MILLISECONDS.sleep(300);
-		                    			} catch (InterruptedException e1) {
-		                    				e1.printStackTrace();
-		                    			}
-			                        	if(success == true)
-			                        	{
-			                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.SUBSCRIPTION_PURCHASE_SUCCESS);
-			                        		returnToPrevScreen(null);
-			                        	}
-			                        	
-			                        	
-			                        	if(success == true)
-			                        		returnToPrevScreen(null);
+			                        	PaymentRecv recv = new PaymentRecv();
+			                	        recv.start();
+			                	        synchronized(recv)
+			                			{
+			                				try {
+			                					recv.wait();
+			                				} catch (InterruptedException e1) {
+			                					e1.printStackTrace();
+			                				}
+				                        	try {
+				                    			TimeUnit.MILLISECONDS.sleep(300);
+			                    			} catch (InterruptedException e1) {
+			                    				e1.printStackTrace();
+			                    			}
+				                        	if(recv.success == true)
+				                        	{
+				                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.SUBSCRIPTION_PURCHASE_SUCCESS);
+				                        		returnToPrevScreen(null);
+				                        	}
+				                        	
+				                        	
+				                        	if(recv.success == true)
+				                        		returnToPrevScreen(null);
+			                			}
 									}
 			                        });
 			                     latch.await();                      
@@ -306,7 +326,22 @@ public class PaymentController {
 	 */
 	public void setSuccess(boolean success)
 	{
-		this.success = success;
+		PaymentRecv.success = success;
 	}
 
+}
+
+class PaymentRecv extends Thread{
+    
+	/**
+	 * Get answer from DB if the action was success.
+	 */
+	public static boolean success=false;
+	
+    @Override
+    public void run(){
+        synchronized(this){
+            notify();
+        }
+    }
 }

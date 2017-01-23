@@ -108,15 +108,12 @@ public class Validate {
 	 */
 	public static String fixText(String str)
 	{
-		System.out.println(str);
 		for(int i=0;i<str.length()-1;i++){
 			if(str.charAt(i)=='\'' && str.charAt(i+1)=='\''){
 				str = str.substring(0,i) + "\"" +  str.substring(i+2,str.length());
 			}
 		}
-		System.out.println(str);
 		str = str.replace("'", "''");
-		System.out.println(str);
 		return str;
 	}
 	

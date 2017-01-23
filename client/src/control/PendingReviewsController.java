@@ -90,7 +90,7 @@ public class PendingReviewsController implements ScreensIF {
 	/**
 	 * static Array list of all the pending reviews from the DB.
 	 */
-	public static ArrayList <String> pendingReviewList;
+	//public static ArrayList <String> pendingReviewList;
 	
 	/**
 	 * static reference of librarian home page.
@@ -163,120 +163,125 @@ public class PendingReviewsController implements ScreensIF {
 		} catch (IOException e) {	
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
-		//while(pendingReviewList==null);
+		
 		Platform.runLater(new Runnable() {
 		@Override
 		public void run() {
-			try {
-				TimeUnit.MILLISECONDS.sleep(300);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			for(int i=0;i<pendingReviewList.size();i+=7){
-				data.add(new pendingReview(pendingReviewList.get(i), pendingReviewList.get(i+1), pendingReviewList.get(i+2), pendingReviewList.get(i+3), pendingReviewList.get(i+4), pendingReviewList.get(i+5), pendingReviewList.get(i+6)));
-			}
-			
-	        table.setEditable(true);
-	        
-	        //prevent change order               
-            table.getColumns().addListener(new ListChangeListener() {
-                public boolean suspended;
-
-                @Override
-                public void onChanged(Change change) {
-                    change.next();
-                    if (change.wasReplaced() && !suspended) {
-                        this.suspended = true;
-                        table.getColumns().setAll(idCol,usernameCol,firstNameCol,lastNameCol,bookTitleCol,dateCol,btnEdit);
-                        this.suspended = false;
-                    }
-                }
-            });
-	        
-	        idCol.setCellValueFactory(
-	                new PropertyValueFactory<pendingReview, String>("reviewId"));
-	        
-	        usernameCol.setCellValueFactory(
-	                new PropertyValueFactory<pendingReview, String>("username"));
+	        PendingReviewsRecv recv = new PendingReviewsRecv();
+	        recv.start();
+			synchronized(recv)
+			{
+				try {
+					recv.wait();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				for(int i=0;i<recv.pendingReviewList.size();i+=7){
+					data.add(new pendingReview(recv.pendingReviewList.get(i), recv.pendingReviewList.get(i+1), recv.pendingReviewList.get(i+2), recv.pendingReviewList.get(i+3), recv.pendingReviewList.get(i+4), recv.pendingReviewList.get(i+5), recv.pendingReviewList.get(i+6)));
+				}
+				
+		        table.setEditable(true);
+		        
+		        //prevent change order               
+	            table.getColumns().addListener(new ListChangeListener() {
+	                public boolean suspended;
 	
-	        firstNameCol.setCellValueFactory(
-	                new PropertyValueFactory<pendingReview, String>("firstName"));
-	
-	        lastNameCol.setCellValueFactory(
-	                new PropertyValueFactory<pendingReview, String>("lastName"));
-	
-	        bookTitleCol.setCellValueFactory(
-	                new PropertyValueFactory<pendingReview, String>("bookTitle"));
-	
-	        dateCol.setCellValueFactory(
-	                new PropertyValueFactory<pendingReview, String>("reviewDate"));
-	/*
-	        username.setStyle( "-fx-alignment: CENTER;");
-	        firstName.setStyle( "-fx-alignment: CENTER;");
-	        lastName.setStyle( "-fx-alignment: CENTER;");
-	        btnConfirm.setStyle( "-fx-alignment: CENTER;");
-	        btnDecline.setStyle( "-fx-alignment: CENTER;");*/
-	
-	        btnEdit.setStyle( "-fx-alignment: CENTER;");
-
-	        btnEdit.setCellValueFactory(new Callback<CellDataFeatures<pendingReview, pendingReview>, ObservableValue<pendingReview>>() {
-	          @Override public ObservableValue<pendingReview> call(CellDataFeatures<pendingReview, pendingReview> features) {
-	              return new ReadOnlyObjectWrapper(features.getValue());
-	          }
-	        });
-	
-	        btnEdit.setCellFactory(new Callback<TableColumn<pendingReview, pendingReview>, TableCell<pendingReview, pendingReview>>() {
-	          @Override public TableCell<pendingReview, pendingReview> call(TableColumn<pendingReview, pendingReview> btnEdit) {
-	            return new TableCell<pendingReview, pendingReview>() {
-	              final ImageView buttonGraphic = new ImageView();
-	              final Button button = new Button(); {
-	                button.setGraphic(buttonGraphic);
-	                button.setText("Edit");
-	                button.setPrefWidth(60);
-	              }
-	              @Override public void updateItem(final pendingReview review, boolean empty) {
-	                super.updateItem(review, empty);
-	                if (review != null) {
-	                  //buttonGraphic.setImage(confirmImage);
-	                  setGraphic(button);
-	                  button.setOnAction(new EventHandler<ActionEvent>() {
-	                    @Override public void handle(ActionEvent event) {
-	                    	
-	                    	if(ClientUI.getTypeOfUser()=="Librarian")
-	                    	{
-		                    	if (librarianMain == null)
-		                    		librarianMain = new HomepageLibrarianController();
-		                    	librarianMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
-	                    	}
-	                    	else if(ClientUI.getTypeOfUser()=="Manager")
-	                    	{
-		                    	if (managerMain == null)
-		                    		managerMain = new HomepageManagerController();
-		                    	managerMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
-	                    	}
-                    		Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getFirstName(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
-                    		EditReviewController editReviewPage = new EditReviewController();
-                    		editReviewPage.editReview = editReview;
-                    		ScreenController screenController = new ScreenController();
-                    		try{
-                    			if(ClientUI.getTypeOfUser()=="Librarian")
-                    				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
-                    			else if(ClientUI.getTypeOfUser()=="Manager")
-                    				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);	
-                    		} 
-                    		catch (Exception e) {
-								e.printStackTrace();
-							}  
+	                @Override
+	                public void onChanged(Change change) {
+	                    change.next();
+	                    if (change.wasReplaced() && !suspended) {
+	                        this.suspended = true;
+	                        table.getColumns().setAll(idCol,usernameCol,firstNameCol,lastNameCol,bookTitleCol,dateCol,btnEdit);
+	                        this.suspended = false;
 	                    }
-	                  });
-	                } else {
-	                  setGraphic(null);
 	                }
-	              }
-	            };
-	          }
-	        });
-	        table.setItems(data);
+	            });
+		        
+		        idCol.setCellValueFactory(
+		                new PropertyValueFactory<pendingReview, String>("reviewId"));
+		        
+		        usernameCol.setCellValueFactory(
+		                new PropertyValueFactory<pendingReview, String>("username"));
+		
+		        firstNameCol.setCellValueFactory(
+		                new PropertyValueFactory<pendingReview, String>("firstName"));
+		
+		        lastNameCol.setCellValueFactory(
+		                new PropertyValueFactory<pendingReview, String>("lastName"));
+		
+		        bookTitleCol.setCellValueFactory(
+		                new PropertyValueFactory<pendingReview, String>("bookTitle"));
+		
+		        dateCol.setCellValueFactory(
+		                new PropertyValueFactory<pendingReview, String>("reviewDate"));
+		/*
+		        username.setStyle( "-fx-alignment: CENTER;");
+		        firstName.setStyle( "-fx-alignment: CENTER;");
+		        lastName.setStyle( "-fx-alignment: CENTER;");
+		        btnConfirm.setStyle( "-fx-alignment: CENTER;");
+		        btnDecline.setStyle( "-fx-alignment: CENTER;");*/
+		
+		        btnEdit.setStyle( "-fx-alignment: CENTER;");
+	
+		        btnEdit.setCellValueFactory(new Callback<CellDataFeatures<pendingReview, pendingReview>, ObservableValue<pendingReview>>() {
+		          @Override public ObservableValue<pendingReview> call(CellDataFeatures<pendingReview, pendingReview> features) {
+		              return new ReadOnlyObjectWrapper(features.getValue());
+		          }
+		        });
+		
+		        btnEdit.setCellFactory(new Callback<TableColumn<pendingReview, pendingReview>, TableCell<pendingReview, pendingReview>>() {
+		          @Override public TableCell<pendingReview, pendingReview> call(TableColumn<pendingReview, pendingReview> btnEdit) {
+		            return new TableCell<pendingReview, pendingReview>() {
+		              final ImageView buttonGraphic = new ImageView();
+		              final Button button = new Button(); {
+		                button.setGraphic(buttonGraphic);
+		                button.setText("Edit");
+		                button.setPrefWidth(60);
+		              }
+		              @Override public void updateItem(final pendingReview review, boolean empty) {
+		                super.updateItem(review, empty);
+		                if (review != null) {
+		                  //buttonGraphic.setImage(confirmImage);
+		                  setGraphic(button);
+		                  button.setOnAction(new EventHandler<ActionEvent>() {
+		                    @Override public void handle(ActionEvent event) {
+		                    	
+		                    	if(ClientUI.getTypeOfUser()=="Librarian")
+		                    	{
+			                    	if (librarianMain == null)
+			                    		librarianMain = new HomepageLibrarianController();
+			                    	librarianMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
+		                    	}
+		                    	else if(ClientUI.getTypeOfUser()=="Manager")
+		                    	{
+			                    	if (managerMain == null)
+			                    		managerMain = new HomepageManagerController();
+			                    	managerMain.setPage(ScreensInfo.EDIT_REVIEW_SCREEN);
+		                    	}
+	                    		Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getFirstName(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
+	                    		EditReviewController editReviewPage = new EditReviewController();
+	                    		editReviewPage.editReview = editReview;
+	                    		ScreenController screenController = new ScreenController();
+	                    		try{
+	                    			if(ClientUI.getTypeOfUser()=="Librarian")
+	                    				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_LIBRARIAN_SCREEN,ScreensInfo.HOMEPAGE_LIBRARIAN_TITLE);						
+	                    			else if(ClientUI.getTypeOfUser()=="Manager")
+	                    				screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_MANAGER_SCREEN,ScreensInfo.HOMEPAGE_MANAGER_TITLE);	
+	                    		} 
+	                    		catch (Exception e) {
+									e.printStackTrace();
+								}  
+		                    }
+		                  });
+		                } else {
+		                  setGraphic(null);
+		                }
+		              }
+		            };
+		          }
+		        });
+		        table.setItems(data);
+				}
 			}
 		});
 	}
@@ -427,4 +432,24 @@ public class PendingReviewsController implements ScreensIF {
 	    }
 	}
 	
+}
+
+class PendingReviewsRecv extends Thread{
+    
+	/**
+	 * static Array list of all the pending reviews from the DB.
+	 */
+	public static ArrayList <String> pendingReviewList;
+	
+    @Override
+    public void run(){
+        synchronized(this){
+		    	/*try {
+					TimeUnit.MILLISECONDS.sleep(5000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}*/
+            notify();
+        }
+    }
 }

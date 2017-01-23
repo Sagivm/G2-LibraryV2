@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import boundry.ClientUI;
 import entity.Author;
@@ -42,6 +43,8 @@ public class ClientConnectionController extends AbstractClient{
 	 */
 	private static ClientUI clientMain = null;
 	
+	
+	public static boolean canContinue = false;
 	
 	/**
 	 * static reference of user home page.
@@ -500,7 +503,8 @@ public class ClientConnectionController extends AbstractClient{
 		}
 
 		case PENDING_REVIEWS: {
-			PendingReviewsController.pendingReviewList = replay.getElementsList();
+			PendingReviewsRecv.pendingReviewList = replay.getElementsList();
+			//PendingReviewsController.pendingReviewList = replay.getElementsList();
 			break;
 		}
 		case USEREPORT: {
@@ -558,7 +562,8 @@ public class ClientConnectionController extends AbstractClient{
 
 		}
 		case BOOK_REVIEWS: {
-			BookReviewsController.data=replay.getElementsList();
+			BookReviewsRecv.data=replay.getElementsList();
+			//BookReviewsController.data=replay.getElementsList();
 			break;
 		}
 		
@@ -627,7 +632,8 @@ public class ClientConnectionController extends AbstractClient{
 		}
 		
 		case GET_PENDING_ACCOUNTS: {
-			PendingAccountTypeController.pendingAccountList = replay.getElementsList();
+			PendingAccountTypeRecv.pendingAccountList = replay.getElementsList();
+			//PendingAccountTypeController.pendingAccountList = replay.getElementsList();
 			break;
 		}
 		
@@ -657,16 +663,14 @@ public class ClientConnectionController extends AbstractClient{
 		}
 		
 		case BUY_BOOK: {
-			PaymentController.success = success;
-		  /*if(replay.getGnrlMsg().equals("2"))
-				ExternalPaymentController.success = success;
-			if(replay.getGnrlMsg().equals("3"))
-				BookPageController.success = success;*/
+			PaymentRecv.success = success;
+			//PaymentController.success = success;
 		break;
 		}
 		
 		case BUY_SUBSCRIPTION: {
-			PaymentController.success = success;
+			PaymentRecv.success = success;
+			//PaymentController.success = success;
 		break;
 		}
 		

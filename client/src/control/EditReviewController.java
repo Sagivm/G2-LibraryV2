@@ -8,6 +8,7 @@ import entity.GeneralMessages;
 import entity.Message;
 import entity.Review;
 import entity.ScreensInfo;
+import entity.Validate;
 import enums.ActionType;
 import interfaces.ScreensIF;
 import javafx.application.Platform;
@@ -159,7 +160,7 @@ public class EditReviewController implements ScreensIF {
 		try{
 			System.out.print(editReview.getReviewID());
 			reviewStatus.add(editReview.getReviewID());
-			reviewStatus.add(content);
+			reviewStatus.add(Validate.fixText(content));
 			reviewStatus.add(status);
 			reviewStatus.add(editReview.getUsername()); 
 			

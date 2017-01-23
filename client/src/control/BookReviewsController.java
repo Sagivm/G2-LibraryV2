@@ -72,7 +72,7 @@ public class BookReviewsController implements ScreensIF {
 	/**
 	 * The data that was retrieved from the DB
 	 */
-	public static ArrayList<String> data;
+	//public static ArrayList<String> data;
 	
 	
 	/*
@@ -145,143 +145,153 @@ public class BookReviewsController implements ScreensIF {
 				Label lblPosition = new Label();
 				Label lblPosition2 = new Label();
 				
-				if((data.size()/5)<2)
-					posY=200;
-				
-				lblPosition.setLayoutX(0);
-				lblPosition.setLayoutY(-posY);
-				lblPosition.setPrefWidth(50);
-				lblPosition.setPrefHeight(posY);
-
-				lblPosition2.setLayoutX(0);
-				lblPosition2.setLayoutY(0);
-				lblPosition2.setPrefWidth(50);
-				lblPosition2.setPrefHeight(posY);
-
-				Group grpPosition = new Group();
-				if(data.size()<5)
+				BookReviewsRecv recv = new BookReviewsRecv();
+		        recv.start();
+				synchronized(recv)
 				{
-					Label lblPosition3 = new Label();
-					Label lblNoResults = new Label();
-					Group grpReview = new Group();
+					try {
+						recv.wait();
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					if((recv.data.size()/5)<2)
+						posY=200;
 					
 					lblPosition.setLayoutX(0);
-					lblPosition.setLayoutY(0);
+					lblPosition.setLayoutY(-posY);
 					lblPosition.setPrefWidth(50);
-					lblPosition.setPrefHeight(0);
-
-					lblNoResults.setLayoutX(30);
-					lblNoResults.setLayoutY(-280);
-					lblNoResults.setPrefWidth(500);
-					lblNoResults.setPrefHeight(100);
-
-					lblNoResults.setContentDisplay(ContentDisplay.TOP);
-					
-					lblNoResults.setFont(new Font("Arial", 30));
-					lblNoResults.setText("There are no reviews for this book!");
-					grpReview.setLayoutY(0);
-				
-					grpReview.getChildren().add(lblPosition3);
-					grpReview.getChildren().add(lblNoResults);
-					vboxReviews.getChildren().add(grpReview);
-				}
-				else
-				{
-					for(int i=0; i<data.size(); i+=5){
-						Label lblFullName = new Label();
-						Label lblPurchasedDate = new Label();
-						Label lblReviewDate = new Label();
-						Label lblReviewContent = new Label();
-						Line hLine = new Line();
+					lblPosition.setPrefHeight(posY);
+	
+					lblPosition2.setLayoutX(0);
+					lblPosition2.setLayoutY(0);
+					lblPosition2.setPrefWidth(50);
+					lblPosition2.setPrefHeight(posY);
+	
+					Group grpPosition = new Group();
+					if(recv.data.size()<5)
+					{
 						Label lblPosition3 = new Label();
+						Label lblNoResults = new Label();
+						Group grpReview = new Group();
 						
-						lblFullName.setText(data.get(i) + " " + data.get(i+1));
-							/*try {
-								purchaseDate = dateFormat.parse(data.get(i+2));
-							} catch (ParseException e) {
-								e.printStackTrace();
-								purchaseDate = new Date();
-							}
-							try {
-								reviewDate = dateFormat.parse(data.get(i+3));
-							} catch (ParseException e) {
-								//e.printStackTrace();
-								reviewDate = new Date();
-							}*/
-						lblPurchasedDate.setText("Date Purchased: " + data.get(i+2));
-						lblReviewDate.setText("reviewed on " + data.get(i+3));
-						reviewContent = data.get(i+4);
-						textLength = reviewContent.length();
-						rows=1;
-						int rowChars=0,line = 120;
-						for(int j=0;j<textLength;j++)
-						{
-							rowChars++;
-							if(rowChars >= line)
+						lblPosition.setLayoutX(0);
+						lblPosition.setLayoutY(0);
+						lblPosition.setPrefWidth(50);
+						lblPosition.setPrefHeight(0);
+	
+						lblNoResults.setLayoutX(30);
+						lblNoResults.setLayoutY(-280);
+						lblNoResults.setPrefWidth(500);
+						lblNoResults.setPrefHeight(100);
+	
+						lblNoResults.setContentDisplay(ContentDisplay.TOP);
+						
+						lblNoResults.setFont(new Font("Arial", 30));
+						lblNoResults.setText("There are no reviews for this book!");
+						grpReview.setLayoutY(0);
+					
+						grpReview.getChildren().add(lblPosition3);
+						grpReview.getChildren().add(lblNoResults);
+						vboxReviews.getChildren().add(grpReview);
+					}
+					else
+					{
+						for(int i=0; i<recv.data.size(); i+=5){
+							Label lblFullName = new Label();
+							Label lblPurchasedDate = new Label();
+							Label lblReviewDate = new Label();
+							Label lblReviewContent = new Label();
+							Line hLine = new Line();
+							Label lblPosition3 = new Label();
+							
+							lblFullName.setText(recv.data.get(i) + " " + recv.data.get(i+1));
+								/*try {
+									purchaseDate = dateFormat.parse(data.get(i+2));
+								} catch (ParseException e) {
+									e.printStackTrace();
+									purchaseDate = new Date();
+								}
+								try {
+									reviewDate = dateFormat.parse(data.get(i+3));
+								} catch (ParseException e) {
+									//e.printStackTrace();
+									reviewDate = new Date();
+								}*/
+							lblPurchasedDate.setText("Date Purchased: " + recv.data.get(i+2));
+							lblReviewDate.setText("reviewed on " + recv.data.get(i+3));
+							reviewContent = recv.data.get(i+4);
+							textLength = reviewContent.length();
+							rows=1;
+							int rowChars=0,line = 120;
+							for(int j=0;j<textLength;j++)
 							{
-								if (reviewContent.charAt(j) == ' ')
+								rowChars++;
+								if(rowChars >= line)
 								{
-									reviewContent = reviewContent.substring(0, j) + "\n" + reviewContent.substring(j+1, reviewContent.length());
-									//j+=120;
-									j++;
+									if (reviewContent.charAt(j) == ' ')
+									{
+										reviewContent = reviewContent.substring(0, j) + "\n" + reviewContent.substring(j+1, reviewContent.length());
+										//j+=120;
+										j++;
+										rowChars = 0;
+										rows++;
+									}
+								}
+								if (reviewContent.charAt(j) == '\n')
+								{
 									rowChars = 0;
 									rows++;
 								}
 							}
-							if (reviewContent.charAt(j) == '\n')
-							{
-								rowChars = 0;
-								rows++;
-							}
-						}
-						//System.out.println(rows);
-						lblReviewContent.setText(reviewContent);
-
-						lblFullName.setFont(new Font("Arial", 14));
-						lblFullName.setTextFill(Color.web("#0076a3"));
-						lblPurchasedDate.setFont(new Font("Arial", 14));
-						lblPurchasedDate.setTextFill(Color.web("grey"));
-						lblReviewDate.setFont(new Font("Arial", 14));
-						lblReviewDate.setTextFill(Color.web("grey"));
-						lblReviewContent.setFont(new Font("Arial", 14));
-						lblReviewContent.setWrapText(true);
-
-						
-						lblPosition3.setLayoutX(0);
-						lblPosition3.setLayoutY(30+i*(h*rows));
-						
-						lblFullName.setLayoutX(40);
-						lblFullName.setLayoutY(y+i*(h*rows));
-						
-						lblPurchasedDate.setLayoutX(350);
-						lblPurchasedDate.setLayoutY(y+i*(h*rows));
+							//System.out.println(rows);
+							lblReviewContent.setText(reviewContent);
 	
-						lblReviewDate.setLayoutX(700);
-						lblReviewDate.setLayoutY(y+i*(h*rows));
-						
-						lblReviewContent.setLayoutX(40);
-						lblReviewContent.setLayoutY(y+30+i*(h*rows));
-						
-						hLine.setStartX(800);
-						hLine.setStrokeWidth(0.2);
-						hLine.setLayoutX(40);
-						hLine.setLayoutY(y+60+(h*rows)+30+i*(h*rows));
-						
-						Group grpReview = new Group();
-						
-						grpReview.getChildren().add(lblPosition3);
-						grpReview.getChildren().add(lblFullName);
-						grpReview.getChildren().add(lblPurchasedDate);
-						grpReview.getChildren().add(lblReviewDate);
-						grpReview.getChildren().add(lblReviewContent);
-						grpReview.getChildren().add(hLine);
-					    
-					    vboxReviews.getChildren().add(grpReview);
+							lblFullName.setFont(new Font("Arial", 14));
+							lblFullName.setTextFill(Color.web("#0076a3"));
+							lblPurchasedDate.setFont(new Font("Arial", 14));
+							lblPurchasedDate.setTextFill(Color.web("grey"));
+							lblReviewDate.setFont(new Font("Arial", 14));
+							lblReviewDate.setTextFill(Color.web("grey"));
+							lblReviewContent.setFont(new Font("Arial", 14));
+							lblReviewContent.setWrapText(true);
+	
+							
+							lblPosition3.setLayoutX(0);
+							lblPosition3.setLayoutY(30+i*(h*rows));
+							
+							lblFullName.setLayoutX(40);
+							lblFullName.setLayoutY(y+i*(h*rows));
+							
+							lblPurchasedDate.setLayoutX(350);
+							lblPurchasedDate.setLayoutY(y+i*(h*rows));
+		
+							lblReviewDate.setLayoutX(700);
+							lblReviewDate.setLayoutY(y+i*(h*rows));
+							
+							lblReviewContent.setLayoutX(40);
+							lblReviewContent.setLayoutY(y+30+i*(h*rows));
+							
+							hLine.setStartX(800);
+							hLine.setStrokeWidth(0.2);
+							hLine.setLayoutX(40);
+							hLine.setLayoutY(y+60+(h*rows)+30+i*(h*rows));
+							
+							Group grpReview = new Group();
+							
+							grpReview.getChildren().add(lblPosition3);
+							grpReview.getChildren().add(lblFullName);
+							grpReview.getChildren().add(lblPurchasedDate);
+							grpReview.getChildren().add(lblReviewDate);
+							grpReview.getChildren().add(lblReviewContent);
+							grpReview.getChildren().add(hLine);
+						    
+						    vboxReviews.getChildren().add(grpReview);
+						}
 					}
+					grpPosition.getChildren().add(lblPosition);
+					grpPosition.getChildren().add(lblPosition2);
+					vboxReviews.getChildren().add(grpPosition);
 				}
-				grpPosition.getChildren().add(lblPosition);
-				grpPosition.getChildren().add(lblPosition2);
-				vboxReviews.getChildren().add(grpPosition);
 			}
 		});
 	}
@@ -302,4 +312,20 @@ public class BookReviewsController implements ScreensIF {
 		message.setElementsList(elementsList);
 		return message;
 	}
+}
+
+
+class BookReviewsRecv extends Thread{
+    
+	/**
+	 * The data that was retrieved from the DB
+	 */
+	public static ArrayList <String> data;
+	
+    @Override
+    public void run(){
+        synchronized(this){
+            notify();
+        }
+    }
 }
