@@ -1612,7 +1612,6 @@ private Button editAuthorSubmit;
 		
 		domainId.setStyle( "-fx-alignment: CENTER;");
 		domainName.setStyle( "-fx-alignment: CENTER;");
-		System.out.println("asas");
 		mainDomainTableView.setItems(dataDomains);
 		
 		

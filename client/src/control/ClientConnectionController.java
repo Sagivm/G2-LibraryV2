@@ -421,9 +421,9 @@ public class ClientConnectionController extends AbstractClient{
 				Author author = new Author(tmp[1], tmp[2], tmp[0]);
 				list.add(author);
 			}
-			
-			SearchBookAuthorsRecv.authorList = list;
+			SearchBookController.authorList = list;
 			BookManagementController.authorList = list;
+			SearchBookAuthorsRecv.canContinue = true;
 			break;
 		}
 		
@@ -444,7 +444,13 @@ public class ClientConnectionController extends AbstractClient{
 		}
 
 		case GET_DOMAINS: {
-			SearchBookDomainsRecv.domainList = replay.getElementsList();
+			/*try {
+				TimeUnit.MILLISECONDS.sleep(4000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}*/
+			SearchBookController.domainList = replay.getElementsList();
+			SearchBookDomainsRecv.canContinue = true;
 			break;
 		}
 		
@@ -470,7 +476,8 @@ public class ClientConnectionController extends AbstractClient{
 		}
 
 		case PENDING_REVIEWS: {
-			PendingReviewsRecv.pendingReviewList = replay.getElementsList();
+			PendingReviewsController.pendingReviewList = replay.getElementsList();
+			PendingReviewsRecv.canContinue = true;
 			//PendingReviewsController.pendingReviewList = replay.getElementsList();
 			break;
 		}

@@ -90,7 +90,7 @@ public class PendingReviewsController implements ScreensIF {
 	/**
 	 * static Array list of all the pending reviews from the DB.
 	 */
-	//public static ArrayList <String> pendingReviewList;
+	public static ArrayList <String> pendingReviewList;
 	
 	/**
 	 * static reference of librarian home page.
@@ -176,8 +176,8 @@ public class PendingReviewsController implements ScreensIF {
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-				for(int i=0;i<recv.pendingReviewList.size();i+=7){
-					data.add(new pendingReview(recv.pendingReviewList.get(i), recv.pendingReviewList.get(i+1), recv.pendingReviewList.get(i+2), recv.pendingReviewList.get(i+3), recv.pendingReviewList.get(i+4), recv.pendingReviewList.get(i+5), recv.pendingReviewList.get(i+6)));
+				for(int i=0;i<pendingReviewList.size();i+=7){
+					data.add(new pendingReview(pendingReviewList.get(i), pendingReviewList.get(i+1), pendingReviewList.get(i+2), pendingReviewList.get(i+3), pendingReviewList.get(i+4), pendingReviewList.get(i+5), pendingReviewList.get(i+6)));
 				}
 				
 		        table.setEditable(true);
@@ -439,7 +439,12 @@ class PendingReviewsRecv extends Thread{
 	/**
 	 * static Array list of all the pending reviews from the DB.
 	 */
-	public static ArrayList <String> pendingReviewList;
+	//public static ArrayList <String> pendingReviewList;
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
 	
     @Override
     public void run(){
@@ -449,6 +454,13 @@ class PendingReviewsRecv extends Thread{
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}*/
+        	//while(pendingReviewList==null)
+        	while(canContinue == false)
+        		{
+        			System.out.print("");
+        		}
+        	canContinue = false;
+        	
             notify();
         }
     }
