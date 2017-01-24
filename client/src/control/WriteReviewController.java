@@ -110,41 +110,7 @@ public class WriteReviewController implements ScreensIF {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				txtAreaReview.setWrapText(true);
-/*				txtAreaReview.textProperty().addListener(new ChangeListener < String > () {
-					   @Override
-					   public void changed(ObservableValue < ? extends String > observable,
-					    String oldValue, String newValue) {
-						   String content = "";
-						   
-						   	//if(txtAreaReview.getLength()%line == 0)
-						   	if(txtAreaReview.getLength() == row*line)
-						    //if(rowlength == line)
-						   	{
-							   //	rowlength=0;
-						   		content = txtAreaReview.getText();
-						   		content = content + "\n";
-						   		txtAreaReview.setText(content);
-						   		row++;
-						   		
-						   	}
-						   //else
-							  // rowlength++;
-					   }
-				  });
-				txtAreaReview.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-					if (event.getCode() == KeyCode.BACK_SPACE)
-						if(txtAreaReview.getText().charAt(txtAreaReview.getText().length()-1) == '\n')
-						{
-							txtAreaReview.setText(txtAreaReview.getText().substring(0,txtAreaReview.getText().length()-1));
-							//row--;
-							//rowlength=line;
-							txtAreaReview.positionCaret(txtAreaReview.getText().length());
-							if(row<1)
-								row=1;
-						}
-				});*/
-				
+				txtAreaReview.setWrapText(true);			
 			}
 		});
 	}

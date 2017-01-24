@@ -266,8 +266,7 @@ public class UserPageController implements ScreensIF{
         		managerMain = new HomepageManagerController();
         	managerMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
     	}
-
-		
+		SearchUserResultsRecv.canContinue = true;
 		ScreenController screenController = new ScreenController();
 		try{
 			if(ClientUI.getTypeOfUser()=="Librarian")
