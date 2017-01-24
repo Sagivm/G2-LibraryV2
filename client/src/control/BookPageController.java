@@ -304,8 +304,6 @@ public class BookPageController implements ScreensIF
 			BookReviewsController bookReview = new BookReviewsController();
 			bookReview.book = searchedBookPage;
 			loadReviews();
-			loadPopReport();
-			loadBookReport();
 			
 			if(ClientUI.getTypeOfUser()=="User")
 			{
@@ -465,34 +463,11 @@ public class BookPageController implements ScreensIF
 		priceLable.setText(searchedBookPage.getBookPrice()+ " \u20AA");
 	}
 	
-	private void loadBookReport() {
-		try {
-			if(bookReportContent.getChildren().size()>0)
-				bookReportContent.getChildren().remove(0);
-			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.BOOK_REPORT)); // SAGIV - CHANGE HERE USER REPORT SCREEN
-			bookReportContent.getChildren().add(root);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void loadPopReport() {
-		try {
-			if(popularityContent.getChildren().size()>0)
-				popularityContent.getChildren().remove(0);
-			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.BOOK_POPULARITY_REPORT)); // SAGIV - CHANGE HERE USER REPORT SCREEN
-			popularityContent.getChildren().add(root);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-
 	/**
 	 * Create's a message for get data from DB.
-	 * @param type
-	 * @param elementList
-	 * @return
+	 * @param type The type of the message.
+	 * @param elementList The parameters that passed to the server.
+	 * @return A message to the server.
 	 */
 	public Message prepareGetFromSQL(ActionType type, ArrayList<String> elementList)
 	{
@@ -505,7 +480,7 @@ public class BookPageController implements ScreensIF
 
 	/**
 	 * Responsible to load the book's reviews screen.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void loadReviews() throws IOException {
@@ -521,7 +496,7 @@ public class BookPageController implements ScreensIF
 	
 	/**
 	 * Responsible to load the book's write review scrren.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void loadWriteReview() throws IOException {
@@ -538,8 +513,8 @@ public class BookPageController implements ScreensIF
 	
 	/**
 	 * This button responsible for purchasing the book.
-	 * @param event
-	 * @throws IOException
+	 * @param event Action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void btnPurchasePressed(ActionEvent event) throws IOException{    
@@ -665,8 +640,8 @@ public class BookPageController implements ScreensIF
 	
 	/**
 	 * This buuton opens pop-up with 3 options of formats to download the book.
-	 * @param event
-	 * @throws IOException
+	 * @param event Action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void btnDownloadPressed(ActionEvent event) throws IOException{    
@@ -724,8 +699,8 @@ public class BookPageController implements ScreensIF
 	
 	/**
 	 * An alert message that poped-up when the user click on "Purchase".
-	 * @param message
-	 * @return
+	 * @param message The message that pop-up.
+	 * @return True - if the user clicked "OK". False - if the user clicked "Cancel".
 	 */
 	public boolean yesNoDialog(String message)
 	{

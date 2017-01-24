@@ -162,8 +162,8 @@ public class EditReviewController implements ScreensIF {
 	
 	/**
 	 * Sends the action to the DB.
-	 * @param status
-	 * @param content
+	 * @param status The review status.
+	 * @param content The review content.
 	 */
 	public void actionPressed(String status,String content)
 	{
@@ -188,8 +188,8 @@ public class EditReviewController implements ScreensIF {
 	
 	/**
 	 * Move the action "declined" to actionPressed method.
-	 * @param event
-	 * @throws IOException
+	 * @param event The action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void declineButtonPressed(ActionEvent event) throws IOException{    
@@ -203,8 +203,8 @@ public class EditReviewController implements ScreensIF {
 	
 	/**
 	 * Move the action "approved" to actionPressed method.
-	 * @param event
-	 * @throws IOException
+	 * @param event The action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void aprroveButtonPressed(ActionEvent event) throws IOException{    
@@ -223,9 +223,9 @@ public class EditReviewController implements ScreensIF {
 	
 	/**
 	 * Create a message to the server with the review status ActionType.
-	 * @param type
-	 * @param reviewStatus
-	 * @return
+	 * @param type The action type of the message.
+	 * @param reviewStatus The parameters that passed to the server.
+	 * @return The message that passed to the server.
 	 */
 	public Message updateReviewStatus(ActionType type, ArrayList<String> reviewStatus)
 	{

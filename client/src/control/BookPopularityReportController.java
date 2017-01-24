@@ -9,7 +9,6 @@ import control.UserReportController.Purchase;
 import entity.Author;
 import entity.Book;
 import entity.Message;
-import entity.SearchBookResult;
 import entity.User;
 import enums.ActionType;
 import javafx.application.Platform;
@@ -105,7 +104,7 @@ public class BookPopularityReportController implements Initializable {
 	 * Displays Book title
 	 */
 	@FXML
-	private SearchBookResult SelectedBook;
+	private Book SelectedBook;
 	/**
 	 * group of the radio buttons
 	 */
@@ -128,9 +127,25 @@ public class BookPopularityReportController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// test
-		this.SelectedBook = BookPageController.searchedBookPage;
+		String bookSummary = "The film begins with a summary of the prehistory of the ring of power."
+				+ " Long ago, twenty rings existed: three for elves, seven for dwarves, nine for"
+				+ " men, and one made by the Dark Lord Sauron, in Mordor, which would rule all the"
+				+ " others. Sauron poured all his evil and his will to dominate into this ring. An"
+				+ " alliance of elves and humans resisted Sauron’s ring and fought against Mordor."
+				+ " They won the battle and the ring fell to Isildur, the son of the king of Gondor,";
+		Author author = new Author();
+		ArrayList<Author> authors = new ArrayList<Author>();
+		author.setId("3");
+		;
+		author.setFirstname("JRR");
+		author.setLastname("Tolkien");
+		authors.add(author);
+		// authors.add(author);
+		Book book = new Book(5, "Lord of the rings", "English", bookSummary, "Lets Begin, Dragons, Dark lord",
+				"Hobbit, Gandalf, Dark Lord", "52.5", authors);
+		this.SelectedBook = book;
 		//
-		//initializeLabel();
+		initializeLabel();
 		initializeDomains();
 		initializeTable();
 		initializeprice();
@@ -143,7 +158,7 @@ public class BookPopularityReportController implements Initializable {
 	 */
 	private void initializeprice() {
 		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(String.valueOf(SelectedBook.getBookSn()));
+		elementsList.add(String.valueOf(SelectedBook.getSn()));
 		Message message = new Message(ActionType.GET_TOTAL_PRICE, elementsList);
 		try {
 
@@ -170,7 +185,7 @@ public class BookPopularityReportController implements Initializable {
 	 * Initialize the labels that are stored in the page
 	 */
 	private void initializeLabel() {
-		titleLabel.setText(SelectedBook.getBookSn() + ") " + SelectedBook.getBookTitle() + " Popularity Report");
+		titleLabel.setText(SelectedBook.getSn() + ") " + SelectedBook.getTitle() + " Popularity Report");
 
 	}
 
@@ -179,7 +194,7 @@ public class BookPopularityReportController implements Initializable {
 	 */
 	private void initializeDomains() {
 		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(String.valueOf(SelectedBook.getBookSn()));
+		elementsList.add(String.valueOf(SelectedBook.getSn()));
 		Message message = new Message(ActionType.GETDOMAINSSPECIFIC, elementsList);
 		try {
 
@@ -223,8 +238,7 @@ public class BookPopularityReportController implements Initializable {
 			public void run() {
 
 				try {
-					allBooksRadio.setSelected(true);
-					displaySettings(new ActionEvent());
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -454,7 +468,7 @@ public class BookPopularityReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets book's title
-		 * @param book's title
+		 * @param title The book's title.
 		 */
 		public void setTitle(String title) {
 			this.title = title;
@@ -469,7 +483,7 @@ public class BookPopularityReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets book's author
-		 * @param book's author
+		 * @param author The book's author
 		 */
 		public void setAuthor(String author) {
 			this.author = author;
@@ -485,7 +499,7 @@ public class BookPopularityReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets book's language
-		 * @param book's language
+		 * @param language The book's language
 		 */
 		public void setLanguage(String language) {
 			this.language = language;
@@ -501,7 +515,7 @@ public class BookPopularityReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets number of purchases of the book
-		 * @param number of purchases of the book
+		 * @param purchase The number of purchases of the book
 		 */
 		public void setPurchase(String purchase) {
 			this.purchase = purchase;
@@ -517,7 +531,7 @@ public class BookPopularityReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets book's domain
-		 * @param book's domain
+		 * @param domain The book's domain
 		 */
 		public void setDomain(String domain) {
 			this.domain = domain;
