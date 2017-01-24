@@ -126,7 +126,7 @@ private boolean checkLastCrash() {
 	 * @param rs- ResultSet of book by date  table with sn in the first index of rs
 	 * @param search - number of searches for the new book
 	 * @param purchase-number of purchases for the new book
-	 * @throws SQLException
+	 * @throws SQLException - the sql exception.
 	 */
 	public static void insertBookDateRow(ResultSet rs,int search,int purchase) throws SQLException
 	{
@@ -138,7 +138,8 @@ private boolean checkLastCrash() {
 	/**\
 	 * Inc a single search row of book by date with the current date
 	 * @param bookId- id of book
-	 * @throws SQLException
+	 * @throws SQLException - the sql exception.
+	 * @return - count of the book's searches.
 	 */
 	public static int IncSearchBookDateRow(String bookId) throws SQLException
 	{
@@ -156,9 +157,9 @@ private boolean checkLastCrash() {
 	}
 	/**\
 	 * Inc a single purchase row of book by date with the current date
-	 * @param bookId- id of book
-	 * @param rs- ResultSet of book by date  table with sn in the first index of rs
-	 * @throws SQLException
+	 * @param bookId - id of book
+	 * @throws SQLException - the sql exception.
+	 * @return - count of the book's purchases.
 	 */
 	public static int IncPurcahseBookDateRow(String bookId) throws SQLException
 	{

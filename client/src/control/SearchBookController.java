@@ -266,7 +266,8 @@ public class SearchBookController implements ScreensIF{
 	
 	/** When search button is pressed a search is made.
 	 * @author itain
-	 * @param event
+	 * @param event The action event onPressed
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void searchButtonPressed(ActionEvent event) throws IOException {
@@ -386,6 +387,7 @@ public class SearchBookController implements ScreensIF{
 	
 	/** When listview question mark is pressed the function shows message for multiple choice.
 	 * @author itain
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void msgMultipleChoice() throws IOException {
@@ -401,6 +403,7 @@ public class SearchBookController implements ScreensIF{
 	
 	/** When question mark of Key Words is pressed the function shows message for right separation.
 	 * @author itain
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void msgKeyWords() throws IOException {
@@ -414,7 +417,8 @@ public class SearchBookController implements ScreensIF{
 	}
 	
 	/** When clear button is pressed the function clears all fields.
-	 * @param event
+	 * @param event The action event onPressed
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void clearButtonPressed(ActionEvent event) throws IOException {

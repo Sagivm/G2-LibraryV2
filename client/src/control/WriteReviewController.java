@@ -117,8 +117,8 @@ public class WriteReviewController implements ScreensIF {
 	
 	/**
 	 * clear the text in the TextArea.
-	 * @param event
-	 * @throws IOException
+	 * @param event The action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void ClearkButtonPressed(ActionEvent event) throws IOException{
@@ -135,8 +135,8 @@ public class WriteReviewController implements ScreensIF {
 	
 	/**
 	 * This method create a new review in the DB.
-	 * @param event
-	 * @throws IOException
+	 * @param event The action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void submitButtonPressed(ActionEvent event) throws IOException{    
@@ -167,9 +167,9 @@ public class WriteReviewController implements ScreensIF {
 	
 	/**
 	 * Create a message to the server with the Review ActionType.
-	 * @param type
-	 * @param review
-	 * @return
+	 * @param type The action type of the message that passed to the server.
+	 * @param review The parameter that passed to the server.
+	 * @return The message that passed to the server.
 	 */
 	public Message addReview(ActionType type, ArrayList<String> review)
 	{

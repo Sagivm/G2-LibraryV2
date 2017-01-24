@@ -284,13 +284,5 @@ public class ScreensInfo {
 	 * Set book popularity report screen.
 	 */
 	public static final String BOOK_POPULARITY_REPORT = "/boundry/BookPopularityReportUI.fxml";
-	/**
-	 * Displays user's book list
-	 */
-	public static final String MY_BOOKS= "/boundry/UserReportUI.fxml";
-	/**
-	 * Set book popularity report screen.
-	 */
-	public static final String BOOK_REPORT = "/boundry/BookReportUI.fxml";
 
 }

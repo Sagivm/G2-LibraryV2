@@ -63,7 +63,7 @@ return destinationDirectory;
 }
 
 /** Setter for DestinationDirectory.
- * @param - Gets the destinationDirectory.
+ * @param destinationDirectory - Gets the destinationDirectory.
  */
 public void setDestinationDirectory(String destinationDirectory) {
 this.destinationDirectory = destinationDirectory;
@@ -77,7 +77,7 @@ return sourceDirectory;
 }
 
 /** Setter for SourceDirectory.
- * @param - Gets the sourceDirectory.
+ * @param sourceDirectory - Gets the sourceDirectory.
  */
 public void setSourceDirectory(String sourceDirectory) {
 this.sourceDirectory = sourceDirectory;
@@ -91,7 +91,7 @@ return filename;
 }
 
 /** Setter for Filename.
- * @param - Gets the filename
+ * @param filename - Gets the filename
  */
 public void setFilename(String filename) {
 this.filename = filename;
@@ -105,7 +105,7 @@ return fileSize;
 }
 
 /** Setter for FileSize.
- * @param - Gets the fileSize.
+ * @param fileSize - Gets the fileSize.
  */
 public void setFileSize(long fileSize) {
 this.fileSize = fileSize;
@@ -119,7 +119,7 @@ return status;
 }
 
 /** Setter for status.
- * @param - the status.
+ * @param status - the status.
  */
 public void setStatus(String status) {
 this.status = status;

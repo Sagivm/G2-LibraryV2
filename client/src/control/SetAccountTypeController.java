@@ -33,9 +33,7 @@ public class SetAccountTypeController implements Initializable {
 	private ComboBox settingList;
 
 	/**
-	 * Initialize account type list with available account types for the user
-	 * 
-	 * @param type
+	 * Initialize account type list with available account types for the user.
 	 */
 	@FXML
 	public void initializeSettingList() {
@@ -65,8 +63,8 @@ public class SetAccountTypeController implements Initializable {
 	/**
 	 * Update's User information to pending and send a notification to librarian
 	 * 
-	 * @param event
-	 * @throws IOException
+	 * @param event The action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void submitSettingButtonPressed(ActionEvent event) throws IOException {

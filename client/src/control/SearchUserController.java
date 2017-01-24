@@ -87,7 +87,7 @@ public class SearchUserController implements ScreensIF{
 	/** This function called when the worker press on search. the function tests the
 	 * integrity of the fields, and send the message to the server.
 	 * @author itain
-	 * @param event
+	 * @param event The action event onPressed.
 	 */
 	@FXML
 	public void searchButtonPressed(ActionEvent event)
@@ -159,7 +159,7 @@ public class SearchUserController implements ScreensIF{
 	
 	/** When clear button pressed the function clear the fields.
 	 * @author itain
-	 * @param event
+	 * @param event The action event onPressed.
 	 */
 	@FXML
 	public void clearButtonPressed(ActionEvent event)

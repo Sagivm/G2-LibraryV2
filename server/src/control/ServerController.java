@@ -162,7 +162,7 @@ public class ServerController extends AbstractServer {
 	}
 
 	/**
-	 * CloseApp close the application when function called by menu -> "close"
+	 * CloseApp close the application when function called by menu "close"
 	 * @param event - Gets the event.
 	 */
 	@FXML
@@ -978,7 +978,7 @@ public class ServerController extends AbstractServer {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
 								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" +rs.getString(6) 
-								+ "^" +String.valueOf(rs.getFloat(7)));
+								+ "^" +String.valueOf(rs.getInt(7)));
 					}
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
@@ -1033,16 +1033,13 @@ public class ServerController extends AbstractServer {
 		case BOOKREPORT: {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
-				System.out.println("sagiv+"+data.get(0));
 				ResultSet rs = DatabaseController
-						.searchInDatabase("SELECT * FROM book_by_date WHERE bookId="
-								+ Integer.valueOf(data.get(0)) + ";");
-				System.out.println("melamed");
+						.searchInDatabase("SELECT date,searchCount,purchaseCount FROM book_by_date WHERE bookId="
+								+ Integer.valueOf(elementsList.get(0)) + ";");
 				while (rs.next()) {
 					elementsList.add(
-							rs.getString(2) + "^" + String.valueOf(rs.getInt(3)) + "^" + String.valueOf(rs.getInt(4)));
+							rs.getString(1) + "^" + String.valueOf(rs.getInt(2)) + "^" + String.valueOf(rs.getInt(3)));
 				}
-				System.out.println(elementsList.get(0));
 				replay = new Replay(ActionType.BOOKREPORT, true, elementsList);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
@@ -1915,7 +1912,7 @@ public class ServerController extends AbstractServer {
 	}
 
 	/**
-	 * When the user pressed menu -> "help" it displays the user the message
+	 * When the user pressed menu "help" it displays the user the message
 	 * about us. 
 	 * @param event - Gets the event.
 	 */
@@ -1932,7 +1929,7 @@ public class ServerController extends AbstractServer {
 	 * This function called when the user pressed on the button connect or
 	 * disconnect the function connect databse, and server.
 	 * @param event - Gets the event.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void buttonPressed(ActionEvent event) throws IOException {
