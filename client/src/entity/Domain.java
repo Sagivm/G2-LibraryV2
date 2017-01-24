@@ -27,10 +27,8 @@ public class Domain {
 	/**
 	 * Domain constructor store the data.
 	 * @author itain
-	 * @param domainsIdCounter - add 1 to domainsIdCounter.
 	 * @param id - Gets domainsIdCounter.
 	 * @param name - Gets the name.
-	 * @param subjects - initiate empty array
 	 */
 	public Domain(int id, String name) {
 		this.id = id;
@@ -42,7 +40,6 @@ public class Domain {
 	/**
 	 * Domain empty constructor
 	 * @author itain
-	 * @param subjects - initiate empty array
 	 */
 	public Domain() {
 

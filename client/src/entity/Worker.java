@@ -39,12 +39,13 @@ public class Worker extends Person {
 	}
 	
 	/** Initialize Worker with parameters. firstname,lastname,username are defined in parent
-	 * @param firstname
-	 * @param lastname
-	 * @param username
-	 * @param email
-	 * @param job
-	 * @param department
+	 * @param firstname The first name.
+	 * @param lastname The last name.
+	 * @param username The username.
+	 * @param password The password.
+	 * @param email The worker's email.
+	 * @param job The worker's job.
+	 * @param department The worker's department.
 	 */
 	public Worker(String firstname, String lastname, String username,String password, String email, String job, String department) {
 		super(firstname,lastname,username);
@@ -63,7 +64,7 @@ public class Worker extends Person {
 	}
 	
 	/**
-	 * @param password
+	 * @param password The password.
 	 */
 	public void setPassword(String password)
 	{
@@ -95,7 +96,7 @@ public class Worker extends Person {
 	}
 	
 	/** Setter for Email.
-	 * @param email
+	 * @param email The worker email.
 	 */
 	public void setEmail(String email)
 	{
@@ -103,7 +104,7 @@ public class Worker extends Person {
 	}
 	
 	/** Setter for job.
-	 * @param job
+	 * @param job The worker's job.
 	 */
 	public void setJob(String job)
 	{
@@ -111,7 +112,7 @@ public class Worker extends Person {
 	}
 	
 	/** Setter for department.
-	 * @param department
+	 * @param department The worker's department.
 	 */
 	public void setDepratment(String department)
 	{

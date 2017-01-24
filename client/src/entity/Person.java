@@ -24,9 +24,9 @@ public class Person {
 	}
 	/**
 	 * Initialize person with parameters
-	 * @param firstname
-	 * @param lastname
-	 * @param username
+	 * @param firstname - The first name.
+	 * @param lastname - The last name.
+	 * @param username - The username.
 	 */
 	public Person(String firstname, String lastname,String username) {
 		this.firstname = firstname;
@@ -42,7 +42,7 @@ public class Person {
 	
 	/**
 	 * Sets person's first name
-	 * @param firstname
+	 * @param firstname - the first name.
 	 */
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
@@ -55,7 +55,7 @@ public class Person {
 	}
 	/**
 	 * Sets person's last name
-	 * @param lastname
+	 * @param lastname - the last name.
 	 */
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
@@ -68,7 +68,7 @@ public class Person {
 	}
 	/**
 	 * Sets person's username
-	 * @param username
+	 * @param username - the username.
 	 */
 	public void setId(String username) {
 		this.username = username;
