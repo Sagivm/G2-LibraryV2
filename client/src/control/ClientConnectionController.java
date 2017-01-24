@@ -321,7 +321,8 @@ public class ClientConnectionController extends AbstractClient{
 		    
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
-			SearchBookResultsRecv.resultList = list;
+			SearchBookResultsController.resultList = list;
+			SearchBookResultsRecv.canContinue = true;
 			break;
 		}
 		
@@ -329,7 +330,8 @@ public class ClientConnectionController extends AbstractClient{
 
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
-			SearchBookResultsRecv.resultList = list;
+			SearchBookResultsController.resultList = list;
+			SearchBookResultsRecv.canContinue = true;
 			break;
 		}
 		
@@ -444,11 +446,6 @@ public class ClientConnectionController extends AbstractClient{
 		}
 
 		case GET_DOMAINS: {
-			/*try {
-				TimeUnit.MILLISECONDS.sleep(4000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}*/
 			SearchBookController.domainList = replay.getElementsList();
 			SearchBookDomainsRecv.canContinue = true;
 			break;

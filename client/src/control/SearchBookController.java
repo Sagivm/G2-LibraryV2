@@ -525,7 +525,7 @@ class SearchBookAuthorsRecv extends Thread{
 		synchronized (this) {
         	while(canContinue == false)
     		{
-    			System.out.print("");
+        		System.out.print("");
     		}
         	canContinue = false;
 			notify();
@@ -547,7 +547,7 @@ class SearchBookDomainsRecv extends Thread{
 		synchronized (this) {
         	while(canContinue == false)
     		{
-    			System.out.print("");
+        		System.out.print("");
     		}
         	canContinue = false;
 			notify();
