@@ -80,7 +80,7 @@ public class RegisterController implements ScreensIF {
 	
 	/** This function called when the guest press on submit. the function tests the
 	 * integrity of the fields, and send the message to the server.
-	 * @param event The action event onPressed.
+	 * @param event
 	 */
 	@FXML
 	public void submitButtonPressed(ActionEvent event)
@@ -124,6 +124,21 @@ public class RegisterController implements ScreensIF {
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
 		
+		
+		  //itai
+		  Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						RegisterRecv recv_register = new RegisterRecv();
+						recv_register.start();
+						synchronized (recv_register) {
+							try{
+								recv_register.wait();
+							}catch(InterruptedException e){
+								e.printStackTrace();
+							}
+						}
+				}});
 		
 		
 	}
@@ -177,6 +192,31 @@ public class RegisterController implements ScreensIF {
 		elementsList.add(3,register.getLastName());
 		message.setElementsList(elementsList);
 		return message;
+	}
+	
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class RegisterRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
 	}
 	
 }

@@ -92,8 +92,8 @@ public class HomepageManagerController implements ScreensIF {
 	
 	/**
 	 * this method load the page to the content AnchorPane.
-	 * @param screenPath The screen path.
-	 * @throws IOException IO exception.
+	 * @param screenPath
+	 * @throws IOException
 	 */
 	@FXML
 	public void loadPage(String screenPath) throws IOException {
@@ -109,7 +109,7 @@ public class HomepageManagerController implements ScreensIF {
 	
 	/** Handler when pressed "Logout". this function log out the current manager.
 	 * @param event - gets the ActionEvent when the function called.
-	 * @throws IOException IO exception.
+	 * @throws IOException
 	 */
 	@FXML
 	public void logoutButtonPressed(ActionEvent event) throws IOException{    
@@ -123,7 +123,7 @@ public class HomepageManagerController implements ScreensIF {
 	
 	
 	/** This function log out the current manager from the server.
-	 * @throws IOException IO exception.
+	 * @throws IOException
 	 */
 	public void logout() throws IOException
 	{
@@ -138,12 +138,27 @@ public class HomepageManagerController implements ScreensIF {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+			  //itai
+			  Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+							HomepageManagerRecv recv_logout = new HomepageManagerRecv();
+							recv_logout.start();
+							synchronized (recv_logout) {
+								try{
+									recv_logout.wait();
+								}catch(InterruptedException e){
+									e.printStackTrace();
+								}
+							}
+					}});
 	}
 	
 	/** Send log out message to the server.
-	 * @param type The action type of the message that passed to the server.
-	 * @param login The parameter that passed to the server.
-	 * @return The message that passed to the server.
+	 * @param type
+	 * @param login
+	 * @return
 	 */
 	public Message prepareLogout(ActionType type, Login login)
 	{
@@ -168,15 +183,15 @@ public class HomepageManagerController implements ScreensIF {
 	
 	/**
 	 * Getter of the connected manager.
-	 * @return The connected manager.
+	 * @return
 	 */
 	public static Worker getConnectedManager()
 	{
 		return connectedManager;
 	}
 	
-	/**Setter of the connected Manager.
-	 * @param connectedManager - Set the connected Manager.
+	/**Setter of the connected liberian.
+	 * @param connectedUser - Set the connected liberian.
 	 */
 	public void setConnectedManager(Worker connectedManager)
 	{
@@ -184,8 +199,8 @@ public class HomepageManagerController implements ScreensIF {
 	}
 	
 	/** Handler when pressed "Pending Reviews requests". this function open the Pending Reviews requests form.
-	 * @param event The action event onPressed.
-	 * @throws IOException IO exception.
+	 * @param event
+	 * @throws IOException
 	 */
 	@FXML
 	public void pendingReviewsButtonPressed(ActionEvent event) throws IOException {
@@ -197,7 +212,7 @@ public class HomepageManagerController implements ScreensIF {
 	 * form.
 	 * 
 	 * @param event - gets the ActionEvent when the function called.
-	 * @throws IOException IO exception.
+	 * @throws IOException
 	 */
 	@FXML
 	public void searchBookButtonPressed(ActionEvent event) throws IOException {
@@ -239,7 +254,7 @@ public class HomepageManagerController implements ScreensIF {
 	}
 	
 	/** Setter for page.
-	 * @param pageToLoad The page that will be loaded.
+	 * @param page
 	 */
 	public static void setPage(String pageToLoad)
 	{
@@ -247,11 +262,36 @@ public class HomepageManagerController implements ScreensIF {
 	}
 	
 	/** Getter for page.
-	 * @return The page that will be loaded.
+	 * @return
 	 */
 	public String getPage()
 	{
 		return page;
+	}
+	
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class HomepageManagerRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
 	}
 	
 }
