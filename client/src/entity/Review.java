@@ -45,13 +45,13 @@ public class Review {
 	/**
 	 * The constructor of the review entity.
 	 * 
-	 * @param reviewID
-	 * @param username
-	 * @param firstName
-	 * @param lastName
-	 * @param bookTitle
-	 * @param reviewContent
-	 * @param reviewDate
+	 * @param reviewID The ID of the review.
+	 * @param username The username.
+	 * @param firstName The first name.
+	 * @param lastName The last name.
+	 * @param bookTitle The book title.
+	 * @param reviewContent The review content.
+	 * @param reviewDate The review date.
 	 */
 	public Review(String reviewID,String username,String firstName,String lastName,String bookTitle,String reviewContent,String reviewDate)
 	{
@@ -66,7 +66,7 @@ public class Review {
 	
 	/** 
 	 * Getter for reviewID.
-	 * @return
+	 * @return The ID of the review.
 	 */
 	public String getReviewID()
 	{
@@ -75,7 +75,7 @@ public class Review {
 	
 	/**
 	 * Getter for username.
-	 * @return
+	 * @return The username.
 	 */
 	public String getUsername()
 	{
@@ -84,7 +84,7 @@ public class Review {
 	
 	/**
 	 * Getter for firstName.
-	 * @return
+	 * @return The first name.
 	 */
 	public String getFirstName()
 	{
@@ -93,7 +93,7 @@ public class Review {
 	
 	/**
 	 * Getter for lastName.
-	 * @return
+	 * @return The last name.
 	 */
 	public String getLastName()
 	{
@@ -102,7 +102,7 @@ public class Review {
 	
 	/**
 	 * Getter for bookTitle.
-	 * @return
+	 * @return The book title.
 	 */
 	public String getBookTitle()
 	{
@@ -111,7 +111,7 @@ public class Review {
 	
 	/**
 	 * Getter for reviewContent.
-	 * @return
+	 * @return The review content.
 	 */
 	public String getReviewContent()
 	{
@@ -120,7 +120,7 @@ public class Review {
 	
 	/**
 	 * Getter for reviewDate.
-	 * @return
+	 * @return The review date.
 	 */
 	public String getReviewDate()
 	{

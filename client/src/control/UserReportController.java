@@ -5,14 +5,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.sun.javafx.collections.SetAdapterChange;
-
 import boundry.ClientUI;
 import entity.GeneralMessages;
 import entity.Message;
 import entity.ScreensInfo;
 import entity.SearchBookResult;
-import entity.SearchUserResult;
 import entity.User;
 import enums.ActionType;
 import javafx.application.Platform;
@@ -51,7 +48,7 @@ public class UserReportController implements Initializable {
 	/**
 	 * Specific user that
 	 */
-	private static SearchUserResult selectedUser;
+	private static User selectedUser;
 	/**
 	 * Book id column in the table
 	 */
@@ -83,6 +80,11 @@ public class UserReportController implements Initializable {
 	 */
 	@FXML
 	private TableColumn<Purchase, String> priceColumn;
+	/**
+	 * Displays user name
+	 */
+	@FXML
+	private Label titleLabel;
 	/**
 	 * ArrayList containing the data in Purchase form
 	 */
@@ -116,12 +118,12 @@ public class UserReportController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		this.selectedUser = UserPageController.searchedUserPage;
-		
+		// check
+		this.selectedUser = HomepageUserController.getConnectedUser();
+		//
 
 		initializeTable();
-	
+		initializeLabel();
 		
 		table.setRowFactory( tv -> {
 		    TableRow<Purchase> row = new TableRow<>();
@@ -184,7 +186,7 @@ public class UserReportController implements Initializable {
 	 */
 	private void initializeTable() {
 		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(selectedUser.getUsername());
+		elementsList.add(selectedUser.getId());
 		Message message = new Message(ActionType.USEREPORT, elementsList);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -248,7 +250,7 @@ public class UserReportController implements Initializable {
 	 * 
 	 * @return specific user
 	 */
-	public static SearchUserResult getSelectedUser() {
+	public static User getSelectedUser() {
 		return selectedUser;
 	}
 
@@ -258,7 +260,7 @@ public class UserReportController implements Initializable {
 	 * @param selectedUser
 	 *            a specific user that the list will be based upon
 	 */
-	public static void setSelectedUser(SearchUserResult selectedUser) {
+	public static void setSelectedUser(User selectedUser) {
 		UserReportController.selectedUser = selectedUser;
 
 	}
@@ -298,6 +300,10 @@ public class UserReportController implements Initializable {
 	/**
 	 * Creates a label displaying the current user
 	 */
+	private void initializeLabel() {
+		this.titleLabel.setText(selectedUser.getFirstname() + " " + selectedUser.getLastname() + " Report");
+
+	}
 
 	/**
 	 * Data class for analyzing DB data and displaying it
@@ -347,7 +353,7 @@ public class UserReportController implements Initializable {
 
 		/**
 		 * Getter
-		 * @return book's Id
+		 * @return book's Id.
 		 */
 		public String getId() {
 			return id;
@@ -356,14 +362,14 @@ public class UserReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets bookId
-		 * @param id of the book
+		 * @param id of the book.
 		 */
 		public void setId(String id) {
 			this.id = id;
 		}
 		/**
 		 * Getter
-		 * @return book's title
+		 * @return book's title.
 		 */
 
 		public String getTitle() {
@@ -372,14 +378,14 @@ public class UserReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets book's title
-		 * @param book's title
+		 * @param title The book's title.
 		 */
 		public void setTitle(String title) {
 			this.title = title;
 		}
 		/**
 		 * Getter
-		 * @return book's author
+		 * @return book's author.
 		 */
 
 		public String getAuthor() {
@@ -389,14 +395,14 @@ public class UserReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets book's authors
-		 * @param book's authors
+		 * @param author The book's authors.
 		 */
 		public void setAuthor(String author) {
 			this.author = author;
 		}
 		/**
 		 * Getter
-		 * @return book's language
+		 * @return book's language.
 		 */
 
 		public String getLanguage() {
@@ -405,7 +411,7 @@ public class UserReportController implements Initializable {
 		/**
 		 * Setter
 		 * sets book's language
-		 * @param book's language
+		 * @param language The book's language.
 		 */
 		public void setLanguage(String language) {
 			this.language = language;
@@ -420,8 +426,8 @@ public class UserReportController implements Initializable {
 		}
 		/**
 		 * Setter
-		 * sets book's date of purchase
-		 * @param book's date of purchase
+		 * sets book's date of purchase.
+		 * @param date The book's date of purchase.
 		 */
 
 		public void setDate(String date) {
@@ -429,7 +435,7 @@ public class UserReportController implements Initializable {
 		}
 		/**
 		 * Getter
-		 * @return the price of the book at the acquisition date
+		 * @return the price of the book at the acquisition date.
 		 */
 
 		public String getPrice() {
@@ -437,8 +443,8 @@ public class UserReportController implements Initializable {
 		}
 		/**
 		 * Setter
-		 * sets the price of the book at the acquisition date
-		 * @param book's price at the acquisition date
+		 * sets the price of the book at the acquisition date.
+		 * @param price The book's price at the acquisition date.
 		 */
 		public void setPrice(String price) {
 			this.price = price;

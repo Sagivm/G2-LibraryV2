@@ -25,6 +25,7 @@ public interface ScreensIF {
 	/**
 	 * The function close the program.
 	 * @param event - ActionEvent event
+	 * @throws IOException IO exception.
 	 */
 	public void pressedCloseMenu(ActionEvent event) throws IOException;
 	

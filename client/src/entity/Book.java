@@ -228,7 +228,7 @@ public class Book {
 	
 	/** Setter for TableOfContents
 	 * @author itain
-	 * @param TableOfContents - the Table Of Contents of book
+	 * @param tableOfContent - the Table Of Contents of book
 	 */
 	public void setTableOfContent(String tableOfContent) {
 		this.tableOfContent = tableOfContent;
@@ -309,7 +309,7 @@ public class Book {
 	
 	/** Setter for authors
 	 * @author itain
-	 * @param authors - list of authors
+	 * @param authorsList - list of authors
 	 */
 	public void setAuthorsList(ArrayList<Author> authorsList) {
 		this.authorsList = authorsList;
@@ -358,7 +358,7 @@ public class Book {
 	
 	/** Setter for domains
 	 * @author itain
-	 * @param domains - list of domains
+	 * @param domainsList - list of domains
 	 */
 	public void setDomainsList(ArrayList<Domain> domainsList) {
 		this.domainsList = domainsList;
@@ -374,7 +374,7 @@ public class Book {
 
 	/** Setter for subjects
 	 * @author itain
-	 * @param subjects - list of subjects
+	 * @param subjectsList - list of subjects
 	 */
 	public void setSubjectsList(ArrayList<Subject> subjectsList) {
 		this.subjectsList = subjectsList;

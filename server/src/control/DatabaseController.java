@@ -26,9 +26,9 @@ public static Connection connection;
 /**
  * Create new instance of driver for SQL connection. if the action failed
  * exceptions throw and catch into other class.
- * @throws InstantiationException  
- * @throws IllegalAccessException
- * @throws ClassNotFoundException
+ * @throws InstantiationException The Instantiation Exception.
+ * @throws IllegalAccessException The Illegal Access Exception.
+ * @throws ClassNotFoundException The Class Not Found Exception.
  */
 public DatabaseController() throws InstantiationException,
 IllegalAccessException,
@@ -94,6 +94,7 @@ public static void updateDatabase(String statement) throws SQLException {
 /** Perform query to database (search).
  * @param statement - Gets the statement.
  * @throws SQLException - throw exception if there is problem in database.
+ * @return The result set of the search.
  */
 public static ResultSet searchInDatabase(String statement) throws SQLException {
 	Statement stmt = connection.createStatement();

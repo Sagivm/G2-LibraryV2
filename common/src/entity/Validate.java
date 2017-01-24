@@ -103,8 +103,8 @@ public class Validate {
 	/**
 	 * Get string and add apostrophe beside of every apostrophe in the text to fix
 	 * writing to DB problem.
-	 * @param str
-	 * @return
+	 * @param str The text that should change.
+	 * @return The string after the changes.
 	 */
 	public static String fixText(String str)
 	{

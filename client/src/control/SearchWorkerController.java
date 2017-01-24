@@ -76,7 +76,7 @@ public class SearchWorkerController implements ScreensIF{
 	/** This function called when the worker press on search. the function tests the
 	 * integrity of the fields, and send the message to the server.
 	 * @author itain
-	 * @param event
+	 * @param event The action event onPressed.
 	 */
 	@FXML
 	public void searchButtonPressed(ActionEvent event)
@@ -148,7 +148,7 @@ public class SearchWorkerController implements ScreensIF{
 	
 	/** When clear button pressed the function clear all fields.
 	 * @author itain
-	 * @param event
+	 * @param event The action event onPressed.
 	 */
 	@FXML
 	public void clearButtonPressed(ActionEvent event)
@@ -160,9 +160,9 @@ public class SearchWorkerController implements ScreensIF{
 	
 	/** This function prepare message that will be send to the server with arraylist,
 	 * and the action.
-	 * @param type - Gets the type of the action
-	 * @param user - Gets the class with the user information.
-	 * @return - message that will send to server.
+	 * @param type Gets the type of the action
+	 * @param worker Gets the class with the worker information.
+	 * @return message The message that will send to server.
 	 */
 	public Message prepareWorkerSearch(ActionType type, Worker worker)
 	{
@@ -213,3 +213,26 @@ public class SearchWorkerController implements ScreensIF{
 }
 
 
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class SearchWorkerRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
+}

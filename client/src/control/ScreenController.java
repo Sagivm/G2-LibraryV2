@@ -41,7 +41,7 @@ public class ScreenController {
 	 * @param fxml - Gets the screen's path.
 	 * @param title - Gets the screen's title.
 	 * @return Pointer to parent.
-	 * @throws Exception
+	 * @throws Exception The exception.
 	 */ 
 	public Parent replaceSceneContent(String fxml, String title) throws Exception {
         Parent page = (Parent) FXMLLoader.load(ScreenController.class.getResource(fxml));

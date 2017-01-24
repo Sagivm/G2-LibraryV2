@@ -36,11 +36,12 @@ public class User extends Person {
 	/**
 	 * Initialize User with parameters. firstname,lastname,username are defined in parent
 	 * class Person 
-	 * @param firstname
-	 * @param lastname
-	 * @param username
-	 * @param accountType
-	 * @param accountStatus
+	 * @param firstname The first name.
+	 * @param lastname The last name.
+	 * @param username The user name.
+	 * @param password The password.
+	 * @param accountType The account type.
+	 * @param accountStatus The account status.
 	 */
 	public User(String firstname, String lastname, String username, String password, String accountType, String accountStatus) {
 		super(firstname,lastname,username);
@@ -59,7 +60,7 @@ public class User extends Person {
 	/**
 	 * Given a String object setAccountType defines user's account
 	 * type using Enum class
-	 * @param accountTypes
+	 * @param accountTypes The account type.
 	 */
 	public void setAccountType(String accountTypes) {
 		switch(accountTypes)
@@ -91,7 +92,7 @@ public class User extends Person {
 	}
 	
 	/**
-	 * @param password
+	 * @param password The password.
 	 */
 	public void setPassword(String password)
 	{
@@ -107,7 +108,7 @@ public class User extends Person {
 	/**
 	 * Given a String object setAccountType defines user's account
 	 * type using Enum class
-	 * @param accountStatuss
+	 * @param accountStatuss The account type.
 	 */
 	public void setAccountStatus(String accountStatuss) {
 		switch(accountStatuss)
@@ -136,7 +137,7 @@ public class User extends Person {
 	
 	/**
 	 * Define user's connection
-	 * @param connected
+	 * @param connected If the user is connected.
 	 */
 	public void setConnected(boolean connected)
 	{

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 import entity.GeneralMessages;
 import entity.Message;
-import entity.Register;
 import enums.ActionType;
-import img.*;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -35,7 +33,6 @@ import javafx.util.Callback;
  * @author idanN
  */
 public class PendingRegistrationController {
-	
 	
 	/**
 	 * TableView for showing the pending registration.
@@ -88,7 +85,7 @@ public class PendingRegistrationController {
 	/**
 	 * static Array list of all the pending registration from the DB.
 	 */
-	public static ArrayList <String> pendingUsersList; //itai - V
+	public static ArrayList <String> pendingUsersList;
 	
 	/**
 	 * Integer that count the registration pending requests.
@@ -126,21 +123,6 @@ public class PendingRegistrationController {
 		} catch (IOException e) {	
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
-		
-			  //itai
-			  Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-							PendingRegistrationRecv recv_getPendingUsers = new PendingRegistrationRecv();
-							recv_getPendingUsers.start();
-							synchronized (recv_getPendingUsers) {
-								try{
-									recv_getPendingUsers.wait();
-								}catch(InterruptedException e){
-									e.printStackTrace();
-								}
-							}
-					}});
 		
 		Platform.runLater(() -> {
 		countUsers=0;
@@ -264,8 +246,8 @@ public class PendingRegistrationController {
 	
 	/** 
 	 * Create a message to the server with the Pending Registration ActionType.
-	 * @param type
-	 * @return message
+	 * @param type The action type of the message that passed to the server.
+	 * @return message The message that passed to the server.
 	 */
 	public Message prepareGetPendingUsers(ActionType type)
 	{
@@ -277,9 +259,9 @@ public class PendingRegistrationController {
 	
 	/** 
 	 * Create a message to the server with the Pending Registration Username to update.
-	 * @param type
-	 * @param username
-	 * @return message
+	 * @param type The action type of the message that passed to the server.
+	 * @param username The username of the potential user that asked of registration.
+	 * @return message The message that passed to the server.
 	 */
 	public Message prepareUpdatePendingUsers(ActionType type,String username)
 	{
@@ -351,7 +333,7 @@ public class PendingRegistrationController {
 
 	    /**
 	     * Getter for username.
-	     * @return
+	     * @return The username.
 	     */
 	    public String getUsername() {
 	        return username.get();
@@ -359,7 +341,7 @@ public class PendingRegistrationController {
 	    
 	    /**
 	     * Getter for first name.
-	     * @return
+	     * @return The user's first name.
 	     */
 	    public String getFirstName() {
 	        return firstName.get();
@@ -367,7 +349,7 @@ public class PendingRegistrationController {
 	    
 	    /**
 	     * Getter for last name.
-	     * @return
+	     * @return The user's last name.
 	     */
 	    public String getLastName() {
 	        return lastName.get();
@@ -375,15 +357,15 @@ public class PendingRegistrationController {
 
 	    /**
 	     * Setter for username
-	     * @param username
+	     * @param userName The username.
 	     */
-	    public void setUsername(String Username) {
-	    	username.set(Username);
+	    public void setUsername(String userName) {
+	    	username.set(userName);
 	    }
 	    
 	    /**
 	     * Setter for first name
-	     * @param fName
+	     * @param fName The user's first name.
 	     */
 	    public void setFirstName(String fName) {
 	    	firstName.set(fName);
@@ -391,21 +373,19 @@ public class PendingRegistrationController {
 
 	    /**
 	     * Setter for last name
-	     * @param fName
+	     * @param lName The user's last name.
 	     */
-	    public void setLastName(String fName) {
-	        lastName.set(fName);
+	    public void setLastName(String lName) {
+	        lastName.set(lName);
 	    }
 
 	}
 
-	
 }
 
-
-
-/** This class makes sure the information from the server was received successfully.
- * @author itain
+/**This class makes sure the information from the server was received successfully.
+ * @author ork
+ *
  */
 class PendingRegistrationRecv extends Thread{
 	
@@ -414,16 +394,15 @@ class PendingRegistrationRecv extends Thread{
 	 */
 	public static boolean canContinue = false;
 	
-	@Override
-	public void run() {
-		synchronized (this) {
+    @Override
+    public void run(){
+        synchronized(this){
         	while(canContinue == false)
-    		{
-        		System.out.print("");
-    		}
+        		{
+        			System.out.print("");
+        		}
         	canContinue = false;
-			notify();
-		}
-	}
-	
+            notify();
+        }
+    }
 }

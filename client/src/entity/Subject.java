@@ -62,7 +62,7 @@ public class Subject {
 
 	/** Setter for id
 	 * @author itain
-	 * @param - id - id of subject
+	 * @param id ID of subject.
 	 */
 	public void setId(int id) {
 		this.id=id;
