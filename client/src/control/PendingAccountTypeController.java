@@ -100,7 +100,7 @@ public class PendingAccountTypeController {
 	/**
 	 * saves all the account requests list.
 	 */
-	//public static ArrayList <String> pendingAccountList;
+	public static ArrayList <String> pendingAccountList;
 	
 	/**
 	 * the number of the requests.
@@ -149,9 +149,9 @@ public class PendingAccountTypeController {
 					e1.printStackTrace();
 				}*/
 				countUsers=0;
-				for(int i=0;i<recv.pendingAccountList.size();i+=5){
+				for(int i=0;i<pendingAccountList.size();i+=5){
 					countUsers++;
-					data.add(new pendingAccount(recv.pendingAccountList.get(i), recv.pendingAccountList.get(i+1), recv.pendingAccountList.get(i+2), recv.pendingAccountList.get(i+3), recv.pendingAccountList.get(i+4)));
+					data.add(new pendingAccount(pendingAccountList.get(i), pendingAccountList.get(i+1), pendingAccountList.get(i+2), pendingAccountList.get(i+3), pendingAccountList.get(i+4)));
 				}
 				
 				CountLabel.setText("There are "+countUsers+" Users that wait for your reply");
@@ -432,15 +432,20 @@ public class PendingAccountTypeController {
 
 
 class PendingAccountTypeRecv extends Thread{
-    
+	
 	/**
-	 * saves all the account requests list.
+	 * Get true after receiving values from DB.
 	 */
-	public static ArrayList <String> pendingAccountList;
+	public static boolean canContinue = false;
 	
     @Override
     public void run(){
         synchronized(this){
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
             notify();
         }
     }

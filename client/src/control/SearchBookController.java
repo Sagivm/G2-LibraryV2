@@ -528,7 +528,11 @@ class SearchBookAuthorsRecv extends Thread{
 		synchronized (this) {
         	while(canContinue == false)
     		{
-        		System.out.print("");
+
+        		int x = 1;
+    			//System.out.print("");
+
+
     		}
         	canContinue = false;
 			notify();

@@ -535,8 +535,8 @@ public class ClientConnectionController extends AbstractClient{
 
 		}
 		case BOOK_REVIEWS: {
-			BookReviewsRecv.data=replay.getElementsList();
-			//BookReviewsController.data=replay.getElementsList();
+			BookReviewsController.data=replay.getElementsList();
+			BookReviewsRecv.canContinue = true;
 			break;
 		}
 		
@@ -605,8 +605,8 @@ public class ClientConnectionController extends AbstractClient{
 		}
 		
 		case GET_PENDING_ACCOUNTS: {
-			PendingAccountTypeRecv.pendingAccountList = replay.getElementsList();
-			//PendingAccountTypeController.pendingAccountList = replay.getElementsList();
+			PendingAccountTypeController.pendingAccountList = replay.getElementsList();
+			PendingAccountTypeRecv.canContinue = true;
 			break;
 		}
 		
@@ -636,14 +636,14 @@ public class ClientConnectionController extends AbstractClient{
 		}
 		
 		case BUY_BOOK: {
-			PaymentRecv.success = success;
-			//PaymentController.success = success;
+			PaymentController.success = success;
+			PaymentRecv.canContinue = true;
 		break;
 		}
 		
 		case BUY_SUBSCRIPTION: {
-			PaymentRecv.success = success;
-			//PaymentController.success = success;
+			PaymentController.success = success;
+			PaymentRecv.canContinue = true;
 		break;
 		}
 		

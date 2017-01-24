@@ -41,7 +41,7 @@ public class PaymentController {
 	/**
 	 * Get answer from DB if the action was success.
 	 */
-	//public static boolean success=false;
+	public static boolean success=false;
 	
 	/**
 	 * static reference of user home page.
@@ -109,7 +109,7 @@ public class PaymentController {
 			                    			} catch (InterruptedException e1) {
 			                    				e1.printStackTrace();
 			                    			}
-				                        	if(recv.success == true)
+				                        	if(success == true)
 				                        	{
 				                        		BookPageController.searchedBookPage = searchedBookPage;
 				                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.BOOK_PURCHASE_SUCCESS);
@@ -192,14 +192,14 @@ public class PaymentController {
 			                    			} catch (InterruptedException e1) {
 			                    				e1.printStackTrace();
 			                    			}
-				                        	if(recv.success == true)
+				                        	if(success == true)
 				                        	{
 				                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.SUBSCRIPTION_PURCHASE_SUCCESS);
 				                        		returnToPrevScreen(null);
 				                        	}
 				                        	
 				                        	
-				                        	if(recv.success == true)
+				                        	if(success == true)
 				                        		returnToPrevScreen(null);
 			                			}
 									}
@@ -326,7 +326,7 @@ public class PaymentController {
 	 */
 	public void setSuccess(boolean success)
 	{
-		PaymentRecv.success = success;
+		success = success;
 	}
 
 }
@@ -334,13 +334,18 @@ public class PaymentController {
 class PaymentRecv extends Thread{
     
 	/**
-	 * Get answer from DB if the action was success.
+	 * Get true after receiving values from DB.
 	 */
-	public static boolean success=false;
+	public static boolean canContinue = false;
 	
     @Override
     public void run(){
         synchronized(this){
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
             notify();
         }
     }
