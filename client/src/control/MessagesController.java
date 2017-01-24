@@ -236,7 +236,7 @@ public class MessagesController implements ScreensIF
 	    
 	    /**
 	     * Setter for msg.
-	     * @param time - Gets the msg.
+	     * @param msg Gets the message.
 	     */
 	    public void setMsg(String msg) {
 	    	this.msg.set(msg);
@@ -247,26 +247,4 @@ public class MessagesController implements ScreensIF
 }
 
 
-/** This class makes sure the information from the server was received successfully.
- * @author itain
- */
-class MessagesRecv extends Thread{
-	
-	/**
-	 * Get true after receiving values from DB.
-	 */
-	public static boolean canContinue = false;
-	
-	@Override
-	public void run() {
-		synchronized (this) {
-        	while(canContinue == false)
-    		{
-        		System.out.print("");
-    		}
-        	canContinue = false;
-			notify();
-		}
-	}
-	
-}
+

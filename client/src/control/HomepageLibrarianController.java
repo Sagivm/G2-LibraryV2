@@ -109,7 +109,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	
 	/** Handler when pressed "Logout". this function log out the current librarian.
 	 * @param event - gets the ActionEvent when the function called.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void logoutButtonPressed(ActionEvent event) throws IOException{    
@@ -123,7 +123,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	
 	
 	/** This function log out the current liberarian from the server.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	public void logout() throws IOException
 	{
@@ -134,20 +134,6 @@ public class HomepageLibrarianController implements ScreensIF {
 			Login login = new Login(connectedLibrarian.getId(),connectedLibrarian.getPassword());
 			Message message = prepareLogout(ActionType.LOGOUT,login);
 			clientCtrl.clientConnectionController.sendToServer(message);
-				  //itai
-				  Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-								HomepageLibrarianRecv recv_logout = new HomepageLibrarianRecv();
-								recv_logout.start();
-								synchronized (recv_logout) {
-									try{
-										recv_logout.wait();
-									}catch(InterruptedException e){
-										e.printStackTrace();
-									}
-								}
-						}});
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -155,9 +141,9 @@ public class HomepageLibrarianController implements ScreensIF {
 	}
 	
 	/** Send log out message to the server.
-	 * @param type
-	 * @param login
-	 * @return
+	 * @param type The action type of the message.
+	 * @param login The parameter that passed to the server.
+	 * @return The message that passed to the server.
 	 */
 	public Message prepareLogout(ActionType type, Login login)
 	{
@@ -179,7 +165,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	}
 	
 	/**Setter of the connected librarian.
-	 * @param connectedUser - Set the connected librarian.
+	 * @param connectedlibrarian Set the connected librarian.
 	 */
 	public void setConnectedlibrarian(Worker connectedlibrarian)
 	{
@@ -189,8 +175,8 @@ public class HomepageLibrarianController implements ScreensIF {
 	
 	/**
 	 * When pressed, load book management screen. 
-	 * @param event
-	 * @throws IOException
+	 * @param event The action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void bookManagmentButtonPressed(ActionEvent event) throws IOException {
@@ -210,7 +196,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	
 	/** Handler when pressed "Pending Registration requests". this function open the Pending Registration requests form.
 	 * @param event - gets the ActionEvent when the function called.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void pendingRegistrationButtonPressed(ActionEvent event) throws IOException {
@@ -228,8 +214,8 @@ public class HomepageLibrarianController implements ScreensIF {
 	}
 	
 	/** Handler when pressed "Pending Reviews requests". this function open the Pending Reviews requests form.
-	 * @param event
-	 * @throws IOException
+	 * @param event The action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void pendingReviewsButtonPressed(ActionEvent event) throws IOException {
@@ -249,7 +235,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	 * form.
 	 * 
 	 * @param event - gets the ActionEvent when the function called.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void searchBookButtonPressed(ActionEvent event) throws IOException {
@@ -275,8 +261,8 @@ public class HomepageLibrarianController implements ScreensIF {
 	
 	/**
 	 * when pressed, load pending account requests list screen.
-	 * @param event
-	 * @throws IOException
+	 * @param event The action event onPressed.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void pendingAccountButtonPressed(ActionEvent event) throws IOException {
@@ -285,8 +271,8 @@ public class HomepageLibrarianController implements ScreensIF {
 	//
 	/**
 	 * this method load the page to the content AnchorPane.
-	 * @param screenPath
-	 * @throws IOException
+	 * @param screenPath The path of the next screen.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void loadPage(String screenPath) throws IOException {
@@ -304,7 +290,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	
 	
 	/** Getter for the main AnchorPane. All the screens will shown in this AnchorPane.
-	 * @return
+	 * @return The AnchorPane that all the screens opens in.
 	 */
 	public AnchorPane getContent()
 	{
@@ -312,7 +298,7 @@ public class HomepageLibrarianController implements ScreensIF {
 	}
 	
 	/** Setter for page.
-	 * @param page
+	 * @param pageToLoad The page to load to the AnchorPane.
 	 */
 	public static void setPage(String pageToLoad)
 	{
@@ -320,36 +306,11 @@ public class HomepageLibrarianController implements ScreensIF {
 	}
 	
 	/** Getter for page.
-	 * @return
+	 * @return The page that will loaded in the anchorPane.
 	 */
 	public String getPage()
 	{
 		return page;
 	}
 
-}
-
-
-/** This class makes sure the information from the server was received successfully.
- * @author itain
- */
-class HomepageLibrarianRecv extends Thread{
-	
-	/**
-	 * Get true after receiving values from DB.
-	 */
-	public static boolean canContinue = false;
-	
-	@Override
-	public void run() {
-		synchronized (this) {
-        	while(canContinue == false)
-    		{
-        		System.out.print("");
-    		}
-        	canContinue = false;
-			notify();
-		}
-	}
-	
 }

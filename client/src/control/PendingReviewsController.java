@@ -288,8 +288,8 @@ public class PendingReviewsController implements ScreensIF {
 	}
 	
 	/** Create a message to the server with the Pending Reviews ActionType.
-	 * @param type
-	 * @return
+	 * @param type The action type of the message that passed to the server.
+	 * @return The message that passed to the server.
 	 */
 	public Message prepareGetPendingReviews(ActionType type)
 	{
@@ -334,49 +334,49 @@ public class PendingReviewsController implements ScreensIF {
 	    }
 
 	    /** Getter for reviewId.
-	     * @return
+	     * @return The Id of the review.
 	     */
 	    public String getReviewId() {
 	        return reviewId.get();
 	    }
 	    
 	    /** Getter for username.
-	     * @return
+	     * @return The username of the user that wrote the review.
 	     */
 	    public String getUsername() {
 	        return username.get();
 	    }
 	    
 	    /** Getter for firstName.
-	     * @return
+	     * @return The first name of the user that wrote the review.
 	     */
 	    public String getFirstName() {
 	        return firstName.get();
 	    }
 	    
 	    /** Getter for lastName.
-	     * @return
+	     * @return The last name of the user that wrote the review.
 	     */
 	    public String getLastName() {
 	        return lastName.get();
 	    }
 	    
 	    /** Getter for bookTitle.
-	     * @return
+	     * @return The book title of the reviewed book.
 	     */
 	    public String getBookTitle() {
 	        return bookTitle.get();
 	    }
 	    
 	    /** Getter for reviewContent.
-	     * @return
+	     * @return The review content.
 	     */
 	    public String getReviewContent() {
 	        return reviewContent.get();
 	    }
 	    
 	    /** Getter for reviewDate.
-	     * @return
+	     * @return The review date.
 	     */
 	    public String getReviewDate() {
 	        return reviewDate.get();
@@ -384,49 +384,49 @@ public class PendingReviewsController implements ScreensIF {
 	    
 	    
 	    /** Setter for reviewId.
-	     * @param reviewId
+	     * @param reviewId The Id of the review.
 	     */
 	    public void setReviewId(String reviewId) {
 	    	this.reviewId.set(reviewId);
 	    }
 	    
 	    /** Setter for username.
-	     * @param username
+	     * @param username The username of the user that wrote the review.
 	     */
 	    public void setUsername(String username) {
 	    	this.username.set(username);
 	    }
 	    
 	    /** Setter for firstName.
-	     * @param firstName
+	     * @param firstName The fist name of the user that wrote the review.
 	     */
 	    public void setFistname(String firstName) {
 	    	this.firstName.set(firstName);
 	    }
 
 	    /** Setter for lastName.
-	     * @param lastName
+	     * @param lastName The last name of the user that wrote the review.
 	     */
 	    public void setLastName(String lastName) {
 	        this.lastName.set(lastName);
 	    }
 	    
 	    /** Setter for bookTitle.
-	     * @param bookTitle
+	     * @param bookTitle The reviewed book's title.
 	     */
 	    public void setBookTitle(String bookTitle) {
 	    	this.bookTitle.set(bookTitle);
 	    }
 	    
 	    /** Setter for reviewContent.
-	     * @param reviewContent
+	     * @param reviewContent The review content.
 	     */
 	    public void setReviewContent(String reviewContent) {
 	        this.reviewContent.set(reviewContent);
 	    }
 
 	    /** Setter for reviewDate.
-	     * @param reviewDate
+	     * @param reviewDate The review date.
 	     */
 	    public void setReviewDate(String reviewDate) {
 	        this.reviewDate.set(reviewDate);

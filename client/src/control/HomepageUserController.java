@@ -161,7 +161,7 @@ public class HomepageUserController implements ScreensIF {
 	 * form.
 	 * 
 	 * @param event - gets the ActionEvent when the function called.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void searchBookButtonPressed(ActionEvent event) throws IOException {
@@ -174,7 +174,7 @@ public class HomepageUserController implements ScreensIF {
 	 * 
 	 * @param event
 	 *            - gets the ActionEvent when the function called.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void settingsButtonPressed(ActionEvent event) throws IOException {
@@ -183,7 +183,7 @@ public class HomepageUserController implements ScreensIF {
 
 	/** Handler when pressed "Logout". this function log out the current user.
 	 * @param event - gets the ActionEvent when the function called.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void logoutButtonPressed(ActionEvent event) throws IOException{    
@@ -209,7 +209,7 @@ public class HomepageUserController implements ScreensIF {
 	
 	
 	/** This function log out the current user from the server.
-	 * @throws IOException
+	 * @throws IOException IO exception.
 	 */
 	public void logout() throws IOException
 	{
@@ -224,27 +224,12 @@ public class HomepageUserController implements ScreensIF {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		  //itai
-		  Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-						HomepageUserRecv recv_logout = new HomepageUserRecv();
-						recv_logout.start();
-						synchronized (recv_logout) {
-							try{
-								recv_logout.wait();
-							}catch(InterruptedException e){
-								e.printStackTrace();
-							}
-						}
-				}});
 	}
 	
 	/** Send log out message to the server.
-	 * @param type
-	 * @param login
-	 * @return
+	 * @param type The action type of the message that passed to the server.
+	 * @param login The parameter that passed to the server.
+	 * @return The message that passed to the server.
 	 */
 	public Message prepareLogout(ActionType type, Login login)
 	{
@@ -281,21 +266,6 @@ public class HomepageUserController implements ScreensIF {
 		} catch (IOException e) {	
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
-			  //itai
-			  Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-							HomepageUserRecv recv_checkAccountType = new HomepageUserRecv();
-							recv_checkAccountType.start();
-							synchronized (recv_checkAccountType) {
-								try{
-									recv_checkAccountType.wait();
-								}catch(InterruptedException e){
-									e.printStackTrace();
-								}
-							}
-					}});
-		
 		
     	Platform.runLater(new Runnable() {
     		@Override
@@ -371,8 +341,8 @@ public class HomepageUserController implements ScreensIF {
 	
 	/**
 	 * this method load the page to the content AnchorPane.
-	 * @param screenPath
-	 * @throws IOException
+	 * @param screenPath The screen path.
+	 * @throws IOException IO exception.
 	 */
 	@FXML
 	public void loadPage(String screenPath) throws IOException {
@@ -387,7 +357,7 @@ public class HomepageUserController implements ScreensIF {
 	}
 	
 	/** Setter for page.
-	 * @param page
+	 * @param pageToLoad The page that will be loaded.
 	 */
 	public static void setPage(String pageToLoad)
 	{
@@ -395,7 +365,7 @@ public class HomepageUserController implements ScreensIF {
 	}
 	
 	/** Getter for page.
-	 * @return
+	 * @return The page that will be loaded.
 	 */
 	public String getPage()
 	{
@@ -414,7 +384,7 @@ public class HomepageUserController implements ScreensIF {
 	
 	/**
 	 * when pressed, load the external payment company screen.
-	 * @throws Exception
+	 * @throws Exception The exception.
 	 */
 	public void btnPayForSubscriptionPressed() throws Exception
 	{	
@@ -460,9 +430,9 @@ public class HomepageUserController implements ScreensIF {
 	
 	/**
 	 * Gets type of account.
-	 * @param type
-	 * @param elementList
-	 * @return
+	 * @param type The action type of the message that passed to the server.
+	 * @param elementList The parameters that passed to the server.
+	 * @return The message that passed to the server.
 	 */
 	public Message prepareGetFromSQL(ActionType type,ArrayList<String> elementList)
 	{
@@ -474,7 +444,7 @@ public class HomepageUserController implements ScreensIF {
 	
 	/**
 	 * Setter of subscription info.
-	 * @param subscription
+	 * @param subs The list of the subscriptions.
 	 */
 	public static void setSubscription(ArrayList<String> subs)
 	{
@@ -482,28 +452,4 @@ public class HomepageUserController implements ScreensIF {
 	}
 	
 
-}
-
-/** This class makes sure the information from the server was received successfully.
- * @author itain
- */
-class HomepageUserRecv extends Thread{
-	
-	/**
-	 * Get true after receiving values from DB.
-	 */
-	public static boolean canContinue = false;
-	
-	@Override
-	public void run() {
-		synchronized (this) {
-        	while(canContinue == false)
-    		{
-        		System.out.print("");
-    		}
-        	canContinue = false;
-			notify();
-		}
-	}
-	
 }
