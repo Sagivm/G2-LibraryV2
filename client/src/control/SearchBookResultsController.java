@@ -235,6 +235,7 @@ public class SearchBookResultsController implements ScreensIF{
 						                      @Override public void handle(ActionEvent event) {
 						                    	  BookPageController.searchedBookPage = new SearchBookResult("","","","","","","","","","");
 						                    	BookPageController.searchedBookPage = bookRes;
+						                    	BookPageRecv.canContinue = true;
 						          				if(ClientUI.getTypeOfUser()=="Librarian")
 						                    	{
 						                        	if (librarianMain == null)
@@ -384,7 +385,9 @@ public class SearchBookResultsController implements ScreensIF{
 	}
 }
 
-
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
 class SearchBookResultsRecv extends Thread{
 	
 	/**

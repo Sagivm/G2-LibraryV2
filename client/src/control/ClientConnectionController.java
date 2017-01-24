@@ -294,6 +294,7 @@ public class ClientConnectionController extends AbstractClient{
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
 			SearchUserResultsController.userResult = list;
+			SearchUserRecvv.canContinue = true;
 			break;
 		}
 		
@@ -301,6 +302,7 @@ public class ClientConnectionController extends AbstractClient{
 			ArrayList<String> list = new ArrayList<String>();
 			list=replay.getElementsList();
 			SearchWorkerResultsController.workerResult = list;
+			SearchWorkerRecv.canContinue = true;
 			break;
 		}
 		

@@ -513,6 +513,9 @@ public class SearchBookController implements ScreensIF{
 
 }
 
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
 class SearchBookAuthorsRecv extends Thread{
 	
 	/**
@@ -525,7 +528,14 @@ class SearchBookAuthorsRecv extends Thread{
 		synchronized (this) {
         	while(canContinue == false)
     		{
+<<<<<<< HEAD
         		System.out.print("");
+=======
+
+        		int x = 1;
+    			//System.out.print("");
+
+>>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
 
     		}
         	canContinue = false;
@@ -535,7 +545,9 @@ class SearchBookAuthorsRecv extends Thread{
 	
 }
 
-
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
 class SearchBookDomainsRecv extends Thread{
 	
 	/**
