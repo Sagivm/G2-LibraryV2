@@ -115,6 +115,15 @@ public class SearchWorkerResultsController implements ScreensIF{
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				SearchWorkerResultsRecv recv = new SearchWorkerResultsRecv();
+				recv.start();
+				synchronized (recv) {
+					try{
+						recv.wait();
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
+				}
 
 				try {
 					try{
@@ -287,5 +296,32 @@ public class SearchWorkerResultsController implements ScreensIF{
 	}
 	
 	
+	
+	
 
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class SearchWorkerResultsRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
 }

@@ -134,6 +134,20 @@ public class HomepageLibrarianController implements ScreensIF {
 			Login login = new Login(connectedLibrarian.getId(),connectedLibrarian.getPassword());
 			Message message = prepareLogout(ActionType.LOGOUT,login);
 			clientCtrl.clientConnectionController.sendToServer(message);
+				  //itai
+				  Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+								HomepageLibrarianRecv recv_logout = new HomepageLibrarianRecv();
+								recv_logout.start();
+								synchronized (recv_logout) {
+									try{
+										recv_logout.wait();
+									}catch(InterruptedException e){
+										e.printStackTrace();
+									}
+								}
+						}});
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -313,4 +327,29 @@ public class HomepageLibrarianController implements ScreensIF {
 		return page;
 	}
 
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class HomepageLibrarianRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
 }

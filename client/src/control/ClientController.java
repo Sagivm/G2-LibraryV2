@@ -161,6 +161,21 @@ public class ClientController implements ScreensIF {
 		} catch (IOException e1) {
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}	
+		
+			  //itai
+			  Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+							ClientRecv recv_login = new ClientRecv();
+							recv_login.start();
+							synchronized (recv_login) {
+								try{
+									recv_login.wait();
+								}catch(InterruptedException e){
+									e.printStackTrace();
+								}
+							}
+					}});
 	return;
 	}
 
@@ -247,4 +262,29 @@ public class ClientController implements ScreensIF {
 			return;
 	}
 
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class ClientRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
 }

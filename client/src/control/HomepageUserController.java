@@ -224,6 +224,21 @@ public class HomepageUserController implements ScreensIF {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		  //itai
+		  Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						HomepageUserRecv recv_logout = new HomepageUserRecv();
+						recv_logout.start();
+						synchronized (recv_logout) {
+							try{
+								recv_logout.wait();
+							}catch(InterruptedException e){
+								e.printStackTrace();
+							}
+						}
+				}});
 	}
 	
 	/** Send log out message to the server.
@@ -266,6 +281,21 @@ public class HomepageUserController implements ScreensIF {
 		} catch (IOException e) {	
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
+			  //itai
+			  Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+							HomepageUserRecv recv_checkAccountType = new HomepageUserRecv();
+							recv_checkAccountType.start();
+							synchronized (recv_checkAccountType) {
+								try{
+									recv_checkAccountType.wait();
+								}catch(InterruptedException e){
+									e.printStackTrace();
+								}
+							}
+					}});
+		
 		
     	Platform.runLater(new Runnable() {
     		@Override
@@ -452,4 +482,28 @@ public class HomepageUserController implements ScreensIF {
 	}
 	
 
+}
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class HomepageUserRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
 }

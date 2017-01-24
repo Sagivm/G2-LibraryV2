@@ -125,6 +125,21 @@ public class RegisterController implements ScreensIF {
 		}
 		
 		
+		  //itai
+		  Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						RegisterRecv recv_register = new RegisterRecv();
+						recv_register.start();
+						synchronized (recv_register) {
+							try{
+								recv_register.wait();
+							}catch(InterruptedException e){
+								e.printStackTrace();
+							}
+						}
+				}});
+		
 		
 	}
 	
@@ -177,6 +192,31 @@ public class RegisterController implements ScreensIF {
 		elementsList.add(3,register.getLastName());
 		message.setElementsList(elementsList);
 		return message;
+	}
+	
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class RegisterRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
 	}
 	
 }

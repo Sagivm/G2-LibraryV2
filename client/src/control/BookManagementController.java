@@ -749,12 +749,12 @@ private Button editAuthorSubmit;
 /**
  * static Array list of all the books from the DB.
  */
- public static ArrayList < String > BooksList;
+ public static ArrayList < String > BooksList; //itai - V
  
  /**
   * static Array list of all the subjects names from the DB.
   */
- public static ArrayList < String > subjectList;
+ public static ArrayList < String > subjectList; //itai - V
  
  /**
   * static Array list of all the authors Id from the DB.
@@ -769,22 +769,22 @@ private Button editAuthorSubmit;
  /**
   * static Array list of all the authors from the DB.
   */
- public static ArrayList < Author > authorList;
+ public static ArrayList < Author > authorList; //itai - V
  
  /**
   * static Array list of all the selected authors in edit book page
   */
- public static ArrayList < Author > selectedAuthorsString;
+ public static ArrayList < Author > selectedAuthorsString; //itai - V
  
  /**
   * static Array list of the subjects of choose book to edit
   */
- public static ArrayList < String >subjectListOfBook;
+ public static ArrayList < String >subjectListOfBook; //itai - V
  
  /**
   * static Array list of all the selected subjects in edit book page
   */
- public static ArrayList < String > selectedSubjectString;
+ public static ArrayList < String > selectedSubjectString; //itai - V
  
  /**
   * static string that contains the language of edited book
@@ -794,32 +794,33 @@ private Button editAuthorSubmit;
  /**
   * static string that contains the table of content of edited book
   */
- public static String editBookTableOfContant;
+ public static String editBookTableOfContant; //itai - V
  
  /**
   * static Array list of all the domains from the DB.
   */
- public static ArrayList < String > domainsList;
+ public static ArrayList < String > domainsList; //itai - V
  
  /**
   * static Integer that contains the number of book of specific domain
   */
- public static int countBookByDomain;
+ public static int countBookByDomain; //itai - V
  
  /**
   * static Array list of all the subjects info from the DB.
   */
- public static ArrayList < String > subjectsList;
+ public static ArrayList < String > subjectsList; //itai - V
 
  /**
   * static Integer that contains the number of book of specific subject
   */
- public static int countBookBySubject;
+ public static int countBookBySubject; //itai - V
  
  /**
   * static Integer that contains the number of book of specific author
   */
- public static int countBookOfUser;
+ public static int countBookOfUser; //itai - V
+
  
  /**
  * this attribute insert the data (books) to the table.
@@ -857,7 +858,26 @@ private Button editAuthorSubmit;
 	  e.printStackTrace();
 	  actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   }
+  
+  //itai
+  Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+			BookManagermentRecv recv_getBooks = new BookManagermentRecv();
+				recv_getBooks.start();
+				synchronized (recv_getBooks) {
+					try{
+						recv_getBooks.wait();
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
+				}
+		}});
+		
+  
   Platform.runLater(() -> {
+	  
+	  
    String authors = "";
    for (int i = 0; i < BooksList.size(); i += 9) {
     if (i + 9 < BooksList.size() && BooksList.get(i).equals(BooksList.get(i + 9))) {
@@ -888,6 +908,25 @@ private Button editAuthorSubmit;
   } catch (Exception e1) {
    e1.printStackTrace();
   }
+  
+  //itai
+  Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+			BookManagermentRecv recv_getAuthors = new BookManagermentRecv();
+				recv_getAuthors.start();
+				synchronized (recv_getAuthors) {
+					try{
+						recv_getAuthors.wait();
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
+				}
+		}});
+  
+  
+  
+  
   Platform.runLater(() -> {
    ArrayList < String > names = new ArrayList < String > ();
    addBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -909,6 +948,23 @@ private Button editAuthorSubmit;
   } catch (Exception e1) {
    e1.printStackTrace();
   }
+  
+  //itai
+  Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+				BookManagermentRecv recv_getSubjects = new BookManagermentRecv();
+				recv_getSubjects.start();
+				synchronized (recv_getSubjects) {
+					try{
+						recv_getSubjects.wait();
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
+				}
+		}});
+		
+  
   Platform.runLater(() -> {
    addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
    ObservableList < String > subjects = FXCollections.observableArrayList(subjectList);
@@ -1043,12 +1099,70 @@ private Button editAuthorSubmit;
 	   } catch (Exception e1) {
 	    e1.printStackTrace();
 	   }
-		try {
-		Thread.sleep(1500);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
+	  //itai
+	  Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+					BookManagermentRecv recv_getBookAuthors = new BookManagermentRecv();
+					recv_getBookAuthors.start();
+					synchronized (recv_getBookAuthors) {
+						try{
+							recv_getBookAuthors.wait();
+						}catch(InterruptedException e){
+							e.printStackTrace();
+						}
+					}
+			}});
+	  
+	  
+	  //itai
+	  Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				BookManagermentRecv recv_getAuthors = new BookManagermentRecv();
+					recv_getAuthors.start();
+					synchronized (recv_getAuthors) {
+						try{
+							recv_getAuthors.wait();
+						}catch(InterruptedException e){
+							e.printStackTrace();
+						}
+					}
+			}});
+	  
+		
+		  
+		  //itai
+		  Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						BookManagermentRecv recv_getSubjects = new BookManagermentRecv();
+						recv_getSubjects.start();
+						synchronized (recv_getSubjects) {
+							try{
+								recv_getSubjects.wait();
+							}catch(InterruptedException e){
+								e.printStackTrace();
+							}
+						}
+				}});
+		
+		  //itai
+		  Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						BookManagermentRecv recv_getBookTableOfContent = new BookManagermentRecv();
+						recv_getBookTableOfContent.start();
+						synchronized (recv_getBookTableOfContent) {
+							try{
+								recv_getBookTableOfContent.wait();
+							}catch(InterruptedException e){
+								e.printStackTrace();
+							}
+						}
+				}});
+		  
 	   Platform.runLater(() -> { 
 	    ArrayList < String > names = new ArrayList < String > ();
 	    editBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -1062,6 +1176,22 @@ private Button editAuthorSubmit;
 	    	namesselected.add(i, "(" + selectedAuthorsString.get(i).getId() + ")" + "\t" + selectedAuthorsString.get(i).getFirstname() + " " + selectedAuthorsString.get(i).getLastname());
 	    	names.remove(namesselected.get(i));
 	    }
+	    
+		  //itai
+		  Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						BookManagermentRecv recv_SubjectListOfBook = new BookManagermentRecv();
+						recv_SubjectListOfBook.start();
+						synchronized (recv_SubjectListOfBook) {
+							try{
+								recv_SubjectListOfBook.wait();
+							}catch(InterruptedException e){
+								e.printStackTrace();
+							}
+						}
+				}});
+	    
 	    ArrayList < String > subjects = new ArrayList < String > ();
 	    editBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	    //System.out.println(statush.get(1).getFirstname());
@@ -1070,6 +1200,23 @@ private Button editAuthorSubmit;
 	    }
 	    ArrayList < String > subjectsselected = new ArrayList < String > ();
 	    editBookSubjectsListSelected.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	    
+	    
+		  //itai
+		  Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						BookManagermentRecv recv_selectedSubjectString = new BookManagermentRecv();
+						recv_selectedSubjectString.start();
+						synchronized (recv_selectedSubjectString) {
+							try{
+								recv_selectedSubjectString.wait();
+							}catch(InterruptedException e){
+								e.printStackTrace();
+							}
+						}
+				}});
+	    
 	    //System.out.println(statush.get(1).getFirstname());
 	    for (int i = 0; i < selectedSubjectString.size(); i++) {
 	    	subjectsselected.add(i, selectedSubjectString.get(i));
@@ -1213,6 +1360,22 @@ private Button editAuthorSubmit;
    } catch (Exception e1) {
     e1.printStackTrace();
    }
+   
+   //itai
+   Platform.runLater(new Runnable() {
+ 		@Override
+ 		public void run() {
+ 			BookManagermentRecv recv_getAuthors = new BookManagermentRecv();
+ 				recv_getAuthors.start();
+ 				synchronized (recv_getAuthors) {
+ 					try{
+ 						recv_getAuthors.wait();
+ 					}catch(InterruptedException e){
+ 						e.printStackTrace();
+ 					}
+ 				}
+ 		}});
+   
    Platform.runLater(() -> {
     ArrayList < String > names = new ArrayList < String > ();
     addBookAuthorsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -1234,6 +1397,22 @@ private Button editAuthorSubmit;
    } catch (Exception e1) {
     e1.printStackTrace();
    }
+   
+   //itai
+   Platform.runLater(new Runnable() {
+ 		@Override
+ 		public void run() {
+ 				BookManagermentRecv recv_getSubjects = new BookManagermentRecv();
+ 				recv_getSubjects.start();
+ 				synchronized (recv_getSubjects) {
+ 					try{
+ 						recv_getSubjects.wait();
+ 					}catch(InterruptedException e){
+ 						e.printStackTrace();
+ 					}
+ 				}
+ 		}});
+   
    Platform.runLater(() -> {
     addBookSubjectsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     ObservableList < String > subjects = FXCollections.observableArrayList(subjectList);
@@ -1377,6 +1556,22 @@ private Button editAuthorSubmit;
     	e2.printStackTrace();
      actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
     }
+    
+    //itai
+    Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+				BookManagermentRecv recv_getBooks = new BookManagermentRecv();
+				recv_getBooks.start();
+				synchronized (recv_getBooks) {
+					try{
+						recv_getBooks.wait();
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
+				}
+		}});
+    
     Platform.runLater(() -> {
      String authors = "";
      for (int i = 0; i < BooksList.size(); i += 9) {
@@ -1530,6 +1725,22 @@ private Button editAuthorSubmit;
 	    	e2.printStackTrace();
 	     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 	    }
+	    
+	    //itai
+	    Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+					BookManagermentRecv recv_getBooks = new BookManagermentRecv();
+					recv_getBooks.start();
+					synchronized (recv_getBooks) {
+						try{
+							recv_getBooks.wait();
+						}catch(InterruptedException e){
+							e.printStackTrace();
+						}
+					}
+			}});
+	    
 	    Platform.runLater(() -> {
 	     String authors = "";
 	     for (int i = 0; i < BooksList.size(); i += 9) {
@@ -1553,11 +1764,7 @@ private Button editAuthorSubmit;
 	      }
 	     }
 	    });
-	    try {
-			Thread.sleep(1000);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+
 	    
 	    TitleLabel.setVisible(false);
 	    InfoTitle.setVisible(false);
@@ -1598,6 +1805,22 @@ private Button editAuthorSubmit;
 	  e.printStackTrace();
    actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   }
+  
+  //itai
+  Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+				BookManagermentRecv recv_getDomainsWithId = new BookManagermentRecv();
+				recv_getDomainsWithId.start();
+				synchronized (recv_getDomainsWithId) {
+					try{
+						recv_getDomainsWithId.wait();
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
+				}
+		}});
+  
 	Platform.runLater(() -> {
 		for(int i=0;i<domainsList.size();i+=2){
 			dataDomains.add(new PropertyDomain(domainsList.get(i), domainsList.get(i+1)));
@@ -1667,6 +1890,23 @@ private Button editAuthorSubmit;
   				    } catch (IOException e2) {
   				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   				    }
+  				    
+  				  //itai
+  				  Platform.runLater(new Runnable() {
+  						@Override
+  						public void run() {
+  								BookManagermentRecv recv_getDomainsWithId = new BookManagermentRecv();
+  								recv_getDomainsWithId.start();
+  								synchronized (recv_getDomainsWithId) {
+  									try{
+  										recv_getDomainsWithId.wait();
+  									}catch(InterruptedException e){
+  										e.printStackTrace();
+  									}
+  								}
+  						}});
+  				  
+  				    
   				    Platform.runLater(() -> {
   						for(int i=0;i<domainsList.size();i+=2){
   							dataDomains.add(new PropertyDomain(domainsList.get(i), domainsList.get(i+1)));
@@ -1694,6 +1934,8 @@ private Button editAuthorSubmit;
    		  });
 		
 		
+		
+		
 		DomainDeleteBtn.setOnAction(e -> {
 			PropertyDomain selectedItem = mainDomainTableView.getSelectionModel().getSelectedItem();
 			String DomainId = selectedItem.getDomainId();
@@ -1703,13 +1945,24 @@ private Button editAuthorSubmit;
 			   } catch (IOException e1) {	
 			   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 			   }
+			   
+				  //itai
+				  Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+								BookManagermentRecv recv_getNumberBookAtDomain = new BookManagermentRecv();
+								recv_getNumberBookAtDomain.start();
+								synchronized (recv_getNumberBookAtDomain) {
+									try{
+										recv_getNumberBookAtDomain.wait();
+									}catch(InterruptedException e){
+										e.printStackTrace();
+									}
+								}
+						}});
+			   
 			   Platform.runLater(() -> {
-				   try {
-					Thread.sleep(700);
-				} catch (Exception e5) {
-					// TODO Auto-generated catch block
-					e5.printStackTrace();
-				}
+				   
 				if(countBookByDomain>0)  
 					actionOnError(ActionType.CONTINUE,"You can't to remove domain that contains books!");
 				else{
@@ -1727,6 +1980,24 @@ private Button editAuthorSubmit;
   				    } catch (IOException e2) {
   				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   				    }
+  				    
+  				    
+  				  //itai
+  				  Platform.runLater(new Runnable() {
+  						@Override
+  						public void run() {
+  								BookManagermentRecv recv_getDomainsWithId = new BookManagermentRecv();
+  								recv_getDomainsWithId.start();
+  								synchronized (recv_getDomainsWithId) {
+  									try{
+  										recv_getDomainsWithId.wait();
+  									}catch(InterruptedException e){
+  										e.printStackTrace();
+  									}
+  								}
+  						}});
+  				  
+  				    
   				    Platform.runLater(() -> {
   						for(int i=0;i<domainsList.size();i+=2){
   							dataDomains.add(new PropertyDomain(domainsList.get(i), domainsList.get(i+1)));
@@ -1783,6 +2054,23 @@ private Button editAuthorSubmit;
   				    } catch (IOException e2) {
   				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   				    }
+  				    
+  				  //itai
+  				  Platform.runLater(new Runnable() {
+  						@Override
+  						public void run() {
+  								BookManagermentRecv recv_getDomainsWithId = new BookManagermentRecv();
+  								recv_getDomainsWithId.start();
+  								synchronized (recv_getDomainsWithId) {
+  									try{
+  										recv_getDomainsWithId.wait();
+  									}catch(InterruptedException e){
+  										e.printStackTrace();
+  									}
+  								}
+  						}});
+  				  
+  				    
   				    Platform.runLater(() -> {
   						for(int i=0;i<domainsList.size();i+=2){
   							dataDomains.add(new PropertyDomain(domainsList.get(i), domainsList.get(i+1)));
@@ -1821,6 +2109,22 @@ private Button editAuthorSubmit;
   		  e.printStackTrace();
   	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   	  }
+  	  
+	  //itai
+	  Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+					BookManagermentRecv recv_getSubjectsInfo = new BookManagermentRecv();
+					recv_getSubjectsInfo.start();
+					synchronized (recv_getSubjectsInfo) {
+						try{
+							recv_getSubjectsInfo.wait();
+						}catch(InterruptedException e){
+							e.printStackTrace();
+						}
+					}
+			}});
+  	  
   		Platform.runLater(() -> {
   			for(int i=0;i<subjectsList.size();i+=4){
   				dataSubjects.add(new PropertySubject(subjectsList.get(i), subjectsList.get(i+1), "("+subjectsList.get(i+2)+")"+" "+subjectsList.get(i+3)));
@@ -1873,6 +2177,23 @@ private Button editAuthorSubmit;
   			   } catch (Exception e1) {
   			    e1.printStackTrace();
   			   }
+  				
+  			  //itai
+  			  Platform.runLater(new Runnable() {
+  					@Override
+  					public void run() {
+  							BookManagermentRecv recv_getDomainsWithId = new BookManagermentRecv();
+  							recv_getDomainsWithId.start();
+  							synchronized (recv_getDomainsWithId) {
+  								try{
+  									recv_getDomainsWithId.wait();
+  								}catch(InterruptedException e){
+  									e.printStackTrace();
+  								}
+  							}
+  					}});
+  			  
+  				
   				Platform.runLater(() -> { 
   				 ArrayList < String > domains = new ArrayList < String > ();
   			    //System.out.println(statush.get(1).getFirstname());
@@ -1905,6 +2226,23 @@ private Button editAuthorSubmit;
 			   } catch (Exception e1) {
 			    e1.printStackTrace();
 			   }
+				
+				  //itai
+				  Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+								BookManagermentRecv recv_getDomainsWithId = new BookManagermentRecv();
+								recv_getDomainsWithId.start();
+								synchronized (recv_getDomainsWithId) {
+									try{
+										recv_getDomainsWithId.wait();
+									}catch(InterruptedException e){
+										e.printStackTrace();
+									}
+								}
+						}});
+				  
+				
 				Platform.runLater(() -> { 
 				 ArrayList < String > domains = new ArrayList < String > ();
 			    //System.out.println(statush.get(1).getFirstname());
@@ -1930,13 +2268,23 @@ private Button editAuthorSubmit;
   				   } catch (IOException e1) {	
   				   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   				   }
+  				   
+  				  //itai
+  				  Platform.runLater(new Runnable() {
+  						@Override
+  						public void run() {
+  								BookManagermentRecv recv_getNumberBookAtSubject = new BookManagermentRecv();
+  								recv_getNumberBookAtSubject.start();
+  								synchronized (recv_getNumberBookAtSubject) {
+  									try{
+  										recv_getNumberBookAtSubject.wait();
+  									}catch(InterruptedException e){
+  										e.printStackTrace();
+  									}
+  								}
+  						}});
+  				  
   				   Platform.runLater(() -> {
-  					   try {
-						Thread.sleep(700);
-					} catch (Exception e5) {
-						// TODO Auto-generated catch block
-						e5.printStackTrace();
-					}
   					if(countBookBySubject>0)  
   						actionOnError(ActionType.CONTINUE,"You can't to remove subject that contains books!");
   					else{
@@ -1956,6 +2304,22 @@ private Button editAuthorSubmit;
   	  	  	  		  e2.printStackTrace();
   	  	  	  	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   	  	  	  	  }
+  	  	  	  	  
+  	  		  //itai
+  	  		  Platform.runLater(new Runnable() {
+  	  				@Override
+  	  				public void run() {
+  	  						BookManagermentRecv recv_getSubjectsInfo = new BookManagermentRecv();
+  	  						recv_getSubjectsInfo.start();
+  	  						synchronized (recv_getSubjectsInfo) {
+  	  							try{
+  	  								recv_getSubjectsInfo.wait();
+  	  							}catch(InterruptedException e){
+  	  								e.printStackTrace();
+  	  							}
+  	  						}
+  	  				}});
+  	  	  	  	  
   	  	  	  		Platform.runLater(() -> {
   	  	  	  			for(int i=0;i<subjectsList.size();i+=4){
   	  	  	  				dataSubjects.add(new PropertySubject(subjectsList.get(i), subjectsList.get(i+1), "("+subjectsList.get(i+2)+")"+" "+subjectsList.get(i+3)));
@@ -2021,6 +2385,21 @@ private Button editAuthorSubmit;
   	  	  		  e2.printStackTrace();
   	  	  	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   	  	  	  }
+  	  	  //itai
+  	  	  Platform.runLater(new Runnable() {
+  	  			@Override
+  	  			public void run() {
+  	  					BookManagermentRecv recv_getSubjectsInfo = new BookManagermentRecv();
+  	  					recv_getSubjectsInfo.start();
+  	  					synchronized (recv_getSubjectsInfo) {
+  	  						try{
+  	  							recv_getSubjectsInfo.wait();
+  	  						}catch(InterruptedException e){
+  	  							e.printStackTrace();
+  	  						}
+  	  					}
+  	  			}});
+  	  	  	  
   	  	  		Platform.runLater(() -> {
   	  	  			for(int i=0;i<subjectsList.size();i+=4){
   	  	  				dataSubjects.add(new PropertySubject(subjectsList.get(i), subjectsList.get(i+1), "("+subjectsList.get(i+2)+")"+" "+subjectsList.get(i+3)));
@@ -2076,6 +2455,21 @@ private Button editAuthorSubmit;
 	  	  	  		  e2.printStackTrace();
 	  	  	  	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 	  	  	  	  }
+	  	  	  //itai
+	  	  	  Platform.runLater(new Runnable() {
+	  	  			@Override
+	  	  			public void run() {
+	  	  					BookManagermentRecv recv_getSubjectsInfo = new BookManagermentRecv();
+	  	  					recv_getSubjectsInfo.start();
+	  	  					synchronized (recv_getSubjectsInfo) {
+	  	  						try{
+	  	  							recv_getSubjectsInfo.wait();
+	  	  						}catch(InterruptedException e){
+	  	  							e.printStackTrace();
+	  	  						}
+	  	  					}
+	  	  			}});
+	  	  	  	  
 	  	  	  		Platform.runLater(() -> {
 	  	  	  			for(int i=0;i<subjectsList.size();i+=4){
 	  	  	  				dataSubjects.add(new PropertySubject(subjectsList.get(i), subjectsList.get(i+1), "("+subjectsList.get(i+2)+")"+" "+subjectsList.get(i+3)));
@@ -2114,6 +2508,22 @@ private Button editAuthorSubmit;
   		  e.printStackTrace();
   	   actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   	  }
+  	  
+  	  //itai
+  	  Platform.runLater(new Runnable() {
+  			@Override
+  			public void run() {
+  				BookManagermentRecv recv_getAuthors = new BookManagermentRecv();
+  					recv_getAuthors.start();
+  					synchronized (recv_getAuthors) {
+  						try{
+  							recv_getAuthors.wait();
+  						}catch(InterruptedException e){
+  							e.printStackTrace();
+  						}
+  					}
+  			}});
+  	  
   		Platform.runLater(() -> {
   			for(int i=0;i<authorList.size();i++){
   				dataAuthors.add(new PropertyAuthor(authorList.get(i).getId(), authorList.get(i).getFirstname(), authorList.get(i).getLastname()));
@@ -2191,6 +2601,23 @@ private Button editAuthorSubmit;
   	  				    } catch (IOException e2) {
   	  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   	  				    }
+  	  				    
+  	  				  //itai
+  	  				  Platform.runLater(new Runnable() {
+  	  						@Override
+  	  						public void run() {
+  	  							BookManagermentRecv recv_getAuthors = new BookManagermentRecv();
+  	  								recv_getAuthors.start();
+  	  								synchronized (recv_getAuthors) {
+  	  									try{
+  	  										recv_getAuthors.wait();
+  	  									}catch(InterruptedException e){
+  	  										e.printStackTrace();
+  	  									}
+  	  								}
+  	  						}});
+  	  				    
+  	  				    
   	  				    Platform.runLater(() -> {
   	  				    	for(int i=0;i<authorList.size();i++){
   	  				    			dataAuthors.add(new PropertyAuthor(authorList.get(i).getId(), authorList.get(i).getFirstname(), authorList.get(i).getLastname()));
@@ -2208,6 +2635,22 @@ private Button editAuthorSubmit;
   	  		    	e2.printStackTrace();
   	  		     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   	  		    }
+  	  		    
+  	  		//itai
+  	  		 Platform.runLater(new Runnable() {
+  	  			@Override
+  	  			public void run() {
+  	  					BookManagermentRecv recv_getBooks = new BookManagermentRecv();
+  	  					recv_getBooks.start();
+  	  					synchronized (recv_getBooks) {
+  	  						try{
+  	  							recv_getBooks.wait();
+  	  						}catch(InterruptedException e){
+  	  							e.printStackTrace();
+  	  						}
+  	  					}
+  	  			}});
+  	  		    
   	  		    Platform.runLater(() -> {
   	  		     String authors = "";
   	  		     for (int i = 0; i < BooksList.size(); i += 9) {
@@ -2277,14 +2720,25 @@ private Button editAuthorSubmit;
   				   } catch (IOException e1) {	
   				   	actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   				   }
+  				   
+   				  //itai
+   				  Platform.runLater(new Runnable() {
+   						@Override
+   						public void run() {
+   								BookManagermentRecv recv_getNumberBookOfAuthor = new BookManagermentRecv();
+   								recv_getNumberBookOfAuthor.start();
+   								synchronized (recv_getNumberBookOfAuthor) {
+   									try{
+   										recv_getNumberBookOfAuthor.wait();
+   									}catch(InterruptedException e){
+   										e.printStackTrace();
+   									}
+   								}
+   						}});
+  				   
   				   Platform.runLater(() -> {
-  					   try {
-						Thread.sleep(700);
-					} catch (Exception e5) {
-						// TODO Auto-generated catch block
-						e5.printStackTrace();
-					}
-  					   System.out.println(countBookOfUser);
+
+  					   //System.out.println(countBookOfUser);
   					if(countBookOfUser>0)  
   						actionOnError(ActionType.CONTINUE,"You can't to remove author that contains books!");
   					else{
@@ -2302,6 +2756,21 @@ private Button editAuthorSubmit;
   	  				    } catch (IOException e2) {
   	  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   	  				    }
+  	  				  //itai
+  	  				  Platform.runLater(new Runnable() {
+  	  						@Override
+  	  						public void run() {
+  	  							BookManagermentRecv recv_getAuthors = new BookManagermentRecv();
+  	  								recv_getAuthors.start();
+  	  								synchronized (recv_getAuthors) {
+  	  									try{
+  	  										recv_getAuthors.wait();
+  	  									}catch(InterruptedException e){
+  	  										e.printStackTrace();
+  	  									}
+  	  								}
+  	  						}});
+  	  				    
   	  				    Platform.runLater(() -> {
   	  				    for(int i=0;i<authorList.size();i++){
 				    			dataAuthors.add(new PropertyAuthor(authorList.get(i).getId(), authorList.get(i).getFirstname(), authorList.get(i).getLastname()));
@@ -2364,6 +2833,22 @@ private Button editAuthorSubmit;
   	  				    } catch (IOException e2) {
   	  				     actionOnError(ActionType.TERMINATE, GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
   	  				    }
+  	  				    
+  	  				  //itai
+  	  				  Platform.runLater(new Runnable() {
+  	  						@Override
+  	  						public void run() {
+  	  							BookManagermentRecv recv_getAuthors = new BookManagermentRecv();
+  	  								recv_getAuthors.start();
+  	  								synchronized (recv_getAuthors) {
+  	  									try{
+  	  										recv_getAuthors.wait();
+  	  									}catch(InterruptedException e){
+  	  										e.printStackTrace();
+  	  									}
+  	  								}
+  	  						}});
+  	  				    
   	  				    Platform.runLater(() -> {
   	  				    	for(int i=0;i<authorList.size();i++){
   	  				    		dataAuthors.add(new PropertyAuthor(authorList.get(i).getId(), authorList.get(i).getFirstname(), authorList.get(i).getLastname()));
@@ -3289,4 +3774,29 @@ public void setBookPrice(String bookPrice) {
 	 }
  
 
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class BookManagermentRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
 }

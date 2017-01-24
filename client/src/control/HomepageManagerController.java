@@ -138,6 +138,21 @@ public class HomepageManagerController implements ScreensIF {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+			  //itai
+			  Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+							HomepageManagerRecv recv_logout = new HomepageManagerRecv();
+							recv_logout.start();
+							synchronized (recv_logout) {
+								try{
+									recv_logout.wait();
+								}catch(InterruptedException e){
+									e.printStackTrace();
+								}
+							}
+					}});
 	}
 	
 	/** Send log out message to the server.
@@ -252,6 +267,31 @@ public class HomepageManagerController implements ScreensIF {
 	public String getPage()
 	{
 		return page;
+	}
+	
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class HomepageManagerRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
 	}
 	
 }

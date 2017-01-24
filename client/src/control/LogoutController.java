@@ -7,6 +7,7 @@ import entity.Login;
 import entity.Message;
 import entity.User;
 import enums.ActionType;
+import javafx.application.Platform;
 
 /**
  * LogoutController is the controller that responsible to log out the user.
@@ -29,21 +30,36 @@ public class LogoutController {
 		try{
 			
 			ClientController clientCtrl = new ClientController();
-			System.out.println("100");
+			//System.out.println("100");
 			if (clientCtrl.clientConnectionController == null)
 				clientCtrl.clientConnectionController = new ClientConnectionController(clientCtrl.IP_ADDRESS,clientCtrl.DEFAULT_PORT);
-			System.out.println("111");
+			//System.out.println("111");
 			Login login = new Login(connectedUser.getId(),connectedUser.getPassword());
 			//Login login = new Login("123456789","123456");
-			System.out.println("123");
+			//System.out.println("123");
 			Message message = prepareLogout(ActionType.LOGOUT,login);
-			System.out.println("122");
+			//System.out.println("122");
 			clientCtrl.clientConnectionController.sendToServer(message);
-			System.out.println("133");
+			//System.out.println("133");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		  //itai
+		  Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						LogoutRecv recv_logout = new LogoutRecv();
+						recv_logout.start();
+						synchronized (recv_logout) {
+							try{
+								recv_logout.wait();
+							}catch(InterruptedException e){
+								e.printStackTrace();
+							}
+						}
+				}});
 	}
 	
 	/** Send log out message to the server.
@@ -79,3 +95,29 @@ public class LogoutController {
 	}
 
 }
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class LogoutRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
+}
+

@@ -88,7 +88,7 @@ public class PendingRegistrationController {
 	/**
 	 * static Array list of all the pending registration from the DB.
 	 */
-	public static ArrayList <String> pendingUsersList;
+	public static ArrayList <String> pendingUsersList; //itai - V
 	
 	/**
 	 * Integer that count the registration pending requests.
@@ -126,6 +126,21 @@ public class PendingRegistrationController {
 		} catch (IOException e) {	
 			actionOnError(ActionType.TERMINATE,GeneralMessages.UNNKNOWN_ERROR_DURING_SEND);
 		}
+		
+			  //itai
+			  Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+							PendingRegistrationRecv recv_getPendingUsers = new PendingRegistrationRecv();
+							recv_getPendingUsers.start();
+							synchronized (recv_getPendingUsers) {
+								try{
+									recv_getPendingUsers.wait();
+								}catch(InterruptedException e){
+									e.printStackTrace();
+								}
+							}
+					}});
 		
 		Platform.runLater(() -> {
 		countUsers=0;
@@ -384,5 +399,31 @@ public class PendingRegistrationController {
 
 	}
 
+	
+}
+
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class PendingRegistrationRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
 	
 }
