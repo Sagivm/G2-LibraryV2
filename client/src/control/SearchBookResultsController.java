@@ -103,6 +103,11 @@ public class SearchBookResultsController implements ScreensIF{
 	private ObservableList<SearchBookResult> data = FXCollections.observableArrayList();
 	
 	/**
+	 * saves results data from DB according to user's search 
+	 */
+	public static ArrayList<String> resultList;
+	
+	/**
 	 * static reference of user home page.
 	 */
 	private static HomepageUserController userMain;
@@ -140,11 +145,11 @@ public class SearchBookResultsController implements ScreensIF{
 							}catch(InterruptedException e){
 								e.printStackTrace();
 							}
-							for(int i=0;i<SearchBookResultsRecv.resultList.size();i++)
+							for(int i=0;i<resultList.size();i++)
 							{
-								int size=countItems(SearchBookResultsRecv.resultList.get(i),"^");
+								int size=countItems(resultList.get(i),"^");
 								String[] tmp=new String[size];
-								tmp = SearchBookResultsRecv.resultList.get(i).split("\\^");
+								tmp = resultList.get(i).split("\\^");
 								
 				
 								int authorsCount=Integer.parseInt(tmp[6]);
@@ -383,13 +388,18 @@ public class SearchBookResultsController implements ScreensIF{
 class SearchBookResultsRecv extends Thread{
 	
 	/**
-	 * saves results data from DB according to user's search 
+	 * Get true after receiving values from DB.
 	 */
-	public static ArrayList<String> resultList;
+	public static boolean canContinue = false;
 	
 	@Override
 	public void run() {
 		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
 			notify();
 		}
 	}
