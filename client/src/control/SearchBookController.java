@@ -528,15 +528,7 @@ class SearchBookAuthorsRecv extends Thread{
 		synchronized (this) {
         	while(canContinue == false)
     		{
-<<<<<<< HEAD
         		System.out.print("");
-=======
-
-        		int x = 1;
-    			//System.out.print("");
-
->>>>>>> branch 'master' of https://github.com/Sagivm/G2-Library.git
-
     		}
         	canContinue = false;
 			notify();
