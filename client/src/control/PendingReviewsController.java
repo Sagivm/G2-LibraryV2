@@ -261,6 +261,7 @@ public class PendingReviewsController implements ScreensIF {
 	                    		Review editReview = new Review(review.getReviewId(),review.getUsername(),review.getFirstName(),review.getLastName(),review.getBookTitle(),review.getReviewContent(),review.getReviewDate());
 	                    		EditReviewController editReviewPage = new EditReviewController();
 	                    		editReviewPage.editReview = editReview;
+	                    		EditReviewRecv.canContinue = true;
 	                    		ScreenController screenController = new ScreenController();
 	                    		try{
 	                    			if(ClientUI.getTypeOfUser()=="Librarian")

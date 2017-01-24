@@ -103,12 +103,12 @@ public class PaymentController {
 			                				} catch (InterruptedException e1) {
 			                					e1.printStackTrace();
 			                				}
-				                        	try {
-			                    				//TimeUnit.SECONDS.sleep(1);
-			                    				TimeUnit.MILLISECONDS.sleep(300);
-			                    			} catch (InterruptedException e1) {
-			                    				e1.printStackTrace();
-			                    			}
+						                        /*	try {
+					                    				//TimeUnit.SECONDS.sleep(1);
+					                    				TimeUnit.MILLISECONDS.sleep(300);
+					                    			} catch (InterruptedException e1) {
+					                    				e1.printStackTrace();
+					                    			}*/
 				                        	if(success == true)
 				                        	{
 				                        		BookPageController.searchedBookPage = searchedBookPage;
@@ -199,7 +199,7 @@ public class PaymentController {
 				                        	}
 				                        	
 				                        	
-				                        	if(success == true)
+				                        	if(success == false)
 				                        		returnToPrevScreen(null);
 			                			}
 									}
