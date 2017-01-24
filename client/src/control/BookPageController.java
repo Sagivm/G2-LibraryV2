@@ -756,3 +756,28 @@ public class BookPageController implements ScreensIF
 	}
 
 }
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class BookPageRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
+}

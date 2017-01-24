@@ -513,6 +513,9 @@ public class SearchBookController implements ScreensIF{
 
 }
 
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
 class SearchBookAuthorsRecv extends Thread{
 	
 	/**
@@ -534,7 +537,9 @@ class SearchBookAuthorsRecv extends Thread{
 	
 }
 
-
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
 class SearchBookDomainsRecv extends Thread{
 	
 	/**
