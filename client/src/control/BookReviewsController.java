@@ -72,7 +72,7 @@ public class BookReviewsController implements ScreensIF {
 	/**
 	 * The data that was retrieved from the DB
 	 */
-	//public static ArrayList<String> data;
+	public static ArrayList<String> data;
 	
 	
 	/*
@@ -154,7 +154,7 @@ public class BookReviewsController implements ScreensIF {
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
-					if((recv.data.size()/5)<2)
+					if((data.size()/5)<2)
 						posY=200;
 					
 					lblPosition.setLayoutX(0);
@@ -168,7 +168,7 @@ public class BookReviewsController implements ScreensIF {
 					lblPosition2.setPrefHeight(posY);
 	
 					Group grpPosition = new Group();
-					if(recv.data.size()<5)
+					if(data.size()<5)
 					{
 						Label lblPosition3 = new Label();
 						Label lblNoResults = new Label();
@@ -196,7 +196,7 @@ public class BookReviewsController implements ScreensIF {
 					}
 					else
 					{
-						for(int i=0; i<recv.data.size(); i+=5){
+						for(int i=0; i<data.size(); i+=5){
 							Label lblFullName = new Label();
 							Label lblPurchasedDate = new Label();
 							Label lblReviewDate = new Label();
@@ -204,7 +204,7 @@ public class BookReviewsController implements ScreensIF {
 							Line hLine = new Line();
 							Label lblPosition3 = new Label();
 							
-							lblFullName.setText(recv.data.get(i) + " " + recv.data.get(i+1));
+							lblFullName.setText(data.get(i) + " " + data.get(i+1));
 								/*try {
 									purchaseDate = dateFormat.parse(data.get(i+2));
 								} catch (ParseException e) {
@@ -217,9 +217,9 @@ public class BookReviewsController implements ScreensIF {
 									//e.printStackTrace();
 									reviewDate = new Date();
 								}*/
-							lblPurchasedDate.setText("Date Purchased: " + recv.data.get(i+2));
-							lblReviewDate.setText("reviewed on " + recv.data.get(i+3));
-							reviewContent = recv.data.get(i+4);
+							lblPurchasedDate.setText("Date Purchased: " + data.get(i+2));
+							lblReviewDate.setText("reviewed on " + data.get(i+3));
+							reviewContent = data.get(i+4);
 							textLength = reviewContent.length();
 							rows=1;
 							int rowChars=0,line = 120;
@@ -316,15 +316,20 @@ public class BookReviewsController implements ScreensIF {
 
 
 class BookReviewsRecv extends Thread{
-    
+    	
 	/**
-	 * The data that was retrieved from the DB
+	 * Get true after receiving values from DB.
 	 */
-	public static ArrayList <String> data;
+	public static boolean canContinue = false;
 	
     @Override
     public void run(){
         synchronized(this){
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
             notify();
         }
     }

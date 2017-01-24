@@ -267,14 +267,6 @@ public class ExternalPaymentController {
 		this.action = action;
 	}
 	
-/*	public Message prepareBuyBook(ActionType type, ArrayList<String> elementList)
-	{
-		Message message = new Message();
-		message.setType(type);
-		message.setElementsList(elementList);
-		return message;
-	}*/
-	
 	/* (non-Javadoc)
 	 * @see interfaces.ScreensIF#actionOnError(enums.ActionType, java.lang.String)
 	 */
