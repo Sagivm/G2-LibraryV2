@@ -1790,7 +1790,7 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		case BUY_BOOK: {
-			
+			boolean subs = false;
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date date = new Date();
 			
@@ -1832,7 +1832,9 @@ public class ServerController extends AbstractServer {
 					credits = credits - Float.parseFloat(data.get(2));
 					
 					stmt.executeUpdate("UPDATE clients SET credits="+credits+" WHERE "
-							+ "clients.username ='" + data.get(0) + "';");				
+							+ "clients.username ='" + data.get(0) + "';");		
+					
+					subs = true;
 				}
 				
 				sqlResult = true;
@@ -1842,10 +1844,16 @@ public class ServerController extends AbstractServer {
 
 			if (sqlResult == true)
 			{
-				replay = new Replay(ActionType.BUY_BOOK,true,data.get(3));
+				if(subs == true)
+					replay = new Replay(ActionType.BUY_BOOK_SUBS,true,data.get(3));
+				else
+					replay = new Replay(ActionType.BUY_BOOK,true,data.get(3));
 			}
 			else {
-				replay = new Replay(ActionType.BUY_BOOK, false,data.get(3));
+				if(subs == true)
+					replay = new Replay(ActionType.BUY_BOOK_SUBS,false,data.get(3));
+				else
+					replay = new Replay(ActionType.BUY_BOOK, false,data.get(3));
 			}
 			break;
 		}

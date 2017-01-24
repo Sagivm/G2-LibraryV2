@@ -85,13 +85,13 @@ public class SearchWorkerController implements ScreensIF{
 		String id = idTextField.getText();
 		String firstName = fNameTextField.getText();
 		String lastName = lNameTextField.getText();
-		
+		/*
 		if (id.equals("") && firstName.equals("") && lastName.equals(""))
 		{
 			actionOnError(ActionType.CONTINUE,GeneralMessages.EMPTY_FIELDS);
 			return;
 		}
-		
+		*/
 		if (Validate.usernameValidateNumbresOnly(id) == false)
 		{
 			actionOnError(ActionType.CONTINUE,GeneralMessages.MUST_INCLUDE_ONLY_DIGITS_VER2);
@@ -210,4 +210,29 @@ public class SearchWorkerController implements ScreensIF{
 		
 	}
 
+}
+
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class SearchWorkerRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
 }

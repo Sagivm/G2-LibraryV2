@@ -115,11 +115,7 @@ public class SearchWorkerResultsController implements ScreensIF{
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				try { //Necessary! without that search sometimes is wrong..
-					TimeUnit.SECONDS.sleep(1);
-				} catch (InterruptedException e2) {
-					e2.printStackTrace();
-				}
+
 				try {
 					try{
 						for(int i=0;i<workerResult.size();i++)
@@ -130,12 +126,7 @@ public class SearchWorkerResultsController implements ScreensIF{
 						}
 					}
 					 catch (Exception e1) {
-						 initialize();
-							try {
-								TimeUnit.SECONDS.sleep(1);
-							} catch (InterruptedException e2) {
-								e2.printStackTrace();
-							}
+						 e1.printStackTrace();
 					}
 										
 					fNameCol.setSortType(TableColumn.SortType.ASCENDING);

@@ -513,6 +513,9 @@ public class SearchBookController implements ScreensIF{
 
 }
 
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
 class SearchBookAuthorsRecv extends Thread{
 	
 	/**
@@ -525,11 +528,7 @@ class SearchBookAuthorsRecv extends Thread{
 		synchronized (this) {
         	while(canContinue == false)
     		{
-
-        		int x = 1;
-    			//System.out.print("");
-
-
+        		System.out.print("");
     		}
         	canContinue = false;
 			notify();
@@ -538,7 +537,9 @@ class SearchBookAuthorsRecv extends Thread{
 	
 }
 
-
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
 class SearchBookDomainsRecv extends Thread{
 	
 	/**

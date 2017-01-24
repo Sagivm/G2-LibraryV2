@@ -124,11 +124,6 @@ public class SearchUserResultsController implements ScreensIF{
 	 */
 	@FXML
 	private void initialize(){
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e2) {
-			e2.printStackTrace();
-		}
 		if(SearchUserController.updateSearchUserResults==1) //updateBlockStatus
 		{
 			for(int i=0;i<userResult.size();i++)
@@ -186,15 +181,7 @@ public class SearchUserResultsController implements ScreensIF{
 					}
 					 catch (Exception e1) {
 						e1.printStackTrace();
-						/*
-						 initialize();
-							try {
-								TimeUnit.SECONDS.sleep(1);
-							} catch (InterruptedException e2) {
-								// TODO Auto-generated catch block
-								e2.printStackTrace();
-							}
-							*/
+						
 					}
 										
 					fNameCol.setSortType(TableColumn.SortType.ASCENDING);
@@ -245,6 +232,7 @@ public class SearchUserResultsController implements ScreensIF{
 				                    button.setOnAction(new EventHandler<ActionEvent>() {
 				                      @Override public void handle(ActionEvent event) {
 				                    	  UserPageController.searchedUserPage = userRes;
+				                    	  //UserPageRecv = true;
 
 				                    	  
 				          				if(ClientUI.getTypeOfUser()=="Librarian")
@@ -354,4 +342,28 @@ public class SearchUserResultsController implements ScreensIF{
 	
 	
 
+}
+
+/** This class makes sure the information from the server was received successfully.
+ * @author itain
+ */
+class SearchUserResultsRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+        	while(canContinue == false)
+    		{
+        		System.out.print("");
+    		}
+        	canContinue = false;
+			notify();
+		}
+	}
+	
 }

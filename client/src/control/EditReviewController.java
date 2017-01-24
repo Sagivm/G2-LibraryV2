@@ -140,12 +140,22 @@ public class EditReviewController implements ScreensIF {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				lblTitle.setText(editReview.getBookTitle());
-				lblUsername.setText("User: " + editReview.getUsername());
-				lblFullName.setText(editReview.getFirstName() + " " + editReview.getLastName());
-				lblDate.setText("reviewed on " + editReview.getReviewDate());
-				txtAreaContent.setText(editReview.getReviewContent());		
-				txtAreaContent.setWrapText(true);
+				EditReviewRecv recv = new EditReviewRecv();
+		        recv.start();
+				synchronized(recv)
+				{
+					try {
+						recv.wait();
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					lblTitle.setText(editReview.getBookTitle());
+					lblUsername.setText("User: " + editReview.getUsername());
+					lblFullName.setText(editReview.getFirstName() + " " + editReview.getLastName());
+					lblDate.setText("reviewed on " + editReview.getReviewDate());
+					txtAreaContent.setText(editReview.getReviewContent());		
+					txtAreaContent.setWrapText(true);
+				}
 			}
 		});
 	}
@@ -225,4 +235,30 @@ public class EditReviewController implements ScreensIF {
 		return message;
 	}
 
+}
+
+class EditReviewRecv extends Thread{
+    
+	/**
+	 * static Array list of all the pending reviews from the DB.
+	 */
+	//public static ArrayList <String> pendingReviewList;
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+
+    @Override
+    public void run(){
+        synchronized(this){
+        	while(canContinue == false)
+        		{
+        			System.out.print("");
+        		}
+        	canContinue = false;
+        	
+            notify();
+        }
+    }
 }
