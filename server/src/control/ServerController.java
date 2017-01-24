@@ -978,7 +978,7 @@ public class ServerController extends AbstractServer {
 					while (rs.next()) {
 						elementsList.add(String.valueOf(rs.getInt(1)) + "^" + rs.getString(2) + "^" + rs.getString(3)
 								+ " " + rs.getString(4) + "^" + rs.getString(5) + "^" +rs.getString(6) 
-								+ "^" +String.valueOf(rs.getInt(7)));
+								+ "^" +String.valueOf(rs.getFloat(7)));
 					}
 					replay = new Replay(ActionType.USEREPORT, true, elementsList);
 				}
@@ -1033,13 +1033,16 @@ public class ServerController extends AbstractServer {
 		case BOOKREPORT: {
 			ArrayList<String> elementsList = new ArrayList<String>();
 			try {
+				System.out.println("sagiv+"+data.get(0));
 				ResultSet rs = DatabaseController
-						.searchInDatabase("SELECT date,searchCount,purchaseCount FROM book_by_date WHERE bookId="
-								+ Integer.valueOf(elementsList.get(0)) + ";");
+						.searchInDatabase("SELECT * FROM book_by_date WHERE bookId="
+								+ Integer.valueOf(data.get(0)) + ";");
+				System.out.println("melamed");
 				while (rs.next()) {
 					elementsList.add(
-							rs.getString(1) + "^" + String.valueOf(rs.getInt(2)) + "^" + String.valueOf(rs.getInt(3)));
+							rs.getString(2) + "^" + String.valueOf(rs.getInt(3)) + "^" + String.valueOf(rs.getInt(4)));
 				}
+				System.out.println(elementsList.get(0));
 				replay = new Replay(ActionType.BOOKREPORT, true, elementsList);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();

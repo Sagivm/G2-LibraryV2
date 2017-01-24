@@ -293,6 +293,8 @@ public class BookPageController implements ScreensIF
 			BookReviewsController bookReview = new BookReviewsController();
 			bookReview.book = searchedBookPage;
 			loadReviews();
+			loadPopReport();
+			loadBookReport();
 			
 			if(ClientUI.getTypeOfUser()=="User")
 			{
@@ -432,6 +434,29 @@ public class BookPageController implements ScreensIF
 		priceLable.setText(searchedBookPage.getBookPrice()+ " \u20AA");
 	}
 	
+	private void loadBookReport() {
+		try {
+			if(bookReportContent.getChildren().size()>0)
+				bookReportContent.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.BOOK_REPORT)); // SAGIV - CHANGE HERE USER REPORT SCREEN
+			bookReportContent.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void loadPopReport() {
+		try {
+			if(popularityContent.getChildren().size()>0)
+				popularityContent.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.BOOK_POPULARITY_REPORT)); // SAGIV - CHANGE HERE USER REPORT SCREEN
+			popularityContent.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	/**
 	 * Create's a message for get data from DB.
 	 * @param type
