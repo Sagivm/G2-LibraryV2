@@ -9,6 +9,7 @@ import control.UserReportController.Purchase;
 import entity.Author;
 import entity.Book;
 import entity.Message;
+import entity.SearchBookResult;
 import entity.User;
 import enums.ActionType;
 import javafx.application.Platform;
@@ -104,7 +105,7 @@ public class BookPopularityReportController implements Initializable {
 	 * Displays Book title
 	 */
 	@FXML
-	private Book SelectedBook;
+	private SearchBookResult SelectedBook;
 	/**
 	 * group of the radio buttons
 	 */
@@ -127,25 +128,9 @@ public class BookPopularityReportController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// test
-		String bookSummary = "The film begins with a summary of the prehistory of the ring of power."
-				+ " Long ago, twenty rings existed: three for elves, seven for dwarves, nine for"
-				+ " men, and one made by the Dark Lord Sauron, in Mordor, which would rule all the"
-				+ " others. Sauron poured all his evil and his will to dominate into this ring. An"
-				+ " alliance of elves and humans resisted Sauron’s ring and fought against Mordor."
-				+ " They won the battle and the ring fell to Isildur, the son of the king of Gondor,";
-		Author author = new Author();
-		ArrayList<Author> authors = new ArrayList<Author>();
-		author.setId("3");
-		;
-		author.setFirstname("JRR");
-		author.setLastname("Tolkien");
-		authors.add(author);
-		// authors.add(author);
-		Book book = new Book(5, "Lord of the rings", "English", bookSummary, "Lets Begin, Dragons, Dark lord",
-				"Hobbit, Gandalf, Dark Lord", "52.5", authors);
-		this.SelectedBook = book;
+		this.SelectedBook = BookPageController.searchedBookPage;
 		//
-		initializeLabel();
+		//initializeLabel();
 		initializeDomains();
 		initializeTable();
 		initializeprice();
@@ -158,7 +143,7 @@ public class BookPopularityReportController implements Initializable {
 	 */
 	private void initializeprice() {
 		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(String.valueOf(SelectedBook.getSn()));
+		elementsList.add(String.valueOf(SelectedBook.getBookSn()));
 		Message message = new Message(ActionType.GET_TOTAL_PRICE, elementsList);
 		try {
 
@@ -185,7 +170,7 @@ public class BookPopularityReportController implements Initializable {
 	 * Initialize the labels that are stored in the page
 	 */
 	private void initializeLabel() {
-		titleLabel.setText(SelectedBook.getSn() + ") " + SelectedBook.getTitle() + " Popularity Report");
+		titleLabel.setText(SelectedBook.getBookSn() + ") " + SelectedBook.getBookTitle() + " Popularity Report");
 
 	}
 
@@ -194,7 +179,7 @@ public class BookPopularityReportController implements Initializable {
 	 */
 	private void initializeDomains() {
 		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(String.valueOf(SelectedBook.getSn()));
+		elementsList.add(String.valueOf(SelectedBook.getBookSn()));
 		Message message = new Message(ActionType.GETDOMAINSSPECIFIC, elementsList);
 		try {
 
@@ -238,7 +223,8 @@ public class BookPopularityReportController implements Initializable {
 			public void run() {
 
 				try {
-
+					allBooksRadio.setSelected(true);
+					displaySettings(new ActionEvent());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

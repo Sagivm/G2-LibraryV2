@@ -461,7 +461,6 @@ class PendingReviewsRecv extends Thread{
         			System.out.print("");
         		}
         	canContinue = false;
-        	
             notify();
         }
     }

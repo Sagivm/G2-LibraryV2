@@ -5,16 +5,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import control.BookPopularityReportController.Popularity;
-import entity.Book;
 import entity.Message;
+import entity.SearchBookResult;
 import enums.ActionType;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 
@@ -34,7 +33,7 @@ public class BookReportController implements Initializable {
 	 * The book that the report will be done on
 	 */
 	@FXML
-	private Book SelectedBook;
+	private SearchBookResult selectedBook;
 	/**
 	 * The data that was retrieved from the DB
 	 */
@@ -42,35 +41,40 @@ public class BookReportController implements Initializable {
 	/**
 	 * BarChart to display the date
 	 */
-	private BarChart<String,Integer> barChart;
+	@FXML private BarChart<String, Integer> barChart;
 	/**
 	 * Search bar containing the number of searches for a book for a specific date
 	 */
-	@FXML private XYChart.Series search ;
+	@FXML private XYChart.Series<String, Integer> search ;
 	/**
 	 * Purchase bar containing the number of searches for a book for a specific date
 	 */
-	@FXML private XYChart.Series purchase ;
+	@FXML private XYChart.Series<String, Integer> purchase ;
 	/**
 	 * A list containing the data in BookByDate form
 	 */
 	private ArrayList<BookByDate> list;
-
+	/**
+	 * Date axis in the bar chart
+	 */
+	@FXML
+	private CategoryAxis dateAxis;
+	/**
+	 * Numbers axis in the bar chart
+	 */
+	@FXML
+	private NumberAxis numbersAxis;
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		initializeLabel();
+		this.selectedBook=BookPageController.searchedBookPage;
 		initializeChart();
 		// TODO Auto-generated method stub
 
 	}
-
-	/**
-	 * Displays the book's name in the title
-	 */
-	private void initializeLabel() {
-		this.titleLabel.setText(SelectedBook.getTitle() + " Book Report");
-
-	}
+	
 
 	/**
 	 * Send a request to the DB For the relevant fields for the chart.
@@ -78,7 +82,8 @@ public class BookReportController implements Initializable {
 	 */
 	private void initializeChart() {
 		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(String.valueOf(SelectedBook.getSn()));
+		elementsList.add(String.valueOf(selectedBook.getBookSn()));
+		System.out.println(selectedBook.getBookSn());
 		Message message = new Message(ActionType.BOOKREPORT, elementsList);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -99,7 +104,8 @@ public class BookReportController implements Initializable {
 			public void run() {
 
 				try {
-					arrangelist();
+					System.out.println(data.get(0));
+					
 					displayChart();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -113,16 +119,44 @@ public class BookReportController implements Initializable {
 	/**
 	 * Fill the Chart bars with the relevant data containing number of searches and purchases for each date
 	 */
+	@SuppressWarnings("unchecked")
 	private void displayChart() {
-		for(int i=0;i<list.size();i++)
-		{
-			BookByDate temp=new BookByDate();
-			temp=list.get(i);
-			 search.getData().add(new XYChart.Data(temp.date,temp.search));
-			 purchase.getData().add(new XYChart.Data(temp.date,temp.purchase));
-		}
+		arrangelist();
+		search=createSearchDate();
+		search.setName("Search");
+		
+		purchase=createPurchasehDate();
+		purchase.setName("Purchase");
 		barChart.getData().addAll(search,purchase);
 	}
+	/**
+	 * Transfer Data from the Db into search series
+	 * @return series filled with search counters per day
+	 */
+	private XYChart.Series<String, Integer> createSearchDate() {
+        XYChart.Series<String,Integer> series = new XYChart.Series<String,Integer>();
+
+        for (int i = 0; i < list.size(); i++) {
+            XYChart.Data<String, Integer> searchData = new XYChart.Data<String,Integer>(list.get(i).getDate(),list.get(i).getSearch());
+            series.getData().add(searchData);
+        }
+
+        return series;
+    }
+	/**
+	 * Transfer Data from the Db into purchase series
+	 * @return series filled with purchase counters per day
+	 */
+	private XYChart.Series<String, Integer> createPurchasehDate() {
+        XYChart.Series<String,Integer> series = new XYChart.Series<String,Integer>();
+
+        for (int i = 0; i < list.size(); i++) {
+            XYChart.Data<String, Integer> searchData = new XYChart.Data<String,Integer>(list.get(i).getDate(),list.get(i).getPurchase());
+            series.getData().add(searchData);
+        }
+
+        return series;
+    }
 	/**
 	 * Transfer the list from the DB to ArrayList<BookByDate> 
 	 */
@@ -132,7 +166,7 @@ public class BookReportController implements Initializable {
 		String datasplit[]=new String[3];
 		for(int i=0;i<data.size();i++)
 		{
-			datasplit=data.get(i).split("^");
+			datasplit=data.get(i).split("\\^");
 			list.add(new BookByDate(datasplit));
 		}
 		
@@ -169,10 +203,54 @@ public class BookReportController implements Initializable {
 		}
 		
 		/**
-		 * Contractor
+		 * Constructor
 		 */
 		public BookByDate() {
 			// TODO Auto-generated constructor stub
+		}
+		
+		/**
+		 * Date's Getter
+		 * @return A specific date 
+		 */
+		public String getDate() {
+			return date;
+		}
+
+		/**
+		 * Date's Setter
+		 * @param date - A specific date
+		 */
+		public void setDate(String date) {
+			this.date = date;
+		}
+		/**
+		 * Search's Getter
+		 * @return number of searches for a specific date
+		 */
+		public int getSearch() {
+			return search;
+		}
+		/**
+		 * Search's Setter
+		 * @param date - number of searches for a specific date 
+		 */
+		public void setSearch(int search) {
+			this.search = search;
+		}
+		/**
+		 * Purchases's Getter
+		 * @return number of purchases for a specific date
+		 */
+		public int getPurchase() {
+			return purchase;
+		}
+		/**
+		 * Purchases's Setter
+		 * @param date - number of purchases for a specific date
+		 */
+		public void setPurchase(int purchase) {
+			this.purchase = purchase;
 		}
 	}
 

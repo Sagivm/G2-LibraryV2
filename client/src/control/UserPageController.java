@@ -202,7 +202,7 @@ public class UserPageController implements ScreensIF{
 		//BookReviewsController bookReview = new BookReviewsController();
 		try {
 			loadEditUserLibrarian();
-			//loadUserReport();  //SAGIV -add user report
+			loadUserReport();  //SAGIV -add user report
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -226,23 +226,24 @@ public class UserPageController implements ScreensIF{
 	}
 
 	
-	/** when page comes up, loads user's report page
+	
+	/**
+	 * /** when page comes up, loads user's report page
 	 * @author itain
+	 * @throws IOException
 	 */
-	/* FOR SAGIV! */
-	/*
 	@FXML
 	public void loadUserReport() throws IOException {
 				try {
 					if(userReportContent.getChildren().size()>0)
 						userReportContent.getChildren().remove(0);
-					Parent root = FXMLLoader.load(getClass().getResource()); // SAGIV - CHANGE HERE USER REPORT SCREEN
+					Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.USER_REPORT)); // SAGIV - CHANGE HERE USER REPORT SCREEN
 					userReportContent.getChildren().add(root);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 	}
-	*/
+	
 	
 	/** When pressed, takes user to search users result page.
 	 * @author itain
@@ -266,8 +267,7 @@ public class UserPageController implements ScreensIF{
         		managerMain = new HomepageManagerController();
         	managerMain.setPage(ScreensInfo.SEARCH_USER_RESULTS_SCREEN);
     	}
-
-		
+		SearchUserResultsRecv.canContinue = true;
 		ScreenController screenController = new ScreenController();
 		try{
 			if(ClientUI.getTypeOfUser()=="Librarian")

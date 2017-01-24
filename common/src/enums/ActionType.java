@@ -331,6 +331,11 @@ public enum ActionType {
 	BUY_BOOK,
 	
 	/**
+	 * Add bought book for subscribed user to DB.
+	 */
+	BUY_BOOK_SUBS,
+	
+	/**
 	 * update subscription in DB.
 	 */
 	BUY_SUBSCRIPTION,

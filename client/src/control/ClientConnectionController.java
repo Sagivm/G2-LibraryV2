@@ -634,6 +634,7 @@ public class ClientConnectionController extends AbstractClient{
 		
 		case CHECK_WRITE_REVIEW: {
 			BookPageController.canWrite = replay.getSucess();
+			CheckWriteReviewRecv.canContinue = true;
 			break;
 		}
 		
@@ -642,6 +643,7 @@ public class ClientConnectionController extends AbstractClient{
 				BookPageController.img = replay.getElementsList();
 			else
 				BookPageController.img = null;
+			BookImgRecv.canContinue = true;
 			break;
 		}
 		case GET_TOTAL_PRICE: {
@@ -654,12 +656,19 @@ public class ClientConnectionController extends AbstractClient{
 		
 		case GET_BUY_STATUS: {
 				BookPageController.buyStatus = replay.getGnrlMsg();
+				GetBuyStatusRecv.canContinue = true;
 			break;
 		}
 		
 		case BUY_BOOK: {
 			PaymentController.success = success;
 			PaymentRecv.canContinue = true;
+		break;
+		}
+		
+		case BUY_BOOK_SUBS: {
+			BookPageController.success = success;
+			BuyBookRecv.canContinue = true;
 		break;
 		}
 		

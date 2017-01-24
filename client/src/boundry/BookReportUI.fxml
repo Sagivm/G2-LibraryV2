@@ -7,20 +7,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="617.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="478.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.BookReportController">
    <children>
-      <Label fx:id="titleLabel" layoutX="59.0" layoutY="57.0" text="&lt;Book name&gt; Report">
-         <font>
-            <Font size="50.0" />
-         </font>
-      </Label>
-      <StackedBarChart layoutX="80.0" layoutY="138.0" prefHeight="400.0" prefWidth="553.0">
+      <BarChart fx:id="barChart" barGap="2.0" layoutX="65.0" layoutY="61.0" prefHeight="341.0" prefWidth="670.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+          <CategoryAxis fx:id="dateAxis" label="Dates" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis fx:id="numbersAxis" side="LEFT" />
         </yAxis>
-      </StackedBarChart>
+      </BarChart>
    </children>
 </AnchorPane>

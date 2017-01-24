@@ -36,7 +36,7 @@ import javafx.util.Callback;
  * 
  * @author sagivm
  */
-public class UserReportController implements Initializable {
+public class UserBooksController implements Initializable {
 
 	/**
 	 * Main table in the Popularity report screen
@@ -51,7 +51,7 @@ public class UserReportController implements Initializable {
 	/**
 	 * Specific user that
 	 */
-	private static SearchUserResult selectedUser;
+	private static User selectedUser;
 	/**
 	 * Book id column in the table
 	 */
@@ -83,6 +83,11 @@ public class UserReportController implements Initializable {
 	 */
 	@FXML
 	private TableColumn<Purchase, String> priceColumn;
+	/**
+	 * Displays user name
+	 */
+	@FXML
+	private Label titleLabel;
 	/**
 	 * ArrayList containing the data in Purchase form
 	 */
@@ -116,12 +121,12 @@ public class UserReportController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		this.selectedUser = UserPageController.searchedUserPage;
-		
+		// check
+		this.selectedUser = HomepageUserController.getConnectedUser();
+		//
 
 		initializeTable();
-	
+		initializeLabel();
 		
 		table.setRowFactory( tv -> {
 		    TableRow<Purchase> row = new TableRow<>();
@@ -184,7 +189,7 @@ public class UserReportController implements Initializable {
 	 */
 	private void initializeTable() {
 		ArrayList<String> elementsList = new ArrayList<String>();
-		elementsList.add(selectedUser.getUsername());
+		elementsList.add(selectedUser.getId());
 		Message message = new Message(ActionType.USEREPORT, elementsList);
 		try {
 			ClientController.clientConnectionController.sendToServer(message);
@@ -248,7 +253,7 @@ public class UserReportController implements Initializable {
 	 * 
 	 * @return specific user
 	 */
-	public static SearchUserResult getSelectedUser() {
+	public static User getSelectedUser() {
 		return selectedUser;
 	}
 
@@ -258,8 +263,8 @@ public class UserReportController implements Initializable {
 	 * @param selectedUser
 	 *            a specific user that the list will be based upon
 	 */
-	public static void setSelectedUser(SearchUserResult selectedUser) {
-		UserReportController.selectedUser = selectedUser;
+	public static void setSelectedUser(User selectedUser) {
+		UserBooksController.setSelectedUser(selectedUser);
 
 	}
 
@@ -298,6 +303,10 @@ public class UserReportController implements Initializable {
 	/**
 	 * Creates a label displaying the current user
 	 */
+	private void initializeLabel() {
+		this.titleLabel.setText(selectedUser.getFirstname() + " " + selectedUser.getLastname() + " Report");
+
+	}
 
 	/**
 	 * Data class for analyzing DB data and displaying it

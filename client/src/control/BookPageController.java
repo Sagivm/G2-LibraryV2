@@ -254,31 +254,42 @@ public class BookPageController implements ScreensIF
 		                    Platform.runLater(new Runnable() {                          
 		                        @Override
 		                        public void run() {
-		                		    //show picture
-		                        	if(img.get(0)!=null)
-		                        	{
-		                        		try {
-			                		    String data = img.get(0).toString();
-			                		    //String base64EncodedImage = data.split(",")[1];
-			                		    String base64EncodedImage = data;
-			                		    byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
-			                		    BufferedImage imgbuf;
-		                				imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
-		                				Image image = SwingFXUtils.toFXImage(imgbuf, null);
-		                				
-		                				imgBookImg.setImage(image);
-			                			} catch (Exception e1) {
-			                				//e1.printStackTrace();
+		                        	BookImgRecv recv = new BookImgRecv();
+		                	        recv.start();
+		                			synchronized(recv)
+		                			{
+		                				try {
+		                					recv.wait();
+		                				} catch (InterruptedException e1) {
+		                					e1.printStackTrace();
+		                				}
+			                			
+			                		    //show picture
+			                        	if(img.get(0)!=null)
+			                        	{
+			                        		try {
+				                		    String data = img.get(0).toString();
+				                		    //String base64EncodedImage = data.split(",")[1];
+				                		    String base64EncodedImage = data;
+				                		    byte[] imageInBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64EncodedImage);
+				                		    BufferedImage imgbuf;
+			                				imgbuf = ImageIO.read(new ByteArrayInputStream(imageInBytes));
+			                				Image image = SwingFXUtils.toFXImage(imgbuf, null);
+			                				
+			                				imgBookImg.setImage(image);
+				                			} catch (Exception e1) {
+				                				//e1.printStackTrace();
+				                        		bookImage = new Image("/img/Books/no photo.png");
+				                        		imgBookImg.setImage(bookImage);	
+				                			}
+			                        	}
+			                        	else
+			                        	{
 			                        		bookImage = new Image("/img/Books/no photo.png");
 			                        		imgBookImg.setImage(bookImage);	
-			                			}
+			                        	}
+			                		    //end show picture
 		                        	}
-		                        	else
-		                        	{
-		                        		bookImage = new Image("/img/Books/no photo.png");
-		                        		imgBookImg.setImage(bookImage);	
-		                        	}
-		                		    //end show picture
 								}
 		                        });
 		                     latch.await();                      
@@ -293,6 +304,8 @@ public class BookPageController implements ScreensIF
 			BookReviewsController bookReview = new BookReviewsController();
 			bookReview.book = searchedBookPage;
 			loadReviews();
+			loadPopReport();
+			loadBookReport();
 			
 			if(ClientUI.getTypeOfUser()=="User")
 			{
@@ -320,7 +333,16 @@ public class BookPageController implements ScreensIF
 			                    Platform.runLater(new Runnable() {                          
 			                        @Override
 			                        public void run() {
-			                        	
+			                        	GetBuyStatusRecv recv = new GetBuyStatusRecv();
+			                	        recv.start();
+			                			synchronized(recv)
+			                			{
+			                				try {
+			                					recv.wait();
+			                				} catch (InterruptedException e1) {
+			                					e1.printStackTrace();
+			                				}
+			                			
 			                        		if(buyStatus.equals("1"))
 			                        		{
 			                        			lblBought.setVisible(true);
@@ -337,6 +359,7 @@ public class BookPageController implements ScreensIF
 			                        			btnDownload.setVisible(false);
 			                        			btnDownload.setDisable(true);
 			                        		}
+			                        	}
 									}
 			                        });
 			                     latch.await();                      
@@ -363,21 +386,31 @@ public class BookPageController implements ScreensIF
 			                    Platform.runLater(new Runnable() {                          
 			                        @Override
 			                        public void run() {
-			                        	
-			                        	if(canWrite)
-			                        	{
-			                        		WriteReviewController bookReview = new WriteReviewController();
-			                        		bookReview.book = searchedBookPage;
-			                    			try{
-			                    				loadWriteReview();
-			                    			} 
-			                    			catch (Exception e) {
-			                    				e.printStackTrace();
-			                    			}
-			                        	}
-			                        	else
-			                        	{
-			                        		bookTabPane.getTabs().remove(2); // remove write review tab
+			                        	CheckWriteReviewRecv recv = new CheckWriteReviewRecv();
+			                	        recv.start();
+			                			synchronized(recv)
+			                			{
+			                				try {
+			                					recv.wait();
+			                				} catch (InterruptedException e1) {
+			                					e1.printStackTrace();
+			                				}
+			                			
+				                        	if(canWrite)
+				                        	{
+				                        		WriteReviewController bookReview = new WriteReviewController();
+				                        		bookReview.book = searchedBookPage;
+				                    			try{
+				                    				loadWriteReview();
+				                    			} 
+				                    			catch (Exception e) {
+				                    				e.printStackTrace();
+				                    			}
+				                        	}
+				                        	else
+				                        	{
+				                        		bookTabPane.getTabs().remove(2); // remove write review tab
+				                        	}
 			                        	}
 									}
 			                        });
@@ -432,6 +465,29 @@ public class BookPageController implements ScreensIF
 		priceLable.setText(searchedBookPage.getBookPrice()+ " \u20AA");
 	}
 	
+	private void loadBookReport() {
+		try {
+			if(bookReportContent.getChildren().size()>0)
+				bookReportContent.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.BOOK_REPORT)); // SAGIV - CHANGE HERE USER REPORT SCREEN
+			bookReportContent.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void loadPopReport() {
+		try {
+			if(popularityContent.getChildren().size()>0)
+				popularityContent.getChildren().remove(0);
+			Parent root = FXMLLoader.load(getClass().getResource(ScreensInfo.BOOK_POPULARITY_REPORT)); // SAGIV - CHANGE HERE USER REPORT SCREEN
+			popularityContent.getChildren().add(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	/**
 	 * Create's a message for get data from DB.
 	 * @param type
@@ -510,6 +566,7 @@ public class BookPageController implements ScreensIF
 			        	extPayment.setProduct("Book - " + searchedBookPage.getBookTitle());
 			        	extPayment.setPrice(searchedBookPage.getBookPrice());
 			        	extPayment.setAction(1);	//buy book PerBook
+			        	/*synch*/
 			        	//extPayment.searchedBookPage = searchedBookPage;
 			        	PaymentController.searchedBookPage = searchedBookPage;
 			        	        			        	
@@ -552,36 +609,42 @@ public class BookPageController implements ScreensIF
 				                    Platform.runLater(new Runnable() {                          
 				                        @Override
 				                        public void run() { 	
-				                        	//initialize();
-				                        	
-				                        	if (userMain == null)
-				                        		userMain = new HomepageUserController();
-				                        	if(success == true)
-				                        	{
-				                        		userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
-				                        	}
-				                        	else
-				                        	{
-				                    			try {
-				                    				TimeUnit.SECONDS.sleep(1);
-				                    			} catch (InterruptedException e1) {
-				                    				e1.printStackTrace();
-				                    			}
-				                    			userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
-				                        	}
-				                        	BookPageController bookPage = new BookPageController();
-				                        	bookPage.searchedBookPage = searchedBookPage;
-				                    		ScreenController screenController = new ScreenController();
-				                        	
-				                    		try{
-				                    			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);	
-				                    		} 
-				                    		catch (Exception e) {
-				                    			System.out.println(e);
-				                    			e.printStackTrace();
-				                    		}
-				                    		
-				                        	
+				                        	BuyBookRecv recv = new BuyBookRecv();
+				                	        recv.start();
+				                			synchronized(recv)
+				                			{
+				                				try {
+				                					recv.wait();
+				                				} catch (InterruptedException e1) {
+				                					e1.printStackTrace();
+				                				}
+					                        	if (userMain == null)
+					                        		userMain = new HomepageUserController();
+					                        	if(success == true)
+					                        	{
+					                        		userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+					                        	}
+					                        	else
+					                        	{
+					                    			/*try {
+					                    				TimeUnit.SECONDS.sleep(1);
+					                    			} catch (InterruptedException e1) {
+					                    				e1.printStackTrace();
+					                    			}*/
+					                    			userMain.setPage(ScreensInfo.BOOK_PAGE_SCREEN);
+					                        	}
+					                        	BookPageController bookPage = new BookPageController();
+					                        	bookPage.searchedBookPage = searchedBookPage;
+					                    		ScreenController screenController = new ScreenController();
+					                        	
+					                    		try{
+					                    			screenController.replaceSceneContent(ScreensInfo.HOMEPAGE_USER_SCREEN,ScreensInfo.HOMEPAGE_USER_TITLE);	
+					                    		} 
+					                    		catch (Exception e) {
+					                    			System.out.println(e);
+					                    			e.printStackTrace();
+					                    		}
+				                        	}	
 										}
 				                        });
 				                     latch.await();                      
@@ -709,6 +772,7 @@ public class BookPageController implements ScreensIF
         	else
         		userMain.setPage(ScreensInfo.SEARCH_BOOK_RESULTS_SCREEN);
     	}
+		SearchBookResultsRecv.canContinue = true;
 		previousPage = "";
 		ScreenController screenController = new ScreenController();
 		try{
@@ -780,4 +844,100 @@ class BookPageRecv extends Thread{
 		}
 	}
 	
+}
+
+/**This class makes sure the information from the server was received successfully.
+ * @author ork
+ *
+ */
+class GetBuyStatusRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+    @Override
+    public void run(){
+        synchronized(this){
+        	while(canContinue == false)
+        		{
+        			System.out.print("");
+        		}
+        	canContinue = false;
+            notify();
+        }
+    }
+}
+
+/**This class makes sure the information from the server was received successfully.
+ * @author ork
+ *
+ */
+class CheckWriteReviewRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+    @Override
+    public void run(){
+        synchronized(this){
+        	while(canContinue == false)
+        		{
+        			System.out.print("");
+        		}
+        	canContinue = false;
+            notify();
+        }
+    }
+}
+
+/**This class makes sure the information from the server was received successfully.
+ * @author ork
+ *
+ */
+class BuyBookRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+    @Override
+    public void run(){
+        synchronized(this){
+        	while(canContinue == false)
+        		{
+        			System.out.print("");
+        		}
+        	canContinue = false;
+            notify();
+        }
+    }
+}
+
+/**This class makes sure the information from the server was received successfully.
+ * @author ork
+ *
+ */
+class BookImgRecv extends Thread{
+	
+	/**
+	 * Get true after receiving values from DB.
+	 */
+	public static boolean canContinue = false;
+	
+    @Override
+    public void run(){
+        synchronized(this){
+        	while(canContinue == false)
+        		{
+        			System.out.print("");
+        		}
+        	canContinue = false;
+            notify();
+        }
+    }
 }

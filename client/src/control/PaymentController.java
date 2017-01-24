@@ -187,11 +187,11 @@ public class PaymentController {
 			                				} catch (InterruptedException e1) {
 			                					e1.printStackTrace();
 			                				}
-				                        	try {
-				                    			TimeUnit.MILLISECONDS.sleep(300);
-			                    			} catch (InterruptedException e1) {
-			                    				e1.printStackTrace();
-			                    			}
+					                        	/*try {
+					                    			TimeUnit.MILLISECONDS.sleep(300);
+				                    			} catch (InterruptedException e1) {
+				                    				e1.printStackTrace();
+				                    			}*/
 				                        	if(success == true)
 				                        	{
 				                        		actionToDisplay(ActionType.CONTINUE,GeneralMessages.SUBSCRIPTION_PURCHASE_SUCCESS);
