@@ -68,7 +68,7 @@ import javafx.util.Callback;
  *
  */
 public class BookManagementController {
-
+//
  // Books Tab - main pane
 	
  /**
