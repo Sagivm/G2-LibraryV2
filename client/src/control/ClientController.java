@@ -117,8 +117,6 @@ public class ClientController implements ScreensIF {
 	public void connectButtonPressed(ActionEvent event) throws ConnectException
 	{
 		IP_ADDRESS = ServerField.getText();
-		userField.setText("789789789");
-		passField.setText("123456");
 		String username = userField.getText();
 		String password = passField.getText();
 		
